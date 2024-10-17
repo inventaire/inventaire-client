@@ -66,10 +66,7 @@
   $: comment = element.comment
 </script>
 {#if showElementModal}
-  <Modal
-    on:closeModal={toggleShowMode}
-    size="large"
-  >
+  <Modal on:closeModal={toggleShowMode}>
     <ListingElementShow
       {entity}
       bind:element
