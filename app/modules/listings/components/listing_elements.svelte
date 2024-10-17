@@ -20,6 +20,8 @@
   let fetching, isReordering
 
   let addingAnElement
+  const isCreatorMainUser = listing.creator === app.user.id
+
   const addUriAsElement = async entity => {
     flash = null
     inputValue = ''
@@ -111,8 +113,10 @@
               bind:isReordering
               {element}
               {listing}
-              isShowMode={initialElement?._id === element._id}
+              showElementModal={initialElement?._id === element._id}
               bind:elements
+              {isCreatorMainUser}
+              bind:autocompleteFlash={flash}
             />
           </li>
         {:else}
