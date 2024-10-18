@@ -13,7 +13,7 @@
   import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let element, isEditable, isReordering, listing, elements, showElementModal, isCreatorMainUser, autocompleteFlash
+  export let element, isEditable, listing, elements, showElementModal, isCreatorMainUser, autocompleteFlash
 
   const { _id: listingId } = listing
   const { entity, _id: elementId } = element
@@ -109,7 +109,6 @@
     </a>
     {#if isEditable}
       <ListingElementActions
-        bind:isReordering
         {element}
         bind:flash
         bind:elements

@@ -17,7 +17,7 @@
   let paginatedElements = []
   const paginationSize = 15
   let offset = 0
-  let fetching, isReordering
+  let fetching
 
   let addingAnElement
   const isCreatorMainUser = listing.creator === app.user.id
@@ -110,7 +110,6 @@
           <li animate:flip={{ duration: 300 }}>
             <ListingElement
               {isEditable}
-              bind:isReordering
               {element}
               {listing}
               showElementModal={initialElement?._id === element._id}
