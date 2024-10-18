@@ -13,6 +13,7 @@
   async function waitingForReorder (newIndex) {
     reorderPromise = reorder(newIndex)
     await reorderPromise
+    reorderPromise = null
   }
 
   async function reorder (newIndex) {
@@ -48,11 +49,11 @@
       </button>
     {/if}
     <div class="list-index">
-      {#await reorderPromise}
+      {#if reorderPromise}
         <Spinner />
-      {:then}
+      {:else}
         {index + 1}
-      {/await}
+      {/if}
     </div>
     {#if index !== elements.length - 1}
       <button
