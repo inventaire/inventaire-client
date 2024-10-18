@@ -15,6 +15,7 @@
   async function validate () {
     validating = _updateElement()
     await validating
+    validating = null
     toggleEditMode()
   }
 
@@ -59,16 +60,18 @@
       >
         {i18n('cancel')}
       </button>
+
       <button
         class="tiny-button validate success"
         title={I18n('validate')}
+        disabled={validating}
         on:click={validate}
       >
-        {@html icon('check')}
-        {I18n('validate')}
-        {#await validating}
+        {#if validating}
           <Spinner />
-        {/await}
+        {:else}
+          {@html icon('check')}
+        {/if}
       </button>
     </div>
   {:else}
