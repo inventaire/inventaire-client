@@ -35,8 +35,8 @@
   async function _updateElement () {
     flash = null
     try {
-      const updatedElement = await updateElement({ id: element._id, comment: newComment })
-      element = updatedElement
+      await updateElement({ id: element._id, comment: newComment })
+      element.comment = newComment
     } catch (err) {
       flash = err
     }
