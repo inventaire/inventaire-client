@@ -75,7 +75,6 @@
         {i18n('add')}
       </button>
     {/if}
-    <div class="has-alertbox" />
   </div>
 
   <Flash state={flash} />

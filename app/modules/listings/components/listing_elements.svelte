@@ -1,49 +1,32 @@
 <script lang="ts">
   import { flip } from 'svelte/animate'
-  import { pluck } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
-  import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import { addElement } from '#listings/lib/listings'
+  import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
 
-  export let elements = [], listingId, isEditable
+  export let elements = [], listing, initialElement, isEditable
 
   let flash, inputValue = '', showSuggestions
 
   let paginatedElements = []
   const paginationSize = 15
   let offset = 0
-  let fetching, isReordering
-
-  const assignEntitiesToElements = async elements => {
-    const uris = pluck(elements, 'uri')
-    const res = await getEntitiesAttributesByUris({
-      uris,
-      attributes: [ 'info', 'labels', 'claims', 'image' ],
-      lang: app.user.lang,
-    })
-    const entitiesByUris = res.entities
-    const entities = Object.values(entitiesByUris).map(serializeEntity)
-    await addEntitiesImages(entities)
-    for (const element of elements) {
-      element.entity = entitiesByUris[element.uri]
-    }
-  }
+  let fetching
 
   let addingAnElement
+  const isCreatorMainUser = listing.creator === app.user.id
+
   const addUriAsElement = async entity => {
     flash = null
     inputValue = ''
     showSuggestions = false
-    addingAnElement = _addUriAsElement(listingId, entity)
+    addingAnElement = _addUriAsElement(listing._id, entity)
   }
 
   const _addUriAsElement = async (listingId, entity) => {
@@ -127,10 +110,12 @@
           <li animate:flip={{ duration: 300 }}>
             <ListingElement
               {isEditable}
-              bind:isReordering
               {element}
-              {listingId}
+              {listing}
+              showElementModal={initialElement?._id === element._id}
               bind:elements
+              {isCreatorMainUser}
+              bind:autocompleteFlash={flash}
             />
           </li>
         {:else}
