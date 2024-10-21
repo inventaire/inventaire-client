@@ -4,6 +4,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'tasks(/)': 'showTasksDashboard',
         'tasks(/)(collections)(/)': 'showCollectionTask',
         'tasks(/)(humans)(/)': 'showHumansTask',
         'tasks(/)(publishers)(/)': 'showPublisherTask',
@@ -29,6 +30,10 @@ const controller = {
     if (app.request('require:dataadmin:access', 'tasks')) {
       return showLayout({ taskId, entitiesType })
     }
+  },
+  async showTasksDashboard () {
+    const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
+    app.layout.showChildComponent('main', TasksDashboard, {})
   },
 }
 
