@@ -3,7 +3,7 @@
   import { pluralize } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'
 
-  export let entitiesType, tasksCount
+  export let entitiesType, tasksCount, type
 
   const noTask = tasksCount === 0
   const pluralizedEntitiesType = pluralize(entitiesType)
@@ -20,7 +20,7 @@
   </div>
   {#if tasksCount > 0}
     <Link
-      url="/tasks/{entitiesType}"
+      url="/tasks/{type}/{pluralizedEntitiesType}"
       text={I18n('resolve tasks')}
       tinyButton={true}
     />

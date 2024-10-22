@@ -32,8 +32,10 @@ const controller = {
     }
   },
   async showTasksDashboard () {
-    const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
-    app.layout.showChildComponent('main', TasksDashboard, {})
+    if (app.request('require:dataadmin:access', 'tasks')) {
+      const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
+      app.layout.showChildComponent('main', TasksDashboard, {})
+    }
   },
 }
 

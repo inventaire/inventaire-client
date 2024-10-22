@@ -3,6 +3,7 @@
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -52,7 +53,7 @@
   }
 
   function resetTaskLayout () {
-    app.navigate('/tasks')
+    app.navigate(`/tasks/${entitiesType}`)
     nextTaskOffset = 0
     task = null
     from = null
@@ -161,17 +162,27 @@
       on:next={nextTask}
     />
   {:else}
-    <p id="no-task" class="grey">
-      {I18n('no task available')}
-    </p>
+    <div id="no-task">
+      <p class="grey">
+        {I18n('no task available')}
+      </p>
+      <Link
+        url="/tasks"
+        text={I18n('see dashboard')}
+        tinyButton={true}
+      />
+    </div>
   {/if}
   <Flash bind:state={flash} />
 {/await}
 <style lang="scss">
   @import "#general/scss/utils";
   #no-task{
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
     padding: 3em;
+    p{
+      padding: 2em;
+    }
   }
   .entities-section{
     @include display-flex(row, flex-start, flex-start);
