@@ -6,11 +6,12 @@
 
   const waitForTasksCounts = getTasksCounts()
 
-  let tasksCountByEntitiesType
-  const orderedEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
+  let tasksCountByTypeAndEntitiesType
+  const mergeEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
+  const deduplicateEntitiesTypes = [ 'human', 'work' ]
 
   async function getTasksCounts () {
-    ({ tasksCount: tasksCountByEntitiesType } = await preq.get(API.tasks.count))
+    ({ tasksCount: tasksCountByTypeAndEntitiesType } = await preq.get(API.tasks.count))
   }
 
 </script>
@@ -18,16 +19,32 @@
   <h1>
     {I18n('tasks dashboard')}
   </h1>
-  <div class="entities-type-sections">
-    {#await waitForTasksCounts then}
-      {#each orderedEntitiesTypes as entitiesType}
+  {#await waitForTasksCounts then}
+    <h2>
+      {I18n('user merge request')}
+    </h2>
+    <div class="sections">
+      {#each mergeEntitiesTypes as entitiesType}
         <DashboardSection
           {entitiesType}
-          tasksCount={tasksCountByEntitiesType[entitiesType] || 0}
+          tasksCount={tasksCountByTypeAndEntitiesType.merge[entitiesType] || 0}
+          type="merge"
         />
       {/each}
-    {/await}
-  </div>
+    </div>
+    <h2>
+      {I18n('deduplicate tasks')}
+    </h2>
+    <div class="sections">
+      {#each deduplicateEntitiesTypes as entitiesType}
+        <DashboardSection
+          {entitiesType}
+          type="deduplicate"
+          tasksCount={tasksCountByTypeAndEntitiesType.deduplicate[entitiesType] || 0}
+        />
+      {/each}
+    </div>
+  {/await}
 </div>
 <style lang="scss">
   @import "#general/scss/utils";
@@ -36,12 +53,18 @@
     @include display-flex(column, center);
     margin: auto;
   }
-  h1{
-    font-size: 2em;
+  h1, h2{
     padding: 0.5em;
     @include sans-serif;
   }
-  .entities-type-sections{
+  h1{
+    font-size: 2em;
+  }
+  h2{
+    padding-block-start: 1em;
+    font-size: 1.5em;
+  }
+  .sections{
     @include display-flex(row, center, center, wrap);
   }
 </style>
