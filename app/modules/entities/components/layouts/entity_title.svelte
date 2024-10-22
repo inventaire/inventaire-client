@@ -11,7 +11,8 @@
   export let href: Url = null
   export let hasLinkTitle = false
 
-  $: ({ uri, claims, label } = entity)
+  $: ({ uri, claims } = entity)
+  $: label = entity.label || entity.claims['wdt:P1476']?.[0]
   $: birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
   $: subtitle = claims['wdt:P1680']
 </script>
