@@ -44,7 +44,7 @@
   }
 </script>
 
-<div class="entityMergeLayout">
+<div class="entity-merge-layout">
   <h2>{i18n('Merge entities')}</h2>
 
   <p class="help">
@@ -97,7 +97,7 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .entityMergeLayout{
+  .entity-merge-layout{
     max-inline-size: 50em;
     margin: 1em auto;
   }

@@ -7,6 +7,7 @@ import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import type { SerializedEntity, SerializedWdEntity } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+import type { WdEntityUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 import { getEntityByUri, normalizeUri } from './lib/entities.ts'
 import * as entitiesModelsIndex from './lib/entities_models_index.ts'
@@ -258,9 +259,9 @@ function setHandlers () {
     'show:entity:cleanup': controller.showEntityCleanup,
     'show:entity:history': controller.showEntityHistory,
     'report:entity:type:issue': reportTypeIssue,
-    'show:wikidata:edit:intro:modal': async uri => {
-      const model = await app.request('get:entity:model', uri)
-      showWikidataEditIntro(model)
+    'show:wikidata:edit': async (uri: WdEntityUri) => {
+      const entity = await getEntityByUri({ uri })
+      showWikidataEditIntro(entity)
     },
   })
 
