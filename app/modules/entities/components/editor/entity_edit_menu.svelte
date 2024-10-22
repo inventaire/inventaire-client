@@ -5,7 +5,6 @@
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
-  import { getOptionalValue } from '#app/lib/utils'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
@@ -19,8 +18,7 @@
 
   let flash
   const { uri, isWikidataEntity, label, historyPathname } = entity
-  const invUri = getOptionalValue(entity, 'invUri')
-  const wdUri = getOptionalValue(entity, 'wdUri')
+  const { invUri, wdUri } = entity
   const { hasDataadminAccess } = app.user
   let wikidataUrl, wikidataHistoryUrl
   if (wdUri) {
