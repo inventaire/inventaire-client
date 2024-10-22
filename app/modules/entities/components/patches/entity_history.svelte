@@ -1,7 +1,7 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
-  import { getOptionalValue, loadInternalLink } from '#app/lib/utils'
+  import { loadInternalLink } from '#app/lib/utils'
   import { getWdHistoryUrl } from '#app/lib/wikimedia/wikidata'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -19,7 +19,7 @@
     .then(entity => {
       pathname = entity.pathname
       label = entity.label
-      const wdId = getOptionalValue(entity, 'wdId')
+      const { wdId } = entity
       wdHistoryUrl = getWdHistoryUrl(wdId)
     })
     .catch(err => flash = err)

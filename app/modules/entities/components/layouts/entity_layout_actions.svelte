@@ -2,7 +2,6 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
-  import { getOptionalValue } from '#app/lib/utils'
   import { getWikidataHistoryUrl, getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
@@ -15,12 +14,12 @@
 
   const { uri, type, claims } = entity
   let wikidataUrl, wikidataHistoryUrl
-  const wdUri = getOptionalValue(entity, 'wdUri')
+  const { wdUri } = entity
   if (wdUri) {
     wikidataUrl = getWikidataUrl(wdUri)
     wikidataHistoryUrl = getWikidataHistoryUrl(wdUri)
   }
-  const invUri = getOptionalValue(entity, 'invUri')
+  const { invUri } = entity
 
   async function refreshEntity () {
     startRefreshTimeSpan(entity.uri)

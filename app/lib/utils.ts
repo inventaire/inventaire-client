@@ -241,10 +241,6 @@ export function objectEntries <Obj> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
 
-export function getOptionalValue <T extends object, K extends keyof T> (obj: T, attribute: K) {
-  if (attribute in obj) return obj[attribute]
-}
-
 export function moveArrayElement (array, oldIndex, newIndex) {
   array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
   return array

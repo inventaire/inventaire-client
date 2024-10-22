@@ -5,7 +5,7 @@ import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
-import { forceArray, getOptionalValue, objectEntries } from '#app/lib/utils'
+import { forceArray, objectEntries } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
@@ -131,8 +131,7 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   entity.historyPathname = `${basePathname}/history`
   let wdUri, invUri
   let isWikidataEntity = false
-  const wdId = getOptionalValue(entity, 'wdId')
-  const invId = getOptionalValue(entity, 'invId')
+  const { invId, wdId } = entity
   if (wdId) {
     isWikidataEntity = true
     wdUri = `wd:${wdId}`
