@@ -307,6 +307,7 @@ async function getEntityModel (uri, refresh?) {
 }
 
 async function showEntityEdit (entity: SerializedEntity) {
+  if (!entity) return app.execute('show:error:missing')
   const { uri, type, label, editPathname, isWikidataEntity } = entity
   if (!editPathname) {
     throw newError('this entity can not be edited', 400, { uri, type })
