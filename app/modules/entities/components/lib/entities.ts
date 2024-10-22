@@ -5,7 +5,7 @@ import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
-import { byNewestPublicationDate, getReverseClaims, getEntities, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
+import { byPublicationDate, getReverseClaims, getEntities, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
 import { fetchRelatedEntities } from '#entities/lib/fetch_related_entities'
 import type { SortFunction } from '#server/types/common'
@@ -139,7 +139,7 @@ interface GetSubEntitiesSectionsParams {
   sortFn?: SortFunction<SerializedEntity>
   property?: PropertyUri
 }
-export async function getSubEntitiesSections ({ entity, sortFn = byNewestPublicationDate, property }: GetSubEntitiesSectionsParams) {
+export async function getSubEntitiesSections ({ entity, sortFn = byPublicationDate, property }: GetSubEntitiesSectionsParams) {
   const { uri, type } = entity
   const refresh = entityDataShouldBeRefreshed(uri)
   let sections
