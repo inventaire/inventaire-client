@@ -17,7 +17,7 @@
   import TaskEntity from './task_entity.svelte'
 
   export let taskId: TaskId
-  export let entitiesType
+  export let entitiesType, type
 
   let task, from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities
   $: fromUri = task?.suspectUri
@@ -42,7 +42,7 @@
   async function nextTask () {
     if (!entitiesType) ({ entitiesType } = task)
     if (!task) (nextTaskOffset = 0)
-    const newTask = await getNextTask({ entitiesType, offset: nextTaskOffset })
+    const newTask = await getNextTask({ type, entitiesType, offset: nextTaskOffset })
 
     if (!newTask) {
       return resetTaskLayout()
@@ -53,7 +53,7 @@
   }
 
   function resetTaskLayout () {
-    app.navigate(`/tasks/${entitiesType}`)
+    app.navigate('/tasks')
     nextTaskOffset = 0
     task = null
     from = null

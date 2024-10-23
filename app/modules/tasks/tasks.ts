@@ -5,12 +5,8 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)': 'showTasksDashboard',
-        'tasks(/)(collections)(/)': 'showCollectionTask',
-        'tasks(/)(humans)(/)': 'showHumansTask',
-        'tasks(/)(publishers)(/)': 'showPublisherTask',
-        'tasks(/)(works)(/)': 'showWorksTask',
-        'tasks(/)(serie)(/)': 'showSeriesTask',
-        'tasks(/)(editions)(/)': 'showEditionsTask',
+        'tasks(/)(merge)(/)(:entitiesType)(/)': 'showMergeTask',
+        'tasks(/)(deduplicate)(/)(:entitiesType)(/)': 'showDeduplicateTask',
         'tasks(/)(:id)(/)': 'showTask',
       },
     })
@@ -20,15 +16,16 @@ export default {
 }
 
 const controller = {
-  showCollectionTask (_) { controller.showTask(_, 'collection') },
-  showHumansTask (_) { controller.showTask(_, 'human') },
-  showPublisherTask (_) { controller.showTask(_, 'publisher') },
-  showWorksTask (_) { controller.showTask(_, 'work') },
-  showSeriesTask (_) { controller.showTask(_, 'serie') },
-  showEditionsTask (_) { controller.showTask(_, 'edition') },
-  showTask (taskId, entitiesType) {
+  showMergeTask (entitiesType) { controller.showTask(null, 'merge', entitiesType) },
+  showDeduplicateTask (entitiesType) { controller.showTask(null, 'deduplicate', entitiesType) },
+  showTask (taskId, type, entitiesType) {
+    const singularEntitiesType = entitiesType.slice(0, -1)
     if (app.request('require:dataadmin:access', 'tasks')) {
-      return showLayout({ taskId, entitiesType })
+      return showLayout({
+        taskId,
+        entitiesType: singularEntitiesType,
+        type,
+      })
     }
   },
   async showTasksDashboard () {
@@ -41,8 +38,7 @@ const controller = {
 
 const showLayout = async params => {
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
-  const { taskId, entitiesType } = params
   app.layout.showChildComponent('main', TaskLayout, {
-    props: { taskId, entitiesType },
+    props: params,
   })
 }
