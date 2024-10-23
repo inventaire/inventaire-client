@@ -4,8 +4,9 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'tasks(/)(works)(/)': 'showWorksTask',
-        'tasks(/)(humans)(/)': 'showHumansTask',
+        'tasks(/)': 'showTasksDashboard',
+        'tasks(/)(merge)(/)(:entitiesType)(/)': 'showMergeTask',
+        'tasks(/)(deduplicate)(/)(:entitiesType)(/)': 'showDeduplicateTask',
         'tasks(/)(:id)(/)': 'showTask',
       },
     })
@@ -15,19 +16,29 @@ export default {
 }
 
 const controller = {
-  showHumansTask (task) { controller.showTask(task, 'human') },
-  showWorksTask (task) { controller.showTask(task, 'work') },
-  showTask (task, type) {
+  showMergeTask (entitiesType) { controller.showTask(null, 'merge', entitiesType) },
+  showDeduplicateTask (entitiesType) { controller.showTask(null, 'deduplicate', entitiesType) },
+  showTask (taskId, type, entitiesType) {
+    const singularEntitiesType = entitiesType.slice(0, -1)
     if (app.request('require:dataadmin:access', 'tasks')) {
-      return showLayout({ task, entitiesType: type })
+      return showLayout({
+        taskId,
+        entitiesType: singularEntitiesType,
+        type,
+      })
+    }
+  },
+  async showTasksDashboard () {
+    if (app.request('require:dataadmin:access', 'tasks')) {
+      const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
+      app.layout.showChildComponent('main', TasksDashboard, {})
     }
   },
 }
 
 const showLayout = async params => {
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
-  const { task: taskId, entitiesType } = params
   app.layout.showChildComponent('main', TaskLayout, {
-    props: { taskId, entitiesType },
+    props: params,
   })
 }

@@ -1,5 +1,5 @@
-import { newError } from '#app/lib/error'
-import { getEntities, type SerializedEntity } from '#entities/lib/entities'
+import type { SerializedEntity } from '#entities/lib/entities'
+import { getEditionsWorks } from '#entities/lib/entities'
 import { defaultClaimPropertyByType } from '../models/entity'
 
 export async function getEntityLayoutComponentByType (entity: SerializedEntity) {
@@ -31,20 +31,4 @@ export async function getEntityLayoutComponentByType (entity: SerializedEntity) 
     return { Component, props: { entity, property } }
   }
   return { Component, props: { entity } }
-}
-
-export const getEditionsWorks = async editions => {
-  const uris = editions.map(getEditionWorksUris).flat()
-  return getEntities(uris)
-}
-
-const getEditionWorksUris = edition => {
-  const editionWorksUris = edition.claims['wdt:P629']
-  if (edition.type !== 'edition') return []
-  if (editionWorksUris == null) {
-    const { uri } = edition
-    const err = newError('edition entity misses associated works (wdt:P629)', { uri })
-    throw err
-  }
-  return editionWorksUris
 }

@@ -1,8 +1,7 @@
 import { pick, compact, flatten, uniq } from 'underscore'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { aggregateWorksClaims } from '#entities/components/lib/claims_helpers'
-import { getEntitiesByUris } from '#entities/lib/entities'
-import { getEditionsWorks } from '#entities/lib/get_entity_layout_component_by_type'
+import { getEditionsWorks, getEntitiesByUris } from '#entities/lib/entities'
 
 export async function fetchRelatedEntities (entities, parentEntityType) {
   if (isSubentitiesTypeEdition(parentEntityType)) {

@@ -7,7 +7,7 @@
   import { i18n } from '#user/lib/i18n'
 
   export let entity: SerializedEntity
-  export let sourceLogo = false
+  export let hasSourceLogo = false
   export let href: Url = null
   export let hasLinkTitle = false
 
@@ -26,7 +26,7 @@
   {:else}
     {label}
   {/if}
-  {#if sourceLogo}
+  {#if hasSourceLogo}
     <SourceLogo {entity} />
   {/if}
 </h2>

@@ -27,10 +27,7 @@ export default async function (fromUri: EntityUri, toUri: EntityUri) {
 }
 
 const merge = async (fromUri, toUri) => {
-  await preq.put(API.entities.merge, { from: fromUri, to: toUri })
-  // Get the refreshed, redirected entity
-  // thus also updating entitiesModelsIndexedByUri
-  return app.request('get:entity:model', fromUri, true)
+  return preq.put(API.entities.merge, { from: fromUri, to: toUri })
 }
 
 const importEntityDataToWikidata = async (fromUri, toUri) => {
