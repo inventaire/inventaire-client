@@ -9,7 +9,7 @@ import { byPublicationDate, getReverseClaims, getEntities, serializeEntity, getE
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
 import { fetchRelatedEntities } from '#entities/lib/fetch_related_entities'
 import type { SortFunction } from '#server/types/common'
-import type { PropertyUri } from '#server/types/entity'
+import type { ExtendedEntityType, PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
 
 const subEntitiesProp = {
@@ -175,7 +175,7 @@ function truncateTooManyUris (section, parentEntityType) {
   }
 }
 
-const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => {
+export const fetchSectionEntities = ({ sortFn, parentEntityType }: { sortFn?: any, parentEntityType: ExtendedEntityType }) => async section => {
   truncateTooManyUris(section, parentEntityType)
   const uris = section?.uris || []
   const { entities } = await getEntitiesAttributesByUris({

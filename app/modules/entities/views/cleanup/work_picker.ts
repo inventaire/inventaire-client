@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { isEntityUri } from '#app/lib/boolean_tests'
 import { formatAndThrowError } from '#app/lib/error'
 import { getActionKey } from '#app/lib/key_events'
@@ -115,8 +116,15 @@ export default Marionette.View.extend({
 
     return this.model.fetchSubEntities()
     .then(() => mergeEntities(fromUri, toUri))
-    .then(this.afterMerge.bind(this, work))
+    .then(this.refreshEntity(fromUri))
     .catch(formatAndThrowError('.workPicker', false))
     .catch(catchAlert.bind(null, this))
+  },
+
+  refreshEntity (fromUri) {
+    // Get the refreshed, redirected entity
+    // thus also updating entitiesModelsIndexedByUri
+    return app.request('get:entity:model', fromUri, true)
+    .then(work => this.afterMerge.bind(this, work))
   },
 })
