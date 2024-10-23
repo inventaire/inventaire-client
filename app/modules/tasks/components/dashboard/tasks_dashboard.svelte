@@ -33,7 +33,7 @@
       {/each}
     </div>
     <h2>
-      {I18n('robot deduplicate tasks')}
+      {I18n('deduplicate tasks')}
     </h2>
     <div class="sections">
       {#each deduplicateEntitiesTypes as entitiesType}
