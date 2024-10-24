@@ -67,6 +67,7 @@
     margin: 0.3em 0;
     padding-inline-start: 0.5em;
     color: $dark-grey;
+    word-break: break-all;
     @include radius;
     button{
       margin: 0.2em;
