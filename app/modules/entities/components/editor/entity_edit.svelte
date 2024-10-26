@@ -14,8 +14,9 @@
 
   export let entity: SerializedEntity
 
-  const { uri, type, labels } = entity
+  const { uri, wdUri, invUri, type, labels } = entity
   const goToEntityPageLabel = `Go to the ${typesPossessiveForms[type]} page`
+  const altInvUri = (invUri && invUri !== uri) ? invUri : null
 
   let typePropertiesPerCategory, hasMonolingualTitle, favoriteLabel
 
@@ -41,7 +42,13 @@
         </a>
       </h2>
       <p class="type">{I18n(entity.type)}</p>
-      <p class="uri">{uri}</p>
+      <p class="uri">
+        {uri}
+        {#if wdUri && wdUri !== uri} - {wdUri}{/if}
+        <!-- Use an intermediary `altInvUri` variable to workaround the TS2367 error otherwise produced
+             with {#if invUri && invUri !== uri} -->
+        {#if altInvUri} - {invUri}{/if}
+      </p>
     </div>
 
     <EntityEditMenu {entity} />
