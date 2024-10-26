@@ -123,3 +123,8 @@ export async function getRelatedEntitiesSections ({ entity }: { entity: Serializ
   await Promise.all(sections.map(fetchSectionEntities({ parentEntityType: type })))
   return sections
 }
+
+export async function getTasksCounts () {
+  const { tasksCount } = await preq.get(API.tasks.count)
+  return tasksCount
+}

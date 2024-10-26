@@ -1,25 +1,18 @@
 <script>
-  import { API } from '#app/api/api'
-  import preq from '#app/lib/preq'
   import DashboardSection from '#tasks/components/dashboard/dashboard_section.svelte'
+  import { getTasksCounts } from '#tasks/components/lib/tasks_helpers'
   import { I18n } from '#user/lib/i18n'
 
   const waitForTasksCounts = getTasksCounts()
 
-  let tasksCountByTypeAndEntitiesType
   const mergeEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
   const deduplicateEntitiesTypes = [ 'human', 'work' ]
-
-  async function getTasksCounts () {
-    ({ tasksCount: tasksCountByTypeAndEntitiesType } = await preq.get(API.tasks.count))
-  }
-
 </script>
 <div class="dashboard-wrapper">
   <h1>
     {I18n('tasks dashboard')}
   </h1>
-  {#await waitForTasksCounts then}
+  {#await waitForTasksCounts then tasksCountByTypeAndEntitiesType}
     <h2>
       {I18n('user merge request')}
     </h2>

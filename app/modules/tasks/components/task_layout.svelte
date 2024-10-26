@@ -3,7 +3,6 @@
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -13,6 +12,7 @@
   import type { TaskId } from '#server/types/task'
   import { getNextTask } from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
+  import NoTask from './no_task.svelte'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
 
@@ -162,28 +162,12 @@
       on:next={nextTask}
     />
   {:else}
-    <div id="no-task">
-      <p class="grey">
-        {I18n('no task available')}
-      </p>
-      <Link
-        url="/tasks"
-        text={I18n('see dashboard')}
-        tinyButton={true}
-      />
-    </div>
+    <NoTask />
   {/if}
   <Flash bind:state={flash} />
 {/await}
 <style lang="scss">
   @import "#general/scss/utils";
-  #no-task{
-    @include display-flex(column, center, center);
-    padding: 3em;
-    p{
-      padding: 2em;
-    }
-  }
   .entities-section{
     @include display-flex(row, flex-start, flex-start);
     background-color: #ddd;
