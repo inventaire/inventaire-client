@@ -227,12 +227,6 @@ export const bestImage = function (a, b) {
 
 const latestPublication = (a, b) => b.publicationTime - a.publicationTime
 
-export function buildAltUri (uri, id) {
-  if (id && (uri.split(':')[1] !== id)) {
-    return `inv:${id}`
-  }
-}
-
 export function addWorksClaims (claims, works) {
   const worksClaims = aggregateWorksClaims(works)
   const nonEmptyWorksClaims = pick(worksClaims, isNonEmptyArray)

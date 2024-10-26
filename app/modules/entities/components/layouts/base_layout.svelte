@@ -2,18 +2,16 @@
   import Flash from '#app/lib/components/flash.svelte'
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
-  import { buildAltUri } from '../lib/entities.ts'
 
   export let entity
   export let flash = null
   export let showEntityEditButtons = true
   export let typeLabel = entity.type
 
-  const { uri, _id } = entity
+  const { uri, wdUri, invUri } = entity
 
-  const altUri = buildAltUri(uri, _id)
   const labelKey = entityTypeNameBySingularType[typeLabel] || 'subject'
 
   function copyToClipBoard (str) {
@@ -42,19 +40,29 @@
       <button
         on:click={() => copyToClipBoard(uri)}
         class="uri classic-link"
-        title="Copy URI to clipboard"
+        title={i18n('Copy URI to clipboard')}
       >
         {uri}
       </button>
 
-      {#if altUri}
+      {#if wdUri && wdUri !== uri}
         -
         <button
-          on:click={() => copyToClipBoard(uri)}
+          on:click={() => copyToClipBoard(wdUri)}
           class="uri classic-link"
-          title="Copy URI to clipboard"
+          title={i18n('Copy URI to clipboard')}
         >
-          {altUri}
+          {wdUri}
+        </button>
+      {/if}
+      {#if invUri && invUri !== uri}
+        -
+        <button
+          on:click={() => copyToClipBoard(invUri)}
+          class="uri classic-link"
+          title={i18n('Copy URI to clipboard')}
+        >
+          {invUri}
         </button>
       {/if}
     </p>
