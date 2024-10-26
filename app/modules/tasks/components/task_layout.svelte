@@ -53,7 +53,7 @@
   }
 
   function resetTaskLayout () {
-    app.navigate('/tasks')
+    app.navigate('/tasks/none')
     nextTaskOffset = 0
     task = null
     from = null
