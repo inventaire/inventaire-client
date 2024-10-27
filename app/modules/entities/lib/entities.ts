@@ -3,6 +3,7 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
 import { forceArray, objectEntries } from '#app/lib/utils'
@@ -107,7 +108,14 @@ export async function getEntityByUri ({ uri, refresh }: { uri: EntityUri, refres
 export async function getEntityByUri ({ uri, refresh = false }: { uri: EntityUri, refresh?: boolean }): Promise<SerializedEntity> {
   assert_.string(uri)
   const entities = await getEntities([ uri ], { refresh })
-  return entities[0]
+  const entity = entities[0]
+  if (entity) {
+    return entity
+  } else {
+    const err = newError('entity_not_found', 404, { uri })
+    err.code = 'entity_not_found'
+    throw err
+  }
 }
 
 export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {

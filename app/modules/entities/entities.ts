@@ -53,7 +53,6 @@ const controller = {
 
     try {
       const entity = await getEntityByUri({ uri, refresh })
-      if (!entity) throw newError('entity_not_found', 400, { uri })
       rejectRemovedPlaceholder(entity)
       const { Component, props } = await getEntityLayoutComponentByType(entity)
       app.layout.showChildComponent('main', Component, { props })
@@ -344,7 +343,7 @@ function rejectRemovedPlaceholder (entity: SerializedEntity) {
 function handleMissingEntity (uri, err) {
   if (err.message === 'invalid entity type') {
     app.execute('show:error:other', err)
-  } else if (err.message === 'entity_not_found') {
+  } else if (err.code === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
     const pathname = `/entity/${uri}`
     if (app.user.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
