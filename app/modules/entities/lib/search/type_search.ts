@@ -1,10 +1,9 @@
-import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { arrayIncludes, forceArray } from '#app/lib/utils'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
-import type { ExtendedEntityType, PluralizedIndexedEntityType } from '#server/types/entity'
-import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
+import type { EntityUri, ExtendedEntityType, PluralizedIndexedEntityType, InvEntityUri, WdEntityUri } from '#server/types/entity'
+import { getEntityByUri } from '../entities.ts'
 import { wikidataSearch } from './wikidata_search.ts'
 
 export type PluralizedSearchableEntityType = PluralizedIndexedEntityType | 'subjects'
@@ -39,28 +38,39 @@ export default async function (types: SearchableType[], input: string, limit?: n
   }
 }
 
-async function searchByEntityUri (uri, types) {
-  let model
+const wdIdPattern = /Q\d+/
+const invIdPattern = /[0-9a-f]{32}/
+
+export function getEntityUri (input: string) {
+  // Match ids instead of URIs to be very tolerent on the possible inputs
+  const wdId = input.match(wdIdPattern)?.[0]
+  if (wdId != null) return `wd:${wdId}` as WdEntityUri
+  const invId = input.match(invIdPattern)?.[0]
+  if (invId != null) return `inv:${invId}` as InvEntityUri
+}
+
+async function searchByEntityUri (uri: EntityUri, types: SearchableType[]) {
+  let entity
   try {
-    model = await app.request('get:entity:model', uri)
+    entity = await getEntityByUri({ uri })
   } catch (err) {
     if (err.code === 'entity_not_found') return
     else throw err
   }
 
-  if (model == null) return
+  if (entity == null) return
 
-  const pluarlizedModelType = (model.type != null) ? model.type + 's' : undefined
+  const pluarlizedModelType = (entity.type != null) ? entity.type + 's' : undefined
   // The type subjects accepts any type, as any entity can be a topic
   // Known issue: languages entities aren't attributed a type by the server
   // thus throwing an error here even if legit, prefer 2 letters language codes
-  if (types.includes(pluarlizedModelType) || types.includes('subjects')) {
+  if (arrayIncludes(types, pluarlizedModelType) || arrayIncludes(types, 'subjects')) {
     return {
       results: [
-        prepareSearchResult(model).toJSON(),
+        entity,
       ],
     }
   } else {
-    throw newError('invalid entity type', 400, model)
+    throw newError('invalid entity type', 400, { entity, types })
   }
 }
