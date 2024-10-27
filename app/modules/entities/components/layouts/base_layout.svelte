@@ -4,6 +4,7 @@
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import { i18n, I18n } from '#user/lib/i18n'
   import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
+  import CopiableText from './copiable_text.svelte'
 
   export let entity
   export let flash = null
@@ -13,10 +14,6 @@
   const { uri, wdUri, invUri } = entity
 
   const labelKey = entityTypeNameBySingularType[typeLabel] || 'subject'
-
-  function copyToClipBoard (str) {
-    navigator.clipboard.writeText(str)
-  }
 </script>
 
 <div class="layout">
@@ -36,34 +33,12 @@
   <div class="entity-data-wrapper">
     <p class="uri">
       {I18n(typeLabel)}
-      -
-      <button
-        on:click={() => copyToClipBoard(uri)}
-        class="uri classic-link"
-        title={i18n('Copy URI to clipboard')}
-      >
-        {uri}
-      </button>
-
+      - <CopiableText text={uri} buttonTitle={i18n('Copy URI to clipboard')} classes="uri classic-link" />
       {#if wdUri && wdUri !== uri}
-        -
-        <button
-          on:click={() => copyToClipBoard(wdUri)}
-          class="uri classic-link"
-          title={i18n('Copy URI to clipboard')}
-        >
-          {wdUri}
-        </button>
+        - <CopiableText text={wdUri} buttonTitle={i18n('Copy URI to clipboard')} classes="uri classic-link" />
       {/if}
       {#if invUri && invUri !== uri}
-        -
-        <button
-          on:click={() => copyToClipBoard(invUri)}
-          class="uri classic-link"
-          title={i18n('Copy URI to clipboard')}
-        >
-          {invUri}
-        </button>
+        - <CopiableText text={invUri} buttonTitle={i18n('Copy URI to clipboard')} classes="uri classic-link" />
       {/if}
     </p>
   </div>
