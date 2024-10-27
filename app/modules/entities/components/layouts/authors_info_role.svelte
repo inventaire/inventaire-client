@@ -1,7 +1,7 @@
 <script lang="ts">
   import { intersection } from 'underscore'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import AuthorDisplay from './author_display.svelte'
 
   export let roleLabel, roleProperties, claims, authorsByUris
@@ -11,7 +11,7 @@
 </script>
 {#if hasRoleClaimsValues}
   <div class="{roleLabel} authors-role">
-    <span class="label">{i18n(roleLabel)}</span>
+    <span class="label">{I18n(roleLabel)}</span>
     <div class="authors">
       {#each roleProperties as prop}
         {#if claims[prop]}

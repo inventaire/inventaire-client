@@ -27,14 +27,15 @@ export const formatClaimValue = params => {
 }
 
 export const propertiesByRoles = {
+  // The keys order determines the display order in AuthorsInfo
+  editor: [ 'wdt:P98' ],
   author: [ 'wdt:P50' ],
   scenarist: [ 'wdt:P58' ],
-  editor: [ 'wdt:P98' ],
   illustrator: [ 'wdt:P110' ],
+  penciller: [ 'wdt:P10837' ],
   colorist: [ 'wdt:P6338' ],
   letterer: [ 'wdt:P9191' ],
   inker: [ 'wdt:P10836' ],
-  penciller: [ 'wdt:P10837' ],
 }
 
 export const authorsProps = Object.values(propertiesByRoles).flat()
