@@ -6,6 +6,7 @@
   import { typesBySection } from '#search/lib/search_sections'
   import type { EntityType, EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
+  import type { SearchableType } from '../lib/search/type_search'
 
   export let type: EntityType
   export let uri: EntityUri
@@ -25,7 +26,7 @@
   }
 
   $: if (valueBasicInfo) setInfo()
-  $: searchTypes = (type ? [ type ] : typesBySection.entity.all.slice(0))
+  $: searchTypes = (type ? [ type ] : [ 'edition', ...typesBySection.entity.all ] as SearchableType[])
 </script>
 
 {#if uri && !editMode}

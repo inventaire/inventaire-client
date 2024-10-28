@@ -1,3 +1,4 @@
+import { without } from 'underscore'
 import { newError } from '#app/lib/error'
 import { arrayIncludes, forceArray } from '#app/lib/utils'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
@@ -29,6 +30,9 @@ export default async function (types: SearchableType[], input: string, limit?: n
       formatResults: true,
     })
   } else {
+    // The 'edition' type might be passed to allow edition searchByEntityUri
+    // but it will be rejected by search as editions are currently not indexed
+    types = without(types, 'edition')
     return searchByTypes({
       types: types as PluralizedIndexedEntityType[],
       search: input,
