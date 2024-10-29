@@ -18,7 +18,12 @@ export function checkWikidataMoveabilityStatus (entity: SerializedEntity) {
   // An entity being created on Inventaire won't have a URI at this point
   if ((uri == null) || isWikidataItemUri(uri)) return { ok: false }
 
-  if (type === 'collection' && !isNonEmptyClaimValue(claims['wdt:P407']?.[0])) {
+  if (type === 'edition') {
+    return {
+      ok: false,
+      reason: I18n("editions can't be moved to Wikidata for the moment"),
+    }
+  } else if (type === 'collection' && !isNonEmptyClaimValue(claims['wdt:P407']?.[0])) {
     return {
       ok: false,
       reason: I18n('This collection can not be moved to Wikidata as it lacks a language claim'),
