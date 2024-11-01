@@ -158,6 +158,8 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
     invUri,
     isWikidataEntity,
   })
+  // Legacy
+  entity.image ??= {}
   // Returning the same object so that if attributes are added later to the entity object,
   // (typically .images) they are also available on the serialized entity object
   return entity as SerializedEntity
