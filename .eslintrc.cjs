@@ -73,19 +73,19 @@ module.exports = {
     '@stylistic/ts/type-annotation-spacing': 'error',
     '@stylistic/ts/space-infix-ops': 'error',
     '@stylistic/ts/object-curly-spacing': [ 'error', 'always' ],
-
-    '@typescript-eslint/keyword-spacing': 'error',
-    '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' } ],
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/indent': [ 'error', 2, { MemberExpression: 'off' } ],
-    '@typescript-eslint/member-delimiter-style': [
+    '@stylistic/ts/indent': [ 'error', 2, { MemberExpression: 'off' } ],
+    '@stylistic/ts/keyword-spacing': 'error',
+    '@stylistic/ts/member-delimiter-style': [
       'error',
       {
         multiline: { delimiter: 'none' },
         singleline: { delimiter: 'comma', requireLast: false },
       },
     ],
+
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' } ],
+    '@typescript-eslint/no-explicit-any': 'off',
 
     'svelte/no-at-html-tags': 'off',
     'svelte/no-reactive-functions': 'error',
