@@ -6,7 +6,7 @@ try {
   window.localStorage.setItem('localStorage-support', 'true')
   _localStorageProxy = localStorage
 } catch (err) {
-  console.warn('localStorage isnt supported')
+  console.warn('localStorage isnt supported', err)
   let storage = {}
   _localStorageProxy = {
     getItem (key) { return storage[key] || null },

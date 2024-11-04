@@ -31,6 +31,7 @@ export const getFilterPattern = text => {
   try {
     pattern = new RegExp(text, 'i')
   } catch (err) {
+    if (err.name !== 'SyntaxError') throw err
     const escapedText = text.replace(/(\W)/g, '\\$1')
     pattern = new RegExp(escapedText, 'i')
   }

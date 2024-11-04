@@ -57,8 +57,7 @@ export type SerializedEntity = SerializedInvEntity | SerializedRemovedPlaceholde
 
 export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
 
-const params = [ 'uris', 'attributes', 'lang', 'relatives', 'refresh' ] as const
-type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, typeof params[number]>
+type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, 'uris' | 'attributes' | 'lang' | 'relatives' | 'refresh'>
 
 export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
   const { uris } = await preq.get(API.entities.reverseClaims(property, value, refresh, sort))

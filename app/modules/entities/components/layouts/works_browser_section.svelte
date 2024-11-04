@@ -104,7 +104,7 @@
   }
 
   const lazyDisplay = debounce(displayMore, 300)
-  $: displayLimit && addingMoreWorks()
+  $: onChange(displayLimit, addingMoreWorks)
   $: anyWork = paginatedWorks.length > 0
   $: onChange(filteredWorks, resetWorks)
 </script>

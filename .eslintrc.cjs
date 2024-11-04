@@ -159,6 +159,8 @@ module.exports = {
         // Example:      on:click={() => zoom = !zoom }
         // instead of:   on:click={() => { zoom = !zoom }}
         'no-return-assign': 'off',
+        // Triggers errors in reactive blocks
+        '@typescript-eslint/no-unused-expressions': 'off',
       },
     },
   ],

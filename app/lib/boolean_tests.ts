@@ -22,6 +22,7 @@ export function isUrl (url: string): url is AbsoluteUrl {
     if (!(protocol === 'http:' || protocol === 'https:')) return false
     if (username !== '' || password !== '') return false
   } catch (err) {
+    if (err.code !== 'ERR_INVALID_URL') throw err
     // On the server, only err.code === 'ERR_INVALID_URL' returns false
     // and other errors are rethrown, but in the browser
     // err.code might be inconsistent

@@ -71,6 +71,7 @@ function permissiveJsonParse (input: string) {
     try {
       return JSON.parse(input)
     } catch (err) {
+      if (err.name !== 'SyntaxError') throw err
       return input
     }
   } else {
