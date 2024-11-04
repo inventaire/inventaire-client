@@ -2,7 +2,7 @@
   import { without } from 'underscore'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import { objectKeys } from '#app/lib/utils'
+  import { objectEntries } from '#app/lib/utils'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
@@ -43,8 +43,23 @@
     'wdt:P957',
   ]
 
-  const allWorkProperties = objectKeys(propertiesPerType.work)
-  const allEditionProperties = without(objectKeys(propertiesPerType.edition), ...editionImplicitProperties)
+  const allWorkProperties = sortPropertiesByDatatype(propertiesPerType.work)
+  const allEditionProperties = without(sortPropertiesByDatatype(propertiesPerType.edition), ...editionImplicitProperties)
+
+  function sortPropertiesByDatatype (propertiesData) {
+    // To push external-id at the bottom of the list
+    const externalIdProperties = []
+    const otherProperties = []
+    for (const [ property, propertyData ] of objectEntries(propertiesData)) {
+      if (propertyData.datatype === 'external-id') {
+        externalIdProperties.push(property)
+      } else {
+        otherProperties.push(property)
+      }
+    }
+    return [ ...otherProperties, ...externalIdProperties ]
+  }
+
   const isShortlisted = shortlist => property => shortlist.includes(property)
   // Regenerate shortlists from propertiesPerType properties to preserve order
   workPropertiesShortlist = allWorkProperties.filter(isShortlisted(workPropertiesShortlist))
