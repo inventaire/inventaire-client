@@ -31,6 +31,7 @@ export default {
     }
     if (relatives != null) query.relatives = forceArray(relatives).join('|')
     if (refresh === true) query.refresh = true
+    query.autocreate = !isPrerenderSession
     return action('by-uris', query)
   },
 
