@@ -35,9 +35,8 @@
       {#if image.url}
         <EntityImage
           {entity}
-          size={300}
+          size={200}
           noImageCredits={true}
-          enlargeInModal={true}
         />
       {/if}
       <div class="info-wrapper">
@@ -82,7 +81,7 @@
     margin-block-end: 1em;
     :global(.entity-image){
       padding-inline-end: 1em;
-      max-inline-size: 12em;
+      inline-size: 12em;
     }
   }
   .info-wrapper{

@@ -10,7 +10,6 @@
   export let size = 300
   export let withLink = false
   export let noImageCredits = false
-  export let enlargeInModal = false
 
   const { image, uri } = entity
   const { url } = image
@@ -20,17 +19,6 @@
   if ('credits' in image) {
     creditsUrl = image.credits.url
     creditsText = image.credits.text
-  }
-  if (enlargeInModal) {
-    withLink = true
-  }
-
-  function onImageClick (e) {
-    if (enlargeInModal) {
-      showModal = true
-    } else {
-      loadInternalLink(e)
-    }
   }
 
   const entityUrl = `/entity/${uri}`
@@ -42,12 +30,18 @@
   {#if withLink}
     <a
       href={entityUrl}
-      on:click={e => onImageClick(e)}
+      on:click={loadInternalLink}
     >
       <ImageDiv {url} {size} />
     </a>
   {:else}
-    <ImageDiv {url} {size} />
+    <button
+      class="zoom-in"
+      on:click={() => showModal = true}
+      title={i18n('Enlarge image')}
+    >
+      <ImageDiv {url} {size} />
+    </button>
   {/if}
   {#if creditsText && !noImageCredits}
     <p class="photo-credits">
@@ -73,6 +67,9 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .zoom-in{
+    cursor: zoom-in;
+  }
   .photo-credits{
     margin: 0;
     font-size: 0.8em;
