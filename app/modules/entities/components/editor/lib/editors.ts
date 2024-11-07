@@ -20,8 +20,9 @@ interface EditorConfig {
 }
 
 type PseudoPropertyDatatype = 'fixed-string'
+type EditorDatatype = Exclude<PropertyDatatype, 'entity-type'> | PseudoPropertyDatatype
 
-export const editors: Record<PropertyDatatype | PseudoPropertyDatatype, EditorConfig> = {
+export const editors: Record<EditorDatatype, EditorConfig> = {
   entity: {
     InputComponent: EntityValueInput,
     DisplayComponent: EntityValueDisplay,

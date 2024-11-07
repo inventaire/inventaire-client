@@ -1,7 +1,7 @@
 import { omit, pick } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { objectEntries, objectKeys } from '#app/lib/utils.ts'
+import { arrayIncludes, objectEntries, objectKeys } from '#app/lib/utils.ts'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 import { pluralize } from '#entities/lib/types/entities_types'
@@ -25,17 +25,24 @@ export interface CustomPropertyConfig extends PropertyConfig {
 export const propertiesPerType: Partial<Record<EntityType, Record<PropertyUri, CustomPropertyConfig>>> = {}
 export const propertiesPerCategory: Partial<Record<PropertyCategory, PropertyUri[]>> = {}
 
+const hiddenProperties = [
+  'invp:P1',
+  'invp:P3',
+] as const
+
 for (const [ property, propertyMetadata ] of objectEntries(properties)) {
-  const { subjectTypes } = propertyMetadata
-  const category = externalIdsDisplayConfigs[property]?.category || 'general'
-  const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
-  for (const type of subjectTypes) {
-    const propertyCanBeEdited = !allowedValuesShortlist || allowedValuesShortlist[pluralize(type)].length > 1
-    if (propertyCanBeEdited) {
-      propertiesPerType[type] = propertiesPerType[type] || {}
-      propertiesPerType[type][property] = propertyMetadata
-      propertiesPerCategory[category] = propertiesPerCategory[category] || []
-      propertiesPerCategory[category].push(property)
+  if (!arrayIncludes(hiddenProperties, property)) {
+    const { subjectTypes } = propertyMetadata
+    const category = externalIdsDisplayConfigs[property]?.category || 'general'
+    const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
+    for (const type of subjectTypes) {
+      const propertyCanBeEdited = !allowedValuesShortlist || allowedValuesShortlist[pluralize(type)].length > 1
+      if (propertyCanBeEdited) {
+        propertiesPerType[type] = propertiesPerType[type] || {}
+        propertiesPerType[type][property] = propertyMetadata
+        propertiesPerCategory[category] = propertiesPerCategory[category] || []
+        propertiesPerCategory[category].push(property)
+      }
     }
   }
 }
