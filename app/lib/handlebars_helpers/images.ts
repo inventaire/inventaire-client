@@ -5,6 +5,7 @@ import { API } from '#app/api/api'
 import { isImageDataUrl } from '#app/lib/boolean_tests'
 import type { Url } from '#server/types/common'
 import type { ImageDataUrl, ImagePath } from '#server/types/image'
+import { getViewportWidth } from '../screen'
 
 export function imgSrc (path: ImagePath | Url, width: number, height?: number): Url
 export function imgSrc (path: ImageDataUrl): ImageDataUrl
@@ -28,7 +29,7 @@ export function imgSrc (path?: ImagePath | ImageDataUrl | Url, width?: number, h
 
 export default { imgSrc }
 
-function getImgDimension (dimension, defaultValue) {
+function getImgDimension (dimension: number, defaultValue: number) {
   if (isNumber(dimension)) {
     return dimension
   } else {
@@ -36,19 +37,20 @@ function getImgDimension (dimension, defaultValue) {
   }
 }
 
-function bestImageWidth (width) {
+function bestImageWidth (width: number) {
   // under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
   // while still grouping on the initially requested width
   if (width < 500) return width
 
-  // if in a browser, use the screen width as a max value
-  if (screen?.width) width = Math.min(width, screen.width)
+  // Use the visualViewport width as a max value
+  const visualViewportWidth = getViewportWidth()
+  if (visualViewportWidth) width = Math.min(width, visualViewportWidth)
   // group image width above 500 by levels of 100px to limit generated versions
   return Math.ceil(width / 100) * 100
 }
 
 // Regroup image dimensions to avoid generating and caching too many different sizes
-function getScaledSize (size) {
+function getScaledSize (size: number) {
   const scaledSize = window.devicePixelRatio * size
   for (const value of thresolds) {
     if (scaledSize <= value) return value
