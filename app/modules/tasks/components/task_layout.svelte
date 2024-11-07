@@ -1,33 +1,23 @@
 <script lang="ts">
-  import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import { icon } from '#app/lib/icons'
-  import preq, { treq } from '#app/lib/preq'
-  import { onChange } from '#app/lib/svelte/svelte'
-  import { serializeEntity } from '#entities/lib/entities'
-  import Spinner from '#general/components/spinner.svelte'
-  import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
+  import preq from '#app/lib/preq'
   import type { TaskId } from '#server/types/task'
   import { getNextTask } from '#tasks/lib/get_next_task.ts'
-  import { I18n } from '#user/lib/i18n'
+  import MergeLayout from './merge_layout.svelte'
   import NoTask from './no_task.svelte'
-  import TaskControls from './task_controls.svelte'
-  import TaskEntity from './task_entity.svelte'
 
   export let taskId: TaskId
   export let entitiesType, type
 
-  let task, from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities
-  $: fromUri = task?.suspectUri
-  $: toUri = task?.suggestionUri
+  let task, flash
 
-  let nextTaskOffset
+  let nextTaskOffset = 0
   const waitForTask = getTask()
 
   async function getTask () {
-    const promise = taskId ? taskById() : nextTask()
+    const promise = taskId ? taskById() : showNextTask()
     return promise
       .catch(err => {
         flash = err
@@ -36,10 +26,11 @@
 
   async function taskById () {
     const { tasks } = await preq.get(API.tasks.byIds(taskId))
-    task = tasks[0]
+    task = tasks[0];
+    ({ type, entitiesType } = task)
   }
 
-  async function nextTask () {
+  async function showNextTask () {
     if (!entitiesType) ({ entitiesType } = task)
     if (!task) (nextTaskOffset = 0)
     const newTask = await getNextTask({ type, entitiesType, offset: nextTaskOffset })
@@ -56,158 +47,18 @@
     app.navigate('/tasks/none')
     nextTaskOffset = 0
     task = null
-    from = null
-    to = null
   }
-
-  async function updateFromAndToEntities () {
-    if (!task || task.state === 'merged') return
-    waitingForEntities = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
-      .then(updateTaskAndAssignFromToEntities(fromUri, toUri))
-      .catch(err => {
-        flash = err
-      })
-  }
-
-  const updateTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
-    const { entities, redirects } = entitiesRes
-    if (areRedirects(entities, redirects)) {
-      await updateTask(task._id, 'state', 'merged')
-      return nextTask()
-    }
-    areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
-
-    assignFromToEntities(fromUri, toUri, entities)
-  }
-
-  function isInvEntityUri (uri) {
-    return uri.split(':')[0] === 'inv'
-  }
-
-  const assignFromToEntities = (fromUri, toUri, entities) => {
-    from = serializeEntity(entities[fromUri])
-    to = serializeEntity(entities[toUri])
-  }
-
-  function exchangeFromTo () {
-    const tmpFrom = clone(from)
-    from = to
-    to = tmpFrom
-  }
-
-  async function updateTask (id, attribute, value) {
-    const params = { id, attribute, value }
-    return preq.put(API.tasks.update, params)
-  }
-
-  function areRedirects (entities, redirects) {
-    if (Object.keys(redirects).length === 0) return
-    for (const entityUri of values(redirects)) {
-      if (entities[entityUri]) return true
-    }
-  }
-
-  $: {
-    if (task) {
-      matchedTitles = pluck(task.externalSourcesOccurrences, 'matchedTitles').flat()
-    }
-  }
-  $: isMerged = task && task.state === 'merged'
-  $: onChange(task, updateFromAndToEntities)
 </script>
 {#await waitForTask then}
   {#if task}
-    {#await waitingForEntities}
-      <span class="loading"><Spinner /></span>
-    {/await}
-    <div class="entities-section">
-      <div class="from-entity">
-        <h2>From</h2>
-        {#key from}
-          <TaskEntity
-            entity={from}
-            {matchedTitles}
-          />
-        {/key}
-      </div>
-      {#if areBothInvEntities}
-        <button
-          class="swap"
-          on:click={exchangeFromTo}
-          title={I18n('swap from and to entities')}
-        >
-          {@html icon('exchange')}
-        </button>
-      {/if}
-      <div class="to-entity">
-        <h2>To</h2>
-        {#key to}
-          <TaskEntity
-            entity={to}
-            {matchedTitles}
-          />
-        {/key}
-      </div>
-    </div>
-    {#if isMerged}
-      <div class="error-wrapper">
-        <pre>{JSON.stringify(task, null, 2)}</pre>
-      </div>
-    {/if}
-    <TaskControls
+    <MergeLayout
       {task}
-      {from}
-      {to}
-      {flash}
-      on:next={nextTask}
+      {entitiesType}
+      {type}
+      on:next={showNextTask}
     />
   {:else}
     <NoTask />
   {/if}
   <Flash bind:state={flash} />
 {/await}
-<style lang="scss">
-  @import "#general/scss/utils";
-  .entities-section{
-    @include display-flex(row, flex-start, flex-start);
-    background-color: #ddd;
-  }
-  .from-entity{
-    min-height: 100vh;
-    padding-inline-start: 1em;
-    flex: 1 0 0;
-  }
-  .to-entity{
-    min-height: 100vh;
-    background-color: $light-grey;
-    padding-inline-start: 1em;
-    flex: 1 0 0;
-  }
-  h2{
-    @include display-flex(row, null, center);
-    @include sans-serif;
-    font-size: 1.2rem;
-    margin: 0;
-    padding-block-start: 0.3em;
-  }
-  .error-wrapper{
-    background-color: $light-grey;
-    max-width: 40em;
-    margin: 1em auto;
-    padding: 1em;
-  }
-  .swap{
-    position: relative;
-    inset-inline-start: 1.3em;
-    inset-block-start: 30vh;
-    background-color: white;
-    padding: 0.5em;
-    border-radius: 50%;
-  }
-  .loading{
-    position: absolute;
-    margin: 0 auto;
-    padding-block-start: 0.5em;
-    width: 100%;
-  }
-</style>
