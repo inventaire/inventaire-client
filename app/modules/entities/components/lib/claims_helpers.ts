@@ -8,6 +8,7 @@ import * as icons_ from '#app/lib/handlebars_helpers/icons.ts'
 import platforms_ from '#app/lib/handlebars_helpers/platforms.ts'
 import typeOf from '#app/lib/type_of'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
+import type { AuthorProperty } from '#app/modules/entities/lib/properties'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
 
 // @ts-expect-error
@@ -26,7 +27,7 @@ export const formatClaimValue = params => {
   }
 }
 
-export const propertiesByRoles = {
+export const propertiesByRoles: Record<string, AuthorProperty[]> = {
   // The keys order determines the display order in AuthorsInfo
   editor: [ 'wdt:P98' ],
   author: [ 'wdt:P50' ],
@@ -36,7 +37,7 @@ export const propertiesByRoles = {
   colorist: [ 'wdt:P6338' ],
   letterer: [ 'wdt:P9191' ],
   inker: [ 'wdt:P10836' ],
-}
+} as const
 
 export const authorsProps = Object.values(propertiesByRoles).flat()
 

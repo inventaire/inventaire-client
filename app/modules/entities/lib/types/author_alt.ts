@@ -5,6 +5,7 @@ import { objectEntries } from '#app/lib/utils'
 import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
 import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { pluralize } from '#entities/lib/types/entities_types'
+import type { AuthorProperty } from '../properties'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(API.entities.authorWorks(uri))
@@ -57,13 +58,11 @@ const getWorksUris = (works, seriesUris) => {
   .map(getUri)
 }
 
-export const extendedAuthorsKeys = buildExtendedAuthorsKeys()
+const _extendedAuthorsKeys = {}
 
-function buildExtendedAuthorsKeys () {
-  const extendedAuthorsKeys = {}
-  for (const [ roleLabel, properties ] of objectEntries(propertiesByRoles)) {
-    const [ property ] = properties
-    extendedAuthorsKeys[property] = pluralize(roleLabel)
-  }
-  return extendedAuthorsKeys
+for (const [ roleLabel, properties ] of objectEntries(propertiesByRoles)) {
+  const [ property ] = properties
+  _extendedAuthorsKeys[property] = pluralize(roleLabel)
 }
+
+export const extendedAuthorsKeys = _extendedAuthorsKeys as Record<AuthorProperty, string>

@@ -1,4 +1,4 @@
-import { flatten, chunk, compact, indexBy, pluck } from 'underscore'
+import { flatten, chunk, compact, indexBy, pluck, values } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
@@ -205,6 +205,11 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
   ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives }))
   addRedirectionsAliases(entities, redirects)
   return { entities }
+}
+
+export async function getEntitiesList ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
+  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives })
+  return values(entities)
 }
 
 function addRedirectionsAliases (entities: SerializedEntitiesByUris, redirects: RedirectionsByUris) {

@@ -1,7 +1,7 @@
-import { compact, pick, uniq } from 'underscore'
+import { compact, pick, uniq, values } from 'underscore'
 import app from '#app/app'
 import { objectEntries, objectKeys } from '#app/lib/utils'
-import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
+import { getEntitiesAttributesByUris, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 
 const authorProperties = objectKeys(extendedAuthorsKeys)
@@ -36,11 +36,19 @@ export async function getItemEntityData (uri) {
   return { entity, works, series, authorsByProperty }
 }
 
-const getWorksSeriesUris = works => uniq(compact(works.flatMap(getWorkSeriesUris)))
-const getWorkSeriesUris = work => work.claims['wdt:P179']
+export function getWorksSeriesUris (works: SerializedEntity[]) {
+  return uniq(compact(works.flatMap(getWorkSeriesUris)))
+}
+export function getWorkSeriesUris (work: SerializedEntity) {
+  return work.claims['wdt:P179']
+}
 
-const getWorksAuthorsUris = works => uniq(works.flatMap(getWorkAuthorsUris))
-const getWorkAuthorsUris = work => Object.values(pick(work.claims, authorProperties))
+export function getWorksAuthorsUris (works: SerializedEntity[]) {
+  return uniq(works.flatMap(getWorkAuthorsUris))
+}
+export function getWorkAuthorsUris (work: SerializedEntity) {
+  return values(pick(work.claims, authorProperties)).flat()
+}
 
 function getAuthorsByProperty ({ works, authorsByUris }) {
   const authorsByProperty = Object.fromEntries(authorProperties.map(property => [ property, [] ]))

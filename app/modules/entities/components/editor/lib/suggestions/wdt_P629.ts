@@ -1,16 +1,24 @@
-import { pluck, intersection } from 'underscore'
+import { pluck, intersection, compact } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isPositiveIntegerString } from '#app/lib/boolean_tests'
+import { treq } from '#app/lib/preq'
+import { getEntitiesList, getEntityByUri, type SerializedEntity } from '#app/modules/entities/lib/entities'
+import { getWorkAuthorsUris, getWorkSeriesUris } from '#app/modules/inventory/components/lib/item_show_helpers'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+import type { GetSeriePartsResponse } from '#server/controllers/entities/get_entity_relatives'
+import type { SeriePart } from '#server/controllers/entities/lib/get_serie_parts'
+import type { EntityUri } from '#server/types/entity'
 
 export default async function ({ entity }) {
   let worksUris = entity.claims['wdt:P629']
   if (worksUris == null) return
   worksUris = worksUris.filter(isNonEmptyClaimValue)
-  const works = await app.request('get:entities:models', { uris: worksUris })
-  const data = works.reduce(aggregate, { authors: [], series: [] })
-  const commonAuthors = intersection(...data.authors)
-  const commonSeries = intersection(...data.series)
+  const works = await getEntitiesList({ uris: worksUris, attributes: [ 'claims' ] })
+  const worksAuthors = works.map(getWorkAuthorsUris)
+  const worksSeries = compact(works.map(getWorkSeriesUris))
+  const commonAuthors = intersection(...worksAuthors)
+  const commonSeries = intersection(...worksSeries)
   if (commonSeries.length === 1) {
     const otherSerieWorks = await getSuggestionsFromSerie(commonSeries[0], works, worksUris)
     if (otherSerieWorks) return otherSerieWorks
@@ -20,23 +28,15 @@ export default async function ({ entity }) {
   }
 }
 
-const aggregate = function (data, work) {
-  const authors = work.getExtendedAuthorsUris()
-  const series = work.get('claims.wdt:P179')
-  data.authors.push(authors)
-  data.series.push(series)
-  return data
-}
-
-const getSuggestionsFromSerie = async (serieUri, works, worksUris) => {
+async function getSuggestionsFromSerie (serieUri: EntityUri, works: SerializedEntity[], worksUris: EntityUri[]) {
   const worksSeriesData = getSeriesData(works)
   const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
-  const serie = await app.request('get:entity:model', serieUri)
-  if (serie.get('type') !== 'serie') return
-  return getOtherSerieWorks({ serie, worksUris, lastOrdinal })
+  const serie = await getEntityByUri({ uri: serieUri })
+  if (serie.type !== 'serie') return
+  return getOtherSerieWorks(serie, worksUris, lastOrdinal)
 }
 
-const getSuggestionsFromAuthor = async (authorUri, worksUris) => {
+async function getSuggestionsFromAuthor (authorUri: EntityUri, worksUris: EntityUri[]) {
   const author = await app.request('get:entity:model', authorUri)
   if (author.get('type') !== 'human') return
   const { works: authorWorksData } = await author.fetchWorksData()
@@ -44,45 +44,46 @@ const getSuggestionsFromAuthor = async (authorUri, worksUris) => {
   .filter(uri => !worksUris.includes(uri))
 }
 
-const getSeriesData = works => {
+function getSeriesData (works: SerializedEntity[]) {
   return works
   .map(getSerieData)
   // Filter-out empty results as it would make the intersection hereafter empty
   .filter(data => data.serie != null)
 }
 
-const getOrdinals = (worksSeriesData, serieUri) => {
+function getOrdinals (worksSeriesData: ReturnType<typeof getSeriesData>, serieUri: EntityUri) {
   return worksSeriesData
   .filter(data => (data.serie === serieUri) && isPositiveIntegerString(data.ordinal))
   .map(data => parseOrdinal(data.ordinal))
+  .sort((a, b) => a - b)
 }
 
-const parseOrdinal = function (ordinal) {
+function parseOrdinal (ordinal: string) {
   if (isPositiveIntegerString(ordinal)) return parseInt(ordinal)
 }
 
-const getSerieData = function (work) {
-  const serie = work.get('claims.wdt:P179.0')
-  const ordinal = work.get('claims.wdt:P1545.0')
+function getSerieData (work: SerializedEntity) {
+  const serie = work.claims['wdt:P179'][0]
+  const ordinal = work.claims['wdt:P1545'][0]
   return { serie, ordinal }
 }
 
-const getOtherSerieWorks = async ({ serie, worksUris, lastOrdinal }) => {
-  const partsData = await serie.fetchPartsData()
-  const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal)
+async function getOtherSerieWorks (serie: SerializedEntity, worksUris: EntityUri[], lastOrdinal: number) {
+  const { parts } = await treq.get<GetSeriePartsResponse>(API.entities.serieParts(serie.uri))
+  const partsDataWithoutCurrentWorks = getReorderedParts(parts, worksUris, lastOrdinal)
   return pluck(partsDataWithoutCurrentWorks, 'uri')
 }
 
-const getReorderedParts = function (partsData, worksUris, lastOrdinal) {
+function getReorderedParts (parts: SeriePart[], worksUris: EntityUri[], lastOrdinal: number) {
   if (lastOrdinal == null) {
-    return partsData.filter(part => !worksUris.includes(part.uri))
+    return parts.filter(part => !worksUris.includes(part.uri))
   }
 
   const partsBefore = []
   const partsAfter = []
   const partsWithoutOrdinal = []
 
-  for (const part of partsData) {
+  for (const part of parts) {
     if (!worksUris.includes(part.uri)) {
       const parsedOrdinal = parseOrdinal(part.ordinal)
       if (parsedOrdinal) {
