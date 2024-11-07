@@ -381,19 +381,17 @@ export function getClaimValue (claim) {
 
 export const getPluralType = type => type + 's'
 
-export const getCollectionsPublishers = async collectionsUris => {
-  const entities = await app.request('get:entities:models', { uris: collectionsUris })
-  return flatten(entities.map(parseCollectionPublishers))
+export async function getCollectionsPublishers (collectionsUris: EntityUri[]) {
+  const entities = await getEntitiesList({ uris: collectionsUris, attributes: [ 'claims' ] })
+  return flatten(entities.map(entity => entity.claims['wdt:P123']))
 }
 
-const parseCollectionPublishers = entity => entity.claims['wdt:P123']
-
-export const getEditionsWorks = async editions => {
+export async function getEditionsWorks (editions: SerializedEntity[]) {
   const uris = editions.map(getEditionWorksUris).flat()
   return getEntities(uris)
 }
 
-const getEditionWorksUris = edition => {
+function getEditionWorksUris (edition: SerializedEntity) {
   const editionWorksUris = edition.claims['wdt:P629']
   if (edition.type !== 'edition') return []
   if (editionWorksUris == null) {
