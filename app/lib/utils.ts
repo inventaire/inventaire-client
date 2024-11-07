@@ -245,3 +245,14 @@ export function moveArrayElement (array, oldIndex, newIndex) {
   array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
   return array
 }
+
+export function uniqSortedByCount <T extends string> (values: T[]) {
+  const counts = {} as Record<T, number>
+  const valuesSet = new Set()
+  for (const value of values) {
+    counts[value] ??= 0
+    counts[value] += 1
+    valuesSet.add(value)
+  }
+  return Array.from(valuesSet).sort((a: T, b: T) => counts[b] - counts[a])
+}

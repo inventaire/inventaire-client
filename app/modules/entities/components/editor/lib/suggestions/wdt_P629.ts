@@ -1,9 +1,10 @@
-import { pluck, intersection, compact } from 'underscore'
+import { pluck, intersection, compact, uniq, without, difference } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import { isPositiveIntegerString } from '#app/lib/boolean_tests'
 import { treq } from '#app/lib/preq'
-import { getEntitiesList, getEntityByUri, type SerializedEntity } from '#app/modules/entities/lib/entities'
+import { uniqSortedByCount } from '#app/lib/utils'
+import { getEntitiesList, getEntityByUri, getReverseClaims, type SerializedEntity } from '#app/modules/entities/lib/entities'
 import { getWorkAuthorsUris, getWorkSeriesUris } from '#app/modules/inventory/components/lib/item_show_helpers'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import type { GetSeriePartsResponse } from '#server/controllers/entities/get_entity_relatives'
@@ -11,9 +12,27 @@ import type { SeriePart } from '#server/controllers/entities/lib/get_serie_parts
 import type { EntityUri } from '#server/types/entity'
 
 export default async function ({ entity }) {
+  const { uri } = entity
   let worksUris = entity.claims['wdt:P629']
   if (worksUris == null) return
   worksUris = worksUris.filter(isNonEmptyClaimValue)
+  const suggestionsUris = await Promise.all([
+    getSuggestionsFromMultiWorksEditions(uri, worksUris),
+    getSuggestionsFromWorks(worksUris),
+  ])
+  return uniq(suggestionsUris.flat())
+}
+
+async function getSuggestionsFromMultiWorksEditions (editionUri: EntityUri, worksUris: EntityUri[]) {
+  const worksEditionsUris = await Promise.all(worksUris.map(workUri => getReverseClaims('wdt:P629', workUri)))
+  const otherEditionsUris = without(uniq(worksEditionsUris.flat()), editionUri)
+  const editions = await getEntitiesList({ uris: otherEditionsUris, attributes: [ 'claims' ] })
+  const editionsWorksUris = editions.flatMap(edition => edition.claims['wdt:P629'])
+  const editionsOtherWorksUris = difference(editionsWorksUris, worksUris)
+  return uniqSortedByCount(editionsOtherWorksUris)
+}
+
+async function getSuggestionsFromWorks (worksUris: EntityUri[]) {
   const works = await getEntitiesList({ uris: worksUris, attributes: [ 'claims' ] })
   const worksAuthors = works.map(getWorkAuthorsUris)
   const worksSeries = compact(works.map(getWorkSeriesUris))
