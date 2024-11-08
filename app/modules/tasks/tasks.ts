@@ -5,11 +5,11 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)': 'showTasksDashboard',
-        'tasks/none(/)': 'showTasksDashboard',
         'tasks/delete/(:entitiesType)(/)': 'showDeleteTask',
         'tasks/merge/(:entitiesType)(/)': 'showMergeTask',
         'tasks/deduplicate/(:entitiesType)(/)': 'showDeduplicateTask',
-        'tasks/:id(/)': 'showTask',
+        'tasks/none(/)': 'showNoTask',
+        'tasks(/)(:id)(/)': 'showTask',
       },
     })
 
@@ -23,10 +23,12 @@ const controller = {
   showDeduplicateTask (entitiesType) { showLayout({ type: 'deduplicate', entitiesType }) },
   showTask (taskId) {
     if (app.request('require:dataadmin:access', 'tasks')) {
-      return showLayout({
-        taskId,
-      })
+      return showLayout({ taskId })
     }
+  },
+  async showNoTask () {
+    const { default: NoTask } = await import('./components/no_task.svelte')
+    app.layout.showChildComponent('main', NoTask)
   },
   async showTasksDashboard () {
     if (app.request('require:dataadmin:access', 'tasks')) {
