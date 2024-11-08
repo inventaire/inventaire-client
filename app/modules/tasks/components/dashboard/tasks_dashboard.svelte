@@ -5,6 +5,7 @@
 
   const waitForTasksCounts = getTasksCounts()
 
+  const deleteEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
   const mergeEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
   const deduplicateEntitiesTypes = [ 'human', 'work' ]
   app.navigate('/tasks')
@@ -24,6 +25,20 @@
             {entitiesType}
             tasksCount={tasksCountByTypeAndEntitiesType.merge[entitiesType] || 0}
             type="merge"
+          />
+        {/each}
+      </div>
+    {/if}
+    {#if tasksCountByTypeAndEntitiesType.delete}
+      <h2>
+        {I18n('user delete request')}
+      </h2>
+      <div class="sections">
+        {#each deleteEntitiesTypes as entitiesType}
+          <DashboardSection
+            {entitiesType}
+            tasksCount={tasksCountByTypeAndEntitiesType.delete[entitiesType] || 0}
+            type="delete"
           />
         {/each}
       </div>

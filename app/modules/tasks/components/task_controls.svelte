@@ -18,8 +18,12 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 'm') dispatch('action')
-    if (event.key === 'd') dismiss()
+    if (task.type === 'delete') {
+      if (event.key === 'd') dispatch('action')
+    } else {
+      if (event.key === 'm') dispatch('action')
+    }
+    if (event.key === 'a') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
@@ -62,11 +66,15 @@
         title={actionTitle}
         on:click={() => dispatch('action')}
       >
-        {@html icon('compress')}{I18n('merge')}
+        {#if task.type === 'delete'}
+          {@html icon('trash')}{I18n('delete')}
+        {:else}
+          {@html icon('compress')}{I18n('merge')}
+        {/if}
       </button>
       <button
         class="dismiss grey-button"
-        title="Archive this task. Shortkey: d"
+        title={I18n('Archive this task. Shortkey: a')}
         on:click={dismiss}
       >
         {@html icon('close')}{I18n('dismiss')}

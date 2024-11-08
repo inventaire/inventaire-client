@@ -1,15 +1,16 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { clone, pluck, values } from 'underscore'
+  import { clone, pluck } from 'underscore'
   import { API } from '#app/api/api'
   import { icon } from '#app/lib/icons'
-  import preq, { treq } from '#app/lib/preq'
+  import { treq } from '#app/lib/preq'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { EntityUri } from '#server/types/entity'
+  import { areRedirects, updateTask } from '#tasks/components/lib/tasks_helpers.ts'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
@@ -70,18 +71,6 @@
         flash = err
       })
       .finally(() => merging = false)
-  }
-
-  async function updateTask (id, attribute, value) {
-    const params = { id, attribute, value }
-    return preq.put(API.tasks.update, params)
-  }
-
-  function areRedirects (entities, redirects) {
-    if (Object.keys(redirects).length === 0) return
-    for (const entityUri of values(redirects)) {
-      if (entities[entityUri]) return true
-    }
   }
 
   $: {

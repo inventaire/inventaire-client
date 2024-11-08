@@ -1,4 +1,4 @@
-import { intersection, pluck } from 'underscore'
+import { intersection, pluck, values } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { getSerieOrWorkExtendedAuthorsUris } from '#app/modules/entities/lib/types/serie_alt'
@@ -24,6 +24,18 @@ export function hasMatchedLabel (entity, matchedTitles) {
   const entityLabels = Object.values(entity.labels)
   const matchedLabels = intersection(matchedTitles, entityLabels)
   return matchedLabels.length > 0
+}
+
+export async function updateTask (id, attribute, value) {
+  const params = { id, attribute, value }
+  return preq.put(API.tasks.update, params)
+}
+
+export function areRedirects (entities, redirects) {
+  if (Object.keys(redirects).length === 0) return
+  for (const entityUri of values(redirects)) {
+    if (entities[entityUri]) return true
+  }
 }
 
 const urisGetterByType = {

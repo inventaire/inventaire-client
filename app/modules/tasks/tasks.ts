@@ -6,6 +6,7 @@ export default {
       appRoutes: {
         'tasks(/)': 'showTasksDashboard',
         'tasks/none(/)': 'showTasksDashboard',
+        'tasks/delete/(:entitiesType)(/)': 'showDeleteTask',
         'tasks/merge/(:entitiesType)(/)': 'showMergeTask',
         'tasks/deduplicate/(:entitiesType)(/)': 'showDeduplicateTask',
         'tasks/:id(/)': 'showTask',
