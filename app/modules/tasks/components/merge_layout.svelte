@@ -78,42 +78,43 @@
       matchedTitles = pluck(task.externalSourcesOccurrences, 'matchedTitles').flat()
     }
   }
-  $: isMerged = task && task.state === 'merged'
+  $: treatedTask = task && task.state
   $: onChange(task, updateFromAndToEntities)
 </script>
 {#await waitingForEntities}
   <span class="loading"><Spinner /></span>
 {/await}
-<div class="entities-section">
-  <div class="from-entity">
-    <h2>From</h2>
-    {#key from}
-      <TaskEntity
-        entity={from}
-        {matchedTitles}
-      />
-    {/key}
+{#if !treatedTask}
+  <div class="entities-section">
+    <div class="from-entity">
+      <h2>From</h2>
+      {#key from}
+        <TaskEntity
+          entity={from}
+          {matchedTitles}
+        />
+      {/key}
+    </div>
+    {#if areBothInvEntities}
+      <button
+        class="swap"
+        on:click={exchangeFromTo}
+        title={I18n('swap from and to entities')}
+      >
+        {@html icon('exchange')}
+      </button>
+    {/if}
+    <div class="to-entity">
+      <h2>To</h2>
+      {#key to}
+        <TaskEntity
+          entity={to}
+          {matchedTitles}
+        />
+      {/key}
+    </div>
   </div>
-  {#if areBothInvEntities}
-    <button
-      class="swap"
-      on:click={exchangeFromTo}
-      title={I18n('swap from and to entities')}
-    >
-      {@html icon('exchange')}
-    </button>
-  {/if}
-  <div class="to-entity">
-    <h2>To</h2>
-    {#key to}
-      <TaskEntity
-        entity={to}
-        {matchedTitles}
-      />
-    {/key}
-  </div>
-</div>
-{#if isMerged}
+{:else}
   <div class="error-wrapper">
     <pre>{JSON.stringify(task, null, 2)}</pre>
   </div>
