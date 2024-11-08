@@ -16,6 +16,12 @@ export const calculateGlobalScore = task => {
   return Math.trunc(score * 100) / 100
 }
 
+export const entitiesTypesByTypes = {
+  delete: [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ],
+  merge: [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ],
+  deduplicate: [ 'human', 'work' ],
+}
+
 export function sortMatchedLabelsEntities (entities, matchedTitles) {
   return entities.sort((a, b) => hasMatchedLabel(a, matchedTitles) < hasMatchedLabel(b, matchedTitles) ? 1 : -1)
 }

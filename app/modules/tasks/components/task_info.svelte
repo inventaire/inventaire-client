@@ -8,17 +8,13 @@
 
   export let task
 
-  const { reporters: reportersIds, clue, entitiesType } = task
+  const { reporters: reportersIds, clue } = task
 
   let reporters
   const waitingForUsers = getUsersByIds(reportersIds)
     .then(res => reporters = Object.values(res))
 </script>
 
-<p>
-  <strong>{i18n('entities type')}: </strong>
-  {i18n(entitiesType)}
-</p>
 {#await waitingForUsers}
   <Spinner center={true} />
 {:then}

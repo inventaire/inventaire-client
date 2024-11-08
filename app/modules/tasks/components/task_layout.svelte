@@ -8,6 +8,7 @@
   import DeleteLayout from './delete_layout.svelte'
   import MergeLayout from './merge_layout.svelte'
   import NoTask from './no_task.svelte'
+  import TaskBreadcrumb from './task_breadcrumb.svelte'
 
   export let taskId: TaskId
   export let entitiesType, type
@@ -49,7 +50,13 @@
     nextTaskOffset = 0
     task = null
   }
+  $: taskId = task?._id
 </script>
+<TaskBreadcrumb
+  {entitiesType}
+  {type}
+  {taskId}
+/>
 {#await waitForTask then}
   {#if task}
     {#if type === 'delete'}
