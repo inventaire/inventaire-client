@@ -36,27 +36,33 @@
       .then(() => dispatch('next'))
   }
 
+  $: treatedTask = task && task.state
+  $: onChange(task, () => { flash = null })
   $: {
-    if (task && task.state === 'merged') {
-      flash = new Error(I18n('this task has already been treated'))
+    if (treatedTask) {
+      flash = {
+        type: 'error',
+        message: I18n('this task has already been treated'),
+      }
     }
   }
-  $: onChange(task, () => { flash = null })
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <div class="task-info-section">
-      {#if isNonEmptyArray(task.reporters)}
-        <ul class="task-info">
-          <TaskInfo {task} />
-        </ul>
-      {/if}
-      {#if task.externalSourcesOccurrences}
-        <ul class="task-info">
-          <TaskScores {task} />
-        </ul>
+      {#if !treatedTask}
+        {#if isNonEmptyArray(task.reporters)}
+          <ul class="task-info">
+            <TaskInfo {task} />
+          </ul>
+        {/if}
+        {#if task.externalSourcesOccurrences}
+          <ul class="task-info">
+            <TaskScores {task} />
+          </ul>
+        {/if}
       {/if}
     </div>
     <div class="actions">
@@ -64,6 +70,7 @@
       <button
         class="merge dangerous-button"
         title={actionTitle}
+        disabled={treatedTask}
         on:click={() => dispatch('action')}
       >
         {#if task.type === 'delete'}
@@ -75,6 +82,7 @@
       <button
         class="dismiss grey-button"
         title={I18n('Archive this task. Shortkey: a')}
+        disabled={treatedTask}
         on:click={dismiss}
       >
         {@html icon('close')}{I18n('dismiss')}
@@ -89,7 +97,7 @@
     </div>
   </div>
   {#if flash}
-    <div class="alerts">
+    <div class="flash">
       <Flash bind:state={flash} />
     </div>
   {/if}
@@ -124,7 +132,7 @@
     @include display-flex(row, center, space-between);
   }
 
-  .buttons-wrapper, .alerts, .actions{
+  .buttons-wrapper, .flash, .actions{
     @include display-flex(row, center, space-between);
   }
 
@@ -134,13 +142,8 @@
     font-family: $sans-serif;
   }
 
-  .alerts{
-    align-self: stretch;
-    min-width: 50%;
-    max-width: 30em;
+  .flash{
     margin: 0 auto;
-    background-color: $soft-red;
-    margin-block-start: 0.3em;
   }
 
   /* Smaller screens */
