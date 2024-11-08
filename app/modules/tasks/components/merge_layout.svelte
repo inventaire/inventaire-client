@@ -6,8 +6,10 @@
   import preq, { treq } from '#app/lib/preq'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
+  import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
@@ -18,7 +20,7 @@
   const dispatch = createEventDispatcher()
   const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
 
-  let from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities
+  let from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities, merging
   $: fromUri = task?.suspectUri
   $: toUri = task?.suggestionUri
 
@@ -55,6 +57,19 @@
     const tmpFrom = clone(from)
     from = to
     to = tmpFrom
+  }
+
+  async function mergeTaskEntities () {
+    if (!(from && to)) return
+    merging = true
+    // Optimistic UI: go to the next candidates without waiting for the merge confirmation
+    dispatch('next')
+    const params: [ EntityUri, EntityUri ] = [ from.uri, to.uri ]
+    await mergeEntities(...params)
+      .catch(err => {
+        flash = err
+      })
+      .finally(() => merging = false)
   }
 
   async function updateTask (id, attribute, value) {
@@ -116,10 +131,11 @@
 {/if}
 <TaskControls
   {task}
-  {from}
-  {to}
   {flash}
+  actionTitle={`Merge "${from?.label}" into "${to?.label}"\nShortkey: m`}
+  on:action={mergeTaskEntities}
   on:next={bubbleUpEvent}
+  bind:doingAction={merging}
 />
 <style lang="scss">
   @import "#general/scss/utils";

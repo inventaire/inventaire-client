@@ -7,37 +7,20 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let task, from, to, flash
-
-  let merging
+  export let task, flash, doingAction, actionTitle
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 'm') mergeTaskEntities()
+    if (event.key === 'm') dispatch('action')
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
-  }
-
-  function mergeTaskEntities () {
-    if (!(from && to)) return
-    merging = true
-    // Optimistic UI: go to the next candidates without waiting for the merge confirmation
-    dispatch('next')
-    const params: [ EntityUri, EntityUri ] = [ from.uri, to.uri ]
-    mergeEntities(...params)
-      .catch(err => {
-        flash = err
-      })
-      .finally(() => merging = false)
   }
 
   function dismiss () {
@@ -73,12 +56,11 @@
       {/if}
     </div>
     <div class="actions">
-      {#if merging}<Spinner light={true} />{/if}
+      {#if doingAction}<Spinner light={true} />{/if}
       <button
         class="merge dangerous-button"
-        disabled={!(from && to)}
-        title={from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}
-        on:click={() => mergeTaskEntities()}
+        title={actionTitle}
+        on:click={() => dispatch('action')}
       >
         {@html icon('compress')}{I18n('merge')}
       </button>
