@@ -124,14 +124,14 @@
           />
         </li>
       {/if}
+      <li>
+        <Link
+          url="/entity/merge?from={uri}"
+          text={I18n('merge')}
+          icon="compress"
+        />
+      </li>
       {#if hasDataadminAccess}
-        <li>
-          <Link
-            url="/entity/merge?from={uri}"
-            text={I18n('merge')}
-            icon="compress"
-          />
-        </li>
         {#if canBeDeleted}
           <li>
             <button

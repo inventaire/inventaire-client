@@ -2,6 +2,7 @@
   import Link from '#app/lib/components/link.svelte'
   import { loadInternalLink } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
+  import Modal from '#components/modal.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { i18n } from '#user/lib/i18n'
 
@@ -13,6 +14,7 @@
   const { image, uri } = entity
   const { url } = image
   let creditsUrl, creditsText
+  let showModal = false
 
   if ('credits' in image) {
     creditsUrl = image.credits.url
@@ -33,7 +35,13 @@
       <ImageDiv {url} {size} />
     </a>
   {:else}
-    <ImageDiv {url} {size} />
+    <button
+      class="zoom-in"
+      on:click={() => showModal = true}
+      title={i18n('Enlarge image')}
+    >
+      <ImageDiv {url} {size} />
+    </button>
   {/if}
   {#if creditsText && !noImageCredits}
     <p class="photo-credits">
@@ -45,9 +53,23 @@
     </p>
   {/if}
 </div>
+{#if showModal}
+  <Modal
+    on:closeModal={() => showModal = false}
+    closeOnClick={true}
+  >
+    <ImageDiv
+      url={image.url}
+      size={1000}
+    />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .zoom-in{
+    cursor: zoom-in;
+  }
   .photo-credits{
     margin: 0;
     font-size: 0.8em;

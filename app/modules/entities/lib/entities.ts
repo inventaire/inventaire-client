@@ -380,3 +380,26 @@ export function getClaimValue (claim) {
 }
 
 export const getPluralType = type => type + 's'
+
+export const getCollectionsPublishers = async collectionsUris => {
+  const entities = await app.request('get:entities:models', { uris: collectionsUris })
+  return flatten(entities.map(parseCollectionPublishers))
+}
+
+const parseCollectionPublishers = entity => entity.claims['wdt:P123']
+
+export const getEditionsWorks = async editions => {
+  const uris = editions.map(getEditionWorksUris).flat()
+  return getEntities(uris)
+}
+
+const getEditionWorksUris = edition => {
+  const editionWorksUris = edition.claims['wdt:P629']
+  if (edition.type !== 'edition') return []
+  if (editionWorksUris == null) {
+    const { uri } = edition
+    const err = newError('edition entity misses associated works (wdt:P629)', { uri })
+    throw err
+  }
+  return editionWorksUris
+}

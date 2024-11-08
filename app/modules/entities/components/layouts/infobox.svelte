@@ -4,14 +4,15 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
+  import { omitClaims } from '#entities/components/lib/work_helpers'
   import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import type { Claims, ExtendedEntityType } from '#server/types/entity'
+  import type { Claims, ExtendedEntityType, PropertyUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import ClaimInfobox from './claim_infobox.svelte'
 
   export let claims: Claims = {}
+  export let omittedProperties: PropertyUri[] = []
   export let relatedEntities: SerializedEntitiesByUris = {}
   export let entityType: ExtendedEntityType
   export let shortlistOnly = null
@@ -53,7 +54,7 @@
   const wrappedInfoboxHeight = 128
   $: infoboxHeight = infobox?.clientHeight
   $: wrappedSize = listDisplay && infoboxHeight && infoboxHeight > wrappedInfoboxHeight
-  $: displayedClaims = omitNonInfoboxClaims(claims)
+  $: displayedClaims = omitClaims(claims, omittedProperties)
 </script>
 <div class="claims-infobox-wrapper">
   <div

@@ -2,6 +2,7 @@
   import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -17,71 +18,61 @@
   export let taskId: TaskId
   export let entitiesType
 
-  let task, from, to, flash, matchedTitles, noTask, areBothInvEntities, waitingForEntities
+  let task, from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities
   $: fromUri = task?.suspectUri
   $: toUri = task?.suggestionUri
 
-  const previousTasksIds = []
-
+  let nextTaskOffset
   const waitForTask = getTask()
 
   async function getTask () {
-    let promise
-    if (taskId) {
-      promise = assignTaskById()
-    } else if (entitiesType) {
-      promise = next()
-    } else return
+    const promise = taskId ? taskById() : nextTask()
     return promise
       .catch(err => {
         flash = err
       })
   }
 
-  async function assignTaskById () {
+  async function taskById () {
     const { tasks } = await preq.get(API.tasks.byIds(taskId))
     task = tasks[0]
   }
 
-  async function next () {
-    if (task) previousTasksIds.push(task._id)
+  async function nextTask () {
     if (!entitiesType) ({ entitiesType } = task)
-    const params = {
-      entitiesType,
-      lastTask: task,
-      previousTasksIds,
-    }
-    const newTask = await getNextTask(params)
+    if (!task) (nextTaskOffset = 0)
+    const newTask = await getNextTask({ entitiesType, offset: nextTaskOffset })
+
     if (!newTask) {
-      reset()
-      noTask = true
-      return
+      return resetTaskLayout()
     }
     task = newTask
+    nextTaskOffset++
     app.navigate(`/tasks/${task._id}`)
   }
 
-  function reset () {
+  function resetTaskLayout () {
+    app.navigate('/tasks')
+    nextTaskOffset = 0
+    task = null
     from = null
     to = null
   }
 
   async function updateFromAndToEntities () {
-    // Nullifying `from` and `to` in order to request new claims values entities
-    reset()
     if (!task || task.state === 'merged') return
     waitingForEntities = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
-      .then(cleanUpTaskAndAssignFromToEntities(fromUri, toUri))
+      .then(updateTaskAndAssignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
       })
   }
 
-  const cleanUpTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
+  const updateTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
     const { entities, redirects } = entitiesRes
     if (areRedirects(entities, redirects)) {
       await updateTask(task._id, 'state', 'merged')
-      return next()
+      return nextTask()
     }
     areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
 
@@ -123,61 +114,59 @@
   $: isMerged = task && task.state === 'merged'
   $: onChange(task, updateFromAndToEntities)
 </script>
-{#if noTask}
-  <p id="no-task" class="grey">
-    {I18n('no task available, this is fine')}
-  <p />
-{:else}
-  {#await waitingForEntities}
-    <span class="loading"><Spinner /></span>
-  {/await}
-  <div class="entities-section">
-    <div class="from-entity">
-      <h2>From</h2>
-      {#key from}
-        <TaskEntity
-          entity={from}
-          {matchedTitles}
-        />
-      {/key}
+{#await waitForTask then}
+  {#if task}
+    {#await waitingForEntities}
+      <span class="loading"><Spinner /></span>
+    {/await}
+    <div class="entities-section">
+      <div class="from-entity">
+        <h2>From</h2>
+        {#key from}
+          <TaskEntity
+            entity={from}
+            {matchedTitles}
+          />
+        {/key}
+      </div>
+      {#if areBothInvEntities}
+        <button
+          class="swap"
+          on:click={exchangeFromTo}
+          title={I18n('swap from and to entities')}
+        >
+          {@html icon('exchange')}
+        </button>
+      {/if}
+      <div class="to-entity">
+        <h2>To</h2>
+        {#key to}
+          <TaskEntity
+            entity={to}
+            {matchedTitles}
+          />
+        {/key}
+      </div>
     </div>
-    {#if areBothInvEntities}
-      <button
-        class="swap"
-        on:click={exchangeFromTo}
-        title={I18n('swap from and to entities')}
-      >
-        {@html icon('exchange')}
-      </button>
+    {#if isMerged}
+      <div class="error-wrapper">
+        <pre>{JSON.stringify(task, null, 2)}</pre>
+      </div>
     {/if}
-    <div class="to-entity">
-      <h2>To</h2>
-      {#key to}
-        <TaskEntity
-          entity={to}
-          {matchedTitles}
-        />
-      {/key}
-    </div>
-  </div>
-  {#if isMerged}
-    <div class="error-wrapper">
-      <pre>{JSON.stringify(task, null, 2)}</pre>
-    </div>
-  {/if}
-  {#await waitForTask then}
     <TaskControls
       {task}
       {from}
       {to}
       {flash}
-      on:next={next}
+      on:next={nextTask}
     />
-  {/await}
-  <!-- CSS hack to not let sticky .controls overflow the bottom of task-entity -->
-  <!-- Needed since .controls has a dynamic height (due to .sources-links length). -->
-  <div class="placeholder" />
-{/if}
+  {:else}
+    <p id="no-task" class="grey">
+      {I18n('no task available')}
+    </p>
+  {/if}
+  <Flash bind:state={flash} />
+{/await}
 <style lang="scss">
   @import "#general/scss/utils";
   #no-task{
@@ -211,9 +200,6 @@
     max-width: 40em;
     margin: 1em auto;
     padding: 1em;
-  }
-  .placeholder{
-    height: 6em;
   }
   .swap{
     position: relative;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { API } from '#app/api/api'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -59,16 +60,18 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
-    <ul class="task-infobox">
-      {#if task.entitiesType === 'work'}
-        <TaskInfo
-          reporter={task.reporter}
-          clue={task.clue}
-        />
-      {:else}
-        <TaskScores {task} />
+    <div class="task-info-section">
+      {#if isNonEmptyArray(task.reporters)}
+        <ul class="task-info">
+          <TaskInfo {task} />
+        </ul>
       {/if}
-    </ul>
+      {#if task.externalSourcesOccurrences}
+        <ul class="task-info">
+          <TaskScores {task} />
+        </ul>
+      {/if}
+    </div>
     <div class="actions">
       {#if merging}<Spinner light={true} />{/if}
       <button
@@ -121,9 +124,14 @@
     opacity: 0.3;
   }
 
-  .task-infobox{
+  .task-info{
     background-color: white;
     padding: 0.3em 0.5em;
+    margin: 0 0.5em;
+  }
+
+  .task-info-section{
+    @include display-flex(row, center, space-between);
   }
 
   .buttons-wrapper, .alerts, .actions{

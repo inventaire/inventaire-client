@@ -4,6 +4,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { bySerieOrdinal } from '#entities/lib/entities'
@@ -44,6 +45,7 @@
         <AuthorsInfo claims={entity.claims} />
         <Infobox
           {claims}
+          omittedProperties={authorsProps}
           entityType={entity.type}
         />
         <Summary {entity} />
