@@ -26,7 +26,7 @@
   $: toUri = task?.suggestionUri
 
   async function updateFromAndToEntities () {
-    if (!task || task.state === 'merged') return
+    if (!task || task.state === 'treated') return
     waitingForEntities = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
       .then(updateTaskAndAssignFromToEntities(fromUri, toUri))
       .catch(err => {
@@ -37,7 +37,7 @@
   const updateTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
     const { entities, redirects } = entitiesRes
     if (areRedirects(entities, redirects)) {
-      await updateTask(task._id, 'state', 'merged')
+      await updateTask(task._id, 'state', 'treated')
       return dispatch('next')
     }
     areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
@@ -78,7 +78,7 @@
       matchedTitles = pluck(task.externalSourcesOccurrences, 'matchedTitles').flat()
     }
   }
-  $: treatedTask = task && task.state
+  $: treatedTask = task && task.state && task.state !== undefined
   $: onChange(task, updateFromAndToEntities)
 </script>
 {#await waitingForEntities}
@@ -126,6 +126,7 @@
   on:action={mergeTaskEntities}
   on:next={bubbleUpEvent}
   bind:doingAction={merging}
+  {treatedTask}
 />
 <style lang="scss">
   @import "#general/scss/utils";

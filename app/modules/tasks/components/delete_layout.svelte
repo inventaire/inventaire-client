@@ -20,7 +20,7 @@
   $: uri = task?.suspectUri
 
   async function getAndAssignEntity () {
-    if (!task || task.state === 'merged') return
+    if (!task || task.state === 'treated') return
     waitingForEntity = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris(uri))
       .then(updateTaskAndAssignEntity)
       .catch(err => {
@@ -31,7 +31,7 @@
   async function updateTaskAndAssignEntity (entitiesRes: GetEntitiesByUrisResponse) {
     const { entities, redirects } = entitiesRes
     if (areRedirects(entities, redirects)) {
-      await updateTask(task._id, 'state', 'merged')
+      await updateTask(task._id, 'state', 'treated')
       return dispatch('next')
     }
     entity = serializeEntity(entities[uri])
@@ -72,6 +72,7 @@
   on:action={deleteTaskEntity}
   on:next={bubbleUpEvent}
   bind:doingAction={deleting}
+  {treatedTask}
 />
 <style lang="scss">
   @import "#general/scss/utils";

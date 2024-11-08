@@ -14,7 +14,7 @@
 
   const dispatch = createEventDispatcher()
 
-  export let task, flash, doingAction, actionTitle
+  export let task, flash, doingAction, actionTitle, treatedTask
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -36,7 +36,6 @@
       .then(() => dispatch('next'))
   }
 
-  $: treatedTask = task && task.state
   $: onChange(task, () => { flash = null })
   $: {
     if (treatedTask) {
