@@ -44,7 +44,6 @@
             {entity}
             size={96}
             noImageCredits={true}
-            enlargeInModal={true}
           />
         </div>
       {/if}
