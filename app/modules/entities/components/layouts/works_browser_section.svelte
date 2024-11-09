@@ -15,7 +15,6 @@
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { addWorksImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
 
@@ -75,14 +74,7 @@
     const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
     paginatedWorks = newPaginatedWorks
     if (newWorks.length === 0) return
-    await addMissingImages(newWorks)
     paginatedWorks = paginatedWorks
-  }
-
-  async function addMissingImages (newWorks) {
-    const worksWithoutImages = newWorks.filter(work => !work.images)
-    if (worksWithoutImages.length === 0) return
-    await addWorksImages(worksWithoutImages)
   }
 
   async function resetWorks () {

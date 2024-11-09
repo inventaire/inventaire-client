@@ -8,6 +8,7 @@ import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/cl
 import { byPublicationDate, getReverseClaims, getEntities, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
 import { fetchRelatedEntities } from '#entities/lib/fetch_related_entities'
+import { addEntitiesImages } from '#entities/lib/types/work_alt'
 import type { SortFunction } from '#server/types/common'
 import type { ExtendedEntityType, PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
@@ -200,6 +201,7 @@ export const fetchSectionEntities = ({ sortFn, parentEntityType }: { sortFn?: an
   }
 
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
+  await addEntitiesImages(section.entities)
   await fetchRelatedEntities(section.entities, parentEntityType)
   return section
 }
