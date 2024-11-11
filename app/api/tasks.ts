@@ -13,4 +13,5 @@ export default {
   },
   deduplicateWorks: action('deduplicate-works'),
   update: action('update'),
+  count: action('tasks-count'),
 }

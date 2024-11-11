@@ -12,11 +12,12 @@
   import type { TaskId } from '#server/types/task'
   import { getNextTask } from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
+  import NoTask from './no_task.svelte'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
 
   export let taskId: TaskId
-  export let entitiesType
+  export let entitiesType, type
 
   let task, from, to, flash, matchedTitles, areBothInvEntities, waitingForEntities
   $: fromUri = task?.suspectUri
@@ -41,7 +42,7 @@
   async function nextTask () {
     if (!entitiesType) ({ entitiesType } = task)
     if (!task) (nextTaskOffset = 0)
-    const newTask = await getNextTask({ entitiesType, offset: nextTaskOffset })
+    const newTask = await getNextTask({ type, entitiesType, offset: nextTaskOffset })
 
     if (!newTask) {
       return resetTaskLayout()
@@ -52,7 +53,7 @@
   }
 
   function resetTaskLayout () {
-    app.navigate('/tasks')
+    app.navigate('/tasks/none')
     nextTaskOffset = 0
     task = null
     from = null
@@ -161,18 +162,12 @@
       on:next={nextTask}
     />
   {:else}
-    <p id="no-task" class="grey">
-      {I18n('no task available')}
-    </p>
+    <NoTask />
   {/if}
   <Flash bind:state={flash} />
 {/await}
 <style lang="scss">
   @import "#general/scss/utils";
-  #no-task{
-    @include display-flex(row, center, center);
-    padding: 3em;
-  }
   .entities-section{
     @include display-flex(row, flex-start, flex-start);
     background-color: #ddd;
