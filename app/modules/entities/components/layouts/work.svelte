@@ -126,8 +126,7 @@
         </div>
       {/if}
     {/await}
-    <EntityListingsLayout {entity}
-    />
+    <EntityListingsLayout {entity} />
     <div class="relatives-lists">
       {#each getRelativeEntitiesProperties(type) as property}
         <RelativeEntitiesList

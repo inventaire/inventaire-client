@@ -9,9 +9,9 @@
 
   let listings = []
   let noListingsFound
+  const { uri } = entity
 
   const getListings = async () => {
-    const { uri } = entity
     if (uri) {
       listings = await getListingsByEntityUri(uri) || []
     }
@@ -29,7 +29,7 @@
     {#await waitingForListings}
       <p class="loading">{I18n('loading')}<Spinner /></p>
     {:then}
-      <ListingsLayout {listings} />
+      <ListingsLayout {listings} {uri} />
     {/await}
   </div>
 {/if}
