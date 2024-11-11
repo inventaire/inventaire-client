@@ -108,6 +108,7 @@
   .edit-button{
     @include display-flex(row, flex-start, space-between);
     width: 100%;
+    @include shy(0.5);
   }
   .comment-wrapper{
     text-align: start;
