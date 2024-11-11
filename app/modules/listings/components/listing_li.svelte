@@ -7,13 +7,14 @@
   import { getListingPathname } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
-  export let listing, onUserLayout
+  export let listing, onUserLayout, uri
 
   const { _id, name, creator } = listing
   const elements = listing.elements || []
   let imagesUrls = []
   const imagesLimit = 6
 
+  const { comment } = listing.elements.find(el => el.uri === uri)
   const pathname = getListingPathname(_id)
 
   const getElementsImages = async () => {
@@ -78,6 +79,16 @@
         {/await}
       </div>
     {/if}
+    {#if comment}
+      <div class="listing-comment">
+        <div>
+          {i18n('Comment about this work:')}
+        </div>
+        <div class="comment">
+          {comment}
+        </div>
+      </div>
+    {/if}
   </a>
 </li>
 
@@ -133,6 +144,9 @@
   .username{
     font-weight: normal;
     @include sans-serif;
+  }
+  .comment{
+    padding-inline-start: 0.5em;
   }
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
