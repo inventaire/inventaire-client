@@ -7,6 +7,7 @@
 
   const mergeEntitiesTypes = [ 'human', 'work', 'edition', 'serie', 'publisher', 'collection' ]
   const deduplicateEntitiesTypes = [ 'human', 'work' ]
+  app.navigate('/tasks')
 </script>
 <div class="dashboard-wrapper">
   <h1>

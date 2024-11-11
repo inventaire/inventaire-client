@@ -5,9 +5,12 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)': 'showTasksDashboard',
-        'tasks(/)(merge)(/)(:entitiesType)(/)': 'showMergeTask',
-        'tasks(/)(deduplicate)(/)(:entitiesType)(/)': 'showDeduplicateTask',
-        'tasks(/)(:id)(/)': 'showTask',
+        'tasks/merge(/)': 'showTasksDashboard',
+        'tasks/deduplicate(/)': 'showTasksDashboard',
+        'tasks/none(/)': 'showTasksDashboard',
+        'tasks/merge/:entitiesType(/)': 'showMergeTask',
+        'tasks/deduplicate/:entitiesType(/)': 'showDeduplicateTask',
+        'tasks/:id(/)': 'showTask',
       },
     })
 
