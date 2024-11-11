@@ -19,7 +19,6 @@
   let flash
   const { uri, isWikidataEntity, label, historyPathname } = entity
   const { invUri, wdUri } = entity
-  const { hasDataadminAccess } = app.user
   let wikidataUrl, wikidataHistoryUrl
   if (wdUri) {
     wikidataUrl = getWikidataUrl(wdUri)
@@ -83,7 +82,8 @@
   async function _deleteEntity () {
     try {
       await preq.post(API.entities.delete, { uris: [ invUri ] })
-      app.execute('show:entity:edit', uri)
+      // Let the time to the confirmation modal to display a success check
+      setTimeout(() => app.execute('show:home'), 500)
     } catch (err) {
       // TODO: recover displayDeteEntityErrorContext feature to show rich error message
       flash = err
@@ -131,18 +131,16 @@
           icon="compress"
         />
       </li>
-      {#if hasDataadminAccess}
-        {#if canBeDeleted}
-          <li>
-            <button
-              title={I18n('delete entity')}
-              on:click={deleteEntity}
-            >
-              {@html icon('trash')}
-              {I18n('delete')}
-            </button>
-          </li>
-        {/if}
+      {#if canBeDeleted}
+        <li>
+          <button
+            title={I18n('delete entity')}
+            on:click={deleteEntity}
+          >
+            {@html icon('trash')}
+            {I18n('delete')}
+          </button>
+        </li>
       {/if}
       {#if !isWikidataEntity}
         <li>
