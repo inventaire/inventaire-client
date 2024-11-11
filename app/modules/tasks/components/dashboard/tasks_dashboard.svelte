@@ -13,30 +13,34 @@
     {I18n('tasks dashboard')}
   </h1>
   {#await waitForTasksCounts then tasksCountByTypeAndEntitiesType}
-    <h2>
-      {I18n('user merge request')}
-    </h2>
-    <div class="sections">
-      {#each mergeEntitiesTypes as entitiesType}
-        <DashboardSection
-          {entitiesType}
-          tasksCount={tasksCountByTypeAndEntitiesType.merge[entitiesType] || 0}
-          type="merge"
-        />
-      {/each}
-    </div>
-    <h2>
-      {I18n('deduplicate tasks')}
-    </h2>
-    <div class="sections">
-      {#each deduplicateEntitiesTypes as entitiesType}
-        <DashboardSection
-          {entitiesType}
-          type="deduplicate"
-          tasksCount={tasksCountByTypeAndEntitiesType.deduplicate[entitiesType] || 0}
-        />
-      {/each}
-    </div>
+    {#if tasksCountByTypeAndEntitiesType.merge}
+      <h2>
+        {I18n('user merge request')}
+      </h2>
+      <div class="sections">
+        {#each mergeEntitiesTypes as entitiesType}
+          <DashboardSection
+            {entitiesType}
+            tasksCount={tasksCountByTypeAndEntitiesType.merge[entitiesType] || 0}
+            type="merge"
+          />
+        {/each}
+      </div>
+    {/if}
+    {#if tasksCountByTypeAndEntitiesType.deduplicate}
+      <h2>
+        {I18n('deduplicate tasks')}
+      </h2>
+      <div class="sections">
+        {#each deduplicateEntitiesTypes as entitiesType}
+          <DashboardSection
+            {entitiesType}
+            type="deduplicate"
+            tasksCount={tasksCountByTypeAndEntitiesType.deduplicate[entitiesType] || 0}
+          />
+        {/each}
+      </div>
+    {/if}
   {/await}
 </div>
 <style lang="scss">
