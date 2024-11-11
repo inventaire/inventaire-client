@@ -48,6 +48,7 @@
           align="right"
           buttonTitle={i18n('Show actions')}
           clickOnContentShouldCloseDropdown={true}
+          dropdownWidthBaseInEm={20}
         >
           <div slot="button-inner">
             {@html icon('cog')}
