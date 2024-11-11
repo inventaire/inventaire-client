@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { escapeExpression } from 'handlebars/runtime'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
+  import { wait } from '#app/lib/promises'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
@@ -71,23 +73,26 @@
     app.execute('show:settings:display')
   }
 
+  let showDeletionConfirmationModal = false
   function deleteEntity () {
     flash = null
-    app.execute('ask:confirmation', {
-      confirmationText: I18n('delete_entity_confirmation', { label }),
-      action: _deleteEntity,
-    })
+    deletionConfirmationFlash = null
+    showDeletionConfirmationModal = true
   }
 
+  let deletionConfirmationFlash
+  let deleting = false
   async function _deleteEntity () {
     try {
+      deleting = true
       await preq.post(API.entities.delete, { uris: [ invUri ] })
-      // Let the time to the confirmation modal to display a success check
-      setTimeout(() => app.execute('show:home'), 500)
+      deleting = false
+      await wait(800)
+      app.execute('show:home')
     } catch (err) {
-      // TODO: recover displayDeteEntityErrorContext feature to show rich error message
-      flash = err
-      throw err
+      deletionConfirmationFlash = err
+    } finally {
+      deleting = false
     }
   }
 </script>
@@ -214,6 +219,31 @@
   </Modal>
 {/if}
 
+{#if showDeletionConfirmationModal}
+  <Modal on:closeModal={() => showDeletionConfirmationModal = false}>
+    <div class="delete-confirmation">
+      <p>{@html I18n('delete_entity_confirmation', { label: escapeExpression(label) })}</p>
+      <button
+        class="button grey radius bold"
+        on:click={() => showDeletionConfirmationModal = false}
+        disabled={deleting}
+      >
+        {@html icon('cross')}
+        {I18n('cancel')}
+      </button>
+      <button
+        class="button alert"
+        on:click={_deleteEntity}
+        disabled={deleting}
+      >
+        {@html icon('trash')}
+        {I18n('delete')}
+      </button>
+      <Flash state={deletionConfirmationFlash} />
+    </div>
+  </Modal>
+{/if}
+
 <style lang="scss">
   @import "#general/scss/utils";
   .menu-wrapper{
@@ -289,6 +319,12 @@
     }
     .identifier{
       @include identifier;
+    }
+  }
+  .delete-confirmation{
+    text-align: center;
+    p{
+      margin-block-end: 1rem;
     }
   }
 </style>
