@@ -22,7 +22,7 @@ const controller = {
   showMergeTask (entitiesType) { controller.showTask(null, 'merge', entitiesType) },
   showDeduplicateTask (entitiesType) { controller.showTask(null, 'deduplicate', entitiesType) },
   showTask (taskId, type, entitiesType) {
-    const singularEntitiesType = entitiesType.slice(0, -1)
+    const singularEntitiesType = entitiesType?.slice(0, -1)
     if (app.request('require:dataadmin:access', 'tasks')) {
       return showLayout({
         taskId,
