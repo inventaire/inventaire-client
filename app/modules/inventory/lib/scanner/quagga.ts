@@ -83,6 +83,7 @@ function getConfig (containerElement: HTMLElement) {
     // However, even if none of the above apply, there is one more case where it might be useful to disable locate: If the orientation, and/or the approximate position of the barcode is known,
     // or if you want to guide the user through a rectangular outline. This can increase performance and robustness at the same time."
     locate: false,
+    frequency: 5,
     decoder: {
       readers: [ 'ean_reader' ] as QuaggaJSCodeReader[],
       multiple: false,
