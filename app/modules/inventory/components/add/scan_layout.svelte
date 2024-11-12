@@ -4,7 +4,7 @@
   import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  const { hasVideoInput, doesntSupportEnumerateDevices } = getDevicesInfo()
+  const { hasVideoInput, doesntSupportEnumerateDevices, tip } = getDevicesInfo()
 
   function startEmbeddedScanner () {
     app.execute('show:scanner:embedded')
@@ -30,6 +30,9 @@
           <span>{i18n('requires an activated camera')}</span>
         {/if}
       </p>
+      {#if tip}
+        <pre>{@html icon('warning')} {tip}</pre>
+      {/if}
     </section>
   {/if}
 
@@ -77,6 +80,14 @@
       @include text-hover(white, #eee);
       @include underline(white);
     }
+  }
+  pre{
+    margin: 1rem 0;
+    padding: 0.5rem;
+    max-width: 100%;
+    overflow-x: auto;
+    background-color: $grey;
+    text-align: start;
   }
 
   // @import 'embedded';
