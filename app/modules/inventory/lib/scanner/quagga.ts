@@ -4,7 +4,7 @@ import log_ from '#app/lib/loggers'
 import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
 import { drawCanvasFactory } from './draw_canvas.ts'
 import { onDetectedFactory, type OnDetectedActions } from './on_detected.ts'
-import type { InputStreamType, QuaggaJSCodeReader } from '@ericblade/quagga2'
+import type { QuaggaJSCodeReader } from '@ericblade/quagga2'
 
 interface ScannerParams {
   containerElement: HTMLElement
@@ -68,7 +68,6 @@ function getConfig (containerElement: HTMLElement) {
   return {
     inputStream: {
       name: 'Live',
-      type: 'LiveStream' as InputStreamType,
       area: {
         top: verticalMargin,
         right: horizontalMargin,
