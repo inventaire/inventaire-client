@@ -1,17 +1,51 @@
+<script context="module" lang="ts">
+  import type { AriaRole } from 'svelte/elements'
+
+  const types = {
+    success: { iconName: 'check' },
+    info: { iconName: 'info-circle' },
+    support: { iconName: 'support' },
+    warning: { iconName: 'warning' },
+    error: { iconName: 'warning' },
+  }
+
+  export type FlashType = keyof typeof types
+
+  interface FlashStateCommons {
+    role?: AriaRole
+    duration?: number
+    canBeClosed?: boolean
+  }
+
+  interface FlashStateMessage extends FlashStateCommons {
+    type: FlashType
+    message: string
+  }
+
+  interface FlashStateHtml extends FlashStateCommons {
+    type: FlashType
+    html: string
+  }
+
+  interface LoadingFlash extends FlashStateCommons {
+    type: 'loading'
+    message?: string
+  }
+
+  type FlashState = FlashStateMessage | FlashStateHtml | LoadingFlash | Error
+</script>
+
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import log_ from '#app/lib/loggers'
   import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let state = null
+  export let state: FlashState = null
+
   let type, iconName
-  const types = {
-    success: { iconName: 'check' },
-    info: { iconName: 'info-circle' },
-    error: { iconName: 'warning' },
-  }
 
   const findIcon = type => types[type]?.iconName
 
@@ -25,26 +59,33 @@
       type = state?.type
       iconName = findIcon(type)
     }
-    if (state?.duration) {
+    if (state && 'duration' in state) {
       const stateToRemove = state
       setTimeout(() => {
-        if (state === stateToRemove) state = null
+        if (state === stateToRemove) closeFlash()
       }, state.duration)
     }
+  }
+
+  const dispatch = createEventDispatcher()
+
+  function closeFlash () {
+    state = null
+    dispatch('close')
   }
 </script>
 
 {#if state}
   <div class="flash {type}">
-    <div role={state.role || type === 'error' ? 'alert' : 'status'}>
+    <div role={'role' in state ? state.role : (type === 'error' ? 'alert' : 'status')}>
       {#if type === 'loading'}
         <Spinner />
-        {state.message || I18n('loading')}
+        {'message' in state ? state.message : I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
-        {#if state.html}
+        {#if 'html' in state}
           {@html state.html}
-        {:else}
+        {:else if 'message' in state}
           {state.message}
         {/if}
         {#if state.link}
@@ -56,9 +97,9 @@
         {/if}
       {/if}
     </div>
-    {#if state.canBeClosed !== false}
+    {#if !('canBeClosed' in state) || state.canBeClosed !== false}
       <button
-        on:click|stopPropagation={() => state = null}
+        on:click|stopPropagation={closeFlash}
         title={I18n('close')}
       >
         {@html icon('close')}
@@ -77,6 +118,10 @@
     color: $dark-grey;
     word-break: break-all;
     @include radius;
+    > div{
+      // Take all the width, so that a parent's "text-align: center" can be applied
+      flex: 1;
+    }
     button{
       margin: 0.2em;
       padding: 0;
