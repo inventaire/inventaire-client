@@ -9,6 +9,7 @@
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import ListingElementComment from '#modules/listings/components/listing_element_comment.svelte'
   import { I18n } from '#user/lib/i18n'
 
@@ -41,6 +42,7 @@
         {claims}
         entityType={type}
         shortlistOnly={true}
+        omittedProperties={authorsProps}
       />
       <Ebooks {entity} />
     </div>
