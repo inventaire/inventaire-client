@@ -11,7 +11,6 @@
   import TaskEntity from './task_entity.svelte'
 
   export let task
-  export let entitiesType, type
 
   const dispatch = createEventDispatcher()
   const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
@@ -76,41 +75,11 @@
 />
 <style lang="scss">
   @import "#general/scss/utils";
-  .entities-section{
-    @include display-flex(row, flex-start, flex-start);
-    background-color: #ddd;
-  }
-  .from-entity{
-    min-height: 100vh;
-    padding-inline-start: 1em;
-    flex: 1 0 0;
-  }
-  .to-entity{
-    min-height: 100vh;
-    background-color: $light-grey;
-    padding-inline-start: 1em;
-    flex: 1 0 0;
-  }
-  h2{
-    @include display-flex(row, null, center);
-    @include sans-serif;
-    font-size: 1.2rem;
-    margin: 0;
-    padding-block-start: 0.3em;
-  }
   .error-wrapper{
     background-color: $light-grey;
     max-width: 40em;
     margin: 1em auto;
     padding: 1em;
-  }
-  .swap{
-    position: relative;
-    inset-inline-start: 1.3em;
-    inset-block-start: 30vh;
-    background-color: white;
-    padding: 0.5em;
-    border-radius: 50%;
   }
   .loading{
     position: absolute;

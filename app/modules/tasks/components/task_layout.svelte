@@ -62,15 +62,11 @@
     {#if type === 'delete'}
       <DeleteLayout
         {task}
-        {entitiesType}
-        {type}
         on:next={showNextTask}
       />
     {:else}
       <MergeLayout
         {task}
-        {entitiesType}
-        {type}
         on:next={showNextTask}
       />
     {/if}

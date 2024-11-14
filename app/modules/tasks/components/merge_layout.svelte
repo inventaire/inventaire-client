@@ -16,7 +16,6 @@
   import TaskEntity from './task_entity.svelte'
 
   export let task
-  export let entitiesType, type
 
   const dispatch = createEventDispatcher()
   const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
