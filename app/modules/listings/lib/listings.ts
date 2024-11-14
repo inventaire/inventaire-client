@@ -126,8 +126,7 @@ async function getElementTitle (listing, element) {
 export async function askUserConfirmationAndRemove (removeElementPromise, deletingData) {
   if (deletingData) {
     app.execute('ask:confirmation', {
-      // i18n suggestion:  "delete_element_confirmation": "Are you sure you want to delete this element. Choosing yes will delete the element and the following data:  \"**%{deletingData}**\"?",
-      confirmationText: i18n('delete_element_confirmation', { deletingData }),
+      confirmationText: i18n('Are you sure you want to **delete this element**? That will also delete the following text: %{deletingData}…', { deletingData: deletingData.slice(0, 50) }),
       warningText: i18n('cant_undo_warning'),
       action: removeElementPromise,
     })
