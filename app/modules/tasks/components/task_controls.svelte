@@ -14,7 +14,7 @@
 
   const dispatch = createEventDispatcher()
 
-  export let task, flash, doingAction, actionTitle, treatedTask
+  export let task, flash, doingAction, actionTitle, processedTask
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -38,10 +38,10 @@
 
   $: onChange(task, () => { flash = null })
   $: {
-    if (treatedTask) {
+    if (processedTask) {
       flash = {
         type: 'error',
-        message: I18n('this task has already been treated'),
+        message: I18n('this task has already been processed'),
       }
     }
   }
@@ -51,7 +51,7 @@
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <div class="task-info-section">
-      {#if !treatedTask}
+      {#if !processedTask}
         {#if isNonEmptyArray(task.reporters)}
           <ul class="task-info">
             <TaskInfo {task} />
@@ -69,7 +69,7 @@
       <button
         class="merge dangerous-button"
         title={actionTitle}
-        disabled={treatedTask}
+        disabled={processedTask}
         on:click={() => dispatch('action')}
       >
         {#if task.type === 'delete'}
@@ -81,7 +81,7 @@
       <button
         class="dismiss grey-button"
         title={I18n('Archive this task. Shortkey: a')}
-        disabled={treatedTask}
+        disabled={processedTask}
         on:click={dismiss}
       >
         {@html icon('close')}{I18n('dismiss')}

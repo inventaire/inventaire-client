@@ -19,7 +19,7 @@
   $: uri = task?.suspectUri
 
   async function getAndAssignEntity () {
-    if (!task || task.state === 'treated') return
+    if (!task || task.state === 'processed') return
     waitingForEntity = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris(uri))
       .then(updateTaskAndAssignEntity)
       .catch(err => {
@@ -30,7 +30,7 @@
   async function updateTaskAndAssignEntity (entitiesRes: GetEntitiesByUrisResponse) {
     const { entities, redirects } = entitiesRes
     if (areRedirects(entities, redirects)) {
-      await updateTask(task._id, 'state', 'treated')
+      await updateTask(task._id, 'state', 'processed')
       return dispatch('next')
     }
     entity = serializeEntity(entities[uri])
@@ -47,13 +47,13 @@
       .finally(() => deleting = false)
   }
 
-  $: treatedTask = task && task.state && task.state !== undefined
+  $: processedTask = task && task.state && task.state !== undefined
   $: onChange(uri, getAndAssignEntity)
 </script>
 {#await waitingForEntity}
   <span class="loading"><Spinner /></span>
 {/await}
-{#if !treatedTask}
+{#if !processedTask}
   <div class="entity">
     {#key entity}
       <TaskEntity {entity} />
@@ -71,7 +71,7 @@
   on:action={deleteTaskEntity}
   on:next={bubbleUpEvent}
   bind:doingAction={deleting}
-  {treatedTask}
+  {processedTask}
 />
 <style lang="scss">
   @import "#general/scss/utils";
