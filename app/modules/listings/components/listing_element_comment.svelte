@@ -3,6 +3,7 @@
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
+  import { checkSpamContent } from '#app/lib/spam'
   import Spinner from '#components/spinner.svelte'
   import { updateElement } from '#listings/lib/listings'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -35,6 +36,7 @@
   async function _updateElement () {
     flash = null
     try {
+      await checkSpamContent(newComment)
       await updateElement({ id: element._id, comment: newComment })
       element.comment = newComment
     } catch (err) {
