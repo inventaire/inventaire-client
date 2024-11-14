@@ -60,7 +60,7 @@
         class="tiny-button cancel"
         on:click={toggleEditMode}
       >
-        {i18n('cancel')}
+        {I18n('cancel')}
       </button>
 
       <button
@@ -73,6 +73,7 @@
           <Spinner />
         {:else}
           {@html icon('check')}
+          {I18n('save')}
         {/if}
       </button>
     </div>
@@ -88,7 +89,9 @@
             {I18n('comment')}
           </p>
           {#if comment}
-            <p>{@html userContent(comment)}</p>
+            <p class="comment">
+              {@html userContent(comment)}
+            </p>
           {/if}
         </div>
         <span>
@@ -107,21 +110,30 @@
 </div>
 <style lang="scss">
   @import "#general/scss/utils";
-  .edit-button{
-    @include display-flex(row, flex-start, space-between);
-    width: 100%;
-    @include shy(0.5);
-  }
-  .comment-wrapper{
-    text-align: start;
-  }
-  .section-label{
-    color: $soft-grey;
-  }
   .listing-element-comment{
     background-color: $off-white;
     padding: 0.5em 1em;
-    margin: 0.4em 0 0.6em;
+    margin-block-start: 1.5em;
     @include radius;
+  }
+  .edit-button{
+    @include display-flex(row, flex-start, space-between);
+    width: 100%;
+    :global(.fa){
+      @include shy(0.5);
+    }
+  }
+  .comment-wrapper{
+    text-align: start;
+    p{
+      font-size: 1.1em;
+    }
+  }
+  .comment{
+    margin-block-start: 0.5em;
+    @include serif;
+  }
+  .section-label{
+    color: $soft-grey;
   }
 </style>
