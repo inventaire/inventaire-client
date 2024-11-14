@@ -380,6 +380,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/collection.asp?numcollection=${id}`,
   },
+  'wdt:P13137': {
+    name: 'ISFDB',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.isfdb.org/cgi-bin/pubseries.cgi?${id}`,
+  },
 } as const
 
 const openLibrarySectionByLetter = {
