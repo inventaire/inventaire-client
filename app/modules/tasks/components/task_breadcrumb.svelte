@@ -5,7 +5,7 @@
   import Dropdown from '#components/dropdown.svelte'
   import { getPluralType } from '#entities/lib/entities'
   import { entitiesTypesByTypes } from '#tasks/components/lib/tasks_helpers'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let entitiesType, type, taskId
   $: menuEntitiesTypes = without(entitiesTypesByTypes[type], entitiesType)
@@ -14,13 +14,13 @@
 <div class="breadcrumb">
   <Link
     url="/tasks"
-    text={i18n('dashboard')}
+    text={i18n('Tasks')}
     classNames="link"
   />
   <span class="separator">/</span>
   <Dropdown dropdownWidthBaseInEm={10}>
     <div slot="button-inner">
-      {i18n(type)}
+      {I18n(type)}
       {@html icon('chevron-down')}
     </div>
     <ul slot="dropdown-content">
@@ -28,7 +28,7 @@
         <li>
           <Link
             url="/tasks/{menuType}/humans/"
-            text={i18n(menuType)}
+            text={I18n(menuType)}
           />
         </li>
       {/each}
@@ -37,7 +37,7 @@
   <span class="separator">/</span>
   <Dropdown dropdownWidthBaseInEm={10}>
     <div slot="button-inner">
-      {i18n(entitiesType)}
+      {I18n(entitiesType)}
       {@html icon('chevron-down')}
     </div>
     <ul slot="dropdown-content">
@@ -45,7 +45,7 @@
         <li>
           <Link
             url="/tasks/{type}/{getPluralType(menuEntitiesType)}/"
-            text={i18n(menuEntitiesType)}
+            text={I18n(menuEntitiesType)}
           />
         </li>
       {/each}
@@ -65,7 +65,6 @@
     padding-block-end: 0.5em;
     background-color: #f3f3f3;
     color: $grey;
-    font-size: 0.9em;
     :global(.link){
       color: $grey;
     }
@@ -77,7 +76,6 @@
     [slot="button-inner"]{
       @include display-flex(row, center);
       color: $grey;
-      font-size: 0.9em;
       :global(.fa){
         margin-inline-start: 0.5em;
         font-size: 0.4em;
@@ -90,6 +88,9 @@
   li{
     @include bg-hover-svelte(#f3f3f3);
     @include shy-border;
-    padding: 0.5em;
+    :global(a){
+      display: block;
+      padding: 0.5em;
+    }
   }
 </style>
