@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+  import type { Url } from '#server/types/common'
   import type { AriaRole } from 'svelte/elements'
 
   const types = {
@@ -17,14 +18,21 @@
     canBeClosed?: boolean
   }
 
+  interface FlashLink {
+    url: Url
+    text: string
+  }
+
   interface FlashStateMessage extends FlashStateCommons {
     type: FlashType
     message: string
+    link?: FlashLink
   }
 
   interface FlashStateHtml extends FlashStateCommons {
     type: FlashType
     html: string
+    link?: FlashLink
   }
 
   interface LoadingFlash extends FlashStateCommons {
@@ -88,7 +96,7 @@
         {:else if 'message' in state}
           {state.message}
         {/if}
-        {#if state.link}
+        {#if 'link' in state}
           <Link
             url={state.link.url}
             text={state.link.text}

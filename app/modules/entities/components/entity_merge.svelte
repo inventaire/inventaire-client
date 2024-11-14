@@ -40,9 +40,10 @@
       flash.message = I18n('A merge request has been created')
     } else {
       flash.message = I18n('done')
-      flash.link = {}
-      flash.link.url = `/entity/${lastMergeTargetUri}`
-      flash.link.text = i18n('View result')
+      flash.link = {
+        url: `/entity/${lastMergeTargetUri}`,
+        text: i18n('View result'),
+      }
     }
     return flash
   }
