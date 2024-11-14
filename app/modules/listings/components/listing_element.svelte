@@ -103,7 +103,10 @@
           <AuthorsInline entitiesUris={authorsUris} />
         </div>
         {#if comment}
-          <p>{@html userContent(comment.slice(0, 150))}</p>
+          <p class="comment">
+            {@html userContent(comment.slice(0, 150))}
+            {#if comment.length > 150}…{/if}
+          </p>
         {/if}
       </div>
     </a>
@@ -141,6 +144,11 @@
   }
   .main-text-wrapper{
     @include display-flex(column, flex-start);
+  }
+  .comment{
+    background-color: $off-white;
+    padding: 0.5em 1em;
+    @include radius;
   }
   .label{
     @include serif;

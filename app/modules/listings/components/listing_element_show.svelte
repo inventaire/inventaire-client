@@ -29,11 +29,20 @@
     {entity}
     hasLinkTitle={true}
   />
+
+  {#if element.comment || isCreatorMainUser}
+    <ListingElementComment
+      {isCreatorMainUser}
+      bind:element
+      bind:flash
+    />
+  {/if}
+
   <div class="entity-info-row">
     {#if isNonEmptyPlainObject(entity.image)}
       <EntityImage
         {entity}
-        size={256}
+        size={192}
       />
     {/if}
     <div class="entity-infobox">
@@ -49,14 +58,6 @@
   </div>
 
   <Summary {entity} />
-
-  {#if element.comment || isCreatorMainUser}
-    <ListingElementComment
-      {isCreatorMainUser}
-      bind:element
-      bind:flash
-    />
-  {/if}
 
   {#if isCreatorMainUser}
     <div class="buttons-wrapper">
@@ -88,7 +89,7 @@
   }
   .entity-info-row{
     display: flex;
-    margin: 1em 0;
+    margin: 2em 0;
     :global(.image-div){
       margin-inline-end: 1em;
     }
