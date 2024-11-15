@@ -1,41 +1,19 @@
 <script lang="ts">
-  import { pluck } from 'underscore'
   import { loadInternalLink } from '#app/lib/utils'
   import { getUserById } from '#app/modules/users/users_data'
   import ImagesCollage from '#components/images_collage.svelte'
-  import { getEntitiesImagesUrls } from '#entities/lib/entities'
-  import { getListingPathname } from '#listings/lib/listings'
+  import { getListingPathname, getElementsImages } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
   export let listing
 
   const { _id, name, creator } = listing
   const elements = listing.elements || []
-  let imagesUrls = []
   const imagesLimit = 6
 
   const pathname = getListingPathname(_id)
 
-  const getElementsImages = async () => {
-    const allElementsUris = pluck(elements, 'uri')
-
-    let limit = 0
-    const fetchMoreImages = async (offset = 0, amount = 10) => {
-      const enoughImages = imagesUrls.length >= imagesLimit
-      if (enoughImages) return
-      limit = offset + 10
-      const elementsUris = allElementsUris.slice(offset, limit)
-      const someImagesUrls = await getEntitiesImagesUrls(elementsUris)
-      imagesUrls = [ ...imagesUrls, ...someImagesUrls ]
-      if (elementsUris.length === 0) return
-      offset = amount
-      amount += amount
-      return fetchMoreImages(offset, amount)
-    }
-    await fetchMoreImages()
-  }
-
-  const waitingForImages = getElementsImages()
+  const waitingForImages = getElementsImages(elements, imagesLimit)
 
   let username, longName
   const getCreator = async () => {
@@ -53,7 +31,7 @@
     on:click={loadInternalLink}
   >
     <div class="collage-wrapper">
-      {#await waitingForImages then}
+      {#await waitingForImages then imagesUrls}
         <ImagesCollage
           {imagesUrls}
           limit={imagesLimit}

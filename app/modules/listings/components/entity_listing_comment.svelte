@@ -1,5 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
+  import ImagesCollage from '#components/images_collage.svelte'
+  import { getElementsImages } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
   export let listing, uri
@@ -9,12 +11,14 @@
   const { comment } = elements?.find(el => el.uri === uri)
 
   let username
+  const imagesLimit = 6
 
   const getCreator = async () => {
     ;({ username } = await app.request('get:user:data', creator))
   }
 
   const waitingForUserdata = getCreator()
+  const waitingForImages = getElementsImages(elements, imagesLimit)
 </script>
 
 {#if comment}
@@ -34,6 +38,13 @@
       <div class="listing-name">
         {name}
       </div>
+      {#await waitingForImages then imagesUrls}
+        <ImagesCollage
+          {imagesUrls}
+          limit={imagesLimit}
+          imageSize={128}
+        />
+      {/await}
     </div>
   </div>
 {/if}
@@ -45,7 +56,12 @@
     width: 100%;
     overflow-y: auto;
   }
-  .first-row, .last-row{
+  .first-row{
     @include display-flex(row, center, space-between);
+  }
+  .last-row{
+    :global(.images-collage){
+      block-size: 7em;
+    }
   }
 </style>
