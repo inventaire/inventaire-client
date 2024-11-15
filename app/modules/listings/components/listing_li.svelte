@@ -7,14 +7,13 @@
   import { getListingPathname } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
-  export let listing, onUserLayout, uri
+  export let listing
 
   const { _id, name, creator } = listing
   const elements = listing.elements || []
   let imagesUrls = []
   const imagesLimit = 6
 
-  const { comment } = listing.elements.find(el => el.uri === uri)
   const pathname = getListingPathname(_id)
 
   const getElementsImages = async () => {
@@ -44,8 +43,7 @@
     longName = `${name} - ${i18n('list_created_by', { username })}`
   }
 
-  let waitingForUserdata
-  if (!onUserLayout) waitingForUserdata = getCreator()
+  const waitingForUserdata = getCreator()
 </script>
 
 <li>
@@ -53,7 +51,6 @@
     href={pathname}
     title={longName || name}
     on:click={loadInternalLink}
-    class:on-user-layout={onUserLayout}
   >
     <div class="collage-wrapper">
       {#await waitingForImages then}
@@ -72,23 +69,11 @@
     <div class="listing-info">
       <span class="name">{name}</span>
     </div>
-    {#if !onUserLayout}
-      <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
-        {#await waitingForUserdata then}
-          <span class="username">{username}</span>
-        {/await}
-      </div>
-    {/if}
-    {#if comment}
-      <div class="listing-comment">
-        <div>
-          {i18n('Comment about this work:')}
-        </div>
-        <div class="comment">
-          {comment}
-        </div>
-      </div>
-    {/if}
+    <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
+      {#await waitingForUserdata then}
+        <span class="username">{username}</span>
+      {/await}
+    </div>
   </a>
 </li>
 
@@ -144,9 +129,6 @@
   .username{
     font-weight: normal;
     @include sans-serif;
-  }
-  .comment{
-    padding-inline-start: 0.5em;
   }
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
