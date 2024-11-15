@@ -1,5 +1,6 @@
 <script lang="ts">
   import { flip } from 'svelte/animate'
+  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
