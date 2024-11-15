@@ -4,7 +4,7 @@ import type { ListingByCreatorsParams } from '#app/api/listings'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 import { getUserById } from '#app/modules/users/users_data'
-import { getEntitiesAttributesByUris, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
+import { getEntitiesAttributesByUris, getEntitiesImagesUrls, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { addEntitiesImages } from '#entities/lib/types/work_alt'
 import type { ListingElement, ListingElementId } from '#server/types/element'
 import type { EntityUri } from '#server/types/entity'
@@ -162,4 +162,25 @@ export async function assignEntitiesToElements (elements: ListingElement[]) {
     element.entity = entitiesByUris[element.uri]
     return element
   }) as ListingElementWithEntity[]
+}
+
+export const getElementsImages = async (elements: ListingElement[], imagesLimit: number) => {
+  const allElementsUris = pluck(elements, 'uri')
+
+  let imagesUrls = []
+  let limit = 0
+  const fetchMoreImages = async (offset = 0, amount = 10) => {
+    const enoughImages = imagesUrls.length >= imagesLimit
+    if (enoughImages) return
+    limit = offset + 10
+    const elementsUris = allElementsUris.slice(offset, limit)
+    const someImagesUrls = await getEntitiesImagesUrls(elementsUris)
+    imagesUrls = [ ...imagesUrls, ...someImagesUrls ]
+    if (elementsUris.length === 0) return
+    offset = amount
+    amount += amount
+    return fetchMoreImages(offset, amount)
+  }
+  await fetchMoreImages()
+  return imagesUrls
 }
