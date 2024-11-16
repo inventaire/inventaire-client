@@ -12,8 +12,8 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'lists/(:id)/element/(:elementId)(/)': 'showElement',
-        'lists/(:id)(/)': 'showListing',
+        'lists/:id/element/:elementId(/)': 'showElement',
+        'lists/:id(/)': 'showListing',
         'lists(/)': 'showMainUserListings',
       },
     })
