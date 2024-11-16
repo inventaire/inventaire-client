@@ -1,5 +1,6 @@
 <script lang="ts">
   import autosize from 'autosize'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
@@ -52,6 +53,7 @@
         type="text"
         bind:value={newComment}
         use:autosize
+        use:autofocus
         on:keydown={onKeyDown}
       />
     </label>
