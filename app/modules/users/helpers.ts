@@ -5,7 +5,6 @@ import { newError } from '#app/lib/error'
 import { forceArray } from '#app/lib/utils'
 import type { User, UserId } from '#server/types/user'
 import { serializeUser } from '#users/lib/users'
-import initSearch from './lib/search.ts'
 import usersData, { getUsersByIds } from './users_data.ts'
 
 export default function (app) {
@@ -120,18 +119,12 @@ export default function (app) {
 
   const addUser = users => addUsers(users)[0]
 
-  const { searchByText } = initSearch(app)
-
   app.reqres.setHandlers({
     'get:user:model': async.getUserModel,
-    'get:user:data': async.getUserData,
     'get:users:models': async.getUsersModels,
-    'resolve:to:userModel': async.resolveToUserModel,
     'resolve:to:user': async.resolveToUser,
     'get:userModel:from:userId': sync.getUserModelFromUserId,
     'get:userId:from:username': async.getUserIdFromUsername,
-    'users:search': searchByText,
-    'user:add': addUser,
   })
 
   app.commands.setHandlers({

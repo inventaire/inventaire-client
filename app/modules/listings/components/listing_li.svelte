@@ -1,7 +1,7 @@
 <script lang="ts">
   import { pluck } from 'underscore'
-  import app from '#app/app'
   import { loadInternalLink } from '#app/lib/utils'
+  import { getUserById } from '#app/modules/users/users_data'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntitiesImagesUrls } from '#entities/lib/entities'
   import { getListingPathname } from '#listings/lib/listings'
@@ -39,7 +39,7 @@
 
   let username, longName
   const getCreator = async () => {
-    ;({ username } = await app.request('get:user:data', creator))
+    ;({ username } = await getUserById(creator))
     longName = `${name} - ${i18n('list_created_by', { username })}`
   }
 
