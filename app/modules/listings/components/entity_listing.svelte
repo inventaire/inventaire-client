@@ -1,5 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getElementsImages } from '#listings/lib/listings'
@@ -25,7 +26,9 @@
   on:click={loadInternalLink}
 >
   <div class="listing-name-section">
-    <div>{name}</div>
+    <div>
+      {@html userContent(name)}
+    </div>
     {#await waitingForUserdata then}
       <span class="username">{username}</span>
     {/await}
