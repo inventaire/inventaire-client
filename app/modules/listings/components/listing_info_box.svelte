@@ -1,31 +1,25 @@
 <script lang="ts">
-  import app from '#app/app'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import ListingEditor from '#listings/components/listing_editor.svelte'
+  import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
 
-  export let listing, isEditable
+  export let listing: Listing
+  export let isEditable: boolean
+  export let creator: SerializedUser
 
-  let { name, description, creator: creatorId, visibility } = listing
+  let { name, description, visibility } = listing
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
-  let username, userPicture, userListingsPathname
-  const getCreator = async () => {
-    ;({
-      username,
-      picture: userPicture,
-      listingsPathname: userListingsPathname,
-    } = await app.request('get:user:data', creatorId))
-  }
-
-  const waitingForCreator = getCreator()
+  const { username, picture: userPicture, listingsPathname: userListingsPathname } = creator
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
@@ -77,10 +71,8 @@
         title={i18n('see_all_listings_by_user', { username })}
         on:click={loadInternalLink}
       >
-        {#await waitingForCreator then}
-          <img src={imgSrc(userPicture, 32)} alt="" loading="lazy" />
-          <span class="username">{username}</span>
-        {/await}
+        <img src={imgSrc(userPicture, 32)} alt="" loading="lazy" />
+        <span class="username">{username}</span>
       </a>
     </div>
     {#if visibility}

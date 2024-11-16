@@ -3,14 +3,21 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
+  import type { ListingElement as ListingElementT } from '#server/types/element'
+  import type { Listing } from '#server/types/listing'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
 
-  export let elements = [], listing, initialElement, isEditable
+  export let elements: ListingElementT[] = []
+  export let listing: Listing
+  export let creator: SerializedUser
+  export let initialElement: ListingElementT = null
+  export let isEditable: boolean
 
   let flash, inputValue = '', showSuggestions
 
@@ -20,7 +27,6 @@
   let fetching
 
   let addingAnElement
-  const isCreatorMainUser = listing.creator === app.user.id
 
   const addUriAsElement = async entity => {
     flash = null
@@ -112,9 +118,10 @@
               {isEditable}
               {element}
               {listing}
+              {creator}
               showElementModal={initialElement?._id === element._id}
               bind:elements
-              {isCreatorMainUser}
+              isCreatorMainUser={isEditable}
               bind:autocompleteFlash={flash}
             />
           </li>

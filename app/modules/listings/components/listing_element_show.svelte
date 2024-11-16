@@ -3,6 +3,8 @@
   import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
+  import type { SerializedEntity } from '#app/modules/entities/lib/entities'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import EntityImage from '#entities/components/entity_image.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import Ebooks from '#entities/components/layouts/ebooks.svelte'
@@ -12,8 +14,12 @@
   import { authorsProps } from '#entities/components/lib/claims_helpers'
   import ListingElementComment from '#modules/listings/components/listing_element_comment.svelte'
   import { I18n } from '#user/lib/i18n'
+  import type { ListingElementWithEntity } from '../lib/listings'
 
-  export let element, entity, isCreatorMainUser
+  export let element: ListingElementWithEntity
+  export let entity: SerializedEntity
+  export let isCreatorMainUser: boolean
+  export let creator: SerializedUser
 
   const dispatch = createEventDispatcher()
   const { type, claims } = entity
@@ -33,6 +39,7 @@
   {#if element.comment || isCreatorMainUser}
     <ListingElementComment
       {isCreatorMainUser}
+      {creator}
       bind:element
       bind:flash
     />

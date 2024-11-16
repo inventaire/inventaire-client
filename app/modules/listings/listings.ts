@@ -5,6 +5,8 @@ import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
 import type { ListingWithElements } from '#server/types/listing'
 import { showUserListings } from '#users/users'
+import { getSerializedUser } from '../users/users_data'
+import type { SerializedUser } from '../users/lib/users'
 
 export default {
   initialize () {
@@ -21,15 +23,23 @@ export default {
 }
 
 interface ListingProps {
-  initialElement?: ListingElement
   listing: ListingWithElements
+  initialElement?: ListingElement
+  creator: SerializedUser
 }
 
 async function showListing (listingId) {
-  const { default: ListingLayout } = await import('./components/listing_layout.svelte')
   try {
-    const { listing } = await getListingWithElementsById(listingId)
-    const props: ListingProps = { listing }
+    const [
+      { default: ListingLayout },
+      { listing },
+    ] = await Promise.all([
+      import('./components/listing_layout.svelte'),
+      getListingWithElementsById(listingId),
+    ])
+    const { creator: creatorId } = listing
+    const creator = await getSerializedUser(creatorId)
+    const props: ListingProps = { listing, creator }
     app.layout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {
@@ -46,12 +56,17 @@ async function showElement (listingId, elementId) {
     const { listing } = await getListingWithElementsById(element.list)
     if (!listing) throw newError(`could not find listing ${element.list}`)
 
-    const props: ListingProps = { listing }
+    const { creator: creatorId } = listing
+    const creator = await getSerializedUser(creatorId)
+
+    const props: ListingProps = { listing, creator }
     await assignEntitiesToElements([ element ])
     props.initialElement = element
 
     app.layout.showChildComponent('main', ListingLayout, { props })
-    app.navigate(getElementPathname(listing._id, elementId), { metadata: getElementMetadata(listing, element) })
+    app.navigate(getElementPathname(listing._id, elementId), {
+      metadata: getElementMetadata(listing, element),
+    })
   } catch (err) {
     app.execute('show:error', err)
   }

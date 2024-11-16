@@ -40,7 +40,7 @@
     message?: string
   }
 
-  type FlashState = FlashStateMessage | FlashStateHtml | LoadingFlash | Error
+  export type FlashState = FlashStateMessage | FlashStateHtml | LoadingFlash | Error
 </script>
 
 <script lang="ts">

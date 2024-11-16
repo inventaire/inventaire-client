@@ -1,15 +1,22 @@
 <script lang="ts">
   import autosize from 'autosize'
   import { autofocus } from '#app/lib/components/actions/autofocus'
+  import type { FlashState } from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import { checkSpamContent } from '#app/lib/spam'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
-  import { updateElement } from '#listings/lib/listings'
+  import { updateElement, type ListingElementWithEntity } from '#listings/lib/listings'
   import { I18n, i18n } from '#user/lib/i18n'
 
-  export let isCreatorMainUser, flash, element
+  export let element: ListingElementWithEntity
+  export let creator: SerializedUser
+  export let flash: FlashState
+  export let isCreatorMainUser: boolean
+
+  const { username } = creator
 
   let isEditMode, validating
   let newComment = element.comment
@@ -48,7 +55,7 @@
 <div class="listing-element-comment">
   {#if isEditMode}
     <label>
-      {I18n('comment')}
+      {i18n('Comment by %{username}', { username })}
       <textarea
         type="text"
         bind:value={newComment}
@@ -87,7 +94,7 @@
         class="edit-button"
       >
         <div class="comment-header">
-          <span class="section-label">{I18n('comment')}</span>
+          <span class="section-label">{i18n('Comment by %{username}', { username })}</span>
           {@html icon('pencil')}
         </div>
         {#if comment}
@@ -99,7 +106,7 @@
     {:else}
       {#if comment}
         <p class="section-label">
-          {I18n('comment')}
+          {i18n('Comment by %{username}', { username })}
         </p>
         <p>{@html userContent(comment)}</p>
       {/if}

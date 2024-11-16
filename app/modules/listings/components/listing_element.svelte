@@ -1,19 +1,29 @@
 <script lang="ts">
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
-  import Flash from '#app/lib/components/flash.svelte'
+  import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath } from '#entities/lib/entities'
-  import { getListingMetadata, getListingPathname, getElementPathname, getElementMetadata, removeElement, askUserConfirmationAndRemove } from '#listings/lib/listings'
+  import { getListingMetadata, getListingPathname, getElementPathname, getElementMetadata, removeElement, askUserConfirmationAndRemove, type ListingElementWithEntity } from '#listings/lib/listings'
   import ListingElementShow from '#modules/listings/components/listing_element_show.svelte'
+  import type { ListingElement } from '#server/types/element'
+  import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let element, isEditable, listing, elements, showElementModal, isCreatorMainUser, autocompleteFlash
+  export let element: ListingElementWithEntity
+  export let listing: Listing
+  export let elements: ListingElement[]
+  export let showElementModal: boolean
+  export let isEditable: boolean
+  export let isCreatorMainUser: boolean
+  export let autocompleteFlash: FlashState
+  export let creator: SerializedUser
 
   const { _id: listingId } = listing
   const { entity, _id: elementId } = element
@@ -69,6 +79,7 @@
   <Modal on:closeModal={toggleShowMode}>
     <ListingElementShow
       {entity}
+      {creator}
       bind:element
       on:removeElement={onRemoveElement}
       {isCreatorMainUser}
