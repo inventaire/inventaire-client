@@ -86,19 +86,15 @@
         title={i18n('edit')}
         class="edit-button"
       >
-        <div class="comment-wrapper">
-          <p class="section-label">
-            {I18n('comment')}
-          </p>
-          {#if comment}
-            <p class="comment">
-              {@html userContent(comment)}
-            </p>
-          {/if}
-        </div>
-        <span>
+        <div class="comment-header">
+          <span class="section-label">{I18n('comment')}</span>
           {@html icon('pencil')}
-        </span>
+        </div>
+        {#if comment}
+          <p class="comment">
+            {@html userContent(comment)}
+          </p>
+        {/if}
       </button>
     {:else}
       {#if comment}
@@ -119,19 +115,23 @@
     @include radius;
   }
   .edit-button{
-    @include display-flex(row, flex-start, space-between);
-    width: 100%;
     :global(.fa){
-      @include shy(0.5);
+      opacity: 0.5;
+      @include transition(opacity);
+    }
+    &:hover{
+      :global(.fa){
+        opacity: 1;
+      }
     }
   }
-  .comment-wrapper{
-    text-align: start;
-    p{
-      font-size: 1.1em;
-    }
+  .comment-header{
+    width: 100%;
+    @include display-flex(row, center, space-between);
   }
   .comment{
+    text-align: start;
+    font-size: 1.1em;
     margin-block-start: 0.5em;
     @include serif;
   }
