@@ -50,7 +50,9 @@
         <div class="listing-name-label">
           {i18n('In list:')}
         </div>
-        <div>{name}</div>
+        <div>
+          {@html userContent(name)}
+        </div>
       </div>
       {#await waitingForImages then imagesUrls}
         <ImagesCollage
