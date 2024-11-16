@@ -132,9 +132,8 @@
   }
   .comment{
     text-align: start;
-    font-size: 1.1em;
+    font-size: 1rem;
     margin-block-start: 0.5em;
-    @include serif;
   }
   .section-label{
     color: $soft-grey;
