@@ -46,6 +46,9 @@ fieldset, legend{
   margin: 0;
   min-width: 0;
 }
+button{
+  color: $default-text-color;
+}
 
 ::placeholder{
   opacity: 0.6;
