@@ -26,7 +26,7 @@ export function serializeUser (user: User & Partial<SerializedUser>) {
   setDistance(user)
   setItemsCategory(user)
   Object.assign(user, getUserPathnames(user.username))
-  return user
+  return user as SerializedUser
 }
 
 export function getPicture (user) {

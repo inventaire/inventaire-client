@@ -1,23 +1,31 @@
 <script lang="ts">
   import app from '#app/app'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
+  import type { ListingElement } from '#server/types/element'
+  import type { ListingWithElements } from '#server/types/listing'
   import { I18n } from '#user/lib/i18n'
   import ListingElements from './listing_elements.svelte'
 
-  export let listing
+  export let listing: ListingWithElements
+  export let initialElement: ListingElement = null
+  export let creator: SerializedUser
 
-  let { _id, creator, elements } = listing
+  let { _id, elements } = listing
 
-  const isEditable = creator === app.user.id
+  const isEditable = creator._id === app.user.id
 </script>
 <div class="listing-layout">
   <ListingInfoBox
     {listing}
+    {creator}
     {isEditable}
   />
   <ListingElements
     bind:elements
-    listingId={_id}
+    {listing}
+    {creator}
+    {initialElement}
     {isEditable}
   />
 </div>

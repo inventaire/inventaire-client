@@ -9,6 +9,7 @@
   import Spinner from '#components/spinner.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
+  import { askUserConfirmationAndRemove, getElementByUri } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
@@ -41,12 +42,16 @@
     })
     .catch(err => flash = err)
 
-  async function updateListing (e, listing) {
+  async function updateListing (e, listingId) {
+    async function _removeElement () {
+      return removeElement(listingId, uri)
+    }
     try {
       if (e.target.checked) {
-        await addElement(listing._id, uri)
+        await addElement(listingId, uri)
       } else {
-        await removeElement(listing._id, uri)
+        const element = await getElementByUri({ listingId, uri })
+        await askUserConfirmationAndRemove(_removeElement, element?.comment)
       }
     } catch (err) {
       flash = err
@@ -110,7 +115,11 @@
               {#each listings as listing}
                 <div role="menuitem">
                   <label>
-                    <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)} />
+                    <input
+                      type="checkbox"
+                      checked={listing.checked}
+                      on:click={e => updateListing(e, listing._id)}
+                    />
                     {listing.name}
                   </label>
                 </div>

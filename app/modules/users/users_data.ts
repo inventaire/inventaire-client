@@ -2,6 +2,8 @@ import { API } from '#app/api/api'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { forceArray } from '#app/lib/utils'
+import type { UserId } from '#server/types/user'
+import { serializeUser } from './lib/users'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -34,7 +36,7 @@ export default {
   },
 }
 
-export async function getUsersByIds (ids) {
+export async function getUsersByIds (ids: UserId[]) {
   if (ids.length === 0) return {}
   const { users } = await preq.get(API.users.byIds(ids))
   return users
@@ -45,7 +47,12 @@ const formatData = (format, data) => {
   else return data
 }
 
-export async function getUserById (id) {
+export async function getUserById (id: UserId) {
   const users = await getUsersByIds([ id ])
   return users[id]
+}
+
+export async function getSerializedUser (id: UserId) {
+  const user = await getUserById(id)
+  return serializeUser(user)
 }

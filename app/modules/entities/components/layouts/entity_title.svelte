@@ -46,9 +46,13 @@
     {subtitle}
   </div>
 {/if}
-<style>
+<style lang="scss">
+  @import '#general/scss/utils';
   h2{
     margin: 0;
+    :global(.link-text){
+      @include serif;
+    }
   }
   .birth-or-death-dates{
     margin-block-end: 0.3em;

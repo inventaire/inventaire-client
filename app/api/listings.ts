@@ -6,11 +6,18 @@ import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('lists')
 
+export interface ListingByCreatorsParams {
+  usersIds: UserId[]
+  withElements?: boolean
+  offset?: number
+  limit?: number
+}
+
 export default {
   byId (id) {
     return action('by-id', { id })
   },
-  byCreators ({ usersIds, withElements = false, offset, limit }: { usersIds: UserId[], withElements?: boolean, offset?: number, limit?: number }) {
+  byCreators ({ usersIds, withElements = false, offset, limit }: ListingByCreatorsParams) {
     return action('by-creators', {
       users: forceArray(usersIds).join('|'),
       'with-elements': withElements,
@@ -29,6 +36,9 @@ export default {
         uris: forceArray(uris).join('|'),
       })
     }
+  },
+  byElementId (id) {
+    return action('by-element-id', { id })
   },
   create: action('create'),
   update: base,
