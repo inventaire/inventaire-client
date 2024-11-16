@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { loadInternalLink } from '#app/lib/utils'
   import { getUserById } from '#app/modules/users/users_data'
   import ImagesCollage from '#components/images_collage.svelte'
@@ -45,7 +46,9 @@
       {/await}
     </div>
     <div class="listing-info">
-      <span class="name">{name}</span>
+      <span class="name">
+        {@html userContent(name)}
+      </span>
     </div>
     <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
       {#await waitingForUserdata then}
