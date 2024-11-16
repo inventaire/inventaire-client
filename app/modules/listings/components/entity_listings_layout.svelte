@@ -1,17 +1,26 @@
 <script lang="ts">
   import Spinner from '#general/components/spinner.svelte'
   import { getListingsByEntityUri } from '#listings/lib/listings'
+  import EntityListing from '#modules/listings/components/entity_listing.svelte'
   import EntityListingComment from '#modules/listings/components/entity_listing_comment.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity
 
-  let listings = []
   const { uri } = entity
+  const listingsWithEntityComment = []
+  const listingsWithoutEntityComment = []
 
   const getListings = async () => {
     if (uri) {
-      listings = await getListingsByEntityUri(uri) || []
+      const listings = await getListingsByEntityUri(uri) || []
+      for (const listing of listings) {
+        if (listing.elements.find(el => el.uri === uri).comment) {
+          listingsWithEntityComment.push(listing)
+        } else {
+          listingsWithoutEntityComment.push(listing)
+        }
+      }
     }
   }
 
@@ -29,30 +38,51 @@
       </div>
     {:else}
       <ul class="listings-list">
-        {#each listings as listing (listing._id)}
+        {#each listingsWithEntityComment as listing (listing._id)}
           <EntityListingComment {listing} {uri} />
         {/each}
       </ul>
     {/if}
-  {/await}
-</div>
+  </div>
+  <div class="listings-layout listings-without-comments-layout">
+    <h5>{i18n('Lists containing this work')}</h5>
+    {#if listingsWithoutEntityComment.length === 0}
+      <div class="empty">
+        {i18n('There is nothing here')}
+      </div>
+    {:else}
+      <ul class="listings-list">
+        {#each listingsWithoutEntityComment as listing (listing._id)}
+          <EntityListing {listing} />
+        {/each}
+      </ul>
+    {/if}
+  </div>
+{/await}
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .listings-list{
-    width: 100%;
+  .listings-comments-layout{
+    padding: 0.5em;
+  }
+  .listings-without-comments-layout{
+    padding: 1em;
+    h5{
+      margin-block-end: 1em;
+    }
   }
   .listings-layout{
     @include display-flex(column, center);
     background-color: $off-white;
-    padding: 0.5em;
     margin: auto;
     inline-size: 100%;
     max-width: 40em;
   }
+  .listings-list{
+    width: 100%;
+  }
   h5{
     @include sans-serif;
-    margin-block-end: 0;
   }
   .loading{
     @include display-flex(column, center);
