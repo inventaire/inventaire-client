@@ -102,7 +102,7 @@
   }
   .listing-info{
     margin: 0.2em 0;
-    height: 3.5em;
+    min-height: 4em;
     overflow: hidden;
     @include display-flex(row, center, space-between);
   }
