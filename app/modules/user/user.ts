@@ -35,14 +35,14 @@ export default {
   },
 }
 
-const showAuth = (name, label, Component, options) => {
+function showAuth (name: string, label: string, Component, options: string) {
   if (!navigator.cookieEnabled) {
     return app.execute('show:error:cookieRequired', `show:${name}`)
   }
 
   if (app.user.loggedIn) return app.execute('show:home')
 
-  app.layout.showChildComponent('main', Component, { props: options })
+  app.layout.showChildComponent('main', Component, { props: options ? parseQuery(options) : undefined })
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
