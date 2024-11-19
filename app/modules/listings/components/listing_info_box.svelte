@@ -1,5 +1,6 @@
 <script lang="ts">
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
@@ -36,7 +37,9 @@
 <div class="listing-info">
   <div class="header">
     <div class="first-row">
-      <h2>{name}</h2>
+      <h2>
+        {@html userContent(name)}
+      </h2>
       {#if isEditable}
         <Dropdown
           align="right"

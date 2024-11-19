@@ -112,7 +112,7 @@
   <ProfileNav {user} bind:profileSection {focusedSection} />
 
   {#if profileSection === 'listings'}
-    <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+    <UsersListings usersIds={[ user._id ]} />
   {:else}
     <UserInventory
       {user}
