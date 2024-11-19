@@ -13,12 +13,12 @@ export function getEndpointPathBuilders (name: string) {
   return { base, action, actionPartial }
 }
 
-function actionFactory (base: RelativeUrl) {
+function actionFactory (base: Url) {
   return function (actionName: string, query: QueryParams = {}) {
     // Using extend instead of simply defining action on query
     // so that action appears above other attributes in the object
     // and thus, comes first in the generated URL
-    return buildPath(base, Object.assign({ action: actionName }, query)) as RelativeUrl
+    return buildPath(base, Object.assign({ action: actionName }, query)) as Url
   }
 }
 
