@@ -1,10 +1,13 @@
+import { config } from '#app/config'
 import { isPrerenderSession } from '#app/lib/metadata/update'
 import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
 import type { EntityUri, PropertyUri } from '#server/types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = getEndpointPathBuilders('entities')
+const { remoteEntitiesOrigin } = config
+
+const { action } = getEndpointPathBuilders('entities', remoteEntitiesOrigin)
 
 const customQueryFactory = (actionName: string) => (uri: EntityUri, refresh?: boolean) => action(actionName, { uri, refresh })
 

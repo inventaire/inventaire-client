@@ -1,7 +1,10 @@
+import { config } from '#app/config'
 import { fixedEncodeURIComponent, forceArray } from '#app/lib/utils'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = getEndpointPathBuilders('data')
+const { remoteEntitiesOrigin } = config
+
+const { action } = getEndpointPathBuilders('data', remoteEntitiesOrigin)
 
 export default {
   wikipediaExtract (lang, title) {
