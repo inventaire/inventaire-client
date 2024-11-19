@@ -53,6 +53,7 @@
     "update-i18n": "./scripts/build_i18n",
     "update-toc": "doctoc README.md",
     "watch": "npm start",
+    "watch-federated": "export NODE_ENV=federated ; webpack serve --config ./bundle/webpack.config.dev.cjs",
     "watch-without-hot-reload": "webpack watch --config ./bundle/webpack.config.dev.cjs"
   },
   "dependencies": {
