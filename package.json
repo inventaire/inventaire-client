@@ -53,7 +53,7 @@
     "test": "./scripts/run_unit_tests",
     "update-toc": "doctoc README.md",
     "watch": "npm start",
-    "watch-federated": "export NODE_ENV=federated ; webpack serve --config ./bundle/webpack.config.dev.cjs",
+    "watch-federated": "./scripts/watch_federated.sh",
     "watch-without-hot-reload": "webpack watch --config ./bundle/webpack.config.dev.cjs"
   },
   "dependencies": {
