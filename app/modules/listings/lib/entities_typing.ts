@@ -17,6 +17,14 @@ export const listingTypeByEntitiesTypes = {
   publisher: 'publisher',
 }
 
+const entitiesTypesByListingType = {
+  work: [ 'work', 'serie' ],
+  author: [ 'human' ],
+  publisher: [ 'publisher' ],
+}
+
+export const getEntitiesTypes = listingType => entitiesTypesByListingType[listingType]
+
 const i18nTypesKeys = {
   work: 'works and series',
   author: 'authors',
