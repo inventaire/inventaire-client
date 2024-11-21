@@ -10,7 +10,7 @@
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import { getI18nTypeKey } from '#listings/lib/entities_typing'
   import type { Listing } from '#server/types/listing'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
 
   export let listing: Listing
   export let isEditable: boolean
@@ -39,9 +39,7 @@
 <div class="listing-info">
   <div class="header">
     <div class="first-row">
-      <div class="type-label">
-        {I18n(i18nTypeKey)}
-      </div>
+      <h2>{name}</h2>
       {#if isEditable}
         <Dropdown
           align="right"
@@ -64,7 +62,6 @@
         </Dropdown>
       {/if}
     </div>
-    <h2>{name}</h2>
     {#if description}
       <p>{@html description}</p>
     {/if}
@@ -81,14 +78,20 @@
         <span class="username">{username}</span>
       </a>
     </div>
-    {#if visibility}
+    <div class="right-section">
+      <div class="listing-type">
+        <span class="label">{i18n('Type')}</span>
+        <span class="visibility-indicator">
+          {i18n(i18nTypeKey)}
+        </span>
+      </div>
       <div class="visibility">
         <span class="label">{i18n('Visible by')}</span>
         <span class="visibility-indicator">
           {@html icon(visibilitySummaryIcon)} {visibilitySummaryLabel}
         </span>
       </div>
-    {/if}
+    </div>
   </div>
 </div>
 
@@ -111,11 +114,6 @@
     padding: 0.5em 1em 1em;
     @include radius;
     background-color: $light-grey;
-  }
-  .type-label{
-    @include display-flex(row, center, center);
-    flex: 1;
-    color: $grey;
   }
   h2{
     margin-block-start: 0;
@@ -177,10 +175,15 @@
       margin-inline-end: 0.5rem;
     }
   }
+  .right-section{
+    text-align: center;
+  }
+  .listing-type{
+    padding-block-end: 0.5em;
+  }
   .visibility{
     padding: 0.2em;
     @include radius;
-    text-align: end;
   }
   /* Small screens */
   @media screen and (width < $small-screen){
