@@ -10,6 +10,14 @@ const searchTypesByListingType = {
 
 export const getSearchType = listingType => searchTypesByListingType[listingType]
 
+const entitiesTypesByListingType = {
+  work: [ 'work', 'serie' ],
+  author: [ 'human' ],
+  publisher: [ 'publisher' ],
+}
+
+export const getEntitiesTypes = listingType => entitiesTypesByListingType[listingType]
+
 const i18nTypesKeys = {
   work: "work's and series' list",
   author: "author's list",

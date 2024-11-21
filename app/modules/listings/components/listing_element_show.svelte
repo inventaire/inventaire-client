@@ -3,6 +3,7 @@
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import type { SerializedEntity } from '#app/modules/entities/lib/entities'
   import type { SerializedUser } from '#app/modules/users/lib/users'
   import Dropdown from '#components/dropdown.svelte'
@@ -13,6 +14,7 @@
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { authorsProps } from '#entities/components/lib/claims_helpers'
+  import { getEntitiesTypes } from '#listings/lib/entities_typing'
   import { updateElement } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingElementComment from '#modules/listings/components/listing_element_comment.svelte'
@@ -25,10 +27,20 @@
   export let creator: SerializedUser
 
   const dispatch = createEventDispatcher()
-  const { type, claims } = entity
+  $: ({ claims, type: entityType } = entity)
 
-  let flash
-  const recipientListings = $userListings.filter(listing => { return listing._id !== element.list })
+  let flash, recipientListings
+
+  function getRecipientListings () {
+    recipientListings = $userListings.filter(canListingReceiveElement)
+  }
+
+  function canListingReceiveElement (listing) {
+    // legacy: old lists may not have any type, therefore type must be set to default "work"
+    const listingType = listing.type || 'work'
+    const allowlistedEntitiesTypes = getEntitiesTypes(listingType)
+    return allowlistedEntitiesTypes.includes(entityType) && (listing._id !== element.list)
+  }
 
   async function updateElementListing (listingId) {
     await updateElement({
@@ -42,11 +54,12 @@
         flash = err
       })
   }
+  $: onChange($userListings, getRecipientListings)
 </script>
 
 <div class="listing-element-show">
   <div class="entity-type-label">
-    {I18n(type)}
+    {I18n(entityType)}
   </div>
   <EntityTitle
     {entity}
@@ -73,7 +86,7 @@
       <AuthorsInfo {claims} />
       <Infobox
         {claims}
-        entityType={type}
+        {entityType}
         shortlistOnly={true}
         omittedProperties={authorsProps}
       />
