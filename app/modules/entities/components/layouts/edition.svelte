@@ -35,7 +35,7 @@
       {#if image.url}
         <EntityImage
           {entity}
-          size={200}
+          size={300}
           noImageCredits={true}
         />
       {/if}
