@@ -54,7 +54,6 @@
 
   async function _createListing () {
     const res = await createListing({
-      id: _id,
       name,
       description,
       visibility,

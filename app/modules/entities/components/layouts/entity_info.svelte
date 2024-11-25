@@ -5,8 +5,11 @@
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { authorsProps } from '#entities/components/lib/claims_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
 
-  export let entity, shortlistOnly, hasLinkTitle
+  export let entity: SerializedEntity
+  export let shortlistOnly = null
+  export let hasLinkTitle = false
 
   const { type } = entity
   $: claims = entity.claims

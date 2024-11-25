@@ -31,7 +31,7 @@ export async function getListingsByCreators (params: ListingByCreatorsParams) {
   return { listings }
 }
 
-export async function createListing (list: Listing) {
+export async function createListing (list: Pick<Listing, 'name' | 'description' | 'visibility'>) {
   const { list: listing } = await preq.post(API.listings.create, list)
   return { listing }
 }
@@ -63,7 +63,7 @@ export async function getElementByUri ({ listingId, uri }: { listingId: ListingI
   return elements.find(el => el.uri === uri)
 }
 
-export async function updateListing (list: Listing) {
+export async function updateListing (list: { id: ListingId } & Pick<Listing, 'name' | 'description' | 'visibility'>) {
   const { list: listing } = await preq.put(API.listings.update, list)
   return { listing }
 }
