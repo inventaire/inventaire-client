@@ -22,8 +22,8 @@ export function getBestLangValue (lang: WikimediaLanguageCode, originalLang: Wik
   return {}
 }
 
-const getLangPriorityOrder = function (lang, originalLang, data) {
-  const order = [ lang ]
+function getLangPriorityOrder (lang, originalLang, data) {
+  const order = [ lang, 'mul' ]
   if (originalLang != null) order.push(originalLang)
   order.push('en')
   const availableLangs = Object.keys(data)
