@@ -209,6 +209,7 @@
       min-width: min(10em, 90vw);
     }
     .username{
+      margin: 0 0.5em;
       text-align: center;
     }
     .data{
