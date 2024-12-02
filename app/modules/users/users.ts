@@ -20,6 +20,7 @@ export default {
         'u(sers)/network(/)': 'showNetworkHome',
         'u(sers)/public(/)': 'showPublicHome',
         'u(sers)/latest(/)': 'showLatestUsers',
+        'u(sers)/:id/followers(/)': 'showUserFollowers',
         'u(sers)/:id(/)': 'showUserProfile',
         'u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
         'u(sers)/:id/inventory(/)': 'showUserInventory',
@@ -99,6 +100,7 @@ const controller = {
   showUserProfile,
   showUserInventory,
   showUserListings,
+  showUserFollowers,
   showUserItemsByEntity (username, uri) {
     app.execute('show:user:items:by:entity', username, uri)
   },
@@ -154,6 +156,15 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
     app.navigate(path, { metadata: { title } })
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
     app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
+
+async function showUserFollowers (username) {
+  try {
+    const { default: ActorFollowers } = await import('#activitypub/components/actor_followers.svelte')
+    app.layout.showChildComponent('main', ActorFollowers, { props: { actorName: username } })
   } catch (err) {
     app.execute('show:error', err)
   }
