@@ -6,6 +6,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { scrollToElement } from '#app/lib/screen'
+  import ActorFollowersSection from '#entities/components/layouts/actor_followers_section.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
   import { getPublishersUrisFromEditions } from '#entities/components/lib/work_helpers'
@@ -136,8 +137,8 @@
         />
       {/each}
     </div>
-    <HomonymDeduplicates {entity}
-    />
+    <ActorFollowersSection uri={entity.uri} />
+    <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
 
