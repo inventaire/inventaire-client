@@ -12,7 +12,7 @@
   import RelatedEntitiesSection from './related_entities_section.svelte'
 
   export let entity
-  export let matchedTitles
+  export let matchedTitles = []
   const hasLinkTitle = true
 
   let sections, flash

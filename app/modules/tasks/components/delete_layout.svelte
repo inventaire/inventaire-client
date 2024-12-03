@@ -33,6 +33,7 @@
       await updateTask(task._id, 'state', 'processed')
       return dispatch('next')
     }
+    // @ts-expect-error
     entity = serializeEntity(entities[uri])
   }
 
