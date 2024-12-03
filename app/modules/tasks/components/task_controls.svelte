@@ -7,37 +7,24 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let task, from, to, flash
-
-  let merging
+  export let task, flash, doingAction, actionTitle, processedTask
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 'm') mergeTaskEntities()
-    if (event.key === 'd') dismiss()
+    if (task.type === 'delete') {
+      if (event.key === 'd') dispatch('action')
+    } else {
+      if (event.key === 'm') dispatch('action')
+    }
+    if (event.key === 'a') dismiss()
     else if (event.key === 'n') dispatch('next')
-  }
-
-  function mergeTaskEntities () {
-    if (!(from && to)) return
-    merging = true
-    // Optimistic UI: go to the next candidates without waiting for the merge confirmation
-    dispatch('next')
-    const params: [ EntityUri, EntityUri ] = [ from.uri, to.uri ]
-    mergeEntities(...params)
-      .catch(err => {
-        flash = err
-      })
-      .finally(() => merging = false)
   }
 
   function dismiss () {
@@ -49,42 +36,52 @@
       .then(() => dispatch('next'))
   }
 
+  $: onChange(task, () => { flash = null })
   $: {
-    if (task && task.state === 'merged') {
-      flash = new Error(I18n('this task has already been treated'))
+    if (processedTask) {
+      flash = {
+        type: 'error',
+        message: I18n('this task has already been processed'),
+      }
     }
   }
-  $: onChange(task, () => { flash = null })
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <div class="task-info-section">
-      {#if isNonEmptyArray(task.reporters)}
-        <ul class="task-info">
-          <TaskInfo {task} />
-        </ul>
-      {/if}
-      {#if task.externalSourcesOccurrences}
-        <ul class="task-info">
-          <TaskScores {task} />
-        </ul>
+      {#if !processedTask}
+        {#if isNonEmptyArray(task.reporters)}
+          <ul class="task-info">
+            <TaskInfo {task} />
+          </ul>
+        {/if}
+        {#if task.externalSourcesOccurrences}
+          <ul class="task-info">
+            <TaskScores {task} />
+          </ul>
+        {/if}
       {/if}
     </div>
     <div class="actions">
-      {#if merging}<Spinner light={true} />{/if}
+      {#if doingAction}<Spinner light={true} />{/if}
       <button
         class="merge dangerous-button"
-        disabled={!(from && to)}
-        title={from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}
-        on:click={() => mergeTaskEntities()}
+        title={actionTitle}
+        disabled={processedTask}
+        on:click={() => dispatch('action')}
       >
-        {@html icon('compress')}{I18n('merge')}
+        {#if task.type === 'delete'}
+          {@html icon('trash')}{I18n('delete')}
+        {:else}
+          {@html icon('compress')}{I18n('merge')}
+        {/if}
       </button>
       <button
         class="dismiss grey-button"
-        title="Archive this task. Shortkey: d"
+        title={I18n('Archive this task. Shortkey: a')}
+        disabled={processedTask}
         on:click={dismiss}
       >
         {@html icon('close')}{I18n('dismiss')}
@@ -99,7 +96,7 @@
     </div>
   </div>
   {#if flash}
-    <div class="alerts">
+    <div class="flash">
       <Flash bind:state={flash} />
     </div>
   {/if}
@@ -134,7 +131,7 @@
     @include display-flex(row, center, space-between);
   }
 
-  .buttons-wrapper, .alerts, .actions{
+  .buttons-wrapper, .flash, .actions{
     @include display-flex(row, center, space-between);
   }
 
@@ -144,13 +141,8 @@
     font-family: $sans-serif;
   }
 
-  .alerts{
-    align-self: stretch;
-    min-width: 50%;
-    max-width: 30em;
+  .flash{
     margin: 0 auto;
-    background-color: $soft-red;
-    margin-block-start: 0.3em;
   }
 
   /* Smaller screens */

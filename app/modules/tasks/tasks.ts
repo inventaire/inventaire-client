@@ -5,12 +5,11 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)': 'showTasksDashboard',
-        'tasks/merge(/)': 'showTasksDashboard',
-        'tasks/deduplicate(/)': 'showTasksDashboard',
-        'tasks/none(/)': 'showTasksDashboard',
-        'tasks/merge/:entitiesType(/)': 'showMergeTask',
-        'tasks/deduplicate/:entitiesType(/)': 'showDeduplicateTask',
-        'tasks/:id(/)': 'showTask',
+        'tasks/delete/(:entitiesType)(/)': 'showDeleteTask',
+        'tasks/merge/(:entitiesType)(/)': 'showMergeTask',
+        'tasks/deduplicate/(:entitiesType)(/)': 'showDeduplicateTask',
+        'tasks/none(/)': 'showNoTask',
+        'tasks(/)(:id)(/)': 'showTask',
       },
     })
 
@@ -19,17 +18,17 @@ export default {
 }
 
 const controller = {
-  showMergeTask (entitiesType) { controller.showTask(null, 'merge', entitiesType) },
-  showDeduplicateTask (entitiesType) { controller.showTask(null, 'deduplicate', entitiesType) },
-  showTask (taskId, type, entitiesType) {
-    const singularEntitiesType = entitiesType?.slice(0, -1)
+  showDeleteTask (entitiesType) { showLayout({ type: 'delete', entitiesType }) },
+  showMergeTask (entitiesType) { showLayout({ type: 'merge', entitiesType }) },
+  showDeduplicateTask (entitiesType) { showLayout({ type: 'deduplicate', entitiesType }) },
+  showTask (taskId) {
     if (app.request('require:dataadmin:access', 'tasks')) {
-      return showLayout({
-        taskId,
-        entitiesType: singularEntitiesType,
-        type,
-      })
+      return showLayout({ taskId })
     }
+  },
+  async showNoTask () {
+    const { default: NoTask } = await import('./components/no_task.svelte')
+    app.layout.showChildComponent('main', NoTask)
   },
   async showTasksDashboard () {
     if (app.request('require:dataadmin:access', 'tasks')) {
@@ -40,6 +39,10 @@ const controller = {
 }
 
 const showLayout = async params => {
+  const { entitiesType } = params
+  if (entitiesType) {
+    params.entitiesType = entitiesType.slice(0, -1)
+  }
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
   app.layout.showChildComponent('main', TaskLayout, {
     props: params,

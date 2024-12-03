@@ -100,6 +100,14 @@
               stopClickPropagation={false}
             />
           </li>
+          {#if app.user.hasDataadminAccess}
+            <Link
+              icon="server"
+              url="/tasks"
+              text={I18n('resolve tasks')}
+              stopClickPropagation={false}
+            />
+          {/if}
           <li>
             <Link
               icon="info-circle"
