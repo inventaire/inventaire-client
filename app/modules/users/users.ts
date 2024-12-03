@@ -161,13 +161,20 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
   }
 }
 
-async function showUserFollowers (username) {
+async function showUserFollowers (idOrUsernameOrModel) {
   try {
-    const { default: ActorFollowers } = await import('#activitypub/components/actor_followers.svelte')
-    app.layout.showChildComponent('main', ActorFollowers, {
+    const [
+      { default: UsersHomeLayout },
+      user,
+    ] = await Promise.all([
+      import('#users/components/users_home_layout.svelte'),
+      app.request('resolve:to:user', idOrUsernameOrModel),
+    ])
+    app.layout.showChildComponent('main', UsersHomeLayout, {
       props: {
-        actorName: username,
-        standalone: true,
+        showUserFollowers: true,
+        user,
+        actorName: user.username,
       },
     })
   } catch (err) {
