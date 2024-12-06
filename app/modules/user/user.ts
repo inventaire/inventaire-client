@@ -35,31 +35,33 @@ export default {
   },
 }
 
-function showAuth (name: string, label: string, Component, options: string) {
+function showAuth (name: string, label: string, Component, options: string | object) {
   if (!navigator.cookieEnabled) {
     return app.execute('show:error:cookieRequired', `show:${name}`)
   }
 
   if (app.user.loggedIn) return app.execute('show:home')
 
-  app.layout.showChildComponent('main', Component, { props: options ? parseQuery(options) : undefined })
+  if (typeof options === 'string') options = parseQuery(options)
+  app.layout.showChildComponent('main', Component, { props: options })
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
 // beware that app.layout is undefined when User.define is fired
 // app.layout should thus appear only in callbacks
 const controller = {
-  async showSignup (options) {
+  // Options might be passed as an object when called by `app.execute('show:signup)`
+  async showSignup (options: string | object) {
     const { default: Signup } = await import('./components/signup.svelte')
     showAuth('signup', 'Create account', Signup, options)
   },
 
-  async showLogin (options) {
+  async showLogin (options: string | object) {
     const { default: Login } = await import('./components/login.svelte')
     showAuth('login', 'login', Login, options)
   },
 
-  async showForgotPassword (querystring) {
+  async showForgotPassword (querystring: string) {
     const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
     const { resetPasswordFail, email } = parseQuery(querystring)
     app.layout.showChildComponent('main', ForgotPassword, {
