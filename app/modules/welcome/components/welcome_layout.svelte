@@ -1,11 +1,13 @@
 <script lang="ts">
   import LandingPageFooter from '#welcome/components/landing_page_footer.svelte'
   import LandingScreen from '#welcome/components/landing_screen.svelte'
+  import PublicItemsMap from '#welcome/components/public_items_map.svelte'
   import SomePublicBooks from '#welcome/components/some_public_books.svelte'
 </script>
 
 <div class="welcome-layout">
   <LandingScreen />
+  <PublicItemsMap />
   <SomePublicBooks />
   <LandingPageFooter />
   <div class="background-cover" />

@@ -84,6 +84,14 @@ const getRecentPublic = async params => {
   return res
 }
 
+const getNearbyPublic = async params => {
+  const { position, range, limit, lang } = params
+  const pipedPosition = `${position[0]}|${position[1]}`
+  const res = await preq.get(API.items.nearbyPublic(pipedPosition, range, limit, lang))
+  updateItemsParams(res, params)
+  return res
+}
+
 export async function getUserItems (params) {
   const { userId } = params
   return makeRequestAlt(params, 'byUsers', [ userId ])
@@ -117,6 +125,7 @@ export default app => app.reqres.setHandlers({
   'items:getNearbyItems': getNearbyItems,
   'items:getLastPublic': getLastPublic,
   'items:getRecentPublic': getRecentPublic,
+  'items:getNearbyPublic': getNearbyPublic,
   'items:getNetworkItems': getNetworkItems,
   'items:getByUserIdAndEntities': getByUserIdAndEntities,
 

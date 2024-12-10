@@ -40,6 +40,10 @@ export default {
     return action('recent-public', { limit, lang, 'assert-image': assertImage })
   },
 
+  nearbyPublic (position, range, limit, lang) {
+    return action('nearby-public', { position, range, limit, lang })
+  },
+
   nearby (limit, offset, range = 50) { return action('nearby', { limit, offset, range }) },
 
   inventoryView (params) { return action('inventory-view', params) },
