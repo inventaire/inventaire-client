@@ -28,6 +28,7 @@ export default function (path: ImagePath | Url | EntityUri, width = 1600, height
     return `/img/remote/${width}x${height}/${key}?href=${href}` as RelativeUrl
   }
 
+  // Current use-case: app/modules/search/lib/search_results.ts subjects
   if (isEntityUri(path)) {
     return buildPath('/api/entities', {
       action: 'images',
