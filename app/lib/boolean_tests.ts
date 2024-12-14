@@ -21,8 +21,8 @@ export function isUrl (url: string): url is AbsoluteUrl {
     const { protocol, username, password } = new URL(url)
     if (!(protocol === 'http:' || protocol === 'https:')) return false
     if (username !== '' || password !== '') return false
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
-    if (err.code !== 'ERR_INVALID_URL') throw err
     // On the server, only err.code === 'ERR_INVALID_URL' returns false
     // and other errors are rethrown, but in the browser
     // err.code might be inconsistent
