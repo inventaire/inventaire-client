@@ -106,13 +106,15 @@
   {#await validating}
     <Spinner />
   {:then}
-    <button
-      class="delete button"
-      on:click={askListDeletionConfirmation}
-    >
-      {@html icon('trash')}
-      {I18n('delete')}
-    </button>
+    {#if _id}
+      <button
+        class="delete button"
+        on:click={askListDeletionConfirmation}
+      >
+        {@html icon('trash')}
+        {I18n('delete')}
+      </button>
+    {/if}
     <button
       class="validate button success-button"
       title={I18n('validate')}
