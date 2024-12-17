@@ -7,7 +7,6 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
   import { Username } from '#app/lib/regex'
-  import { checkSpamContent } from '#app/lib/spam'
   import { onChange } from '#app/lib/svelte/svelte'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
@@ -87,12 +86,6 @@
     }
     if (bioValue === $user.bio) {
       bioState = { type: 'info', message: 'this is already your bio' }
-      return
-    }
-    try {
-      await checkSpamContent(bioValue)
-    } catch (err) {
-      bioState = err
       return
     }
     try {

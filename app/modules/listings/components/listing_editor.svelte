@@ -4,7 +4,6 @@
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
-  import { checkSpamContent } from '#app/lib/spam'
   import Spinner from '#general/components/spinner.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
@@ -30,7 +29,6 @@
 
   const _validate = async () => {
     try {
-      await checkSpamContent(description)
       if (_id) {
         await _updateListing()
       } else {

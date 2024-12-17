@@ -5,7 +5,6 @@
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
-  import { checkSpamContent } from '#app/lib/spam'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let item, flash
@@ -18,7 +17,6 @@
   async function save () {
     editMode = false
     try {
-      await checkSpamContent(details)
       await app.request('items:update', {
         items: [ item ],
         attribute: 'details',

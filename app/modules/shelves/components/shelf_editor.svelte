@@ -6,7 +6,6 @@
   import { icon } from '#app/lib/icons'
   import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
   import { wait } from '#app/lib/promises'
-  import { checkSpamContent } from '#app/lib/spam'
   import Spinner from '#components/spinner.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
@@ -30,7 +29,6 @@
   let flash, waiting
   async function validate () {
     try {
-      await checkSpamContent(description)
       if (isNewShelf) {
         waiting = createShelf({ name, description, visibility, color })
         const newShelf = await waiting
