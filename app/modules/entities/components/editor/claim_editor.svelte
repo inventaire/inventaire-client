@@ -110,7 +110,12 @@
 
   function showError (componentEvent) {
     flash = componentEvent.detail
-    editMode = false
+    if (isNonEmptyClaimValue(savedValue)) {
+      editMode = false
+    } else {
+      // Stay in edit mode rather than display an empty value
+      editMode = true
+    }
   }
 
   function undo () {
