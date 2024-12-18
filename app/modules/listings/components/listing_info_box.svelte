@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { loadInternalLink } from '#app/lib/utils'
   import type { SerializedUser } from '#app/modules/users/lib/users'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
@@ -10,6 +8,7 @@
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
+  import UserInfobox from '#users/components/user_infobox.svelte'
 
   export let listing: Listing
   export let isEditable: boolean
@@ -19,7 +18,7 @@
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
-  const { username, picture: userPicture, listingsPathname: userListingsPathname } = creator
+  const { username, picture, listingsPathname: userListingsPathname } = creator
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
@@ -64,17 +63,13 @@
     {/if}
   </div>
   <div class="creator-row">
-    <div class="creator-info">
-      <span class="label">{i18n('List creator')}</span>
-      <a
-        href={userListingsPathname}
-        title={i18n('see_all_listings_by_user', { username })}
-        on:click={loadInternalLink}
-      >
-        <img src={imgSrc(userPicture, 32)} alt="" loading="lazy" />
-        <span class="username">{username}</span>
-      </a>
-    </div>
+    <UserInfobox
+      linkUrl={userListingsPathname}
+      linkTitle={i18n('see_all_listings_by_user', { username })}
+      label={i18n('List creator')}
+      name={username}
+      {picture}
+    />
     {#if visibility}
       <div class="visibility">
         <span class="label">{i18n('Visible by')}</span>
@@ -120,23 +115,6 @@
   .creator-row{
     margin-block-start: 1em;
     @include display-flex(row, center, space-between);
-  }
-  .label{
-    color: $label-grey;
-    display: block;
-  }
-  .creator-info{
-    a{
-      display: block;
-      padding: 0.3em 0;
-      @include radius;
-      @include bg-hover($light-grey);
-    }
-  }
-  .username{
-    font-weight: bold;
-    @include sans-serif;
-    margin-inline-start: 0.2em;
   }
   [slot="button-inner"]{
     @include tiny-button($grey);
