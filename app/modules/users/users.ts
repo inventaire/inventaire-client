@@ -1,11 +1,15 @@
 import app from '#app/app'
+import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import type { Group } from '#server/types/group'
-import type { UserId, User } from '#server/types/user'
+import type { UserAccountUri } from '#server/types/server'
+import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { initRelations } from '#users/lib/relations'
 import initHelpers from './helpers.ts'
+import { getLocalUserAccount } from './lib/users.ts'
 import initRequests from './requests.ts'
 import initUsersCollections from './users_collections.ts'
+import { getUserByAcct, getUserByUsername } from './users_data.ts'
 
 export default {
   initialize () {
@@ -130,11 +134,12 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
   }
 }
 
-async function showUserContributions (idOrUsernameOrModel, filter) {
+async function showUserContributions (userAcctOrIdOrUsername: string, filter: string) {
   try {
-    const user = await app.request('resolve:to:user', idOrUsernameOrModel)
-    const { username } = user
-    let path = `users/${username.toLowerCase()}/contributions`
+    const userAcct = await resolveToUserAcct(userAcctOrIdOrUsername)
+    const user = await getUserByAcct(userAcct)
+    const username = 'username' in user ? user.username : user.acct
+    let path = `users/${(username as string).toLowerCase()}/contributions`
     if (filter) path += `?filter=${filter}`
     const title = i18n('contributions_by', { username })
     app.navigate(path, { metadata: { title } })
@@ -142,5 +147,16 @@ async function showUserContributions (idOrUsernameOrModel, filter) {
     app.layout.showChildComponent('main', Contributions, { props: { user, filter } })
   } catch (err) {
     app.execute('show:error', err)
+  }
+}
+
+async function resolveToUserAcct (userAcctOrIdOrUsername: UserAccountUri | UserId | Username) {
+  if (isUserAcct(userAcctOrIdOrUsername)) {
+    return userAcctOrIdOrUsername
+  } else if (isUserId(userAcctOrIdOrUsername)) {
+    return getLocalUserAccount(userAcctOrIdOrUsername)
+  } else {
+    const user = await getUserByUsername(userAcctOrIdOrUsername)
+    return getLocalUserAccount(user._id)
   }
 }
