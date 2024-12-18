@@ -1,10 +1,14 @@
 import app from '#app/app'
+import { config } from '#app/config'
 import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { distanceBetween } from '#map/lib/geo'
+import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
 import type { RelativeUrl } from '#server/types/common'
-import type { User } from '#server/types/user'
+import type { UserAccountUri } from '#server/types/server'
+import type { AnonymizableUserId, User, Username } from '#server/types/user'
 
+const { publicHost } = config
 const { defaultAvatar } = images
 
 export type ItemCategory = 'personal' | 'network' | 'public' | 'nearbyPublic' | 'otherPublic'
@@ -18,15 +22,38 @@ export interface SerializedUser extends User {
   inventoryPathname: RelativeUrl
   listingsPathname: RelativeUrl
   contributionsPathname: RelativeUrl
+  acct?: UserAccountUri
+}
+
+export interface SerializedContributor extends InstanceAgnosticContributor {
+  isMainUser: boolean
+  pathname?: RelativeUrl
+  inventoryPathname?: RelativeUrl
+  listingsPathname?: RelativeUrl
+  contributionsPathname: RelativeUrl
+  special: boolean
+  deleted: boolean
 }
 
 export function serializeUser (user: User & Partial<SerializedUser>) {
   user.isMainUser = user._id === app.user.id
+  if ('anonymizableId' in user) {
+    user.acct = getLocalUserAccount(user.anonymizableId)
+  }
   user.picture = getPicture(user)
   setDistance(user)
   setItemsCategory(user)
-  Object.assign(user, getUserPathnames(user.username))
+  Object.assign(user, getUserPathnames(user))
   return user as SerializedUser
+}
+
+export function serializeContributor (user: InstanceAgnosticContributor & Partial<SerializedContributor>) {
+  user.isMainUser = user.acct === app.user.acct
+  user.picture = getPicture(user)
+  Object.assign(user, getUserPathnames(user))
+  user.special ??= false
+  user.deleted ??= false
+  return user as SerializedContributor
 }
 
 export function getPicture (user) {
@@ -69,17 +96,24 @@ export function setItemsCategory (user) {
   }
 }
 
-export function getUserBasePathname (usernameOrId) {
+export function getUserBasePathname (usernameOrId: string) {
   return `/users/${usernameOrId.toLowerCase()}`
 }
 
-export function getUserPathnames (username: string) {
-  const base = getUserBasePathname(username)
-  return {
-    pathname: base,
-    inventoryPathname: `${base}/inventory`,
-    listingsPathname: `${base}/lists`,
-    contributionsPathname: `${base}/contributions`,
+export function getUserPathnames (user: { username: Username } | { acct: UserAccountUri }) {
+  if ('username' in user) {
+    const base = getUserBasePathname(user.username)
+    return {
+      pathname: base,
+      inventoryPathname: `${base}/inventory`,
+      listingsPathname: `${base}/lists`,
+      contributionsPathname: `${base}/contributions`,
+    }
+  } else {
+    const base = getUserBasePathname(user.acct)
+    return {
+      contributionsPathname: `${base}/contributions`,
+    }
   }
 }
 
@@ -87,4 +121,8 @@ export function getPositionUrl (user) {
   if (user.distanceFromMainUser == null) return
   const [ lat, lng ] = user.position
   return buildPath('/network/users/nearby', { lat, lng })
+}
+
+export function getLocalUserAccount (anonymizableId: AnonymizableUserId) {
+  return `${anonymizableId}@${publicHost}` as UserAccountUri
 }

@@ -2,12 +2,12 @@ import { all, property, last, compact, pluck, uniq } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
+import { getUsersByAccts } from '#app/modules/users/users_data'
 import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import type { EntityUri, InvEntityId, InvEntityUri } from '#server/types/entity'
 import type { PatchId } from '#server/types/patch'
 import { i18n } from '#user/lib/i18n'
-import { serializeUser } from '#users/lib/users'
-import { getUsersByIds } from '#users/users_data'
+import { serializeContributor } from '#users/lib/users'
 
 export async function getEntityPatches (uri: EntityUri) {
   const { patches } = await preq.get(API.entities.history(uri))
@@ -17,13 +17,13 @@ export async function getEntityPatches (uri: EntityUri) {
 }
 
 export async function serializePatches (patches) {
-  const [ usersByIds, entitiesByUris ] = await Promise.all([
+  const [ usersByAccts, entitiesByUris ] = await Promise.all([
     getPatchesUsers(patches),
     getPatchesEntities(patches),
   ])
   for (const patch of patches) {
     if (patch.user) {
-      patch.user = usersByIds[patch.user]
+      patch.user = usersByAccts[patch.user]
     }
     const uri = getPatchEntityUri(patch)
     patch.entity = entitiesByUris[uri]
@@ -33,10 +33,10 @@ export async function serializePatches (patches) {
 }
 
 async function getPatchesUsers (patches) {
-  const usersIds = compact(pluck(patches, 'user'))
-  const usersByIds = await getUsersByIds(usersIds)
-  Object.values(usersByIds).forEach(serializeUser)
-  return usersByIds
+  const usersAccts = compact(pluck(patches, 'user'))
+  const usersByAccts = await getUsersByAccts(usersAccts)
+  Object.values(usersByAccts).forEach(serializeContributor)
+  return usersByAccts
 }
 
 async function getPatchesEntities (patches) {
@@ -116,8 +116,8 @@ function setOperationData (operation, user) {
   }
 
   if (operation.filter && user) {
-    const { _id: userId } = user
-    operation.filterPathname = `/users/${userId}/contributions?filter=${operation.filter}`
+    const { acct } = user
+    operation.filterPathname = `/users/${acct}/contributions?filter=${operation.filter}`
   }
 }
 

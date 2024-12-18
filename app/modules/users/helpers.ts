@@ -5,7 +5,7 @@ import { newError } from '#app/lib/error'
 import { forceArray } from '#app/lib/utils'
 import type { User, UserId } from '#server/types/user'
 import { serializeUser } from '#users/lib/users'
-import usersData, { getUsersByIds } from './users_data.ts'
+import usersData, { getUserByUsername, getUsersByIds } from './users_data.ts'
 
 export default function (app) {
   const sync = {
@@ -104,7 +104,7 @@ export default function (app) {
 
     if (userModel != null) return userModel
 
-    return usersData.byUsername(username)
+    return getUserByUsername(username)
     .then(addUser)
   }
 
