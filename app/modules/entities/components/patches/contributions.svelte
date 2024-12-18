@@ -5,12 +5,13 @@
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
+  import type { SerializedContributor } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let user = null
+  export let user: SerializedContributor = null
   export let filter = null
 
   let contributions = []
@@ -23,8 +24,9 @@
 
   async function fetchMore () {
     limit = Math.min(limit * 2, 500)
+    const acct = (user && 'acct' in user) ? user.acct : null
     const { patches, continue: continu, total: _total } = await preq.get(API.entities.contributions({
-      userId: user?._id,
+      acct,
       limit,
       offset,
       filter,
@@ -57,7 +59,7 @@
 <div class="contributions">
   <h3>
     {#if user}
-      {I18n('contributions_by', user)}
+      {I18n('contributions_by', { username: user.username || user.acct })}
     {:else}
       {I18n('recent changes')}
     {/if}
@@ -72,18 +74,20 @@
   <ul class="stats">
     {#if user}
       <li>
-        <span class="stat-label">id</span>
-        <span class="stat-value">{user._id}</span>
+        <span class="stat-label">acct</span>
+        <span class="stat-value">{user.acct}</span>
       </li>
       {#if !user.special}
-        <li>
-          <span class="stat-label">{i18n('profile')}</span>
-          <a class="link" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
-        </li>
+        {#if user.pathname}
+          <li>
+            <span class="stat-label">{i18n('profile')}</span>
+            <a class="link" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
+          </li>
+        {/if}
         <li>
           {#if user.deleted}
             <span class="stat-label deleted">{i18n('deleted')}</span>
-          {:else}
+          {:else if user.created}
             <span class="stat-label">{i18n('created')}</span>
             <p class="stat-value">
               <span class="time-from-now">{timeFromNow(user.created)}</span>
@@ -92,7 +96,7 @@
           {/if}
         </li>
       {/if}
-      {#if user.roles}
+      {#if user.roles?.length > 0}
         <li>
           <span class="stat-label">{i18n('roles')}:</span>
           <span class="stat-value">{user.roles}</span>

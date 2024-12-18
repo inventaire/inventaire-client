@@ -13,7 +13,7 @@ const { defaultAvatar } = images
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
-    const pathnames = getUserPathnames(username)
+    const pathnames = getUserPathnames({ username })
     this.set(pathnames)
     // Set for compatibility with interfaces expecting a label
     // such as modules/inventory/views/browser_selector

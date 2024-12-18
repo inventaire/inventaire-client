@@ -42,8 +42,10 @@
       {:else if user.deleted}
         <span class="value">{user.username}</span>
         <span class="deleted-user">{i18n('deleted')}</span>
+      {:else if user.pathname}
+        <a class="value show-user" href={user.pathname} on:click={loadInternalLink}>{user.username || user.acct}</a>
       {:else}
-        <a class="value show-user" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
+        <span class="value">{user.username || user.acct}</span>
       {/if}
       <a class="show-user-contributions" href={user.contributionsPathname} on:click={loadInternalLink}>
         {i18n('contributions')}
