@@ -5,6 +5,7 @@ import type { AbsoluteUrl } from '#server/types/common'
 import type { CouchUuid } from '#server/types/couchdb'
 import type { EntityUri, PropertyUri, WdEntityUri, WdPropertyUri } from '#server/types/entity'
 import type { AssetImagePath, ImageDataUrl, GroupImagePath, ImageHash, ImagePath, UserImagePath } from '#server/types/image'
+import type { UserAccountUri } from '#server/types/server'
 import type { Email, Username } from '#server/types/user'
 import type { ItemId, PropertyId } from 'wikibase-sdk'
 
@@ -77,4 +78,20 @@ export const isDateString = dateString => {
 // in the stack, it doesn't not need to be more specific than that for now
 export function isComponentEvent (obj): obj is CustomEvent {
   return obj instanceof CustomEvent
+}
+
+function isHost (str: string) {
+  try {
+    const { host } = new URL(`http://${str}`)
+    return str === host
+  } catch (err) {
+    if (err.code !== 'ERR_INVALID_URL') throw err
+    return false
+  }
+}
+
+export function isUserAcct (str: unknown): str is UserAccountUri {
+  if (typeof str !== 'string') return false
+  const [ handle, host ] = str.split('@')
+  return isUserId(handle) && isHost(host)
 }
