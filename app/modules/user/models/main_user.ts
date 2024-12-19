@@ -152,7 +152,7 @@ export default UserCommons.extend({
   },
 
   hasWikidataOauthTokens () {
-    const oauthList = this.get('oauth')
-    return (oauthList != null) && oauthList.includes('wikidata')
+    const enabledOAuth = this.get('enabledOAuth')
+    return (enabledOAuth != null) && enabledOAuth.includes('wikidata')
   },
 })
