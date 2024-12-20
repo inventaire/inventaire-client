@@ -11,11 +11,11 @@
   import { serializePatches } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let user: SerializedContributor = null
+  export let contributor: SerializedContributor = null
   export let filter = null
 
   let contributions = []
-  const userContributionsContext = user != null
+  const userContributionsContext = contributor != null
 
   let fetching = false
   let limit = 10
@@ -24,7 +24,7 @@
 
   async function fetchMore () {
     limit = Math.min(limit * 2, 500)
-    const acct = (user && 'acct' in user) ? user.acct : null
+    const acct = contributor?.acct
     const { patches, continue: continu, total: _total } = await preq.get(API.entities.contributions({
       acct,
       limit,
@@ -52,14 +52,14 @@
   }
 
   function removeFilter () {
-    app.navigateAndLoad(user.contributionsPathname)
+    app.navigateAndLoad(contributor.contributionsPathname)
   }
 </script>
 
 <div class="contributions">
   <h3>
-    {#if user}
-      {I18n('contributions_by', { username: user.username || user.acct })}
+    {#if contributor}
+      {I18n('contributions_by', { username: contributor.username || contributor.shortAcct })}
     {:else}
       {I18n('recent changes')}
     {/if}
@@ -72,34 +72,38 @@
   </h3>
 
   <ul class="stats">
-    {#if user}
-      <li>
-        <span class="stat-label">acct</span>
-        <span class="stat-value">{user.acct}</span>
-      </li>
-      {#if !user.special}
-        {#if user.pathname}
+    {#if contributor}
+      {#if !contributor.special}
+        {#if contributor.pathname}
           <li>
             <span class="stat-label">{i18n('profile')}</span>
-            <a class="link" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
+            <a class="link" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username}</a>
+            <div class="user-status">
+              {#if contributor.deleted}
+                <span class="stat-label deleted">{i18n('deleted')}</span>
+              {:else if !contributor.found}
+                <span class="stat-label not-found">{i18n('not found')}</span>
+              {:else if contributor.settings.contributions.anonymize}
+                <span class="stat-label anonymized">{i18n('anonymized')}</span>
+              {:else if contributor.created}
+                <span class="stat-label">{i18n('created')}</span>
+                <p class="stat-value">
+                  <span class="time-from-now">{timeFromNow(contributor.created)}</span>
+                  <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
+                </p>
+              {/if}
+            </div>
           </li>
         {/if}
-        <li>
-          {#if user.deleted}
-            <span class="stat-label deleted">{i18n('deleted')}</span>
-          {:else if user.created}
-            <span class="stat-label">{i18n('created')}</span>
-            <p class="stat-value">
-              <span class="time-from-now">{timeFromNow(user.created)}</span>
-              <span class="precise-time">{getLocalTimeString(user.created)}</span>
-            </p>
-          {/if}
-        </li>
       {/if}
-      {#if user.roles?.length > 0}
+      <li>
+        <span class="stat-label">acct</span>
+        <span class="stat-value">{contributor.acct}</span>
+      </li>
+      {#if contributor.roles?.length > 0}
         <li>
-          <span class="stat-label">{i18n('roles')}:</span>
-          <span class="stat-value">{user.roles}</span>
+          <span class="stat-label">{i18n('roles')}</span>
+          <span class="stat-value">{contributor.roles}</span>
         </li>
       {/if}
     {/if}
@@ -107,6 +111,15 @@
       <li>
         <span class="stat-label">{i18n('total')}</span>
         <span class="stat-value total">{total}</span>
+      </li>
+    {/if}
+    {#if contributor.created}
+      <li>
+        <span class="stat-label">{i18n('created')}</span>
+        <p class="stat-value">
+          <span class="time-from-now">{timeFromNow(contributor.created)}</span>
+          <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
+        </p>
       </li>
     {/if}
   </ul>
@@ -152,6 +165,10 @@
       align-self: stretch;
     }
   }
+  .user-status{
+    display: inline;
+    margin: 0 0.5rem;
+  }
   .stats{
     padding: 1em;
     background-color: $light-grey;
@@ -159,9 +176,14 @@
       display: inline-block;
       min-width: 10em;
       color: #777;
-      &.deleted{
-        color: red;
+      &.deleted, &.not-found, &.anonymized{
         font-weight: bold;
+      }
+      &.deleted, &.not-found{
+        color: red;
+      }
+      &.anonymized{
+        color: $grey;
       }
     }
   }
