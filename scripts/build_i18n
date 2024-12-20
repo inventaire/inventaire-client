@@ -5,11 +5,30 @@ set -eu
   git clone https://github.com/inventaire/inventaire-i18n.git
 }
 
+source_branch=$(git branch --show-current)
+echo "source_branch: $source_branch"
+
 cd ./inventaire-i18n
 rm -rf ./dist
-git checkout origin/main
-git checkout -B main
-git pull origin main
+
+if [ "$source_branch" != "main" ]; then
+  # If a branch with the same name exists in the inventaire-i18n repo, use it
+  git fetch origin $source_branch 2> /dev/null && {
+    echo -e "\e[0;32mFound inventaire-i18n origin/$source_branch branch\e[0m"
+    git checkout origin/$source_branch
+    git checkout -B $source_branch
+  } || {
+    echo -e "\e[0;33mCould not find inventaire-i18n origin/$source_branch: fallback to main branch\e[0m"
+    source_branch=main
+  }
+fi
+
+if [ $source_branch = "main" ]; then
+  git checkout origin/main
+  git checkout -B main
+  git pull origin main
+fi
+
 npm run build
 cd ..
 
