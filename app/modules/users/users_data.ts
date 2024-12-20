@@ -7,7 +7,7 @@ import { forceArray } from '#app/lib/utils'
 import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
 import type { UserAccountUri } from '#server/types/server'
 import type { User, UserId, Username } from '#server/types/user'
-import { serializeUser } from './lib/users'
+import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -57,14 +57,18 @@ export async function getSerializedUser (id: UserId) {
 }
 
 export async function getUserByUsername (username: Username) {
-  const users = await preq.get(API.users.byUsername(username))
+  const { users } = await preq.get(API.users.byUsername(username))
   return Object.values(users)[0] as User
 }
 
-export async function getUsersByAccts (userAccts: UserAccountUri[]) {
+type UsersByAccts = Record<UserAccountUri, SerializedContributor>
+
+export async function getUsersByAccts (userAccts: UserAccountUri[]): Promise<UsersByAccts> {
   userAccts = uniq(userAccts)
+  if (userAccts.length === 0) return {}
   const { users } = await treq.get<GetUsersByAcctsResponse>(API.users.byAccts(userAccts))
-  return users
+  Object.values(users).forEach(serializeContributor)
+  return users as UsersByAccts
 }
 
 export async function getUserByAcct (userAcct: UserAccountUri) {

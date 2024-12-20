@@ -27,6 +27,7 @@ export interface SerializedUser extends User {
 
 export interface SerializedContributor extends InstanceAgnosticContributor {
   isMainUser: boolean
+  shortAcct: string
   pathname?: RelativeUrl
   inventoryPathname?: RelativeUrl
   listingsPathname?: RelativeUrl
@@ -49,11 +50,17 @@ export function serializeUser (user: User & Partial<SerializedUser>) {
 
 export function serializeContributor (user: InstanceAgnosticContributor & Partial<SerializedContributor>) {
   user.isMainUser = user.acct === app.user.acct
+  user.shortAcct = shortenAcct(user.acct)
   user.picture = getPicture(user)
   Object.assign(user, getUserPathnames(user))
   user.special ??= false
   user.deleted ??= false
   return user as SerializedContributor
+}
+
+function shortenAcct (acct: UserAccountUri) {
+  const [ id, host ] = acct.split('@')
+  return `${id.slice(0, 7)}@${host}`
 }
 
 export function getPicture (user) {
