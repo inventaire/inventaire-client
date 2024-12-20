@@ -11,7 +11,7 @@
   export let patch
   export let userContributionsContext = false
 
-  const { _id: patchId, patchType, summary, timestamp, operations, user = {}, entity, invEntityHistoryPathname } = patch
+  const { _id: patchId, patchType, summary, timestamp, operations, contributor, entity, invEntityHistoryPathname } = patch
 
   let showDetails = false
 
@@ -87,19 +87,19 @@
       </button>
     {/if}
     <div class="line-end">
-      {#if !userContributionsContext}
+      {#if !userContributionsContext && contributor}
         <a
           class="user"
-          class:special={user.special}
-          href={user.contributionsPathname}
-          title={user.special ? i18n('bot') : user.roles?.join(' ') || ''}
+          class:special={contributor.special}
+          href={contributor.contributionsPathname}
+          title={contributor.special ? i18n('bot') : contributor.roles?.join(' ') || ''}
           on:click={loadInternalLink}
         >
-          <p class="username">{user.username}</p>
-          {#if user.special}
+          <p class="username">{contributor.username || contributor.shortAcct}</p>
+          {#if contributor.special}
             {@html icon('cogs')}
           {:else}
-            <img src={imgSrc(user.picture, 32)} alt={user.username} loading="lazy" />
+            <img src={imgSrc(contributor.picture, 32)} alt="" loading="lazy" />
           {/if}
         </a>
       {/if}
@@ -112,7 +112,7 @@
         <ul class="stats">
           <li>
             <span class="stat-label">{i18n('user')}</span>
-            <span class="stat-value">{user._id}</span>
+            <span class="stat-value">{contributor.acct}</span>
           </li>
         </ul>
       {/if}
