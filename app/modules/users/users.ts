@@ -137,14 +137,22 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
 async function showUserContributions (userAcctOrIdOrUsername: string, filter: string) {
   try {
     const userAcct = await resolveToUserAcct(userAcctOrIdOrUsername)
-    const user = await getUserByAcct(userAcct)
-    const username = 'username' in user ? user.username : user.acct
-    let path = `users/${(username as string).toLowerCase()}/contributions`
+    await showUserContributionsFromAcct(userAcct, filter)
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
+
+export async function showUserContributionsFromAcct (userAcct: UserAccountUri, filter?: string) {
+  try {
+    const contributor = await getUserByAcct(userAcct)
+    const { username, contributionsPathname, shortAcct } = contributor
+    let path = contributionsPathname
     if (filter) path += `?filter=${filter}`
-    const title = i18n('contributions_by', { username })
+    const title = i18n('contributions_by', { username: username || shortAcct })
     app.navigate(path, { metadata: { title } })
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
-    app.layout.showChildComponent('main', Contributions, { props: { user, filter } })
+    app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
   } catch (err) {
     app.execute('show:error', err)
   }

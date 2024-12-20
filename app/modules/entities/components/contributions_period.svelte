@@ -1,9 +1,10 @@
 <script lang="ts">
   import { property } from 'underscore'
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import preq from '#app/lib/preq'
   import { isOpenedOutside } from '#app/lib/utils'
+  import { showUserContributionsFromAcct } from '#app/modules/users/users'
+  import { getUsersByAccts } from '#app/modules/users/users_data'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -13,26 +14,25 @@
   let usersData
   let highest = 0
 
-  const getContributionsData = async () => {
+  async function getContributionsData () {
     const res = await preq.get(API.entities.usersContributionsCount(period))
-    usersData = await addUsersData(res)
+    usersData = await addContributors(res)
   }
 
-  const addUsersData = async res => {
-    let { contributions: contributionRows } = res
+  async function addContributors ({ contributions: contributionRows }) {
     if (contributionRows.length === 0) return []
     contributionRows = contributionRows.slice(0, 10)
-    const usersIds = contributionRows.map(property('user'))
-    const { users } = await preq.get(API.users.byIds(usersIds))
+    const usersAccts = contributionRows.map(property('user'))
+    const users = await getUsersByAccts(usersAccts)
     // assuming contributions are already sorted
     highest = contributionRows[0].contributions
-    contributionRows.forEach(row => row.user = users[row.user])
+    contributionRows.forEach(row => row.contributor = users[row.user])
     return contributionRows
   }
 
-  const showUserContributions = (e, user) => {
+  function showUserContributions (e, user) {
     if (!isOpenedOutside(e)) {
-      app.execute('show:user:contributions', user._id)
+      showUserContributionsFromAcct(user.acct)
     }
   }
 </script>
@@ -46,16 +46,16 @@
       <div class="cell title">{i18n('user')}</div>
       <div class="cell title right">{i18n('contributions')}</div>
     </div>
-    {#each usersData as userData}
+    {#each usersData as { contributions, contributor }}
       <div class="row">
-        <div class="cell user" class:deleted={userData.user.deleted}>
-          <a href="/users/{userData.user._id}/contributions" class="link" on:click={e => showUserContributions(e, userData.user)}>{userData.user.username}</a>
+        <div class="cell user" class:deleted={contributor.deleted}>
+          <a href={contributor.contributionsPathname} class="link" on:click={e => showUserContributions(e, contributor)}>{contributor.username || contributor.shortAcct}</a>
         </div>
         <div class="histogram">
           <div class="contributions">
-            {userData.contributions}
+            {contributions}
           </div>
-          <div class="bar" style:width="{userData.contributions * 100.0 / highest}px" />
+          <div class="bar" style:width="{contributions * 100.0 / highest}px" />
         </div>
       </div>
     {:else}

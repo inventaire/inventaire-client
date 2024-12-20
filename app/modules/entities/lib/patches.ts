@@ -7,7 +7,6 @@ import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import type { EntityUri, InvEntityId, InvEntityUri } from '#server/types/entity'
 import type { PatchId } from '#server/types/patch'
 import { i18n } from '#user/lib/i18n'
-import { serializeContributor } from '#users/lib/users'
 
 export async function getEntityPatches (uri: EntityUri) {
   const { patches } = await preq.get(API.entities.history(uri))
@@ -23,7 +22,7 @@ export async function serializePatches (patches) {
   ])
   for (const patch of patches) {
     if (patch.user) {
-      patch.user = usersByAccts[patch.user]
+      patch.contributor = usersByAccts[patch.user]
     }
     const uri = getPatchEntityUri(patch)
     patch.entity = entitiesByUris[uri]
@@ -34,9 +33,7 @@ export async function serializePatches (patches) {
 
 async function getPatchesUsers (patches) {
   const usersAccts = compact(pluck(patches, 'user'))
-  const usersByAccts = await getUsersByAccts(usersAccts)
-  Object.values(usersByAccts).forEach(serializeContributor)
-  return usersByAccts
+  return getUsersByAccts(usersAccts)
 }
 
 async function getPatchesEntities (patches) {
