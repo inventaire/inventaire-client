@@ -162,8 +162,9 @@
     margin-block-end: 1em;
   }
   .buttons{
-    margin-block-start: 1em;
     @include display-flex(row, center, center);
+    margin-block-start: 2em;
+    margin-block-end: 1em;
   }
   button{
     min-width: 10rem;
