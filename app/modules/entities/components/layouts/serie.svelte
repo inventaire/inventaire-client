@@ -2,6 +2,7 @@
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
   import { onChange } from '#app/lib/svelte/svelte'
+  import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { authorsProps } from '#entities/components/lib/claims_helpers'
@@ -40,7 +41,7 @@
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      <div class="work-section">
+      <div class="serie-section">
         <EntityTitle {entity} />
         <AuthorsInfo claims={entity.claims} />
         <Infobox
@@ -49,6 +50,11 @@
           entityType={entity.type}
         />
         <Summary {entity} />
+        <AddToDotDotDotMenu
+          {entity}
+          {flash}
+          align="left"
+        />
       </div>
       <div class="serie-parts">
         {#await waitingForWorks}
@@ -73,5 +79,11 @@
   }
   .serie-parts{
     margin-block-start: 1em;
+  }
+  .serie-section{
+    :global(.add-to-dot-dot-dot-menu){
+      margin-block-start: 1em;
+      width: 10em;
+    }
   }
 </style>
