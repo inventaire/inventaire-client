@@ -1,5 +1,6 @@
 <script lang="ts">
   import { setContext } from 'svelte'
+  import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
@@ -41,6 +42,11 @@
           entityType={entity.type}
         />
         <Summary {entity} />
+        <AddToDotDotDotMenu
+          {entity}
+          {flash}
+          align="left"
+        />
       </div>
       <div class="publications">
         {#await waitingForSubEntities}
@@ -65,5 +71,11 @@
   }
   .publications{
     margin-block-start: 1em;
+  }
+  .top-section{
+    :global(.add-to-dot-dot-dot-menu){
+      margin-block-start: 1em;
+      width: 10em;
+    }
   }
 </style>
