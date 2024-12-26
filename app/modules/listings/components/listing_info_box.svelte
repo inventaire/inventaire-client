@@ -16,7 +16,7 @@
   export let isEditable: boolean
   export let creator: SerializedUser
 
-  let { name, type, description, visibility } = listing
+  let { name, type = 'work', description, visibility } = listing
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
