@@ -2,6 +2,7 @@
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
@@ -75,22 +76,18 @@
     {#if contributor}
       {#if !contributor.special}
         {#if contributor.pathname}
-          <li>
+          <li class="profile">
             <span class="stat-label">{i18n('profile')}</span>
             <a class="link" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username}</a>
             <div class="user-status">
               {#if contributor.deleted}
-                <span class="stat-label deleted">{i18n('deleted')}</span>
+                <span class="deleted">{@html icon('cross')} {i18n('deleted')}</span>
               {:else if !contributor.found}
-                <span class="stat-label not-found">{i18n('not found')}</span>
+                <span class="not-found">{@html icon('cross')} {i18n('not found')}</span>
               {:else if contributor.settings.contributions.anonymize}
-                <span class="stat-label anonymized">{i18n('anonymized')}</span>
-              {:else if contributor.created}
-                <span class="stat-label">{i18n('created')}</span>
-                <p class="stat-value">
-                  <span class="time-from-now">{timeFromNow(contributor.created)}</span>
-                  <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
-                </p>
+                <span class="anonymized">{@html icon('user-secret')} {i18n('anonymized')}</span>
+              {:else}
+                <span class="public">{@html icon('globe')} {i18n('public contributions')}</span>
               {/if}
             </div>
           </li>
@@ -165,9 +162,25 @@
       align-self: stretch;
     }
   }
+  .profile{
+    @include display-flex(row, center, flex-start);
+  }
   .user-status{
-    display: inline;
-    margin: 0 0.5rem;
+    @include display-flex(row, center, flex-start);
+    span{
+      margin: 0 0.5rem;
+      background-color: white;
+      padding: 0 0.5rem 0 0.2rem;
+      @include radius;
+    }
+    .deleted, .not-found{
+      background-color: $warning-color;
+      color: white;
+    }
+    .anonymized{
+      background-color: $dark-grey;
+      color: white;
+    }
   }
   .stats{
     padding: 1em;
@@ -176,15 +189,6 @@
       display: inline-block;
       min-width: 10em;
       color: #777;
-      &.deleted, &.not-found, &.anonymized{
-        font-weight: bold;
-      }
-      &.deleted, &.not-found{
-        color: red;
-      }
-      &.anonymized{
-        color: $grey;
-      }
     }
   }
   .stat-value{
