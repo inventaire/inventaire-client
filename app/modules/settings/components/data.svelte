@@ -1,6 +1,7 @@
 <script lang="ts">
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -32,14 +33,23 @@
     <p class="note">{@html i18n('Inventaire also hosts a local bibliographic database to extend Wikidata. To stay compatible with Wikidata, this database is also published under a [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/).')}</p>
     <p class="note">{@html i18n('Helping to improve Wikidata thus also improves Inventaire, but also many other projects using those same data! [Learn More](https://wiki.inventaire.io/wiki/Entities_data).')}</p>
 
-    {#if app.user.hasWikidataOauthTokens()}
-      {@html icon('check')} {i18n('Your Wikidata account is connected')}
-      <!-- TODO: allow to disconnect wikidata account -->
-    {:else}
-      <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect your Wikidata account')}</a>
-    {/if}
+    <p>
+      <Link
+        url={app.user.get('contributionsPathname')}
+        text={i18n('See your contributions to the local bibliographic database')}
+        classNames="link"
+      />
+    </p>
+
+    <div class="wikidata-oauth">
+      {#if app.user.hasWikidataOauthTokens()}
+        {@html icon('check')} {i18n('Your Wikidata account is connected')}
+        <!-- TODO: allow to disconnect wikidata account -->
+      {:else}
+        <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect your Wikidata account')}</a>
+      {/if}
+    </div>
     <!-- TODO: toggle edit anonymization -->
-    <!-- TODO: link to contributions -->
   </fieldset>
   <fieldset>
     <h2>{i18n('API')}</h2>
@@ -71,5 +81,8 @@
     color: $grey;
     font-size: 1rem;
     margin-block-end: 1em;
+  }
+  .wikidata-oauth{
+    margin: 1em 0;
   }
 </style>
