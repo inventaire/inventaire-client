@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { config } from '#app/config'
+import assert_ from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { distanceBetween } from '#map/lib/geo'
@@ -131,5 +132,6 @@ export function getPositionUrl (user) {
 }
 
 export function getLocalUserAccount (anonymizableId: AnonymizableUserId) {
+  assert_.string(anonymizableId)
   return `${anonymizableId}@${publicHost}` as UserAccountUri
 }
