@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
-  import Flash from './flash.svelte'
 
   export let name
   export let value
