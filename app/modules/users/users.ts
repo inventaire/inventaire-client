@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import type { Group } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
@@ -165,6 +166,9 @@ async function resolveToUserAcct (userAcctOrIdOrUsername: UserAccountUri | UserI
     return getLocalUserAccount(userAcctOrIdOrUsername)
   } else {
     const user = await getUserByUsername(userAcctOrIdOrUsername)
-    return getLocalUserAccount(user._id)
+    if (!user.anonymizableId) {
+      throw newError("You don't have the rights to access these contributions", 403, { userAcctOrIdOrUsername })
+    }
+    return getLocalUserAccount(user.anonymizableId)
   }
 }
