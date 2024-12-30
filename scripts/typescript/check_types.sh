@@ -3,6 +3,8 @@
 # Do not set -e as `svelte-check` is likely to exit with a non-zero code that can be ignored
 set -u
 
+mkdir -p logs
+
 log_file="logs/types_check_results.log"
 
 svelte-check --tsconfig ./tsconfig.client.json |
