@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
+  import ContributionAnonymizationToggler from './contribution_anonymization_toggler.svelte'
 
   export let user
   const csvExportUrl = API.items.export({ format: 'csv' })
@@ -41,6 +42,8 @@
       />
     </p>
 
+    <ContributionAnonymizationToggler />
+
     <div class="wikidata-oauth">
       {#if app.user.hasWikidataOauthTokens()}
         {@html icon('check')} {i18n('Your Wikidata account is connected')}
@@ -49,7 +52,6 @@
         <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect your Wikidata account')}</a>
       {/if}
     </div>
-    <!-- TODO: toggle edit anonymization -->
   </fieldset>
   <fieldset>
     <h2>{i18n('API')}</h2>
