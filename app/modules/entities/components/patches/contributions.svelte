@@ -107,7 +107,7 @@
         </li>
       {/if}
     {/if}
-    {#if total}
+    {#if total != null}
       <li>
         <span class="stat-label">{i18n('total')}</span>
         <span class="stat-value total">{total}</span>
