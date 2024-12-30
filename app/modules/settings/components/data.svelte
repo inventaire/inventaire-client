@@ -1,5 +1,6 @@
 <script lang="ts">
   import { API } from '#app/api/api'
+  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -7,6 +8,8 @@
   export let user
   const csvExportUrl = API.items.export({ format: 'csv' })
   const inventoryJsonUrl = API.items.byUsers({ ids: user.id, limit: 100000 })
+
+  const wikidataOauth = API.auth.oauth.wikidata + '&redirect=/settings/data'
 </script>
 
 <form>
@@ -28,7 +31,13 @@
     <p class="note">{@html i18n('Inventaire primarily finds its bibliographic data in [Wikidata](https://www.wikidata.org/), an open collaborative database built to support Wikipedia and the other [Wikimedia](https://www.wikimedia.org/) projects.')}</p>
     <p class="note">{@html i18n('Inventaire also hosts a local bibliographic database to extend Wikidata. To stay compatible with Wikidata, this database is also published under a [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/).')}</p>
     <p class="note">{@html i18n('Helping to improve Wikidata thus also improves Inventaire, but also many other projects using those same data! [Learn More](https://wiki.inventaire.io/wiki/Entities_data).')}</p>
-    <!-- TODO: connect/disconnect wikidata account -->
+
+    {#if app.user.hasWikidataOauthTokens()}
+      {@html icon('check')} {i18n('Your Wikidata account is connected')}
+      <!-- TODO: allow to disconnect wikidata account -->
+    {:else}
+      <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect your Wikidata account')}</a>
+    {/if}
     <!-- TODO: toggle edit anonymization -->
     <!-- TODO: link to contributions -->
   </fieldset>
