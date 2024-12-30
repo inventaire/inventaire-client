@@ -23,6 +23,16 @@
     <a class="light-blue-button" href="/api/user" download="profile.json">{I18n('download JSON')}</a>
   </fieldset>
   <fieldset>
+    <h2 class="first-title">{i18n('Bibliographic data contributions')}</h2>
+    <p class="note">{@html i18n('Bibliographic data are data about works, editions, authors, publishers, etc. In Inventaire, those data are known as [entities](https://wiki.inventaire.io/wiki/Glossary#Entity).')}</p>
+    <p class="note">{@html i18n('Inventaire primarily finds its bibliographic data in [Wikidata](https://www.wikidata.org/), an open collaborative database built to support Wikipedia and the other [Wikimedia](https://www.wikimedia.org/) projects.')}</p>
+    <p class="note">{@html i18n('Inventaire also hosts a local bibliographic database to extend Wikidata. To stay compatible with Wikidata, this database is also published under a [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/).')}</p>
+    <p class="note">{@html i18n('Helping to improve Wikidata thus also improves Inventaire, but also many other projects using those same data! [Learn More](https://wiki.inventaire.io/wiki/Entities_data).')}</p>
+    <!-- TODO: connect/disconnect wikidata account -->
+    <!-- TODO: toggle edit anonymization -->
+    <!-- TODO: link to contributions -->
+  </fieldset>
+  <fieldset>
     <h2>{i18n('API')}</h2>
     <a
       href={apiDoc}
@@ -37,7 +47,7 @@
 
 <style lang="scss">
   @import "#settings/scss/common_settings";
-  .link{
+  .link, form :global(.link){
     text-decoration: underline;
   }
   .light-blue-button{
@@ -50,7 +60,7 @@
   }
   .note{
     color: $grey;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-block-end: 1em;
   }
 </style>
