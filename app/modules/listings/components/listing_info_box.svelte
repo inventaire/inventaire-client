@@ -8,6 +8,7 @@
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import ListingEditor from '#listings/components/listing_editor.svelte'
+  import { getI18nTypeKey } from '#listings/lib/entities_typing'
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
 
@@ -15,11 +16,13 @@
   export let isEditable: boolean
   export let creator: SerializedUser
 
-  let { name, description, visibility } = listing
+  let { name, type = 'work', description, visibility } = listing
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
   const { username, picture: userPicture, listingsPathname: userListingsPathname } = creator
+
+  const i18nTypeKey = getI18nTypeKey(type)
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
@@ -75,14 +78,20 @@
         <span class="username">{username}</span>
       </a>
     </div>
-    {#if visibility}
+    <div class="right-section">
+      <div class="listing-type">
+        <span class="label">{i18n('Type')}</span>
+        <span class="visibility-indicator">
+          {i18n(i18nTypeKey)}
+        </span>
+      </div>
       <div class="visibility">
         <span class="label">{i18n('Visible by')}</span>
         <span class="visibility-indicator">
           {@html icon(visibilitySummaryIcon)} {visibilitySummaryLabel}
         </span>
       </div>
-    {/if}
+    </div>
   </div>
 </div>
 
@@ -166,10 +175,15 @@
       margin-inline-end: 0.5rem;
     }
   }
+  .right-section{
+    text-align: center;
+  }
+  .listing-type{
+    padding-block-end: 0.5em;
+  }
   .visibility{
     padding: 0.2em;
     @include radius;
-    text-align: end;
   }
   /* Small screens */
   @media screen and (width < $small-screen){
