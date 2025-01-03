@@ -3,6 +3,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { isOpenedOutside } from '#app/lib/utils'
   import type { SerializedUser } from '#app/modules/users/lib/users'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
@@ -40,7 +41,8 @@
     imageUrl = image.url
   }
 
-  function toggleShowMode () {
+  function toggleShowMode (e) {
+    if (e && isOpenedOutside(e)) return
     showElementModal = !showElementModal
     autocompleteFlash = null
     if (showElementModal) {
