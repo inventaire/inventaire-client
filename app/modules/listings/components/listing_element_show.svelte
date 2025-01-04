@@ -15,7 +15,7 @@
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { authorsProps } from '#entities/components/lib/claims_helpers'
-  import { getEntitiesTypes } from '#listings/lib/entities_typing'
+  import { entitiesTypesByListingType } from '#listings/lib/entities_typing'
   import { updateElement } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingElementComment from '#modules/listings/components/listing_element_comment.svelte'
@@ -39,7 +39,7 @@
   function canListingReceiveElement (listing) {
     // legacy: old lists may not have any type, therefore type must be set to default "work"
     const listingType = listing.type || 'work'
-    const allowlistedEntitiesTypes = getEntitiesTypes(listingType)
+    const allowlistedEntitiesTypes = entitiesTypesByListingType[listingType]
     return allowlistedEntitiesTypes.includes(entityType) && (listing._id !== element.list)
   }
 
