@@ -44,7 +44,7 @@
       if (isNonEmptyArray(alreadyInList)) {
         return flash = {
           type: 'info',
-          message: i18n('This work is already in the list'),
+          message: i18n('This element is already in the list'),
         }
       }
       // Re fetch entities with fitting attributes.
