@@ -5,8 +5,7 @@ set -eu
 mkdir -p ./public/json ./vendor
 cp -r app/assets/* ./public
 
-./scripts/build_i18n
-./scripts/build_build_metadata
+npm run build
 
 # Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
 rm -rf .git/hooks
