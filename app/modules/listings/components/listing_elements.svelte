@@ -96,7 +96,7 @@
     {#if isEditable}
       <div class="entities-selector">
         <label for={inputValue}>
-          {i18n('Add a work to this list')}
+          {i18n('Add to this list')}
           <EntityAutocompleteSelector
             {searchTypes}
             placeholder={i18n(i18nSearchPlaceholder)}
