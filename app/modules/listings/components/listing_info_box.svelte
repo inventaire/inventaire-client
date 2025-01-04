@@ -8,7 +8,7 @@
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import ListingEditor from '#listings/components/listing_editor.svelte'
-  import { getI18nTypeKey } from '#listings/lib/entities_typing'
+  import { i18nTypesKeys } from '#listings/lib/entities_typing'
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
 
@@ -22,7 +22,7 @@
 
   const { username, picture: userPicture, listingsPathname: userListingsPathname } = creator
 
-  const i18nTypeKey = getI18nTypeKey(type)
+  const i18nTypeKey = i18nTypesKeys[type]
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
