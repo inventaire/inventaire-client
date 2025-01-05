@@ -20,7 +20,7 @@
   export let element: ListingElementWithEntity
   export let listing: Listing
   export let elements: ListingElement[]
-  export let showElementModal: boolean
+  export let showInitialElementModal: boolean
   export let isEditable: boolean
   export let isCreatorMainUser: boolean
   export let autocompleteFlash: FlashState
@@ -33,6 +33,8 @@
   const authorsUris = claims['wdt:P50']
 
   let imageUrl, flash
+  let showElementModal = showInitialElementModal
+  showInitialElementModal = false
 
   if (isNonEmptyArray(image)) {
     // This is the case when the entity object is a search result object

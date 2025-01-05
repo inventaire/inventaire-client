@@ -119,7 +119,7 @@
               {element}
               {listing}
               {creator}
-              showElementModal={initialElement?._id === element._id}
+              showInitialElementModal={initialElement?._id === element._id}
               bind:elements
               isCreatorMainUser={isEditable}
               bind:autocompleteFlash={flash}
