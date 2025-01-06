@@ -88,20 +88,22 @@
 </script>
 
 <h3>{layoutTitle}</h3>
-<label>
-  {i18n('List type')}
-  <select
-    name={i18n('listing type selector')}
-    bind:value={type}
-    class="listing-type"
-  >
-    {#each listingTypes as selectableType}
-      <option value={selectableType}>
-        {I18n(listingTypesI18nKey[selectableType])}
-      </option>
-    {/each}
-  </select>
-</label>
+{#if !listing}
+  <label>
+    {i18n('List type')}
+    <select
+      name={i18n('listing type selector')}
+      bind:value={type}
+      class="listing-type"
+    >
+      {#each listingTypes as selectableType}
+        <option value={selectableType}>
+          {I18n(listingTypesI18nKey[selectableType])}
+        </option>
+      {/each}
+    </select>
+  </label>
+{/if}
 <label>
   {i18n('name')}
   <input
