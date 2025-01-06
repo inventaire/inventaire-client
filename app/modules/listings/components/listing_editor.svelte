@@ -130,7 +130,7 @@
   {#await validating}
     <Spinner />
   {:then}
-    {#if _id}
+    {#if listing}
       <button
         class="delete button"
         on:click={askListDeletionConfirmation}
