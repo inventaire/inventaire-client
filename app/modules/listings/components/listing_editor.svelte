@@ -89,6 +89,20 @@
 
 <h3>{layoutTitle}</h3>
 <label>
+  {i18n('List type')}
+  <select
+    name={i18n('listing type selector')}
+    bind:value={type}
+    class="listing-type"
+  >
+    {#each listingTypes as selectableType}
+      <option value={selectableType}>
+        {I18n(listingTypesI18nKey[selectableType])}
+      </option>
+    {/each}
+  </select>
+</label>
+<label>
   {i18n('name')}
   <input
     type="text"
@@ -110,19 +124,6 @@
     showTip={true}
   />
 </div>
-<label>
-  {i18n('listing type')}
-  <select
-    name={i18n('listing type selector')}
-    bind:value={type}
-  >
-    {#each listingTypes as selectableType}
-      <option value={selectableType}>
-        {I18n(listingTypesI18nKey[selectableType])}
-      </option>
-    {/each}
-  </select>
-</label>
 <div class="buttons">
   {#await validating}
     <Spinner />
@@ -157,7 +158,7 @@
     font-size: 1rem;
     margin-block-end: 0.2em;
   }
-  .visibility-selector{
+  .visibility-selector, .listing-type{
     margin-block-end: 1em;
   }
   .buttons{
