@@ -9,6 +9,7 @@
   import Spinner from '#components/spinner.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
+  import { listingTypeByEntitiesTypes } from '#listings/lib/entities_typing'
   import { askUserConfirmationAndRemove, getElementByUri } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
@@ -21,14 +22,19 @@
   export let flash
   export let align: Align = null
 
-  const { uri } = entity
+  const { uri, type } = entity
   const { loggedIn } = app.user
 
   let listings, listingsIdsMatchingUri
 
+  const entityListingType = listingTypeByEntitiesTypes[type]
   function refreshListings () {
     if (!listingsIdsMatchingUri) return
-    listings = $userListings.map(listing => {
+    // TODO: refactor with only one map and compact
+    listings = $userListings.filter(listing => {
+      const { type: entitiesType = 'work' } = listing
+      return entityListingType === entitiesType
+    }).map(listing => {
       listing.checked = listingsIdsMatchingUri.includes(listing._id)
       return listing
     })
@@ -70,7 +76,7 @@
   }
 
   async function fetchEditions () {
-    if (!editions) {
+    if (!editions && type === 'work') {
       editions = await getSubEntities('work', entity.uri)
     }
   }
@@ -98,14 +104,16 @@
         </span>
       </div>
       <div slot="dropdown-content">
-        <div class="menu-section">
-          <span class="section-label">{i18n('Inventory')}</span>
-          <button on:click={() => showEditionPickerModal = true}
-          >
-            {@html icon('plus')}
-            {I18n('select the edition to add to my inventory')}
-          </button>
-        </div>
+        {#if type === 'work'}
+          <div class="menu-section">
+            <span class="section-label">{i18n('Inventory')}</span>
+            <button on:click={() => showEditionPickerModal = true}
+            >
+              {@html icon('plus')}
+              {I18n('select the edition to add to my inventory')}
+            </button>
+          </div>
+        {/if}
         <div class="menu-section">
           <span class="section-label">{i18n('Lists')}</span>
           {#await waitingForListingsStates}

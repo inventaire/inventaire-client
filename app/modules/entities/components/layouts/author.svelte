@@ -3,6 +3,7 @@
   import { debounce } from 'underscore'
   import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import { onChange } from '#app/lib/svelte/svelte'
+  import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
@@ -49,7 +50,7 @@
     <div class="top-section">
       <div>
         <EntityTitle {entity} />
-        <div class="infobox-and-summary">
+        <div class="info-section">
           {#if isNonEmptyPlainObject(entity.image)}
             <EntityImage
               {entity}
@@ -60,7 +61,14 @@
             {claims}
             entityType={entity.type}
           />
-          <Summary {entity} />
+          <div class="right-section">
+            <Summary {entity} />
+            <AddToDotDotDotMenu
+              {entity}
+              {flash}
+              align="right"
+            />
+          </div>
         </div>
       </div>
       <div class="author-works">
@@ -106,7 +114,7 @@
   .author-works{
     margin-block-start: 1em;
   }
-  .infobox-and-summary{
+  .info-section{
     :global(.entity-image){
       margin-inline-end: 1em;
     }
@@ -114,11 +122,18 @@
   .relatives-lists{
     @include relatives-lists-commons;
   }
+  .right-section{
+    @include display-flex(column, flex-end);
+    :global(.add-to-dot-dot-dot-menu){
+      margin-block-start: 1em;
+      width: 10em;
+    }
+  }
   /* Large screens */
   @media screen and (width >= $small-screen){
-    .infobox-and-summary{
+    .info-section{
       @include display-flex(row, flex-start, flex-start);
-      :global(.claims-infobox-wrapper), :global(.summary){
+      :global(.claims-infobox-wrapper), .right-section{
         inline-size: 50%;
       }
       :global(.claims-infobox){

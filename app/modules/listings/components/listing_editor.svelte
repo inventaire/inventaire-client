@@ -18,7 +18,14 @@
   export let layoutTitle = i18n('Edit list')
 
   let validating, flash
-  let _id, name, description, visibility
+  let _id, name, description, visibility, type
+  const listingTypesI18nKey = {
+    work: 'work and series',
+    author: 'P50',
+    publisher: 'P123',
+  }
+  const listingTypes = Object.keys(listingTypesI18nKey)
+
   if (listing) {
     ;({ _id, name, description, visibility } = listing)
   }
@@ -55,6 +62,7 @@
       name,
       description,
       visibility,
+      type,
     })
     listing = serializeListing(res.listing)
     app.user.trigger('listings:change', 'createListing')
@@ -80,6 +88,22 @@
 </script>
 
 <h3>{layoutTitle}</h3>
+{#if !listing}
+  <label>
+    {i18n('List type')}
+    <select
+      name={i18n('listing type selector')}
+      bind:value={type}
+      class="listing-type"
+    >
+      {#each listingTypes as selectableType}
+        <option value={selectableType}>
+          {I18n(listingTypesI18nKey[selectableType])}
+        </option>
+      {/each}
+    </select>
+  </label>
+{/if}
 <label>
   {i18n('name')}
   <input
@@ -96,15 +120,17 @@
     use:autosize
   />
 </label>
-<VisibilitySelector
-  bind:visibility
-  showTip={true}
-/>
+<div class="visibility-selector">
+  <VisibilitySelector
+    bind:visibility
+    showTip={true}
+  />
+</div>
 <div class="buttons">
   {#await validating}
     <Spinner />
   {:then}
-    {#if _id}
+    {#if listing}
       <button
         class="delete button"
         on:click={askListDeletionConfirmation}
@@ -134,9 +160,13 @@
     font-size: 1rem;
     margin-block-end: 0.2em;
   }
+  .visibility-selector, .listing-type{
+    margin-block-end: 1em;
+  }
   .buttons{
-    margin-block-start: 1em;
     @include display-flex(row, center, center);
+    margin-block-start: 2em;
+    margin-block-end: 1em;
   }
   button{
     min-width: 10rem;
