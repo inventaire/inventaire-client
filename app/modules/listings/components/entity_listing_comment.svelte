@@ -1,7 +1,7 @@
 <script lang="ts">
-  import app from '#app/app'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { loadInternalLink } from '#app/lib/utils'
+  import { getUserById } from '#app/modules/users/users_data'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getElementsImages } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
@@ -16,7 +16,7 @@
   const imagesLimit = 6
 
   const getCreator = async () => {
-    ;({ username } = await app.request('get:user:data', creator))
+    ;({ username } = await getUserById(creator))
   }
 
   const waitingForUserdata = getCreator()
