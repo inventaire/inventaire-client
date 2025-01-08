@@ -101,7 +101,7 @@
     <div class="buttons-wrapper">
       {#if isNonEmptyArray(recipientListings)}
         <Dropdown
-          buttonTitle={i18n('Move this element to another list')}
+          buttonTitle={i18n('Move element to another list')}
           dropdownWidthBaseInEm={25}
           clickOnContentShouldCloseDropdown={true}
         >
