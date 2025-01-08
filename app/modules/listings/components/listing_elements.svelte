@@ -7,7 +7,7 @@
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { getSearchType, getI18nSearchPlaceholder } from '#listings/lib/entities_typing'
+  import { searchTypesByListingType, i18nSearchPlaceholderKeys } from '#listings/lib/entities_typing'
   import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
   import type { ListingElement as ListingElementT } from '#server/types/element'
   import type { Listing } from '#server/types/listing'
@@ -26,8 +26,8 @@
   const paginationSize = 15
   let offset = 0
   let fetching
-  const searchTypes = getSearchType(listing.type)
-  const i18nSearchPlaceholder = getI18nSearchPlaceholder(listing.type)
+  const searchTypes = searchTypesByListingType[listing.type]
+  const i18nSearchPlaceholder = i18nSearchPlaceholderKeys[listing.type]
 
   let addingAnElement
 
