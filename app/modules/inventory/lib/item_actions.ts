@@ -2,11 +2,13 @@ import { isString } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
-import { isModel } from '#app/lib/boolean_tests'
+import { isCouchUuid, isModel } from '#app/lib/boolean_tests'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import Item from '#inventory/models/item'
-import { i18n } from '#user/lib/i18n'
+import type { ItemId } from '#server/types/item'
+import { I18n, i18n } from '#user/lib/i18n'
+import { getItemById } from './items'
 
 export default {
   create (itemData) {
@@ -44,7 +46,7 @@ export default {
     return preq.put(API.items.update, { ids, attribute, value })
   },
 
-  delete (options) {
+  async delete (options) {
     let confirmationText
     const { items, next, back } = options
     assert_.types([ items, next ], [ 'array', 'function' ])
@@ -63,17 +65,21 @@ export default {
 
     if ((items.length === 1)) {
       let title
-      if (isModel(items[0])) {
-        title = items[0].get('snapshot.entity:title')
+      const item = items[0]
+      if (isModel(item)) {
+        title = item.get('snapshot.entity:title')
+      } else if (isCouchUuid(item)) {
+        const serializedItem = await getItemById(item as ItemId)
+        title = serializedItem.title
       } else {
-        title = items[0].snapshot?.['entity:title']
+        title = item.snapshot?.['entity:title']
       }
       confirmationText = i18n('delete_item_confirmation', { title })
     } else {
       confirmationText = i18n('delete_items_confirmation', { amount: ids.length })
     }
 
-    const warningText = i18n('cant_undo_warning')
+    const warningText = I18n('cant_undo_warning')
 
     app.execute('ask:confirmation', { confirmationText, warningText, action, back })
   },

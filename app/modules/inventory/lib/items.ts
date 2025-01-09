@@ -115,3 +115,9 @@ export async function getItemWithUser (itemId: ItemId) {
   item.user = users[0]
   return item
 }
+
+export async function getItemById (itemId: ItemId) {
+  const { items } = await preq.get(API.items.byIds({ ids: itemId }))
+  const item = items[0]
+  return serializeItem(item)
+}
