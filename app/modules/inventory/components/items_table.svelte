@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import type { ShelvesByIds } from '#app/types/shelf'
+  import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
@@ -20,6 +20,7 @@
   export let haveSeveralOwners = false
 
   let selectedItemsIds = []
+  let showItemsTableSelectionEditor = false
 
   function selectAll () {
     selectedItemsIds = itemsIds
@@ -27,18 +28,26 @@
   function unselectAll () {
     selectedItemsIds = []
   }
-  function editSelection () {
-    app.layout.showChildComponent('modal', ItemsTableSelectionEditor, {
-      props: {
-        selectedItemsIds,
-      },
-    })
-  }
 
   $: emptySelection = selectedItemsIds.length === 0
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
+
+  function onUpdate (attribute, value) {
+    const selectedItemsIdsSet = new Set(selectedItemsIds)
+    items = items.map(item => {
+      if (selectedItemsIdsSet.has(item._id)) {
+        item[attribute] = value
+      }
+      return item
+    })
+  }
+
+  function onDelete () {
+    const selectedItemsIdsSet = new Set(selectedItemsIds)
+    items = items.filter(item => !selectedItemsIdsSet.has(item._id))
+  }
 </script>
 
 <div class="items-table">
@@ -103,7 +112,7 @@
         id="editSelection"
         disabled={emptySelection}
         title={emptySelection ? i18n('You need to select items to be able to edit the selection') : null}
-        on:click={editSelection}
+        on:click={() => showItemsTableSelectionEditor = true}
         aria-controls="selectable-items"
       >
         {@html icon('pencil')}
@@ -115,6 +124,17 @@
     </div>
   {/if}
 </div>
+
+{#if showItemsTableSelectionEditor}
+  <Modal size="large" on:closeModal={() => showItemsTableSelectionEditor = false}>
+    <ItemsTableSelectionEditor
+      {selectedItemsIds}
+      {onUpdate}
+      {onDelete}
+      onDone={() => showItemsTableSelectionEditor = false}
+    />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";

@@ -5,11 +5,13 @@
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import type { ItemId } from '#server/types/item'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  app.execute('modal:open', 'large')
-
-  export let selectedItemsIds
+  export let selectedItemsIds: ItemId[]
+  export let onUpdate: (attribute: 'transaction' | 'visibility' | 'shelves', value: unknown) => void
+  export let onDelete: () => void
+  export let onDone: () => void
 
   let transaction, visibility, shelves, waitingForSave
 
@@ -20,13 +22,14 @@
         attribute,
         value,
       })
+      onUpdate(attribute, value)
     }
   }
 
   async function save () {
     waitingForSave = _save()
     await waitingForSave
-    app.execute('modal:close')
+    onDone()
   }
 
   async function _save () {
@@ -39,11 +42,12 @@
     app.request('items:delete', {
       items: selectedItemsIds,
       next: () => {
-        // Force a refresh of the inventory, so that the deleted item doesn't appear
-        app.execute('show:inventory:main:user')
+        onDelete()
+        onDone()
       },
       back: () => {
         app.execute('modal:close')
+        onDone()
       },
     })
   }
