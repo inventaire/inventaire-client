@@ -57,7 +57,7 @@ export type SerializedEntity = SerializedInvEntity | SerializedRemovedPlaceholde
 
 export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
 
-type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, 'uris' | 'attributes' | 'lang' | 'relatives' | 'refresh'>
+type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, 'uris' | 'attributes' | 'lang' | 'relatives' | 'refresh' | 'autocreate'>
 
 export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
   const { uris } = await preq.get(API.entities.reverseClaims(property, value, refresh, sort))
@@ -101,12 +101,12 @@ export async function getEntitiesByUris (params: GetEntitiesParams) {
   return serializedEntitiesByUris
 }
 
-export async function getEntityByUri ({ uri, refresh }: { uri: InvEntityUri, refresh?: boolean }): Promise<SerializedInvEntity>
-export async function getEntityByUri ({ uri, refresh }: { uri: WdEntityUri, refresh?: boolean }): Promise<SerializedWdEntity>
-export async function getEntityByUri ({ uri, refresh }: { uri: EntityUri, refresh?: boolean }): Promise<SerializedEntity>
-export async function getEntityByUri ({ uri, refresh = false }: { uri: EntityUri, refresh?: boolean }): Promise<SerializedEntity> {
+export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: InvEntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedInvEntity>
+export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: WdEntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedWdEntity>
+export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: EntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedEntity>
+export async function getEntityByUri ({ uri, refresh = false, autocreate }: { uri: EntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedEntity> {
   assert_.string(uri)
-  const entities = await getEntities([ uri ], { refresh })
+  const entities = await getEntities([ uri ], { refresh, autocreate })
   const entity = entities[0]
   if (entity) {
     return entity
@@ -174,10 +174,10 @@ export async function attachEntities (entity: Entity | SerializedEntity, attribu
 // Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
 // Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
 // Also, do not export function to consumers clean, one may import getEntities or getEntitiesByUris
-async function getManyEntities ({ uris, attributes, lang, relatives, refresh }: GetEntitiesAttributesByUrisParams) {
+async function getManyEntities ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
-    return preq.get(API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives, refresh }))
+    return preq.get(API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives, refresh, autocreate }))
   }))
   const entities: SerializedEntitiesByUris = mergeResponsesObjects(responses, 'entities')
   const redirects: RedirectionsByUris = mergeResponsesObjects(responses, 'redirects')
@@ -194,7 +194,7 @@ function mergeResponsesObjects (responses, attribute) {
   }
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
   uris = forceArray(uris)
   let entities: SerializedEntitiesByUris = {}
   if (!isNonEmptyArray(uris)) {
@@ -202,13 +202,13 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
   }
   let redirects: RedirectionsByUris = {}
   attributes = forceArray(attributes)
-  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives }))
+  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, autocreate }))
   addRedirectionsAliases(entities, redirects)
   return { entities }
 }
 
-export async function getEntitiesList ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
-  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives })
+export async function getEntitiesList ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
+  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, autocreate })
   return values(entities)
 }
 

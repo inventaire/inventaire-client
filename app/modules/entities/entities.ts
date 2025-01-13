@@ -76,8 +76,11 @@ const controller = {
     uri = normalizeUri(uri)
 
     try {
-      // Make sure we have the freshest data before trying to edit
-      const entity = await getEntityByUri({ uri, refresh: true })
+      // Make sure we have the freshest data before trying to edit (refresh=true)
+      // but prevent triggering an auto update (autocreate=false)
+      // Maybe the server should allow to set autocreate=true&autoedit=false
+      // to fetch authorities data only in cases where no entity was found
+      const entity = await getEntityByUri({ uri, refresh: true, autocreate: false })
       await showEntityEdit(entity)
     } catch (err) {
       handleMissingEntity(uri, err)
