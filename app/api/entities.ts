@@ -10,16 +10,16 @@ const customQueryFactory = (actionName: string) => (uri: EntityUri, refresh?: bo
 
 export default {
   // GET
-  getByUris (uris: EntityUri | EntityUri[], refresh?: boolean, relatives?: PropertyUri | PropertyUri[]) {
+  getByUris (uris: EntityUri | EntityUri[], refresh?: boolean, relatives?: PropertyUri | PropertyUri[], autocreate?: boolean) {
     return action('by-uris', {
       uris: forceArray(uris).join('|'),
       refresh,
       relatives: (relatives != null) ? forceArray(relatives).join('|') : undefined,
-      autocreate: !isPrerenderSession,
+      autocreate: !isPrerenderSession && autocreate,
     })
   },
 
-  getAttributesByUris ({ uris, attributes, lang, relatives, refresh }) {
+  getAttributesByUris ({ uris, attributes, lang, relatives, refresh, autocreate = true }) {
     const query: QueryParams = {
       uris: forceArray(uris).join('|'),
     }
@@ -31,7 +31,7 @@ export default {
     }
     if (relatives != null) query.relatives = forceArray(relatives).join('|')
     if (refresh === true) query.refresh = true
-    query.autocreate = !isPrerenderSession
+    query.autocreate = !isPrerenderSession && autocreate
     return action('by-uris', query)
   },
 
