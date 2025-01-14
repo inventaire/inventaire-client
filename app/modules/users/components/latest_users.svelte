@@ -5,7 +5,7 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { getSimpleTime } from '#app/lib/time'
+  import { getISOTime, getSimpleTime } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -73,9 +73,10 @@
         <div class="reports">
           <h4>{i18n('Abuse reports')}</h4>
           <ul>
-            {#each user.reports as { type, text }}
+            {#each user.reports as { type, text, timestamp }}
               <li>
                 <span class="report-type">{type}</span>
+                <span class="report-timestamp">{getISOTime(timestamp)}</span>
                 <span class="report-text">{text}</span>
               </li>
             {/each}
@@ -187,13 +188,18 @@
       background-color: $yellow;
     }
   }
+  .report-type, .report-timestamp{
+    padding: 0.2rem 0.4rem;
+    margin-inline-end: 0.2rem;
+    @include radius;
+  }
   .report-type{
     background-color: $grey;
     font-weight: bold;
     color: white;
-    padding: 0.2rem 0.4rem;
-    margin-inline-end: 0.2rem;
-    @include radius;
+  }
+  .report-timestamp{
+    background-color: $light-grey;
   }
   .report-text{
     font-style: italic;
