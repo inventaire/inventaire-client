@@ -1,5 +1,6 @@
 <script lang="ts">
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
@@ -63,7 +64,7 @@
       {/if}
     </div>
     {#if description}
-      <p>{@html description}</p>
+      <p>{@html userContent(description)}</p>
     {/if}
   </div>
   <div class="creator-row">
