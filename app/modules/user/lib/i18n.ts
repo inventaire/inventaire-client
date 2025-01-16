@@ -81,3 +81,9 @@ const initLocalLang = function (lang) {
     'lang:local:get': () => lastLocalLang,
   })
 }
+
+export async function updateI18nLang (lang: UserLang) {
+  if (lang !== app.request('lang:local:get')) {
+    await initI18n(lang)
+  }
+}

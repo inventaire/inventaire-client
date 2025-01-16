@@ -2,11 +2,13 @@ import { isObject } from 'underscore'
 import BindedPartialBuilder from '#app/lib/binded_partial_builder'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
-import { routeSection, currentRouteWithQueryString } from '#app/lib/location'
+import { routeSection, currentRouteWithQueryString, parseQuery } from '#app/lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
+import { updateI18nLang } from './modules/user/lib/i18n.ts'
 import { channel, reqres, request, execute } from './radio.ts'
+import type { UserLang } from './lib/active_languages.ts'
 
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0
@@ -118,7 +120,9 @@ const App = Marionette.Application.extend({
   },
 
   // Used by firefox-headless-prerender
-  clearMetadataNavigateAndLoad (route, options) {
+  async clearMetadataNavigateAndLoad (route, options) {
+    const { lang = 'en' } = parseQuery(route.split('?')[1])
+    await updateI18nLang(lang as UserLang)
     this.navigateAndLoad(route, options)
     clearMetadata()
   },
