@@ -1,9 +1,13 @@
+import { uniq } from 'underscore'
 import { API } from '#app/api/api'
+import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
-import preq from '#app/lib/preq'
+import preq, { treq } from '#app/lib/preq'
 import { forceArray } from '#app/lib/utils'
-import type { UserId } from '#server/types/user'
-import { serializeUser } from './lib/users'
+import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
+import type { UserAccountUri } from '#server/types/server'
+import type { User, UserId, Username } from '#server/types/user'
+import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -29,11 +33,6 @@ export default {
   },
 
   search: searchUsers,
-
-  async byUsername (username) {
-    return preq.get(API.users.byUsername(username))
-    .then(({ users }) => users[username])
-  },
 }
 
 export async function getUsersByIds (ids: UserId[]) {
@@ -55,4 +54,26 @@ export async function getUserById (id: UserId) {
 export async function getSerializedUser (id: UserId) {
   const user = await getUserById(id)
   return serializeUser(user)
+}
+
+export async function getUserByUsername (username: Username) {
+  const { users } = await preq.get(API.users.byUsername(username))
+  return Object.values(users)[0] as User
+}
+
+type UsersByAccts = Record<UserAccountUri, SerializedContributor>
+
+export async function getUsersByAccts (userAccts: UserAccountUri[]): Promise<UsersByAccts> {
+  userAccts = uniq(userAccts)
+  if (userAccts.length === 0) return {}
+  const { users } = await treq.get<GetUsersByAcctsResponse>(API.users.byAccts(userAccts))
+  Object.values(users).forEach(serializeContributor)
+  return users as UsersByAccts
+}
+
+export async function getUserByAcct (userAcct: UserAccountUri) {
+  const users = await getUsersByAccts([ userAcct ])
+  const user = users[userAcct]
+  if (!user) throw newError('user not found', 404, { userAcct })
+  return user
 }
