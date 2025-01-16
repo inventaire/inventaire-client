@@ -104,6 +104,7 @@
             bind:currentEntityLabel={inputValue}
             bind:showSuggestions
             on:select={e => addUriAsElement(e.detail)}
+            on:focus={() => { flash = null }}
           />
         </label>
         <Flash bind:state={flash} />

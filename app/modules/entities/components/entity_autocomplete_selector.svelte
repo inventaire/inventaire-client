@@ -121,6 +121,7 @@
 
   let showSuggestionsStateBeforeBlur
   function onFocus () {
+    dispatch('focus')
     lazySearch()
     if (showSuggestionsStateBeforeBlur) showSuggestions = true
   }
