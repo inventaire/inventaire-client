@@ -4,9 +4,9 @@
   import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  const { name, orgName, orgUrl } = config
+  const { instanceName, orgName, orgUrl } = config
 
-  const isCanonicalName = name === 'inventaire'
+  const isCanonicalName = instanceName === 'inventaire'
   const needNameExplanation = isCanonicalName && app.user.lang !== 'fr'
   const { loggedIn } = app.user
 </script>

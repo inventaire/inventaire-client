@@ -10,8 +10,8 @@
   import { I18n } from '#user/lib/i18n'
 
   const { loggedIn } = app.user
-  const { name } = config
-  const shortName = name.slice(0, 3)
+  const { instanceName } = config
+  const shortName = instanceName.slice(0, 3)
 
   let displayConnectionButtons = false
 
