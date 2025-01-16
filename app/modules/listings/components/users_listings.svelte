@@ -8,7 +8,8 @@
   import Spinner from '#components/spinner.svelte'
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
-  import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
+  import { getListingPathname, getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
+  import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
 
   export let usersIds
@@ -46,10 +47,10 @@
   const isMainUser = usersIds[0] === app.user.id
 
   let showListingCreationModal = false
-  async function addNewListing (newListing) {
+  async function showNewListing (newListing: Listing) {
     try {
       showListingCreationModal = false
-      listings = [ serializeListing(newListing), ...listings ]
+      app.navigateAndLoad(getListingPathname(newListing._id))
     } catch (err) {
       flash = err
     }
@@ -101,7 +102,7 @@
   >
     <ListingEditor
       layoutTitle={i18n('Create a new list')}
-      on:listingEditorDone={e => addNewListing(e.detail)}
+      on:listingEditorDone={e => showNewListing(e.detail)}
     />
   </Modal>
 {/if}
