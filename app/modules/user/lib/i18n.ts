@@ -1,4 +1,4 @@
-import Polyglot, { type PolyglotOptions } from 'node-polyglot'
+import Polyglot from 'node-polyglot'
 import { noop } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
@@ -30,60 +30,53 @@ let currentLangI18n = (key: string, context?: unknown) => {
 
 export const i18n = (key: string, context?: unknown) => currentLangI18n(key, context)
 
+const missingKey = window.env === 'dev' ? i18nMissingKey : noop
+
+function onMissingKey (key: string) {
+  console.warn(`Missing translation for key: ${key}`)
+  missingKey(key)
+  if (key == null) console.trace()
+  app.polyglot.phrases[key] = key
+  return app.polyglot.t(key)
+}
+
+let lastLocalLang
+
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export async function initI18n (lang: UserLang) {
-  const missingKey = window.env === 'dev' ? i18nMissingKey : noop
+  app.vent.on('lang:local:change', value => { lastLocalLang = value })
+  app.reqres.setHandlers({
+    'lang:local:get': () => lastLocalLang,
+  })
 
-  const onMissingKey = function (key: string) {
-    console.warn(`Missing translation for key: ${key}`)
-    missingKey(key)
-    if (key == null) console.trace()
-    app.polyglot.phrases[key] = key
-    return app.polyglot.t(key)
-  }
-
-  setLanguage(lang, onMissingKey)
+  setLanguage(lang).catch(log_.Error('setLanguage error'))
 
   app.commands.setHandlers({
     'uriLabel:update': update,
     'uriLabel:refresh': refreshData,
   })
-
-  initLocalLang(lang)
 }
 
 export const I18n = (key: string, context?: unknown) => capitalize(currentLangI18n(key, context))
 
-function setLanguage (lang: UserLang, onMissingKey: PolyglotOptions['onMissingKey']) {
+async function setLanguage (lang: UserLang) {
+  lastLocalLang = lang
   app.polyglot = new Polyglot({ onMissingKey })
   currentLangI18n = translate(lang, app.polyglot)
   app.vent.trigger('uriLabel:update')
   return requestI18nFile(app.polyglot, lang)
 }
 
-function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
-  return preq.get(API.i18nStrings(lang))
-  .then(updatePolyglot.bind(null, polyglot, lang))
-  .catch(log_.ErrorRethrow(`i18n: failed to get the i18n file for ${lang}`))
-}
-
-function updatePolyglot (polyglot: Polyglot, lang: UserLang, res) {
+async function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
+  const res = await preq.get(API.i18nStrings(lang))
   polyglot.replace(res)
   polyglot.locale(lang)
   app.execute('waiter:resolve', 'i18n')
 }
 
-const initLocalLang = function (lang) {
-  let lastLocalLang = lang
-  app.vent.on('lang:local:change', value => { lastLocalLang = value })
-  app.reqres.setHandlers({
-    'lang:local:get': () => lastLocalLang,
-  })
-}
-
 export async function updateI18nLang (lang: UserLang) {
-  if (lang !== app.request('lang:local:get')) {
-    await initI18n(lang)
+  if (lang !== lastLocalLang) {
+    await setLanguage(lang)
   }
 }
