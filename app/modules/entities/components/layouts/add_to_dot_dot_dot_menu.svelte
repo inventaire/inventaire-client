@@ -18,7 +18,7 @@
   import { getSubEntities } from '../lib/entities.ts'
 
   export let entity
-  export let editions
+  export let editions = null
   export let flash
   export let align: Align = null
 
