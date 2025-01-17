@@ -40,7 +40,7 @@
 <div class="listing-info">
   <div class="header">
     <div class="first-row">
-      <h2>{name}</h2>
+      <h2>{@html userContent(name)}</h2>
       {#if isEditable}
         <Dropdown
           align="right"
