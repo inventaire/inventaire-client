@@ -68,9 +68,10 @@ async function setLanguage (lang: UserLang) {
   return requestI18nFile(app.polyglot, lang)
 }
 
+const i18nStringsCache = {}
 async function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
-  const res = await preq.get(API.i18nStrings(lang))
-  polyglot.replace(res)
+  i18nStringsCache[lang] ??= await preq.get(API.i18nStrings(lang))
+  polyglot.replace(i18nStringsCache[lang])
   polyglot.locale(lang)
   app.execute('waiter:resolve', 'i18n')
 }
