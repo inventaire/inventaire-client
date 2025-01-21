@@ -17,6 +17,10 @@ Object.assign(webpackConfig, {
 })
 
 // Use only in development, as types are checked by svelte-check during the pre-webpack build steps
-webpackConfig.plugins.push(new ForkTsCheckerWebpackPlugin())
+webpackConfig.plugins.push(new ForkTsCheckerWebpackPlugin({
+  typescript: {
+    mode: 'write-references',
+  },
+}))
 
 module.exports = webpackConfig
