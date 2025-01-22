@@ -1,15 +1,15 @@
 <script lang="ts">
-  import app from '#app/app'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getElementsImages, getListingPathname, getElementPathname } from '#listings/lib/listings'
   import type { EntityUri } from '#server/types/entity'
   import type { ListingWithElements } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
+  import { getSerializedUser } from '#users/users_data'
 
   export let listing: ListingWithElements, uri: EntityUri
 
-  const { name, creator, elements } = listing
+  const { name, creator: creatorId, elements } = listing
 
   const { comment, _id: elementId } = elements?.find(el => el.uri === uri)
 
@@ -20,7 +20,7 @@
   const imagesLimit = 6
 
   const getCreator = async () => {
-    ;({ username } = await app.request('get:user:data', creator))
+    ;({ username } = await getSerializedUser(creatorId))
   }
 
   const waitingForUserdata = getCreator()

@@ -1,18 +1,18 @@
 <script lang="ts">
-  import app from '#app/app'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getElementsImages } from '#listings/lib/listings'
+  import { getSerializedUser } from '#users/users_data'
 
   export let listing
 
-  const { name, creator, elements } = listing
+  const { name, creator: creatorId, elements } = listing
 
   let username
   const imagesLimit = 6
 
   const getCreator = async () => {
-    ;({ username } = await app.request('get:user:data', creator))
+    ;({ username } = await getSerializedUser(creatorId))
   }
 
   const waitingForUserdata = getCreator()

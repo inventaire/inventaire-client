@@ -4,9 +4,9 @@ import { getListingMetadata, getListingPathname, getListingWithElementsById, get
 import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
 import type { ListingWithElements } from '#server/types/listing'
+import type { SerializedUser } from '#users/lib/users'
 import { showUserListings } from '#users/users'
-import { getSerializedUser } from '../users/users_data'
-import type { SerializedUser } from '../users/lib/users'
+import { getSerializedUser } from '#users/users_data'
 
 export default {
   initialize () {
