@@ -2,14 +2,19 @@
   import app from '#app/app'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
-  import { getElementsImages } from '#listings/lib/listings'
+  import { getElementsImages, getListingPathname, getElementPathname } from '#listings/lib/listings'
+  import type { EntityUri } from '#server/types/entity'
+  import type { ListingWithElements } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
 
-  export let listing, uri
+  export let listing: ListingWithElements, uri: EntityUri
 
   const { name, creator, elements } = listing
 
   const { comment, _id: elementId } = elements?.find(el => el.uri === uri)
+
+  const elementPathname = getElementPathname(listing._id, elementId)
+  const listingPathname = getListingPathname(listing._id)
 
   let username
   const imagesLimit = 6
@@ -24,7 +29,7 @@
 
 {#if comment}
   <a
-    href={`/lists/${listing._id}/element/${elementId}`}
+    href={elementPathname}
     class="entity-listing-comment-layout"
     on:click={loadInternalLink}
   >
@@ -41,7 +46,7 @@
     </div>
 
     <a
-      href={`/lists/${listing._id}`}
+      href={listingPathname}
       class="listing-row"
       on:click|stopPropagation={loadInternalLink}
     >
