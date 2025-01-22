@@ -3,6 +3,7 @@
   import { getListingsByEntityUri } from '#listings/lib/listings'
   import EntityListing from '#modules/listings/components/entity_listing.svelte'
   import EntityListingComment from '#modules/listings/components/entity_listing_comment.svelte'
+  import type { ListingWithElements } from '#server/types/listing'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity
@@ -13,7 +14,7 @@
 
   const getListings = async () => {
     if (uri) {
-      const listings = await getListingsByEntityUri(uri) || []
+      const listings: ListingWithElements[] = await getListingsByEntityUri(uri) || []
       for (const listing of listings) {
         if (listing.elements.find(el => el.uri === uri).comment) {
           listingsWithEntityComment.push(listing)
