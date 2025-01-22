@@ -10,6 +10,7 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { bySerieOrdinal } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
@@ -56,13 +57,16 @@
           align="left"
         />
       </div>
-      <div class="serie-parts">
-        {#await waitingForWorks}
-          <Spinner center={true} />
-        {:then}
+      {#await waitingForWorks}
+        <Spinner center={true} />
+      {:then}
+        <div class="serie-parts">
           <WorksBrowser {sections} />
-        {/await}
-      </div>
+          <!-- Nest listings within WorksBrowser section to load it at the same time,
+          to not have to push it down when WorksBrowser is displayed -->
+          <EntityListingsLayout {entity} />
+        </div>
+      {/await}
     </div>
     <HomonymDeduplicates {entity} />
   </div>

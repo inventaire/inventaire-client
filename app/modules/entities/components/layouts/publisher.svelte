@@ -6,6 +6,7 @@
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import Spinner from '#general/components/spinner.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -48,13 +49,16 @@
           align="left"
         />
       </div>
-      <div class="publications">
-        {#await waitingForSubEntities}
-          <Spinner center={true} />
-        {:then}
+      {#await waitingForSubEntities}
+        <Spinner center={true} />
+      {:then}
+        <div class="publications">
           <WorksBrowser {sections} />
-        {/await}
-      </div>
+        </div>
+        <!-- Nest listings within WorksBrowser section to load it at the same time,
+        to not have to push it down when WorksBrowser is displayed -->
+        <EntityListingsLayout {entity} />
+      {/await}
     </div>
     <HomonymDeduplicates {entity} />
   </div>
