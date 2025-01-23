@@ -32,7 +32,7 @@
   <p class="loading">{I18n('loading')}<Spinner /></p>
 {:then}
   <div class="listings-layout listings-comments-layout">
-    <h5>{i18n('Comments from lists containing this work')}</h5>
+    <h5>{i18n('Comments about this')}</h5>
     {#if listingsWithEntityComment.length === 0}
       <div class="empty">
         {i18n('There is nothing here')}
@@ -46,7 +46,7 @@
     {/if}
   </div>
   <div class="listings-layout listings-without-comments-layout">
-    <h5>{i18n('Lists containing this work')}</h5>
+    <h5>{i18n('User lists about this')}</h5>
     {#if listingsWithoutEntityComment.length === 0}
       <div class="empty">
         {i18n('There is nothing here')}
