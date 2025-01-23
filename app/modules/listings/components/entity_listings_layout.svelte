@@ -67,7 +67,8 @@
     padding: 0.5em;
   }
   .listings-without-comments-layout{
-    padding: 1em;
+    @include display-flex(column, center);
+    padding: 0.5em;
     h5{
       margin-block-end: 1em;
     }

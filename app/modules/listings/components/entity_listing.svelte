@@ -42,8 +42,8 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-listing-layout{
-    @include display-flex(row, center);
-    margin: 0 0.5em;
+    @include display-flex(column, flex-start);
+    padding: 0.5em;
     background-color: $light-grey;
     :global(.images-collage){
       flex: 2;
@@ -57,7 +57,8 @@
     }
   }
   .listing-name-section{
-    @include display-flex(column, center);
+    width: 100%;
+    @include display-flex(row, center, space-between);
     padding: 0.5em;
     flex: 3;
   }
