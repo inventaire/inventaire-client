@@ -5,13 +5,6 @@ set -eu
 mkdir -p ./public/json ./vendor
 cp -r app/assets/* ./public
 
-npm run build
-
-# Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
-rm -rf .git/hooks
-# Symbolic link is relative to the .git directory, thus the path starting with ".."
-ln -s ../scripts/githooks .git/hooks
-
 # See https://git-scm.com/docs/git-config#Documentation/git-config.txt-blameignoreRevsFile
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 
@@ -27,6 +20,13 @@ echo "// A polyfill for visualViewport is required until we stop supporting Fire
 // Source: https://github.com/WICG/visual-viewport/blob/gh-pages/polyfill/visualViewport.js
 " > ./vendor/visual_viewport_polyfill.js
 curl -sk https://raw.githubusercontent.com/WICG/visual-viewport/44deaba/polyfill/visualViewport.js >> ./vendor/visual_viewport_polyfill.js
+
+npm run build
+
+# Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
+rm -rf .git/hooks
+# Symbolic link is relative to the .git directory, thus the path starting with ".."
+ln -s ../scripts/githooks .git/hooks
 
 # Remove assets cached by node modules, in particular webpack cached builds,
 # as webpack does not invalidate its cache on modules updates.
