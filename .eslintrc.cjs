@@ -179,7 +179,6 @@ module.exports = {
     L: 'writable',
     FilteredCollection: 'writable',
     Handlebars: 'writable',
-    Piwik: 'writable',
     // Browser globals
     alert: 'readonly',
     screen: 'readonly',

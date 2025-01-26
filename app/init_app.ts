@@ -1,6 +1,5 @@
 import app from '#app/app'
 import initDataWaiters from '#app/lib/data/waiters'
-import initPiwik from '#app/lib/piwik'
 import initQuerystringHelpers from '#app/lib/querystring_helpers'
 import reloadOnceADay from '#app/lib/reload_once_a_day'
 import Entities from '#entities/entities'
@@ -57,6 +56,4 @@ export default async function () {
     app.execute('waiter:resolve', 'layout')
     reloadOnceADay()
   })
-
-  initPiwik()
 }

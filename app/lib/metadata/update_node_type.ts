@@ -1,4 +1,3 @@
-import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import applyTransformers from './apply_transformers.ts'
 import { metaNodes, possibleFields } from './nodes.ts'
@@ -19,10 +18,6 @@ export default function (key: string, value: string, noCompletion?: boolean) {
   if (value == null) {
     log_.warn(`missing metadata value: ${key}`)
     return
-  }
-
-  if (key === 'title') {
-    app.execute('track:page:view', value)
   }
 
   value = applyTransformers(key, value, noCompletion)

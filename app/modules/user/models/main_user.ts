@@ -32,9 +32,6 @@ export default UserCommons.extend({
     this.on('shelves:change', this.updateShelvesCounter.bind(this))
     this.on('listings:change', this.updateListingsCounter.bind(this))
 
-    // user._id should only change once from undefined to defined
-    this.once('change:_id', (model, id) => app.execute('track:user:id', id))
-
     this.set('itemsCategory', 'personal')
 
     // If the user is logged in, this will wait for their document to arrive
