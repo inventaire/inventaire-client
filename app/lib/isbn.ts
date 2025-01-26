@@ -4,7 +4,7 @@ import preq from '#app/lib/preq'
 export const getIsbnData = isbn => preq.get(API.data.isbn(isbn))
 
 // Removing any non-alpha numeric characters, especially '-' and spaces
-export const normalizeIsbn = text => {
+export function normalizeIsbn (text: string) {
   return text
   // Remove hypens
   .replace(/\W/g, '')
@@ -12,12 +12,12 @@ export const normalizeIsbn = text => {
   .toUpperCase()
 }
 
-export const isNormalizedIsbn = text => /^(97(8|9))?\d{9}(\d|X)$/.test(text)
+export const isNormalizedIsbn = (text: string) => /^(97(8|9))?\d{9}(\d|X)$/.test(text)
 
 // Stricter ISBN validation is done on the server but would be too expensive
 // to do client-side: so the trade-off is that invalid ISBN
 // might not be spotted client-side until refused by the server
-export const looksLikeAnIsbn = function (text) {
+export function looksLikeAnIsbn (text: unknown) {
   if (typeof text !== 'string') return false
   const cleanedText = normalizeIsbn(text)
   if (isNormalizedIsbn(cleanedText)) {

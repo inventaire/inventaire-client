@@ -1,7 +1,7 @@
 import { isInvEntityId } from '#app/lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 
-export default function (text) {
+export default function (text: string) {
   text = text.trim()
   if (isWikidataId.test(text)) text = 'wd:' + text
   if (caseInsensitiveEntityUri.test(text)) return text.replace('wd:q', 'wd:Q')

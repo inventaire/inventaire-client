@@ -73,7 +73,7 @@
   $: if (searchText.trim().length === 0) showResults = false
 
   let uri
-  const getSearchResults = async searchText => {
+  async function getSearchResults (searchText: string) {
     uri = findUri(searchText)
     if (uri != null) {
       return getResultFromUri(uri)
@@ -82,7 +82,7 @@
     }
   }
 
-  async function _search (searchText) {
+  async function _search (searchText: string) {
     const types = typesBySection[selectedCategory][selectedSection]
     // Subjects aren't indexed in the server ElasticSearch
     // as it's not a subset of Wikidata anymore: pretty much anything
@@ -154,25 +154,25 @@
 
   const neutralizedKeys = new Set([ 'up', 'down', 'pageup', 'pagedown' ])
 
-  const showLiveSearch = () => {
+  function showLiveSearch () {
     showSearchDropdown = true
   }
 
   const initialRoute = currentRoute()
-  const hideLiveSearch = () => {
+  function hideLiveSearch () {
     showSearchDropdown = false
     if (showFallbackLayout && initialRoute === currentRoute()) {
       showFallbackLayout()
     }
   }
-  const hideAndResetLiveSearch = () => {
+  function hideAndResetLiveSearch () {
     searchText = ''
     hideLiveSearch()
   }
 
   const highlightPreviousResult = () => highlightedResultIndex = Math.max(highlightedResultIndex - 1, 0)
   const highlightNextResult = () => highlightedResultIndex = Math.min(highlightedResultIndex + 1, results.length - 1)
-  const showCurrentlyHighlightedResult = () => {
+  function showCurrentlyHighlightedResult () {
     if (!searchResultsEl) return
     const highlightedResultEl = searchResultsEl.children[highlightedResultIndex]
     highlightedResultEl.querySelector('a').click()
@@ -193,10 +193,10 @@
   }
 
   let selectedCategory, selectedSection
-  const selectPrevSection = () => {
+  function selectPrevSection () {
     ;({ selectedCategory, selectedSection } = getPrevSection({ selectedCategory, selectedSection }))
   }
-  const selectNextSection = () => {
+  function selectNextSection () {
     ;({ selectedCategory, selectedSection } = getNextSection({ selectedCategory, selectedSection }))
   }
 
