@@ -2,10 +2,12 @@ import { all, property, last, compact, pluck, uniq } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
+import type { SerializedContributor } from '#app/modules/users/lib/users'
 import { getUsersByAccts } from '#app/modules/users/users_data'
-import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
+import { getEntitiesBasicInfoByUris, type SerializedEntity } from '#entities/lib/entities'
+import type { RelativeUrl } from '#server/types/common'
 import type { EntityUri, InvEntityId, InvEntityUri } from '#server/types/entity'
-import type { PatchId } from '#server/types/patch'
+import type { Patch, PatchId } from '#server/types/patch'
 import { i18n } from '#user/lib/i18n'
 
 export async function getEntityPatches (uri: EntityUri) {
@@ -15,7 +17,19 @@ export async function getEntityPatches (uri: EntityUri) {
   return serializePatches(patches)
 }
 
-export async function serializePatches (patches) {
+export interface SerializedPatchExtras {
+  entityId: InvEntityId
+  invEntityUri: InvEntityUri
+  invEntityHistoryPathname: RelativeUrl
+  versionNumber: number
+  patchType: ReturnType<typeof findPatchType>
+  contributor: SerializedContributor
+  entity: SerializedEntity
+}
+
+export type SerializedPatch = Patch & SerializedPatchExtras
+
+export async function serializePatches (patches: (Patch & Partial<SerializedPatchExtras>)[]) {
   const [ usersByAccts, entitiesByUris ] = await Promise.all([
     getPatchesUsers(patches),
     getPatchesEntities(patches),
@@ -26,9 +40,9 @@ export async function serializePatches (patches) {
     }
     const uri = getPatchEntityUri(patch)
     patch.entity = entitiesByUris[uri]
-    serializePatch(patch)
+    serializePatchSync(patch)
   }
-  return patches
+  return patches as SerializedPatch[]
 }
 
 async function getPatchesUsers (patches) {
@@ -47,7 +61,7 @@ export const getPatchEntityUri = patch => {
 }
 const getEntityIdFromPatchId = (patchId: PatchId) => patchId.split(':')[0] as InvEntityId
 
-function serializePatch (patch) {
+function serializePatchSync (patch: Patch & Partial<SerializedPatchExtras>) {
   const { _id: patchId } = patch
   const entityId = getEntityIdFromPatchId(patchId)
   // The first version is an empty document with only the basic attributes:
@@ -62,7 +76,7 @@ function serializePatch (patch) {
   })
   mergeTestAndRemoveOperations(patch)
   setOperationsData(patch)
-  patch.patchType = findPatchType(patch)
+  patch.patchType = findPatchType(patch as SerializedPatch)
   setOperationsSummaryData(patch)
   return patch
 }
@@ -118,14 +132,14 @@ function setOperationData (operation, user) {
   }
 }
 
-function findPatchType (patch) {
+function findPatchType (patch: SerializedPatch) {
   const { versionNumber, operations } = patch
   if (versionNumber === 1) return 'creation'
 
   const firstOp = operations[0]
   if (firstOp.path === '/redirect') return 'redirect'
   if (firstOp.path === '/type') {
-    if (firstOp.value === 'removed:placeholder') return 'deletion'
+    if ('value' in firstOp && firstOp.value === 'removed:placeholder') return 'deletion'
   }
 
   const operationsTypes = operations.map(property('op'))

@@ -7,13 +7,14 @@
   import Spinner from '#components/spinner.svelte'
   import Patch from '#entities/components/patches/patch.svelte'
   import { getEntityByUri } from '#entities/lib/entities'
-  import { getEntityPatches } from '#entities/lib/patches'
+  import { getEntityPatches, type SerializedPatch } from '#entities/lib/patches'
   import type { EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let uri: EntityUri
 
-  let pathname, label, flash, patches, wdHistoryUrl
+  let pathname, label, flash, wdHistoryUrl
+  let patches: SerializedPatch[]
 
   const waitForEntity = getEntityByUri({ uri })
     .then(entity => {

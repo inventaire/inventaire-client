@@ -6,13 +6,14 @@
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
+  import type { SerializedPatch } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let patch
+  export let patch: SerializedPatch
 
   let flash
 
-  const { _id: patchId, versionNumber, invEntityUri, operations, timestamp, context, user } = patch
+  const { _id: patchId, versionNumber, invEntityUri, operations, timestamp, context, contributor } = patch
 
   async function revert () {
     try {
@@ -35,19 +36,19 @@
   </p>
   <p>
     <span class="label">{i18n('user')}:</span>
-    {#if user}
-      {#if user.special}
-        <span class="value">{user.username}</span>
+    {#if contributor}
+      {#if contributor.special}
+        <span class="value">{contributor.username}</span>
         <span class="special-user">{I18n('special user')}</span>
-      {:else if user.deleted}
-        <span class="value">{user.username}</span>
+      {:else if contributor.deleted}
+        <span class="value">{contributor.username}</span>
         <span class="deleted-user">{i18n('deleted')}</span>
-      {:else if user.pathname}
-        <a class="value show-user" href={user.pathname} on:click={loadInternalLink}>{user.username || user.acct}</a>
+      {:else if contributor.pathname}
+        <a class="value show-user" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username || contributor.acct}</a>
       {:else}
-        <span class="value">{user.username || user.acct}</span>
+        <span class="value">{contributor.username || contributor.acct}</span>
       {/if}
-      <a class="show-user-contributions" href={user.contributionsPathname} on:click={loadInternalLink}>
+      <a class="show-user-contributions" href={contributor.contributionsPathname} on:click={loadInternalLink}>
         {i18n('contributions')}
       </a>
     {:else}
@@ -61,7 +62,7 @@
       <span class="precise-time">{getLocalTimeString(timestamp)}</span>
     </span>
   </p>
-  {#if context?.mergeFrom}
+  {#if context && 'mergeFrom' in context}
     <p>
       <span class="label">{i18n('context')}</span>
       <span class="value">
