@@ -1,5 +1,4 @@
 import { isImageHash } from '#app/lib/boolean_tests'
-import { serverReportError } from '#app/lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
 import { getUserBasePathname } from '#users/lib/users'
 
@@ -90,14 +89,3 @@ export const serializeSubject = result => ({
   uri: `wd:${result.id}`,
   type: 'subjects',
 })
-
-export const serializeEntityModel = function (entity) {
-  if (entity?.toJSON == null) {
-    serverReportError('cant format invalid entity', { entity })
-    return
-  }
-
-  const data = entity.toJSON()
-  data.image = data.image?.url
-  return serializeResult(data)
-}

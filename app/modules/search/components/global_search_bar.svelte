@@ -17,6 +17,7 @@
   import { getActionKey } from '#app/lib/key_events'
   import { currentRoute } from '#app/lib/location'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { getEntityByUri } from '#app/modules/entities/lib/entities'
   import Spinner from '#components/spinner.svelte'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
   import { wikidataSearch } from '#entities/lib/search/wikidata_search'
@@ -25,8 +26,9 @@
   import SearchResult from '#search/components/search_result.svelte'
   import SearchShortcuts from '#search/components/search_shortcuts.svelte'
   import findUri from '#search/lib/find_uri'
-  import { serializeEntityModel, serializeSubject } from '#search/lib/search_results'
+  import { serializeResult, serializeSubject } from '#search/lib/search_results'
   import { getNextSection, getPrevSection, sectionsNames, typesBySection } from '#search/lib/search_sections'
+  import type { EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
   let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, waiting, flash
@@ -114,10 +116,10 @@
 
   const lazySearch = debounce(search, 400)
 
-  async function getResultFromUri (uri) {
+  async function getResultFromUri (uri: EntityUri) {
     try {
-      const entity = await app.request('get:entity:model', uri)
-      const result = serializeEntityModel(entity)
+      const entity = await getEntityByUri({ uri, autocreate: true })
+      const result = serializeResult(entity)
       return [ result ]
     } catch (err) {
       if (err.message === 'entity_not_found') {
