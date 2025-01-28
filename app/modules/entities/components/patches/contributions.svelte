@@ -2,19 +2,21 @@
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
+  import type { SerializedContributor } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let user = null
+  export let contributor: SerializedContributor = null
   export let filter = null
 
   let contributions = []
-  const userContributionsContext = user != null
+  const userContributionsContext = contributor != null
 
   let fetching = false
   let limit = 10
@@ -23,8 +25,9 @@
 
   async function fetchMore () {
     limit = Math.min(limit * 2, 500)
+    const acct = contributor?.acct
     const { patches, continue: continu, total: _total } = await preq.get(API.entities.contributions({
-      userId: user?._id,
+      acct,
       limit,
       offset,
       filter,
@@ -50,14 +53,14 @@
   }
 
   function removeFilter () {
-    app.navigateAndLoad(user.contributionsPathname)
+    app.navigateAndLoad(contributor.contributionsPathname)
   }
 </script>
 
 <div class="contributions">
   <h3>
-    {#if user}
-      {I18n('contributions_by', user)}
+    {#if contributor}
+      {I18n('contributions_by', { username: contributor.username || contributor.shortAcct })}
     {:else}
       {I18n('recent changes')}
     {/if}
@@ -70,39 +73,50 @@
   </h3>
 
   <ul class="stats">
-    {#if user}
-      <li>
-        <span class="stat-label">id</span>
-        <span class="stat-value">{user._id}</span>
-      </li>
-      {#if !user.special}
-        <li>
-          <span class="stat-label">{i18n('profile')}</span>
-          <a class="link" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
-        </li>
-        <li>
-          {#if user.deleted}
-            <span class="stat-label deleted">{i18n('deleted')}</span>
-          {:else}
-            <span class="stat-label">{i18n('created')}</span>
-            <p class="stat-value">
-              <span class="time-from-now">{timeFromNow(user.created)}</span>
-              <span class="precise-time">{getLocalTimeString(user.created)}</span>
-            </p>
-          {/if}
-        </li>
+    {#if contributor}
+      {#if !contributor.special}
+        {#if contributor.pathname}
+          <li class="profile">
+            <span class="stat-label">{i18n('profile')}</span>
+            <a class="link" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username}</a>
+            <div class="user-status">
+              {#if contributor.deleted}
+                <span class="deleted">{@html icon('cross')} {i18n('deleted')}</span>
+              {:else if !contributor.found}
+                <span class="not-found">{@html icon('cross')} {i18n('not found')}</span>
+              {:else if contributor.settings.contributions.anonymize}
+                <span class="anonymized">{@html icon('user-secret')} {i18n('anonymized')}</span>
+              {:else}
+                <span class="public">{@html icon('globe')} {i18n('public contributions')}</span>
+              {/if}
+            </div>
+          </li>
+        {/if}
       {/if}
-      {#if user.roles}
+      <li>
+        <span class="stat-label">{i18n('account uri')}</span>
+        <span class="stat-value">{contributor.acct}</span>
+      </li>
+      {#if contributor.roles?.length > 0}
         <li>
-          <span class="stat-label">{i18n('roles')}:</span>
-          <span class="stat-value">{user.roles}</span>
+          <span class="stat-label">{i18n('roles')}</span>
+          <span class="stat-value">{contributor.roles}</span>
         </li>
       {/if}
     {/if}
-    {#if total}
+    {#if total != null}
       <li>
-        <span class="stat-label">{i18n('total')}</span>
+        <span class="stat-label">{i18n('contributions')}</span>
         <span class="stat-value total">{total}</span>
+      </li>
+    {/if}
+    {#if contributor.created}
+      <li>
+        <span class="stat-label">{i18n('created')}</span>
+        <p class="stat-value">
+          <span class="time-from-now">{timeFromNow(contributor.created)}</span>
+          <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
+        </p>
       </li>
     {/if}
   </ul>
@@ -148,6 +162,26 @@
       align-self: stretch;
     }
   }
+  .profile{
+    @include display-flex(row, center, flex-start);
+  }
+  .user-status{
+    @include display-flex(row, center, flex-start);
+    span{
+      margin: 0 0.5rem;
+      background-color: white;
+      padding: 0 0.5rem 0 0.2rem;
+      @include radius;
+    }
+    .deleted, .not-found{
+      background-color: $warning-color;
+      color: white;
+    }
+    .anonymized{
+      background-color: $dark-grey;
+      color: white;
+    }
+  }
   .stats{
     padding: 1em;
     background-color: $light-grey;
@@ -155,10 +189,6 @@
       display: inline-block;
       min-width: 10em;
       color: #777;
-      &.deleted{
-        color: red;
-        font-weight: bold;
-      }
     }
   }
   .stat-value{

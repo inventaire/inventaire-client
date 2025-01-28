@@ -39,7 +39,8 @@
     {name}
     id={name}
     bind:checked={value}
-    on:change={updateSetting} />
+    on:change={updateSetting}
+  />
   {I18n(description)}
 </label>
 <Flash bind:state={flash} />

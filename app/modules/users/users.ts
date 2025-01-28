@@ -1,11 +1,16 @@
 import app from '#app/app'
+import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import type { Group } from '#server/types/group'
-import type { UserId, User } from '#server/types/user'
+import type { UserAccountUri } from '#server/types/server'
+import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { initRelations } from '#users/lib/relations'
 import initHelpers from './helpers.ts'
+import { getLocalUserAccount } from './lib/users.ts'
 import initRequests from './requests.ts'
 import initUsersCollections from './users_collections.ts'
+import { getUserByAcct, getUserByUsername } from './users_data.ts'
 
 export default {
   initialize () {
@@ -130,17 +135,40 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
   }
 }
 
-async function showUserContributions (idOrUsernameOrModel, filter) {
+async function showUserContributions (userAcctOrIdOrUsername: string, filter: string) {
   try {
-    const user = await app.request('resolve:to:user', idOrUsernameOrModel)
-    const { username } = user
-    let path = `users/${username.toLowerCase()}/contributions`
-    if (filter) path += `?filter=${filter}`
-    const title = i18n('contributions_by', { username })
-    app.navigate(path, { metadata: { title } })
-    const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
-    app.layout.showChildComponent('main', Contributions, { props: { user, filter } })
+    const userAcct = await resolveToUserAcct(userAcctOrIdOrUsername)
+    await showUserContributionsFromAcct(userAcct, filter)
   } catch (err) {
     app.execute('show:error', err)
+  }
+}
+
+export async function showUserContributionsFromAcct (userAcct: UserAccountUri, filter?: string) {
+  try {
+    const contributor = await getUserByAcct(userAcct)
+    const { username, contributionsPathname, shortAcct } = contributor
+    let path = contributionsPathname
+    if (filter) path += `?filter=${filter}`
+    const title = i18n('contributions_by', { username: username || shortAcct })
+    app.navigate(path, { metadata: { title } })
+    const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
+    app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
+
+async function resolveToUserAcct (userAcctOrIdOrUsername: UserAccountUri | UserId | Username) {
+  if (isUserAcct(userAcctOrIdOrUsername)) {
+    return userAcctOrIdOrUsername
+  } else if (isUserId(userAcctOrIdOrUsername)) {
+    return getLocalUserAccount(userAcctOrIdOrUsername)
+  } else {
+    const user = await getUserByUsername(userAcctOrIdOrUsername)
+    if (!user.anonymizableId) {
+      throw newError("This user's contributions are private", 403, { username: userAcctOrIdOrUsername })
+    }
+    return getLocalUserAccount(user.anonymizableId)
   }
 }

@@ -41,6 +41,7 @@
   "scripts": {
     "build": "./scripts/build_and_save_logs.sh",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
+    "build-i18n": "./scripts/build_i18n",
     "check-types": "./scripts/typescript/check_types.sh",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
@@ -50,9 +51,9 @@
     "postinstall": "./scripts/postinstall",
     "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
     "test": "./scripts/run_unit_tests",
-    "update-i18n": "./scripts/build_i18n",
     "update-toc": "doctoc README.md",
     "watch": "npm start",
+    "watch-federated": "./scripts/watch_federated.sh",
     "watch-without-hot-reload": "webpack watch --config ./bundle/webpack.config.dev.cjs"
   },
   "dependencies": {

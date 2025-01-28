@@ -1,20 +1,33 @@
 <script lang="ts">
   import app from '#app/app'
+  import { config } from '#app/config'
   import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  const needNameExplanation = app.user.lang !== 'fr'
+  const { instanceName, orgName, orgUrl } = config
+
+  const isCanonicalName = instanceName === 'inventaire'
+  const needNameExplanation = isCanonicalName && app.user.lang !== 'fr'
   const { loggedIn } = app.user
 </script>
 
 <section id="landingScreen" class="text-center">
   <div class="name">
     <h2 class="respect-case">
-      inventaire
+      {name}
       {#if needNameExplanation}
         <span class="name-explaination">*{i18n('means "inventory" in French')}</span>
       {/if}
     </h2>
+    {#if !isCanonicalName}
+      <h3 class="subtitle">
+        {#if orgName && orgUrl}
+          {@html i18n('An [Inventaire](https://inventaire.io/) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
+        {:else}
+          {@html i18n('An [Inventaire](https://inventaire.io/) instance')}
+        {/if}
+      </h3>
+    {/if}
   </div>
   <!-- wrap the rest in the bottom div to push it down -->
   <div class="bottom">
@@ -66,8 +79,14 @@
         font-weight: bold;
         font-size: 10em;
         line-height: 1em;
-        margin: auto;
+        margin: 0 auto;
         position: relative;
+      }
+      .subtitle{
+        font-weight: bold;
+        :global(.link){
+          text-decoration: underline;
+        }
       }
       .name-explaination{
         font-size: 1rem;

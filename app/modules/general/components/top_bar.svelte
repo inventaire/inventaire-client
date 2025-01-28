@@ -1,5 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
+  import { config } from '#app/config'
   import { screen } from '#app/lib/components/stores/screen'
   import { locationStore } from '#app/lib/location_store'
   import { loadInternalLink } from '#app/lib/utils'
@@ -9,6 +10,8 @@
   import { I18n } from '#user/lib/i18n'
 
   const { loggedIn } = app.user
+  const { instanceName } = config
+  const shortName = instanceName.slice(0, 3)
 
   let displayConnectionButtons = false
 
@@ -23,7 +26,7 @@
 
 <nav>
   <h1 class="respect-case">
-    <a id="home" href="/" on:click={loadInternalLink}>{#if smallScreen}inv{:else}inventaire{/if}</a>
+    <a id="home" href="/" on:click={loadInternalLink}>{smallScreen ? shortName : instanceName}</a>
   </h1>
 
   <!-- svelte-ignore a11y-missing-content -->

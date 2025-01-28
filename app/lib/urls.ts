@@ -22,11 +22,9 @@ export const contact = {
 export const images = {
   // not passing an absolute url so that it can be easily digested
   // by the {{imgSrc}} helper as a local image url
-  // /!\ implies that the current server has it in its object storage container
   banner: image('banner.jpg'),
-  // images in CC-BY or CC-BY-SA
-  // See app/modules/welcome/views/templates/credits.hbs for originals
-  bokeh: image('bokeh.jpg'),
-  brittanystevens: image('brittanystevens.jpg'),
   defaultAvatar: image('default_avatar'),
+  // images in CC-BY or CC-BY-SA
+  // See https://wiki.inventaire.io/wiki/Credits#Images for originals
+  brittanystevens: image('brittanystevens.jpg'),
 }
