@@ -12,6 +12,7 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import { i18n } from '#user/lib/i18n'
   import EntityImage from '../entity_image.svelte'
   import BaseLayout from './base_layout.svelte'
@@ -96,6 +97,9 @@
           />
         {/each}
       </div>
+      <div class="entity-listings-layout">
+        <EntityListingsLayout {entity} />
+      </div>
       <HomonymDeduplicates {entity} />
     {/await}
   </div>
@@ -111,6 +115,9 @@
       margin-block-start: 1em;
     }
   }
+  .entity-listings-layout{
+    margin: 1em 0;
+  }
   .author-works{
     margin-block-start: 1em;
   }
@@ -119,15 +126,15 @@
       margin-inline-end: 1em;
     }
   }
-  .relatives-lists{
-    @include relatives-lists-commons;
-  }
   .right-section{
     @include display-flex(column, flex-end);
     :global(.add-to-dot-dot-dot-menu){
       margin-block-start: 1em;
       width: 10em;
     }
+  }
+  .relatives-lists{
+    @include relatives-lists-commons;
   }
   /* Large screens */
   @media screen and (width >= $small-screen){

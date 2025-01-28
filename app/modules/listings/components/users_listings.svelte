@@ -13,7 +13,6 @@
   import { i18n } from '#user/lib/i18n'
 
   export let usersIds
-  export let onUserLayout = false
 
   let listings = []
   let flash
@@ -87,7 +86,7 @@
         </button>
       </div>
     {/if}
-    <ListingsLayout {listings} {onUserLayout} />
+    <ListingsLayout {listings} />
     {#if hasMore}
       <p bind:this={listingBottomEl}>
         <Spinner center={true} />
