@@ -14,7 +14,7 @@
 <section id="landingScreen" class="text-center">
   <div class="name">
     <h2 class="respect-case">
-      {name}
+      {instanceName}
       {#if needNameExplanation}
         <span class="name-explaination">*{i18n('means "inventory" in French')}</span>
       {/if}
