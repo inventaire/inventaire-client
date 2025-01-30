@@ -5,7 +5,7 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
-  import { loadInternalLink } from '#app/lib/utils'
+  import { loadLink } from '#app/lib/utils'
   import type { SerializedContributor } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
@@ -60,7 +60,7 @@
 <div class="contributions">
   <h3>
     {#if contributor}
-      {I18n('contributions_by', { username: contributor.username || contributor.shortAcct })}
+      {I18n('contributions_by', { username: contributor.handle || contributor.shortAcct })}
     {:else}
       {I18n('recent changes')}
     {/if}
@@ -78,7 +78,7 @@
         {#if contributor.pathname}
           <li class="profile">
             <span class="stat-label">{i18n('profile')}</span>
-            <a class="link" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username}</a>
+            <a class="link" href={contributor.pathname} on:click={loadLink}>{contributor.username}</a>
             <div class="user-status">
               {#if contributor.deleted}
                 <span class="deleted">{@html icon('cross')} {i18n('deleted')}</span>

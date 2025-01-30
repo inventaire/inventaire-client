@@ -52,8 +52,6 @@ export function isOpenedOutside (e, ignoreMissingHref = false) {
 // Test existance to ignore in other contexts than the browser
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
-// TODO: consider having a global event listener,
-// rather than having to set it in all those <a on:click>
 export function loadInternalLink (e) {
   if (!(isOpenedOutside(e))) {
     const { pathname, search } = new URL(e.currentTarget.href)
@@ -61,6 +59,23 @@ export function loadInternalLink (e) {
       preventScrollTop: isModalPathname(pathname),
     })
     e.preventDefault()
+  }
+}
+
+export function loadExternalLink (e) {
+  // See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/noopener
+  e.currentTarget.rel ||= 'noopener'
+  // Let the default browser behavior load the external page
+}
+
+export function loadLink (e) {
+  if (!(isOpenedOutside(e))) {
+    const { origin } = new URL(e.currentTarget.href)
+    if (origin === location.origin) {
+      loadInternalLink(e)
+    } else {
+      loadExternalLink(e)
+    }
   }
 }
 

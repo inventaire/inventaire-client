@@ -3,7 +3,7 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { getISOTime, getLocalTimeString, timeFromNow } from '#app/lib/time'
-  import { loadInternalLink } from '#app/lib/utils'
+  import { loadLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
   import { getClaimValue } from '#entities/lib/entities'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -38,7 +38,7 @@
     </button>
     {#if entity}
       <div class="entity">
-        <a class="label link" href={entity.pathname} on:click={loadInternalLink}>{entity.label}</a>
+        <a class="label link" href={entity.pathname} on:click={loadLink}>{entity.label}</a>
         <div class="entity-meta">
           <span class="entity-type">{entity.type}</span>
           <span class="patch-id">{patchId}</span>
@@ -93,7 +93,7 @@
           class:special={contributor.special}
           href={contributor.contributionsPathname}
           title={contributor.special ? i18n('bot') : contributor.roles?.join(' ') || ''}
-          on:click={loadInternalLink}
+          on:click={loadLink}
         >
           <p class="username">{contributor.username || contributor.shortAcct}</p>
           {#if contributor.special}

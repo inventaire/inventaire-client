@@ -5,7 +5,7 @@ import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { distanceBetween } from '#map/lib/geo'
 import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
-import type { RelativeUrl } from '#server/types/common'
+import type { Host, RelativeUrl } from '#server/types/common'
 import type { UserAccountUri } from '#server/types/server'
 import type { AnonymizableUserId, User, Username } from '#server/types/user'
 
@@ -29,6 +29,7 @@ export interface SerializedUser extends User {
 export interface SerializedContributor extends InstanceAgnosticContributor {
   isMainUser: boolean
   shortAcct: string
+  handle: Username | `${Username}@${Host}`
   pathname?: RelativeUrl
   inventoryPathname?: RelativeUrl
   listingsPathname?: RelativeUrl
@@ -51,6 +52,12 @@ export function serializeUser (user: User & Partial<SerializedUser>) {
 
 export function serializeContributor (user: InstanceAgnosticContributor & Partial<SerializedContributor>) {
   user.isMainUser = user.acct === app.user.acct
+  const host = user.acct.split('@')[1]
+  if (host === publicHost) {
+    user.handle = user.username
+  } else {
+    user.handle = `${user.username}@${host}`
+  }
   user.shortAcct = shortenAcct(user.acct)
   user.picture = getPicture(user)
   Object.assign(user, getUserPathnames(user))
@@ -108,18 +115,30 @@ export function getUserBasePathname (usernameOrId: string) {
   return `/users/${usernameOrId.toLowerCase()}`
 }
 
-export function getUserPathnames (user: { username: Username } | { acct: UserAccountUri }) {
-  if ('username' in user) {
+export function getUserPathnames (user: { username?: Username, acct?: UserAccountUri }) {
+  if ('acct' in user && user.acct.split('@')[1] !== publicHost) {
+    const { acct, username } = user
+    const host = acct.split('@')[1]
+    const base = getUserBasePathname(acct)
+    const pathnames = {
+      contributionsPathname: `${base}/contributions`,
+    }
+    if (username) {
+      // Assume that protocol is the same: http in dev, https in prod
+      const remoteBase = `${location.protocol}//${host}${getUserBasePathname(username)}`
+      Object.assign(pathnames, {
+        pathname: remoteBase,
+        inventoryPathname: `${remoteBase}/inventory`,
+        listingsPathname: `${remoteBase}/lists`,
+      })
+    }
+    return pathnames
+  } else {
     const base = getUserBasePathname(user.username)
     return {
       pathname: base,
       inventoryPathname: `${base}/inventory`,
       listingsPathname: `${base}/lists`,
-      contributionsPathname: `${base}/contributions`,
-    }
-  } else {
-    const base = getUserBasePathname(user.acct)
-    return {
       contributionsPathname: `${base}/contributions`,
     }
   }

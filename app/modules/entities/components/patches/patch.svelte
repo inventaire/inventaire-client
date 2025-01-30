@@ -4,7 +4,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
-  import { loadInternalLink } from '#app/lib/utils'
+  import { loadLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
   import type { SerializedPatch } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -44,11 +44,11 @@
         <span class="value">{contributor.username}</span>
         <span class="deleted-user">{i18n('deleted')}</span>
       {:else if contributor.pathname}
-        <a class="value show-user" href={contributor.pathname} on:click={loadInternalLink}>{contributor.username || contributor.acct}</a>
+        <a class="value show-user" href={contributor.pathname} on:click={loadLink}>{contributor.handle || contributor.acct}</a>
       {:else}
         <span class="value">{contributor.username || contributor.acct}</span>
       {/if}
-      <a class="show-user-contributions" href={contributor.contributionsPathname} on:click={loadInternalLink}>
+      <a class="show-user-contributions" href={contributor.contributionsPathname} on:click={loadLink}>
         {i18n('contributions')}
       </a>
     {:else}
@@ -66,7 +66,7 @@
     <p>
       <span class="label">{i18n('context')}</span>
       <span class="value">
-        merge from <a href="/entity/{context.mergeFrom}" on:click={loadInternalLink}>{context.mergeFrom}</a>
+        merge from <a href="/entity/{context.mergeFrom}" on:click={loadLink}>{context.mergeFrom}</a>
       </span>
     </p>
   {/if}
