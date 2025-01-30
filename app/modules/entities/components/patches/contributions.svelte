@@ -110,7 +110,7 @@
         <span class="stat-value total">{total}</span>
       </li>
     {/if}
-    {#if contributor.created}
+    {#if contributor?.created}
       <li>
         <span class="stat-label">{i18n('created')}</span>
         <p class="stat-value">
