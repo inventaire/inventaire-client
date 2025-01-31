@@ -46,10 +46,16 @@
 
     <div class="wikidata-oauth">
       {#if app.user.hasWikidataOauthTokens()}
-        {@html icon('check')} {i18n('Your Wikidata account is connected')}
+        {@html icon('check')}
+        {@html icon('wikidata-colored')}
+        {i18n('Your Wikidata account is connected')}
         <!-- TODO: allow to disconnect wikidata account -->
       {:else}
-        <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect your Wikidata account')}</a>
+        <a href={wikidataOauth} class="button success">
+          {@html icon('wikidata-colored')}
+          {i18n('Connect your Wikidata account')}
+          {@html icon('plug')}
+        </a>
       {/if}
     </div>
   </fieldset>
