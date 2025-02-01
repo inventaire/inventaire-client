@@ -3,7 +3,7 @@ import app from '#app/app'
 import { langs as activeLangs } from '#app/lib/active_languages'
 import availableLangList from '#app/lib/available_lang_list'
 
-export default function (selectedLang, labels) {
+export function getLangsData (selectedLang, labels) {
   const availableLangs = Object.keys(labels)
   const highPriorityLangs = [ app.user.lang, 'en' ]
   const allLangs = uniq(availableLangs.concat(highPriorityLangs, activeLangs))
