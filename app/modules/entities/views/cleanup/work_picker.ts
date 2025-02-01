@@ -3,7 +3,7 @@ import { isEntityUri } from '#app/lib/boolean_tests'
 import { formatAndThrowError } from '#app/lib/error'
 import { getActionKey } from '#app/lib/key_events'
 import AlertBox from '#behaviors/alert_box'
-import mergeEntities from '#entities/views/editor/lib/merge_entities'
+import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
 import { catchAlert } from '#general/lib/forms'
 import workPickerTemplate from './templates/work_picker.hbs'
 

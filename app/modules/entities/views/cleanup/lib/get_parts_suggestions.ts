@@ -1,51 +1,59 @@
 import { uniq, property, pluck, flatten } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq from '#app/lib/preq'
+import { getEntities, type SerializedEntity } from '#app/modules/entities/lib/entities'
 import { searchWorks } from '#entities/lib/search/search_by_types'
-import addPertinanceScore from './add_pertinance_score.ts'
+import type { GetAuthorWorksResponse } from '#server/controllers/entities/get_entity_relatives'
+import type { EntityUri } from '#server/types/entity'
+import { addPertinanceScore, type WorkSuggestion } from './add_pertinance_score.ts'
 
-const descendingPertinanceScore = work => -work.get('pertinanceScore')
-const Suggestions = Backbone.Collection.extend({ comparator: descendingPertinanceScore })
-
-export default async function (serie) {
-  const authorsUris = serie.getAllAuthorsUris()
+export async function getPartsSuggestions (serie: SerializedEntity, parts: SerializedEntity[], authorsUris: EntityUri[]) {
   const uris = await Promise.all([
     getAuthorsWorks(authorsUris),
-    searchMatchWorks(serie),
+    searchMatchWorks(serie, parts),
   ])
   .then(flatten)
   .then(uniq)
 
-  let works = await app.request('get:entities:models', { uris, refresh: true })
+  const works = await getEntities(uris, { refresh: true })
 
-  works = works
+  const partsSuggestions = works
     // Confirm the type, as the search might have failed to unindex a serie that use
     // to be considered a work
     .filter(isWorkWithoutSerie)
     .map(addPertinanceScore(serie))
-    .filter(work => work.get('authorMatch') || work.get('labelMatch'))
+    .filter(work => work.authorMatch || work.labelMatch)
+    .sort(byDescendingPertinanceScore)
 
-  return new Suggestions(works)
+  return partsSuggestions as WorkSuggestion[]
 }
 
-const getAuthorsWorks = async authorsUris => {
-  let allResults = await Promise.all(authorsUris.map(fetchAuthorWorks))
-  allResults = allResults.map(results => pluck(results.works.filter(hasNoSerie), 'uri'))
-  return flatten(allResults)
+function byDescendingPertinanceScore (a: WorkSuggestion, b: WorkSuggestion) {
+  return b.pertinanceScore - a.pertinanceScore
 }
 
-const fetchAuthorWorks = authorUri => preq.get(API.entities.authorWorks(authorUri))
+async function getAuthorsWorks (authorsUris: EntityUri[]) {
+  const authorsWorks = await Promise.all(authorsUris.map(fetchAuthorWorks))
+  const authorsWorksUris = authorsWorks.map(works => pluck(works.filter(hasNoSerie), 'uri'))
+  return authorsWorksUris.flat()
+}
+
+async function fetchAuthorWorks (authorUri: EntityUri) {
+  const { works } = (await preq.get(API.entities.authorWorks(authorUri))) as GetAuthorWorksResponse
+  return works
+}
 
 const hasNoSerie = work => work.serie == null
 
-const isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('claims.wdt:P179') == null)
+function isWorkWithoutSerie (entity: SerializedEntity) {
+  return (entity.type === 'work') && (entity.claims['wdt:P179'] == null)
+}
 
-const searchMatchWorks = async serie => {
-  const serieLabel = serie.get('label')
-  const { allUris: partsUris } = serie.parts
+async function searchMatchWorks (serie: SerializedEntity, parts: SerializedEntity[]) {
+  const { label: serieLabel } = serie
+  const partsUris = new Set(pluck(parts, 'uri'))
   const { results } = await searchWorks({ search: serieLabel, limit: 20 })
   return results
-  .filter(result => (result._score > 0.5) && !partsUris.includes(result.uri))
+  .filter(result => (result._score > 0.5) && !partsUris.has(result.uri))
   .map(property('uri'))
 }

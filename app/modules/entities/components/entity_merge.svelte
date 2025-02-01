@@ -6,7 +6,7 @@
   import Spinner from '#components/spinner.svelte'
   import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
   import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
+  import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
   import type { EntityType, EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
