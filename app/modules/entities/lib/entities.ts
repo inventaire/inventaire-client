@@ -22,11 +22,13 @@ export interface SerializedEntityCommons {
   description?: string
   publicationYear?: string
   serieOrdinal?: string
+  serieOrdinalNum?: number
   title?: string
   subtitle?: string
   pathname?: RelativeUrl
   editPathname?: RelativeUrl
   historyPathname?: RelativeUrl
+  cleanupPathname?: RelativeUrl
   prefix: EntityUriPrefix
   // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
@@ -88,17 +90,17 @@ export function normalizeUri (uri: string) {
 export async function getEntities (uris: EntityUri[], params: Omit<GetEntitiesAttributesByUrisParams, 'uris'> = {}) {
   if (uris.length === 0) return []
   const { entities } = await getManyEntities({ uris, ...params })
-  return Object.values(entities).map(serializeEntity)
+  return values(entities).map(serializeEntity)
 }
 
 export async function getEntitiesByUris (params: GetEntitiesParams) {
   const { uris, attributes, lang } = params
-  if (uris.length === 0) return []
+  if (uris.length === 0) return {}
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
-  const serializedEntities = Object.values(entities).map(serializeEntity)
+  const serializedEntities = values(entities).map(serializeEntity)
   const serializedEntitiesByUris = indexBy(serializedEntities, 'uri')
   addRedirectionsAliases(serializedEntitiesByUris, redirects)
-  return serializedEntitiesByUris
+  return serializedEntitiesByUris as SerializedEntitiesByUris
 }
 
 export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: InvEntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedInvEntity>
@@ -139,6 +141,8 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   const basePathname = entity.pathname = getPathname(entity.uri)
   entity.editPathname = `${basePathname}/edit`
   entity.historyPathname = `${basePathname}/history`
+  entity.cleanupPathname = `${basePathname}/cleanup`
+
   let wdUri, invUri
   let isWikidataEntity = false
   const { invId, wdId } = entity
@@ -234,7 +238,7 @@ export async function getEntityLabel (uri: EntityUri) {
     attributes: [ 'labels' ],
     lang: app.user.lang,
   })
-  const entity = Object.values(entities)[0]
+  const entity = values(entities)[0]
   const { value, lang } = getBestLangValue(app.user.lang, null, entity.labels)
   return { label: value, lang }
 }
