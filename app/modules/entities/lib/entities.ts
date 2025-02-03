@@ -207,6 +207,7 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
   let redirects: RedirectionsByUris = {}
   attributes = forceArray(attributes)
   ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, autocreate }))
+  values(entities).forEach(serializeEntity)
   addRedirectionsAliases(entities, redirects)
   return { entities }
 }
