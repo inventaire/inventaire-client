@@ -2,7 +2,11 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { loadInternalLink } from '#app/lib/utils'
 
-  export let name, label, picture, linkUrl, linkTitle = ''
+  export let name = null,
+    label = null,
+    picture,
+    linkUrl,
+    linkTitle = ''
 </script>
 
 <div class="user-infobox">

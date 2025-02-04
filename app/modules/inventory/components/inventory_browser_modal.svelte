@@ -1,14 +1,16 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Modal from '#components/modal.svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
+  import type { Group } from '#server/types/group'
   import { i18n } from '#user/lib/i18n'
   import UserInfobox from '#users/components/user_infobox.svelte'
 
-  export let user
-  export let group
+  export let user: SerializedUser
+  export let group: Group
   export let isMainUser = false
   export let showModal = false
 
@@ -23,7 +25,7 @@
   $: onChange(user, () => updateModalData({ user }))
   $: onChange(group, () => updateModalData({ group }))
 
-  function updateModalData ({ user, group }) {
+  function updateModalData ({ user, group }: { user?: SerializedUser, group?: Group }) {
     if (!(user || group)) return
     if (user) {
       itemsDataPromise = getInventoryView('user', user);

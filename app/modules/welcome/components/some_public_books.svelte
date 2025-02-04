@@ -5,9 +5,10 @@
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
+  import type { SerializedItem } from '#server/types/item'
   import { i18n } from '#user/lib/i18n'
 
-  export let items = []
+  export let items: SerializedItem[] = []
 
   const params = {
     lang: app.user.lang,

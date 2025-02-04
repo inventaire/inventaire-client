@@ -1,6 +1,7 @@
 import { compact, uniq } from 'underscore'
 import app from '#app/app'
 import { buildPath } from '#app/lib/location'
+import type Marker from '#map/components/marker.svelte'
 import mapConfig from './config.ts'
 import { truncateDecimals } from './geo.ts'
 
@@ -15,7 +16,7 @@ export function updateRoute (root, lat, lng, zoom = defaultZoom) {
   app.navigate(route, { preventScrollTop: true })
 }
 
-export function updateMarker (marker, coords) {
+export function updateMarker (marker: Marker, coords) {
   if (coords?.lat == null) return marker.remove()
   const { lat, lng } = coords
   return marker.setLatLng([ lat, lng ])

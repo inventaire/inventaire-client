@@ -1,5 +1,6 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
+  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
   import UserInfobox from '#users/components/user_infobox.svelte'
@@ -9,7 +10,7 @@
 
   const { reporters: reportersIds, clue } = task
 
-  let reporters
+  let reporters: SerializedUser[] = []
   const waitingForUsers = getUsersByIds(reportersIds)
     .then(res => reporters = Object.values(res))
 </script>
