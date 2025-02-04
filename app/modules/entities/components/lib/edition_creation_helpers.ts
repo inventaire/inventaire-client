@@ -12,14 +12,14 @@ import type { SerializedEntity } from '#entities/lib/entities'
 import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
 import { i18n } from '#user/lib/i18n'
 
-export function createEditionFromWork (params) {
+export async function createEditionFromWork (params) {
   if (!isLoggedIn()) return
   const { workEntity, userInput } = params
 
   const isbn = normalizeIsbn(userInput)
 
-  return createWorkEditionDraft({ workEntity, isbn })
-  .then(createEntity)
+  const { labels, claims } = await createWorkEditionDraft({ workEntity, isbn })
+  await createEntity({ labels, claims })
   .catch(renameIsbnDuplicateErr(workEntity.uri, userInput))
 }
 

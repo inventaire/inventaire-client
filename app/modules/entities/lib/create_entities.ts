@@ -3,19 +3,18 @@ import { newError } from '#app/lib/error'
 import { getIsbnData } from '#app/lib/isbn'
 import log_ from '#app/lib/loggers'
 import { arrayIncludes, objectEntries } from '#app/lib/utils'
-import type { Entity as EntityT } from '#app/types/entity'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist.ts'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import type { PropertyUri, SimplifiedClaims } from '#server/types/entity'
 import Entity from '../models/entity.ts'
-import { createEntity } from './create_entity.ts'
+import { createEntity, type EntityDraftWithCreationParams } from './create_entity.ts'
 import { getPluralType } from './entities.ts'
 import { graphRelationsProperties } from './graph_relations_properties.ts'
 import { propertiesEditorsConfigs } from './properties.ts'
 
-const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
+function getTitleFromWork ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
   if (inEditionLang != null) return inEditionLang
 
@@ -32,10 +31,10 @@ const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   return Object.values(workLabels)[0]
 }
 
-export const createWorkEditionDraft = async function ({ workEntity, isbn }) {
+export async function createWorkEditionDraft ({ workEntity, isbn }) {
   const { labels: workLabels, claims: workClaims, uri: workUri, label } = workEntity
 
-  const claims = {
+  const claims: SimplifiedClaims = {
     // instance of (P31) -> edition (Q3331189)
     'wdt:P31': [ 'wd:Q3331189' ],
     // edition or translation of (P629) -> created book
@@ -99,7 +98,7 @@ export const createByProperty = async function (options) {
     }
   }
 
-  return createAndGetEntityModel({ labels, claims, createOnWikidata })
+  return createAndGetEntityModel({ labels, claims, createOnWikidata } as EntityDraftWithCreationParams)
 }
 
 function getPropertyDefaultSubjectEntityP31 (property: PropertyUri) {
@@ -108,7 +107,7 @@ function getPropertyDefaultSubjectEntityP31 (property: PropertyUri) {
   return allowedValuesPerTypePerProperty['wdt:P31'][entityValueType][0]
 }
 
-export async function createAndGetEntityModel (params: Partial<EntityT> & { createOnWikidata?: boolean }) {
+export async function createAndGetEntityModel (params: EntityDraftWithCreationParams) {
   const { claims } = params
   cleanupClaims(claims)
   const entityData = await createEntity(params)
@@ -131,7 +130,7 @@ export async function createAndGetEntity (params) {
   return model.toJSON()
 }
 
-const triggerEntityGraphChangesEvents = claims => {
+function triggerEntityGraphChangesEvents (claims) {
   for (const prop in claims) {
     const values = claims[prop]
     if (arrayIncludes(graphRelationsProperties, prop)) {
