@@ -45,8 +45,10 @@
   let waitForUsers, waitForGroups
   function fetchAndShowUsersAndGroupsOnMap () {
     if (!map) return
-    displayedElementsCount = usersInBounds.length + groupsInBounds.length
+
+    displayedElementsCount = getDisplayedElementsCount()
     if (isMapTooZoomedOut(mapZoom, displayedElementsCount)) return
+
     bbox = getBbox(map)
     if (!bbox) return
 
@@ -67,6 +69,11 @@
       await wait(1000)
       fetchAndShowUsersAndGroupsOnMap()
     }
+  }
+
+  function getDisplayedElementsCount () {
+    if (!usersInBounds || !groupsInBounds) return 0
+    return usersInBounds.length + groupsInBounds.length
   }
 
   let usersInBounds, groupsInBounds
