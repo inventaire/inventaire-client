@@ -76,8 +76,6 @@
 
   const lazyUpdatePartsPartitions = debounce(updatePartsPartitions, 100)
 
-  const creatingPlaceholders = false
-
   function setQueryParameter (name: string, bool: boolean) {
     if (bool) app.request('querystring:set', name, bool)
     else app.request('querystring:remove', name)
@@ -92,7 +90,7 @@
 
   // It would be easier to directly call child components createPlaceholder in a queue
   // but I couldn't make it work, so we use `nextPlaceholderOrdinalToCreate` for queue messaging instead
-  let nextPlaceholderOrdinalToCreate
+  let nextPlaceholderOrdinalToCreate = 0
   async function createPlaceholders () {
     creatingAllPlaceholder = true
     createNextPlaceholder()
@@ -100,13 +98,18 @@
 
   function createNextPlaceholder () {
     const nextPlaceholder = worksWithOrdinal.find(work => {
-      return workIsPlaceholder(work) && nextPlaceholderOrdinalToCreate !== work.serieOrdinalNum
+      // The debounce on updatePartsPartitions means that some created placeholders
+      // might still be considered placeholders hereafter, thus the need to make sure
+      // that the work.serieOrdinalNum is above nextPlaceholderOrdinalToCreate
+      return workIsPlaceholder(work) && work.serieOrdinalNum > nextPlaceholderOrdinalToCreate
     })
     if (nextPlaceholder) {
+      // Trigger SerieCleanupWork's call to createPlaceholder
       nextPlaceholderOrdinalToCreate = nextPlaceholder.serieOrdinalNum
     } else {
+      // End of queue: cleanup
       creatingAllPlaceholder = false
-      nextPlaceholderOrdinalToCreate = null
+      nextPlaceholderOrdinalToCreate = 0
     }
   }
 
@@ -160,8 +163,8 @@
       bind:titlePattern
       {maxOrdinal}
       worksWithOrdinalLength={worksWithOrdinal?.length || 0}
+      {creatingAllPlaceholder}
       on:createPlaceholders={createPlaceholders}
-      {creatingPlaceholders}
     />
 
     {#if worksInConflicts.length > 0}
@@ -303,10 +306,8 @@
 
   .isolated-editions{
     padding: 0.5em;
-    ul{
-      @include display-flex(row, flex-start, null, wrap);
-    }
-    .serie-cleanup-edition{
+    @include display-flex(row, flex-start, null, wrap);
+    :global(.serie-cleanup-edition){
       margin: 0.5em;
       @include radius;
       width: 20em;
