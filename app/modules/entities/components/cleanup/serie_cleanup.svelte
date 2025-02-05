@@ -1,6 +1,7 @@
 <script lang="ts">
   import { debounce, uniq, values, without } from 'underscore'
   import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
@@ -14,6 +15,7 @@
   import { getPartsSuggestions } from '../../views/cleanup/lib/get_parts_suggestions'
   import { getIsolatedEditions, getPossibleOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
   import SerieCleanupControls from './serie_cleanup_controls.svelte'
+  import SerieCleanupEdition from './serie_cleanup_edition.svelte'
   import SerieCleanupWork from './serie_cleanup_work.svelte'
   import type { WorkSuggestion } from '../../views/cleanup/lib/add_pertinance_score'
 
@@ -22,7 +24,7 @@
   let worksWithOrdinal: (WorkWithEditions | SeriePartPlaceholder)[] = []
   let worksWithoutOrdinal: WorkWithEditions[] = []
   let worksInConflicts: WorkWithEditions[] = []
-  let allExistingParts: WorkWithEditions[] = []
+  let allSerieParts: WorkWithEditions[] = []
   let partsSuggestions: WorkSuggestion[] = []
   let maxOrdinal = 0
   let placeholderCounter = 0
@@ -45,7 +47,7 @@
   let flash
   const waitForParts = getSerieParts(serie, { refresh: true })
     .then(async parts => {
-      allExistingParts = parts
+      allSerieParts = parts
       const allWorkAuthorsUris = parts.map(work => getSerieOrWorkExtendedAuthorsUris(work)).flat()
       const allSerieAuthorsUris = uniq(serieAuthorsUris.concat(allWorkAuthorsUris))
       allSerieAuthorsByUris = await getEntitiesBasicInfoByUris(allSerieAuthorsUris)
@@ -53,14 +55,19 @@
     })
     .catch(err => flash = err)
 
+  let isolatedEditions: SerializedEntity[]
+  getIsolatedEditions(serie.uri)
+    .then(editions => isolatedEditions = editions)
+    .catch(err => flash = err)
+
   waitForParts.then(async () => {
-    partsSuggestions = await getPartsSuggestions(serie, allExistingParts, serieAuthorsUris)
+    partsSuggestions = await getPartsSuggestions(serie, allSerieParts, serieAuthorsUris)
   })
 
   let possibleOrdinals: number[] = []
 
   function updatePartsPartitions () {
-    ;({ worksWithOrdinal, worksWithoutOrdinal, worksInConflicts, maxOrdinal } = spreadParts(allExistingParts))
+    ;({ worksWithOrdinal, worksWithoutOrdinal, worksInConflicts, maxOrdinal } = spreadParts(allSerieParts))
     partsNumber = Math.max(maxOrdinal, partsNumber)
     worksWithOrdinal = fillGaps(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey, partsNumber)
     possibleOrdinals = getPossibleOrdinals(worksWithOrdinal)
@@ -78,7 +85,7 @@
 
   function onWorkMerged (e) {
     const { from } = e.detail
-    allExistingParts = without(allExistingParts, from)
+    allSerieParts = without(allSerieParts, from)
   }
 
   let creatingAllPlaceholder = false
@@ -105,24 +112,32 @@
 
   function onCreatedPlaceholder (e) {
     const createdWork = e.detail as SerializedEntity
-    allExistingParts = [ ...allExistingParts, createdWork ]
+    allSerieParts = [ ...allSerieParts, createdWork ]
     if (creatingAllPlaceholder) createNextPlaceholder()
   }
 
-  function onChangeEditionWork (e) {
-    const { edition, originWork, targetWork } = e.detail as { edition: SerializedEntity, originWork: WorkWithEditions, targetWork: WorkWithEditions }
-    originWork.editions = originWork.editions.filter(entity => entity.uri !== edition.uri)
+  function changeEditionWork ({ edition, originWork, targetWork }: { edition: SerializedEntity, originWork: SerializedEntity | WorkWithEditions, targetWork: WorkWithEditions }) {
+    if ('editions' in originWork) {
+      originWork.editions = originWork.editions.filter(entity => entity.uri !== edition.uri)
+    } else {
+      isolatedEditions = isolatedEditions.filter(entity => entity.uri !== edition.uri)
+    }
     targetWork.editions = [ ...targetWork.editions, edition ]
-    allExistingParts = allExistingParts
+    allSerieParts = allSerieParts
+  }
+
+  function onChangeEditionWork (e) {
+    const { edition, originWork, targetWork } = e.detail
+    onChangeEditionWork({ edition, originWork, targetWork })
   }
 
   async function addToSerie (work: SerializedEntity) {
-    allExistingParts = [ ...allExistingParts, work ]
+    allSerieParts = [ ...allSerieParts, work ]
     partsSuggestions = partsSuggestions.filter(part => part.uri !== work.uri)
     await addClaim(work, 'wdt:P179', serie.uri as EntityValue)
   }
 
-  $: onChange(allExistingParts, partsNumber, lazyUpdatePartsPartitions)
+  $: onChange(allSerieParts, partsNumber, lazyUpdatePartsPartitions)
   $: setQueryParameter('authors', showAuthors)
   $: setQueryParameter('editions', showEditions)
   $: setQueryParameter('descriptions', showDescriptions)
@@ -163,7 +178,7 @@
               {showDescriptions}
               {largeMode}
               {allSerieAuthors}
-              allSerieParts={allExistingParts}
+              {allSerieParts}
               on:merged={onWorkMerged}
               on:changeEditionWork={onChangeEditionWork}
             />
@@ -171,10 +186,26 @@
         </ul>
       </div>
     {/if}
-    <div class="isolated-editions-wrapper hidden">
-      <h3 class="section-label">{I18n('isolated editions')}'</h3>
-      <div class="isolated-editions" />
-    </div>
+    {#if isNonEmptyArray(isolatedEditions)}
+      <div class="isolated-editions-wrapper">
+        <h3 class="section-label">{I18n('isolated editions')}</h3>
+        <div class="isolated-editions">
+          <ul>
+            <!-- Keeping a consistent sorting function so that rolling back an edition -->
+            <!-- puts it back at the same spot -->
+            {#each isolatedEditions.sort(sortByLabel) as edition}
+              <SerieCleanupEdition
+                {edition}
+                work={serie}
+                {allSerieParts}
+                {largeMode}
+                on:changeEditionWork={e => changeEditionWork({ edition, originWork: serie, targetWork: e.detail })}
+              />
+            {/each}
+          </ul>
+        </div>
+      </div>
+    {/if}
     <div class="works-without-ordinal">
       <h3 class="section-label">{I18n('parts without ordinal')}</h3>
       <ul class="works-container">
@@ -188,7 +219,7 @@
             {showDescriptions}
             {largeMode}
             {allSerieAuthors}
-            allSerieParts={allExistingParts}
+            {allSerieParts}
             on:merged={onWorkMerged}
             on:selectOrdinal={updatePartsPartitions}
             on:changeEditionWork={onChangeEditionWork}
@@ -211,7 +242,7 @@
             {allSerieAuthors}
             placeholderTitle={getSeriePlaceholderTitle(serie.label, titlePattern, titleKey, numberKey, work.serieOrdinalNum)}
             bind:selectedLang
-            allSerieParts={allExistingParts}
+            {allSerieParts}
             on:merged={onWorkMerged}
             on:createdPlaceholder={onCreatedPlaceholder}
             bind:nextPlaceholderOrdinalToCreate
@@ -230,7 +261,7 @@
               {partSuggestion}
               {serie}
               {allSerieAuthorsByUris}
-              allSerieParts={allExistingParts}
+              {allSerieParts}
               on:merged={onWorkMerged}
               on:add={() => addToSerie(partSuggestion)}
             />

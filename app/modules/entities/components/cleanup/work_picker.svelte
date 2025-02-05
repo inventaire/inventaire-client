@@ -7,6 +7,7 @@
   import { getRichSeriePartLabel } from '#entities/lib/types/serie_alt'
   import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
+  import { sortByOrdinal } from './lib/serie_cleanup_helpers'
 
   export let work: SerializedEntity
   export let allSerieParts: SerializedEntity[]
@@ -28,7 +29,7 @@
     else if (key === 'enter') validate()
   }
 
-  $: otherSerieParts = allSerieParts.filter(part => part.uri !== work.uri)
+  $: otherSerieParts = allSerieParts.filter(part => part.uri !== work.uri).sort(sortByOrdinal)
   $: showValidateButton = isEntityUri(selectedUri)
 </script>
 
