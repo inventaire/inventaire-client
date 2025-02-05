@@ -21,7 +21,7 @@
   export let maxOrdinal: number
   export let titlePattern: string
   export let worksWithOrdinalLength: number
-  export let creatingPlaceholders: boolean
+  export let creatingAllPlaceholder: boolean
 
   let wikipedia
   if ('sitelinks' in serie) {
@@ -79,13 +79,13 @@
       <button
         class="create-placeholders tiny-button light-blue"
         on:click={() => dispatch('createPlaceholders')}
-        disabled={creatingPlaceholders}
+        disabled={creatingAllPlaceholder}
       >
-        {I18n('create all the missing parts')}
-        <span class="counter">({placeholderCounter})</span>
-        {#if creatingPlaceholders}
+        {#if creatingAllPlaceholder}
           <Spinner />
         {/if}
+        {I18n('create all the missing parts')}
+        <span class="counter">({placeholderCounter})</span>
       </button>
     {/if}
   </div>

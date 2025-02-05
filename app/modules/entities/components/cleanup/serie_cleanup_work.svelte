@@ -143,7 +143,7 @@
     // with several existing work claims
     nonPlaceholderWork.editions = allEditions.filter(edition => edition.claims['wdt:P629'].length === 1)
   }
-  const waitForEditions = getEditions()
+  const waitForEditions = !isPlaceholder ? getEditions() : null
 
   function changeEditionWork (edition: SerializedEntity, targetWork: WorkWithEditions) {
     dispatch('changeEditionWork', { edition, originWork: nonPlaceholderWork, targetWork })
