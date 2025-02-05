@@ -16,8 +16,7 @@
   export let allSerieParts: SerializedEntity[]
   export let largeMode: boolean
 
-  const { uri, image, label, editPathname } = edition
-  const { label: workLabel } = work
+  const { uri, image, editPathname } = edition
   let showWorkSwitcher = false
   let flash
 
@@ -37,6 +36,19 @@
       changingWork = false
     }
   }
+
+  let copyingWorkLabel = false
+  async function copyWorkLabel () {
+    try {
+      copyingWorkLabel = true
+      const currentTitle = edition.claims['wdt:P1476'][0]
+      edition = await updateClaim(edition, 'wdt:P1476', currentTitle, work.label)
+    } catch (err) {
+      flash = err
+    } finally {
+      copyingWorkLabel = false
+    }
+  }
 </script>
 
 <li class="serie-cleanup-edition" class:large={largeMode}>
@@ -45,17 +57,17 @@
       <img
         src={imgSrc(image.url, 500)}
         class="img-zoom-in"
-        alt={label}
+        alt=""
         loading="lazy"
       />
     </div>
   {/if}
   <div class="right">
     <div class="top">
-      <span class="label">{label}</span>
+      <span class="label">{edition.title}</span>
       <a
         href={editPathname}
-        class="showEntityEdit pencil"
+        class="pencil"
         title={i18n('edit data')}
         on:click={loadInternalLink}
       >
@@ -83,10 +95,12 @@
         </button>
       {/if}
 
-      {#if workLabel}
-        <button class="copy-work-label" title="{I18n('the edition new title would be:')} {workLabel}">
+      {#if copyingWorkLabel}
+        <Spinner center={true} />
+      {:else if edition.title !== work.label}
+        <button class="copy-work-label" title="{I18n('the edition new title would be:')} {work.label}" on:click={copyWorkLabel}>
           {@html icon('copy')}
-          <span>{i18n('copy work label')}</span>
+          <span>{I18n('copy work label')}</span>
         </button>
       {/if}
     </div>
@@ -106,9 +120,6 @@
       &:not(.hidden){
         @include display-flex(column, center, center);
       }
-    }
-    :global(.validate){
-      // margin-block-start: 0.3em;
     }
     &.large{
       flex-direction: column;
