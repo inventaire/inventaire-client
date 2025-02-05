@@ -152,7 +152,7 @@
 
 <li class="serie-cleanup-work" class:placeholder={isPlaceholder} class:large={largeMode}>
   <div class="head">
-    {#if serieOrdinalNum}
+    {#if serieOrdinalNum != null}
       <span class="serie-ordinal-num">{serieOrdinalNum}</span>
     {:else}
       <select class="ordinal-selector glowing" on:change={selectOrdinal}>
