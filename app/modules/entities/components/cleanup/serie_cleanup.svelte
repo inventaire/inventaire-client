@@ -19,10 +19,10 @@
 
   export let serie: SerializedEntity
 
-  let worksWithOrdinal: (SerializedEntity | SeriePartPlaceholder)[] = []
-  let worksWithoutOrdinal: SerializedEntity[] = []
-  let worksInConflicts: SerializedEntity[] = []
-  let allExistingParts: SerializedEntity[] = []
+  let worksWithOrdinal: (WorkWithEditions | SeriePartPlaceholder)[] = []
+  let worksWithoutOrdinal: WorkWithEditions[] = []
+  let worksInConflicts: WorkWithEditions[] = []
+  let allExistingParts: WorkWithEditions[] = []
   let partsSuggestions: WorkSuggestion[] = []
   let maxOrdinal = 0
   let placeholderCounter = 0
@@ -43,7 +43,7 @@
   let allSerieAuthorsByUris: SerializedEntitiesByUris
 
   let flash
-  const waitForParts = getSerieParts(serie, { refresh: true, fetchAll: true })
+  const waitForParts = getSerieParts(serie, { refresh: true })
     .then(async parts => {
       allExistingParts = parts
       const allWorkAuthorsUris = parts.map(work => getSerieOrWorkExtendedAuthorsUris(work)).flat()
@@ -109,6 +109,13 @@
     if (creatingAllPlaceholder) createNextPlaceholder()
   }
 
+  function onChangeEditionWork (e) {
+    const { edition, originWork, targetWork } = e.detail as { edition: SerializedEntity, originWork: WorkWithEditions, targetWork: WorkWithEditions }
+    originWork.editions = originWork.editions.filter(entity => entity.uri !== edition.uri)
+    targetWork.editions = [ ...targetWork.editions, edition ]
+    allExistingParts = allExistingParts
+  }
+
   async function addToSerie (work: SerializedEntity) {
     allExistingParts = [ ...allExistingParts, work ]
     partsSuggestions = partsSuggestions.filter(part => part.uri !== work.uri)
@@ -158,6 +165,7 @@
               {allSerieAuthors}
               allSerieParts={allExistingParts}
               on:merged={onWorkMerged}
+              on:changeEditionWork={onChangeEditionWork}
             />
           {/each}
         </ul>
@@ -183,6 +191,7 @@
             allSerieParts={allExistingParts}
             on:merged={onWorkMerged}
             on:selectOrdinal={updatePartsPartitions}
+            on:changeEditionWork={onChangeEditionWork}
           />
         {/each}
       </ul>
@@ -206,6 +215,7 @@
             on:merged={onWorkMerged}
             on:createdPlaceholder={onCreatedPlaceholder}
             bind:nextPlaceholderOrdinalToCreate
+            on:changeEditionWork={onChangeEditionWork}
           />
         {/each}
       </ul>

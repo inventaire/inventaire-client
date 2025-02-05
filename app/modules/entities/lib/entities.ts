@@ -198,22 +198,21 @@ function mergeResponsesObjects (responses, attribute) {
   }
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
   uris = forceArray(uris)
   let entities: SerializedEntitiesByUris = {}
   if (!isNonEmptyArray(uris)) {
     return { entities }
   }
   let redirects: RedirectionsByUris = {}
-  attributes = forceArray(attributes)
-  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, autocreate }))
+  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, refresh, autocreate }))
   values(entities).forEach(serializeEntity)
   addRedirectionsAliases(entities, redirects)
   return { entities }
 }
 
-export async function getEntitiesList ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
-  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, autocreate })
+export async function getEntitiesList ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
+  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, refresh, autocreate })
   return values(entities)
 }
 
@@ -407,6 +406,12 @@ function getEditionWorksUris (edition: SerializedEntity) {
   return editionWorksUris
 }
 
+export async function getWorkEditions (workUri: EntityUri, params: Omit<GetEntitiesAttributesByUrisParams, 'uris'> = {}) {
+  const { refresh = false } = params
+  const uris = await getReverseClaims('wdt:P629', workUri, refresh)
+  return getEntitiesList({ uris, ...params })
+}
+
 export async function addClaim <P extends keyof ClaimValueByProperty, T extends ClaimValueByProperty[P]> (entity: SerializedEntity, property: P, newValue: T) {
   const { uri } = entity
   try {
@@ -417,6 +422,26 @@ export async function addClaim <P extends keyof ClaimValueByProperty, T extends 
       uri,
       property,
       'old-value': null,
+      'new-value': newValue,
+    })
+  } catch (err) {
+    // @ts-expect-error
+    entity.claims[property] = without(entity.claims[property], newValue)
+    throw err
+  }
+  return serializeEntity(entity)
+}
+
+export async function updateClaim <P extends keyof ClaimValueByProperty, T extends ClaimValueByProperty[P]> (entity: SerializedEntity, property: P, oldValue: T, newValue: T) {
+  const { uri } = entity
+  try {
+    entity.claims[property] ??= []
+    // @ts-expect-error
+    entity.claims[property].push(newValue)
+    await preq.put(API.entities.claims.update, {
+      uri,
+      property,
+      'old-value': oldValue,
       'new-value': newValue,
     })
   } catch (err) {
