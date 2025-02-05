@@ -435,9 +435,7 @@ export async function addClaim <P extends keyof ClaimValueByProperty, T extends 
 export async function updateClaim <P extends keyof ClaimValueByProperty, T extends ClaimValueByProperty[P]> (entity: SerializedEntity, property: P, oldValue: T, newValue: T) {
   const { uri } = entity
   try {
-    entity.claims[property] ??= []
-    // @ts-expect-error
-    entity.claims[property].push(newValue)
+    entity.claims[property] = entity.claims[property].map(value => value === oldValue ? newValue : value)
     await preq.put(API.entities.claims.update, {
       uri,
       property,
@@ -445,8 +443,7 @@ export async function updateClaim <P extends keyof ClaimValueByProperty, T exten
       'new-value': newValue,
     })
   } catch (err) {
-    // @ts-expect-error
-    entity.claims[property] = without(entity.claims[property], newValue)
+    entity.claims[property] = entity.claims[property].map(value => value === newValue ? oldValue : value)
     throw err
   }
   return serializeEntity(entity)
