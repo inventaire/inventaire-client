@@ -4,13 +4,13 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
+  import ClaimsInfobox from '#entities/components/layouts/claims_infobox.svelte'
   import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
+  import { authorProperties } from '#entities/lib/properties'
   import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
   import { I18n } from '#user/lib/i18n'
-  import { authorProperties } from '../../lib/properties'
-  import ClaimsInfobox from '../layouts/claims_infobox.svelte'
   import WorkPicker from './work_picker.svelte'
-  import type { WorkSuggestion } from '../../views/cleanup/lib/add_pertinance_score'
+  import type { WorkSuggestion } from './lib/add_pertinance_score'
 
   export let partSuggestion: WorkSuggestion
   export let serie: SerializedEntity
