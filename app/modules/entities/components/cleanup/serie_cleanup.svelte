@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { uniq, values, without } from 'underscore'
+  import { debounce, uniq, values, without } from 'underscore'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -62,14 +62,14 @@
   function updatePartsPartitions () {
     ;({ worksWithOrdinal, worksWithoutOrdinal, worksInConflicts, maxOrdinal } = spreadParts(allExistingParts))
     partsNumber = Math.max(maxOrdinal, partsNumber)
-    worksWithOrdinal = fillGaps(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey)
+    worksWithOrdinal = fillGaps(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey, partsNumber)
     possibleOrdinals = getPossibleOrdinals(worksWithOrdinal)
+    placeholderCounter = worksWithOrdinal.filter(workIsPlaceholder).length
   }
 
+  const lazyUpdatePartsPartitions = debounce(updatePartsPartitions, 100)
+
   const creatingPlaceholders = false
-  function createPlaceholders () {
-    alert('TODO: implement createPlaceholders')
-  }
 
   function setQueryParameter (name: string, bool: boolean) {
     if (bool) app.request('querystring:set', name, bool)
@@ -81,9 +81,32 @@
     allExistingParts = without(allExistingParts, from)
   }
 
+  let creatingAllPlaceholder = false
+
+  // It would be easier to directly call child components createPlaceholder in a queue
+  // but I couldn't make it work, so we use `nextPlaceholderOrdinalToCreate` for queue messaging instead
+  let nextPlaceholderOrdinalToCreate
+  async function createPlaceholders () {
+    creatingAllPlaceholder = true
+    createNextPlaceholder()
+  }
+
+  function createNextPlaceholder () {
+    const nextPlaceholder = worksWithOrdinal.find(work => {
+      return workIsPlaceholder(work) && nextPlaceholderOrdinalToCreate !== work.serieOrdinalNum
+    })
+    if (nextPlaceholder) {
+      nextPlaceholderOrdinalToCreate = nextPlaceholder.serieOrdinalNum
+    } else {
+      creatingAllPlaceholder = false
+      nextPlaceholderOrdinalToCreate = null
+    }
+  }
+
   function onCreatedPlaceholder (e) {
     const createdWork = e.detail as SerializedEntity
     allExistingParts = [ ...allExistingParts, createdWork ]
+    if (creatingAllPlaceholder) createNextPlaceholder()
   }
 
   async function addToSerie (work: SerializedEntity) {
@@ -92,8 +115,7 @@
     await addClaim(work, 'wdt:P179', serie.uri as EntityValue)
   }
 
-  $: onChange(allExistingParts, updatePartsPartitions)
-  $: placeholderCounter = worksWithOrdinal.filter(work => 'isPlacehoder' in work).length
+  $: onChange(allExistingParts, partsNumber, lazyUpdatePartsPartitions)
   $: setQueryParameter('authors', showAuthors)
   $: setQueryParameter('editions', showEditions)
   $: setQueryParameter('descriptions', showDescriptions)
@@ -183,6 +205,7 @@
             allSerieParts={allExistingParts}
             on:merged={onWorkMerged}
             on:createdPlaceholder={onCreatedPlaceholder}
+            bind:nextPlaceholderOrdinalToCreate
           />
         {/each}
       </ul>

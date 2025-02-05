@@ -4,9 +4,10 @@
   import { isPositiveIntegerString } from '#app/lib/boolean_tests'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
+  import { newError } from '#app/lib/error'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
-  import { wait } from '#app/lib/promises'
+  import log_ from '#app/lib/loggers'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
   import type { EntityDraft } from '#app/types/entity'
@@ -20,6 +21,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { getDefaultWorkP31FromSerie } from '../lib/claims_helpers'
   import LanguageSelector from './language_selector.svelte'
+  import { workIsPlaceholder } from './lib/serie_cleanup_helpers'
   import SerieCleanupAuthor from './serie_cleanup_author.svelte'
   import WorkPicker from './work_picker.svelte'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'
@@ -35,12 +37,13 @@
   export let allSerieAuthors: SerializedEntity[]
   export let allSerieParts: SerializedEntity[]
   export let selectedLang: WikimediaLanguageCode = null
+  export let nextPlaceholderOrdinalToCreate: number = null
 
   const { label, serieOrdinalNum } = work
   let description, pathname, editPathname
   let nonPlaceholderWork: SerializedEntity
   let isPlaceholder = false
-  if ('isPlaceholder' in work) {
+  if (workIsPlaceholder(work)) {
     ;({ isPlaceholder } = work)
   } else {
     ;({ description, pathname, editPathname } = work)
@@ -119,6 +122,19 @@
   $: onChange(placeholderTitle, () => {
     if (!showPlaceholderEditor) placeholderLabel = placeholderTitle
   })
+
+  function onNextPlaceholderOrdinalToCreateChange () {
+    if (nextPlaceholderOrdinalToCreate != null && !creatingPlaceholder && nextPlaceholderOrdinalToCreate === work.serieOrdinalNum) {
+      if (workIsPlaceholder(work)) {
+        createPlaceholder()
+      } else {
+        const err = newError('work was already created', 500, { work })
+        log_.error(err, 'work was already created')
+      }
+    }
+  }
+
+  $: onChange(nextPlaceholderOrdinalToCreate, onNextPlaceholderOrdinalToCreateChange)
 </script>
 
 <li class="serie-cleanup-work" class:placeholder={isPlaceholder} class:large={largeMode}>
