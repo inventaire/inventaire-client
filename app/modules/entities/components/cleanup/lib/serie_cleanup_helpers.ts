@@ -1,7 +1,8 @@
 import { pluck, range } from 'underscore'
 import { newError } from '#app/lib/error'
 import type { SeriePartPlaceholder } from '#app/modules/entities/views/cleanup/lib/fill_gaps'
-import { type SerializedEntity } from '#entities/lib/entities'
+import { getEntitiesList, getReverseClaims, type SerializedEntity } from '#entities/lib/entities'
+import type { EntityUri } from '#server/types/entity'
 
 export type WorkWithEditions = SerializedEntity & { editions?: SerializedEntity[] }
 
@@ -27,4 +28,20 @@ export function assertWorkIsNotPlaceholder (work: SerializedEntity | SeriePartPl
 
 export function sortByLabel (a: SerializedEntity, b: SerializedEntity) {
   return a.label > b.label ? 1 : -1
+}
+
+export function sortByOrdinal (a: SerializedEntity, b: SerializedEntity) {
+  if (a.serieOrdinalNum != null && b.serieOrdinalNum != null) {
+    return a.serieOrdinalNum - b.serieOrdinalNum
+  } else if (a.serieOrdinalNum != null) {
+    return -1
+  } else {
+    return 1
+  }
+}
+
+export async function getIsolatedEditions (serieUri: EntityUri) {
+  const directSerieEditionsUris = await getReverseClaims('wdt:P629', serieUri, true)
+  const editions = await getEntitiesList({ uris: directSerieEditionsUris, refresh: true })
+  return editions
 }
