@@ -13,7 +13,7 @@
   import type { EntityDraft } from '#app/types/entity'
   import Spinner from '#components/spinner.svelte'
   import { createEntity } from '#entities/lib/create_entity'
-  import { addClaim, type SerializedEntity } from '#entities/lib/entities'
+  import { addClaim, getWorkEditions, type SerializedEntity } from '#entities/lib/entities'
   import { getSerieOrWorkExtendedAuthorsUris } from '#entities/lib/types/serie_alt'
   import type { SeriePartPlaceholder } from '#entities/views/cleanup/lib/fill_gaps'
   import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
@@ -21,12 +21,13 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { getDefaultWorkP31FromSerie } from '../lib/claims_helpers'
   import LanguageSelector from './language_selector.svelte'
-  import { workIsPlaceholder } from './lib/serie_cleanup_helpers'
+  import { sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
   import SerieCleanupAuthor from './serie_cleanup_author.svelte'
+  import SerieCleanupEdition from './serie_cleanup_edition.svelte'
   import WorkPicker from './work_picker.svelte'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-  export let work: SerializedEntity | SeriePartPlaceholder
+  export let work: WorkWithEditions | SeriePartPlaceholder
   export let serie: SerializedEntity
   export let possibleOrdinals: number[]
   export let showAuthors: boolean
@@ -35,13 +36,13 @@
   export let largeMode: boolean
   export let placeholderTitle: string = null
   export let allSerieAuthors: SerializedEntity[]
-  export let allSerieParts: SerializedEntity[]
+  export let allSerieParts: WorkWithEditions[]
   export let selectedLang: WikimediaLanguageCode = null
   export let nextPlaceholderOrdinalToCreate: number = null
 
   const { label, serieOrdinalNum } = work
   let description, pathname, editPathname
-  let nonPlaceholderWork: SerializedEntity
+  let nonPlaceholderWork: WorkWithEditions
   let isPlaceholder = false
   if (workIsPlaceholder(work)) {
     ;({ isPlaceholder } = work)
@@ -59,7 +60,7 @@
   const dispatch = createEventDispatcher()
 
   let merging, flash
-  async function merge (selectedWork: SerializedEntity) {
+  async function merge (selectedWork: WorkWithEditions) {
     try {
       merging = true
       await mergeEntities(nonPlaceholderWork.uri, selectedWork.uri)
@@ -135,6 +136,18 @@
   }
 
   $: onChange(nextPlaceholderOrdinalToCreate, onNextPlaceholderOrdinalToCreateChange)
+
+  async function getEditions () {
+    const allEditions = await getWorkEditions(nonPlaceholderWork.uri, { refresh: true })
+    // Filter-out composite editions as it would be a mess to handle the work picker
+    // with several existing work claims
+    nonPlaceholderWork.editions = allEditions.filter(edition => edition.claims['wdt:P629'].length === 1)
+  }
+  const waitForEditions = getEditions()
+
+  function changeEditionWork (edition: SerializedEntity, targetWork: WorkWithEditions) {
+    dispatch('changeEditionWork', { edition, originWork: nonPlaceholderWork, targetWork })
+  }
 </script>
 
 <li class="serie-cleanup-work" class:placeholder={isPlaceholder} class:large={largeMode}>
@@ -151,7 +164,7 @@
     {/if}
     {#if isPlaceholder}
       {#if creatingPlaceholder}
-        <Spinner />
+        <Spinner center={true} />
       {:else if showPlaceholderEditor}
         <div class="placeholder-editor">
           <div class="placeholder-label-editor">
@@ -196,12 +209,13 @@
     {/if}
   </div>
   {#if merging}
-    <Spinner />
+    <Spinner center={true} />
   {:else if showMergeWorkPicker}
     <WorkPicker
       work={nonPlaceholderWork}
       {allSerieParts}
-      {merge}
+      validateLabel="merge"
+      on:selectWork={e => merge(e.detail)}
       on:close={() => showMergeWorkPicker = false}
     />
   {/if}
@@ -219,9 +233,28 @@
       </ul>
     </div>
   {/if}
-  {#if showEditions}
-    <div class="editions-container" />
+  {#if !isPlaceholder && showEditions}
+    {#await waitForEditions}
+      <Spinner center={true} />
+    {:then}
+      <div class="editions-container">
+        <ul>
+          <!-- Keeping a consistent sorting function so that rolling back an edition -->
+          <!-- puts it back at the same spot -->
+          {#each nonPlaceholderWork.editions.sort(sortByLabel) as edition}
+            <SerieCleanupEdition
+              {edition}
+              work={nonPlaceholderWork}
+              {allSerieParts}
+              {largeMode}
+              on:changeEditionWork={e => changeEditionWork(edition, e.detail)}
+            />
+          {/each}
+        </ul>
+      </div>
+    {/await}
   {/if}
+
   <Flash state={flash} />
 </li>
 

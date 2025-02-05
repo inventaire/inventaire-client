@@ -12,20 +12,11 @@ export function getSerieOrWorkExtendedAuthorsUris (entity: { claims: SimplifiedC
   return uniq(compact(authorUris)) as EntityUri[]
 }
 
-export async function getSerieParts (serie: SerializedEntity, { refresh = false, fetchAll = false }) {
+export async function getSerieParts (serie: SerializedEntity, { refresh = false }) {
   const { parts } = await preq.get(API.entities.serieParts(serie.uri, refresh))
   const allsPartsUris = pluck(parts, 'uri')
-  const partsWithoutSuperparts = parts.filter(hasNoKnownSuperpart(allsPartsUris))
   const entities = await getEntities(allsPartsUris)
-  // .then(initPartsCollections.bind(this, refresh, fetchAll))
-  // .then(importDataFromParts.bind(this))
-
   return entities
-}
-
-const hasNoKnownSuperpart = allsPartsUris => part => {
-  if (part.superpart == null) return true
-  return !allsPartsUris.includes(part.superpart)
 }
 
 export function getRichSeriePartLabel (work: SerializedEntity) {

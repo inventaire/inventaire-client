@@ -10,7 +10,7 @@
 
   export let work: SerializedEntity
   export let allSerieParts: SerializedEntity[]
-  export let merge: (selectedWork: SerializedEntity) => void
+  export let validateLabel: string = 'validate'
 
   let selectedUri: EntityUri
   const dispatch = createEventDispatcher()
@@ -19,7 +19,7 @@
     if (!isEntityUri(selectedUri)) return
     const selectedWork = allSerieParts.find(part => part.uri === selectedUri)
     if (!selectedWork) return
-    merge(selectedWork)
+    dispatch('selectWork', selectedWork)
   }
 
   function onKeyDown (e) {
@@ -40,7 +40,7 @@
     {/each}
   </select>
   {#if showValidateButton}
-    <button class="validate tiny-success-button" on:click={validate}>{I18n('merge')}</button>
+    <button class="validate tiny-success-button" on:click={validate}>{I18n(validateLabel)}</button>
   {/if}
 </div>
 
@@ -53,7 +53,7 @@
   }
   .validate{
     display: block;
-    margin-block-start: 0.2em;
+    margin-block-start: 0;
     width: 100%;
   }
 </style>

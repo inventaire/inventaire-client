@@ -77,7 +77,8 @@
         <WorkPicker
           work={partSuggestion}
           {allSerieParts}
-          {merge}
+          validateLabel="merge"
+          on:selectWork={e => merge(e.detail)}
           on:close={() => showMergeWorkPicker = false}
         />
       {:else}
