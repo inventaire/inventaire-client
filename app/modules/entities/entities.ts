@@ -448,12 +448,9 @@ async function showEntityCleanup (entity: SerializedEntity) {
     app.execute('show:error', err)
     return
   }
-
   const [ { default: SerieCleanup } ] = await Promise.all([
     import('./components/cleanup/serie_cleanup.svelte'),
-    // entity.initSerieParts({ refresh: true, fetchAll: true }),
   ])
-
   app.layout.showChildComponent('main', SerieCleanup, {
     props: { serie: entity },
   })

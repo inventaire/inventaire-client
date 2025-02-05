@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { icon } from '#app/lib/icons'
-  import type { SerializedEntity } from '../../lib/entities'
+  import type { SerializedEntity } from '#entities/lib/entities'
 
   export let author: SerializedEntity
   export let isSuggestion = false

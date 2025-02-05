@@ -1,6 +1,5 @@
 import { pluck, range } from 'underscore'
-import { newError } from '#app/lib/error'
-import type { SeriePartPlaceholder } from '#app/modules/entities/views/cleanup/lib/fill_gaps'
+import type { SeriePartPlaceholder } from '#app/modules/entities/components/cleanup/lib/add_placeholders_for_missing_parts'
 import { getEntitiesList, getReverseClaims, type SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri } from '#server/types/entity'
 
@@ -20,10 +19,6 @@ export function workIsPlaceholder (work: SerializedEntity | SeriePartPlaceholder
 
 export function workIsNotPlaceholder (work: SerializedEntity | SeriePartPlaceholder): work is SerializedEntity {
   return !workIsPlaceholder(work)
-}
-
-export function assertWorkIsNotPlaceholder (work: SerializedEntity | SeriePartPlaceholder): asserts work is SerializedEntity {
-  if (workIsNotPlaceholder(work)) throw newError('expected an existing work')
 }
 
 export function sortByLabel (a: SerializedEntity, b: SerializedEntity) {

@@ -8,16 +8,16 @@
   import PartSuggestion from '#entities/components/cleanup/part_suggestion.svelte'
   import { addClaim, getEntitiesBasicInfoByUris, type SerializedEntitiesByUris, type SerializedEntity } from '#entities/lib/entities'
   import { getSerieOrWorkExtendedAuthorsUris, getSerieParts } from '#entities/lib/types/serie_alt'
-  import { fillGaps, getSeriePlaceholderTitle, type SeriePartPlaceholder } from '#entities/views/cleanup/lib/fill_gaps'
-  import { spreadParts } from '#entities/views/cleanup/lib/spread_part'
   import type { EntityValue } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { getPartsSuggestions } from '../../views/cleanup/lib/get_parts_suggestions'
+  import { fillGaps, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/fill_gaps'
+  import { getPartsSuggestions } from './lib/get_parts_suggestions'
   import { getIsolatedEditions, getPossibleOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
+  import { spreadParts } from './lib/spread_part'
   import SerieCleanupControls from './serie_cleanup_controls.svelte'
   import SerieCleanupEdition from './serie_cleanup_edition.svelte'
   import SerieCleanupWork from './serie_cleanup_work.svelte'
-  import type { WorkSuggestion } from '../../views/cleanup/lib/add_pertinance_score'
+  import type { WorkSuggestion } from './lib/add_pertinance_score'
 
   export let serie: SerializedEntity
 
@@ -299,11 +299,9 @@
       justify-content: center;
     }
   }
-
   .isolated-editions-wrapper{
     background-color: lighten(red, 15%);
   }
-
   .isolated-editions{
     padding: 0.5em;
     @include display-flex(row, flex-start, null, wrap);
@@ -313,7 +311,6 @@
       width: 20em;
     }
   }
-
   .parts-suggestions-wrapper{
     background-color: $dark-grey;
     padding-block-end: 0.2em;
@@ -321,7 +318,6 @@
       color: white;
     }
   }
-
   .parts-suggestions{
     ul{
       @include display-flex(row, null, null, wrap);
