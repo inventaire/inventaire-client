@@ -5,7 +5,10 @@
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import type { SerializedItem } from '#server/types/item'
+  import { i18n } from '#user/lib/i18n'
+
+  export let items: SerializedItem[] = []
 
   const params = {
     lang: app.user.lang,
@@ -18,26 +21,37 @@
       if (err.message !== 'no item found') throw err
     })
 </script>
-
-{#await waiting}
-  <Spinner />
-{:then}
-  {#if isNonEmptyArray(params.items)}
-    <section>
-      <h3>{I18n('some of the last books listed')}</h3>
-      {#await waiting}
-        <Spinner center={true} />
-      {:then}
-        {#if $screen.isSmallerThan('$smaller-screen')}
-          <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
-        {:else}
-          <ItemsCascade items={params.items} {waiting} />
-        {/if}
-      {/await}
-      <div class="fade-out" />
-    </section>
-  {/if}
-{/await}
+{#if isNonEmptyArray(items)}
+  <section>
+    <h3>{i18n('Some books in this area')}</h3>
+    {#if $screen.isSmallerThan('$smaller-screen')}
+      <ItemsTable {items} haveSeveralOwners={true} />
+    {:else}
+      <ItemsCascade {items} />
+    {/if}
+    <div class="fade-out" />
+  </section>
+{:else}
+  {#await waiting}
+    <Spinner />
+  {:then}
+    {#if isNonEmptyArray(params.items)}
+      <section>
+        <h3>{i18n('Some of the last books listed')}</h3>
+        {#await waiting}
+          <Spinner center={true} />
+        {:then}
+          {#if $screen.isSmallerThan('$smaller-screen')}
+            <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
+          {:else}
+            <ItemsCascade items={params.items} {waiting} />
+          {/if}
+        {/await}
+        <div class="fade-out" />
+      </section>
+    {/if}
+  {/await}
+{/if}
 
 <style lang="scss">
   @import "#welcome/scss/welcome_layout_commons";

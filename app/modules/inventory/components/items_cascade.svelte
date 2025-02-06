@@ -8,7 +8,7 @@
   export let items
   export let showDistance = false
   export let shelfId = null
-  export let waiting
+  export let waiting = null
 
   const baseColumnWidth = 230
   const gap = 16
