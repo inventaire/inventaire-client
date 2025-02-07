@@ -84,7 +84,7 @@ const getRecentPublic = async params => {
   return res
 }
 
-export const getByBbox = async params => {
+export async function getItemsByBbox (params) {
   const { bbox, limit, lang } = params
   const res = await preq.get(API.items.byBbox(bbox, limit, lang))
   updateItemsParams(res, params)
