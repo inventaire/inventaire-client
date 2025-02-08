@@ -26,49 +26,56 @@
     })
 </script>
 
-{#if waitingForItems}
-  {#await waitingForItems}
-    <div class="spinner-wrapper">
-      <Spinner center={true} />
-    </div>
-  {:then}
-    <section>
-      <h3>{i18n('Some books in this area')}</h3>
-      {#if $screen.isSmallerThan('$smaller-screen')}
-        <ItemsTable {items} haveSeveralOwners={true} />
-      {:else}
-        <ItemsCascade {items} />
-      {/if}
-      <div class="fade-out" />
-    </section>
-  {/await}
-{:else}
-  {#await waiting}
-    <div class="spinner-wrapper">
-      <Spinner center={true} />
-    </div>
-  {:then}
-    {#if isNonEmptyArray(params.items)}
+<div class="some-public-books">
+  {#if waitingForItems}
+    {#await waitingForItems}
+      <div class="spinner-wrapper">
+        <Spinner center={true} />
+      </div>
+    {:then}
       <section>
-        <h3>{i18n('Some of the last books listed')}</h3>
-        {#await waiting}
-          <Spinner center={true} />
-        {:then}
-          {#if $screen.isSmallerThan('$smaller-screen')}
-            <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
-          {:else}
-            <ItemsCascade items={params.items} {waiting} />
-          {/if}
-        {/await}
+        <h3>{i18n('Some books in this area')}</h3>
+        {#if $screen.isSmallerThan('$smaller-screen')}
+          <ItemsTable {items} haveSeveralOwners={true} />
+        {:else}
+          <ItemsCascade {items} />
+        {/if}
         <div class="fade-out" />
       </section>
-    {/if}
-  {/await}
-{/if}
-<Flash state={flash} />
+    {/await}
+  {:else}
+    {#await waiting}
+      <div class="spinner-wrapper">
+        <Spinner center={true} />
+      </div>
+    {:then}
+      {#if isNonEmptyArray(params.items)}
+        <section>
+          <h3>{i18n('Some of the last books listed')}</h3>
+          {#await waiting}
+            <Spinner center={true} />
+          {:then}
+            {#if $screen.isSmallerThan('$smaller-screen')}
+              <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
+            {:else}
+              <ItemsCascade items={params.items} {waiting} />
+            {/if}
+          {/await}
+          <div class="fade-out" />
+        </section>
+      {/if}
+    {/await}
+  {/if}
+  <Flash state={flash} />
+</div>
 
 <style lang="scss">
   @import "#welcome/scss/welcome_layout_commons";
+
+  .some-public-books{
+    min-height: 80vh;
+    background-color: $off-white;
+  }
 
   .spinner-wrapper{
     min-height: 20em;
@@ -76,7 +83,6 @@
   }
 
   section{
-    background-color: $off-white;
     overflow: hidden;
     max-height: 150vh;
     overflow-y: hidden;
