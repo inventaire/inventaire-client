@@ -2,7 +2,7 @@ import { compact, uniq } from 'underscore'
 import app from '#app/app'
 import { buildPath } from '#app/lib/location'
 import type Marker from '#map/components/marker.svelte'
-import type { BBox, Bounds, LatLng } from '#server/types/common'
+import type { BBox, LatLng } from '#server/types/common'
 import mapConfig from './config.ts'
 import { truncateDecimals } from './geo.ts'
 import type { Map } from 'leaflet'
@@ -33,9 +33,9 @@ export function getBbox (map: Map) {
   return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ] as BBox
 }
 
-export function uniqBounds (bounds: Bounds) {
+export function uniqBounds (bounds: LatLng[]) {
   const stringifiedBounds = compact(bounds).map(stringifyBound)
-  return uniq(stringifiedBounds).map(parseStringifiedBound)
+  return uniq(stringifiedBounds).map(parseStringifiedBound) as LatLng[]
 }
 
 const stringifyBound = (latLng: LatLng) => JSON.stringify(latLng)

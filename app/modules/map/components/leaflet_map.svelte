@@ -20,13 +20,13 @@
   import { uniqBounds } from '#map/lib/map'
   import { getPositionFromNavigator } from '#map/lib/navigator_position'
   import { fitResultBbox } from '#map/lib/nominatim'
-  import type { Bounds } from '#server/types/common'
+  import type { LatLng } from '#server/types/common'
   import { i18n } from '#user/lib/i18n'
 
   mapConfig.init()
 
   // Must set either bounds, or view and zoom.
-  export let bounds: Bounds = null
+  export let bounds: LatLng[] = null
   export let view = null
   export let zoom = 13
   export let cluster = false

@@ -30,7 +30,7 @@ export const tap = fn => async res => {
 
 export const map = fn => array => Promise.all(array.map(fn))
 
-export const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+export const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 // Isn't defined in test environment
 if (window.addEventListener != null) {
