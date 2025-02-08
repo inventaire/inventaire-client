@@ -1,5 +1,6 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
+  import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import InventoryBrowserModal from '#inventory/components/inventory_browser_modal.svelte'
@@ -15,6 +16,8 @@
   import { getDocsByPosition } from '#users/components/lib/public_users_nav_helpers'
 
   export let items = []
+  export let waitingForItems = wait(500)
+
   let users = [], groups = [], selectedUser, selectedGroup
 
   // Arbitrary position (Lyon, France),
@@ -23,7 +26,7 @@
   let map, mapZoom = 13, bbox, flash, displayedElementsCount
   let zoomInToDisplayMore = false
 
-  const waitingForUsers = fetchItemsUsersAndGroups()
+  let waitingForUsers = wait(500)
 
   async function fetchItemsUsersAndGroups () {
     if (!map) return
@@ -34,24 +37,34 @@
     if (!bbox) return
 
     const lang = getBrowserLocalLang()
-    try {
-      ;([ { items }, users, groups ] = await Promise.all([
-        getItemsByBbox({ items, bbox, lang }),
-        getDocsByPosition('users', bbox),
-        getDocsByPosition('groups', bbox),
-      ]))
-    } catch (err) {
-      if (err.message !== 'no items found') flash = err
-    }
 
-    if (items.length === 0) {
-      flash = {
-        type: 'warning',
-        message: i18n('No public book books in this area'),
-      }
-    } else {
-      flash = null
-    }
+    // Do not wait for users/groups/items to start displaying something on the map
+    waitingForUsers = getDocsByPosition('users', bbox)
+      .then(docs => users = docs)
+      .catch(flashError)
+
+    getDocsByPosition('groups', bbox)
+      .then(docs => groups = docs)
+      .catch(flashError)
+
+    waitingForItems = getItemsByBbox({ items, bbox, lang })
+      .then(res => {
+        items = res.items
+        if (items.length === 0) {
+          flash = {
+            type: 'warning',
+            message: i18n('No public books in this area'),
+          }
+          waitingForItems = null
+        } else {
+          flash = null
+        }
+      })
+      .catch(flashError)
+  }
+
+  function flashError (err) {
+    if (err.message !== 'no items found') flash = err
   }
 
   $: onChange(map, fetchItemsUsersAndGroups)

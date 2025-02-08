@@ -1,6 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
@@ -9,6 +10,7 @@
   import { i18n } from '#user/lib/i18n'
 
   export let items: SerializedItem[] = []
+  export let waitingForItems
 
   const params = {
     lang: app.user.lang,
@@ -16,24 +18,35 @@
     items: [],
   }
 
+  let flash
+
   const waiting = app.request('items:getRecentPublic', params)
     .catch(err => {
-      if (err.message !== 'no item found') throw err
+      if (err.message !== 'no item found') flash = err
     })
 </script>
-{#if isNonEmptyArray(items)}
-  <section>
-    <h3>{i18n('Some books in this area')}</h3>
-    {#if $screen.isSmallerThan('$smaller-screen')}
-      <ItemsTable {items} haveSeveralOwners={true} />
-    {:else}
-      <ItemsCascade {items} />
-    {/if}
-    <div class="fade-out" />
-  </section>
+
+{#if waitingForItems}
+  {#await waitingForItems}
+    <div class="spinner-wrapper">
+      <Spinner center={true} />
+    </div>
+  {:then}
+    <section>
+      <h3>{i18n('Some books in this area')}</h3>
+      {#if $screen.isSmallerThan('$smaller-screen')}
+        <ItemsTable {items} haveSeveralOwners={true} />
+      {:else}
+        <ItemsCascade {items} />
+      {/if}
+      <div class="fade-out" />
+    </section>
+  {/await}
 {:else}
   {#await waiting}
-    <Spinner />
+    <div class="spinner-wrapper">
+      <Spinner center={true} />
+    </div>
   {:then}
     {#if isNonEmptyArray(params.items)}
       <section>
@@ -52,9 +65,15 @@
     {/if}
   {/await}
 {/if}
+<Flash state={flash} />
 
 <style lang="scss">
   @import "#welcome/scss/welcome_layout_commons";
+
+  .spinner-wrapper{
+    min-height: 20em;
+    @include display-flex(colum, center, center);
+  }
 
   section{
     background-color: $off-white;
