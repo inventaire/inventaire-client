@@ -2,6 +2,8 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { serializeGroup } from '#app/modules/groups/lib/groups'
+  import { serializeUser } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
   import InventoryBrowserModal from '#inventory/components/inventory_browser_modal.svelte'
   import { getItemsByBbox } from '#inventory/lib/queries'
@@ -40,11 +42,11 @@
 
     // Do not wait for users/groups/items to start displaying something on the map
     waitingForUsers = getDocsByPosition('users', bbox)
-      .then(docs => users = docs)
+      .then(docs => users = docs.map(serializeUser))
       .catch(flashError)
 
     getDocsByPosition('groups', bbox)
-      .then(docs => groups = docs)
+      .then(docs => groups = docs.map(serializeGroup))
       .catch(flashError)
 
     waitingForItems = getItemsByBbox({ items, bbox, lang })
