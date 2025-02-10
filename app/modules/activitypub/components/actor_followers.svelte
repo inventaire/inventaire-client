@@ -48,7 +48,7 @@
 </script>
 
 {#if standalone}
-  <h2>{i18n('followers_of', { actorName })}</h2>
+  <h2>{i18n('Fediverse followers of %{actorName}', { actorName })}</h2>
 {/if}
 
 <Flash state={flash} />
