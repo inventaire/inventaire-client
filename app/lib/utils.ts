@@ -14,7 +14,13 @@ export function deepClone (obj: unknown) {
 
 export function capitalize (str: string) {
   if (str === '') return ''
-  return str[0].toUpperCase() + str.slice(1)
+  if (str[0] === '<') {
+    const [ before, ...rest ] = str.split('>')
+    const after = rest.join('>')
+    return `${before}>${after[0].toUpperCase()}${after.slice(1)}`
+  } else {
+    return str[0].toUpperCase() + str.slice(1)
+  }
 }
 
 export const clickCommand = (command: string) => e => {
