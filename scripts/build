@@ -41,7 +41,8 @@ sed -i "s|$PWD||g" ./public/dist/bundle_*
 # Those files can then be passed to webpack-bundle-analyzer cli to generate the html report, or to other bundle analyzers,
 # such as https://statoscope.tech
 # for more, see https://survivejs.com/webpack/optimizing/build-analysis/#dependency-analysis
-cp ./public/dist/bundle_report.html "./scripts/assets/bundles_stats/${bundle_name}.html"
+gzip --best ./public/dist/bundle_report.html
+mv ./public/dist/bundle_report.html.gz "./scripts/assets/bundles_stats/${bundle_name}.html.gz"
 
 cat > ./public/dist/bundle_meta.json <<EOF
 {
