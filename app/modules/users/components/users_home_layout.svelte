@@ -18,6 +18,7 @@
   export let section = null
   export let profileSection = null
   export let showShelfFollowers
+  export let showUserFollowers
 
   const { loggedIn } = app.user
 
@@ -91,6 +92,7 @@
           {focusedSection}
           standalone={true}
           {showShelfFollowers}
+          {showUserFollowers}
         />
       {/key}
     {:else if group}

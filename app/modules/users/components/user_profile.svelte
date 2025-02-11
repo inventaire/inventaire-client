@@ -52,6 +52,7 @@
     // is already at the top itself (standalone mode), to make the UsersHomeNav visible
     const pageSectionElement = standalone ? null : userProfileEl
     let pathname, title, rss
+    if (showUserFollowers || showUserFollowers) return
     if (profileSection === 'inventory') {
       pathname = user.inventoryPathname
       title = `${username} - ${i18n('Inventory')}`
