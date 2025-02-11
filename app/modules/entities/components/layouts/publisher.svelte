@@ -1,5 +1,6 @@
 <script lang="ts">
   import { setContext } from 'svelte'
+  import ActorFollowersSection from '#entities/components/layouts/actor_followers_section.svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
@@ -60,6 +61,7 @@
         <EntityListingsLayout {entity} />
       {/await}
     </div>
+    <ActorFollowersSection uri={entity.uri} />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>

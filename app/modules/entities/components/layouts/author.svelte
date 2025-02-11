@@ -3,6 +3,7 @@
   import { debounce } from 'underscore'
   import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import { onChange } from '#app/lib/svelte/svelte'
+  import ActorFollowersSection from '#entities/components/layouts/actor_followers_section.svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -81,7 +82,7 @@
       </div>
     </div>
     <!-- waiting for subentities to not display relative entities list before work browser -->
-    <!-- to not having to push them down while work broser is being displayed -->
+    <!-- to not having to push them down while work browser is being displayed -->
     {#await waitingForSubEntities then}
       <div class="relatives-lists">
         <RelativeEntitiesList
@@ -100,6 +101,7 @@
       <div class="entity-listings-layout">
         <EntityListingsLayout {entity} />
       </div>
+      <ActorFollowersSection uri={entity.uri} />
       <HomonymDeduplicates {entity} />
     {/await}
   </div>

@@ -21,6 +21,9 @@
     "verbatimModuleSyntax": true,
     "sourceMap": true,
     "paths": {
+      "#activitypub": [
+        "./app/modules/activitypub/*"
+      ],
       "#behaviors/*": [
         "./app/modules/general/behaviors/*"
       ],
