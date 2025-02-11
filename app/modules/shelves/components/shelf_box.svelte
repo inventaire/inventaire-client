@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
-  import ActorFollowers from '#activitypub/components/actor_followers.svelte'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
+  import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import Modal from '#components/modal.svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'

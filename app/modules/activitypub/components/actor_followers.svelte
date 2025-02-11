@@ -1,8 +1,8 @@
 <script lang="ts">
-  import ActorFollower from '#activitypub/components/actor_follower.svelte'
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
+  import ActorFollower from '#app/modules/activitypub/components/actor_follower.svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import { i18n } from '#user/lib/i18n'
 

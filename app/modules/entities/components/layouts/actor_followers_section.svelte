@@ -1,5 +1,6 @@
 <script lang="ts">
-  import ActorFollowers from '#activitypub/components/actor_followers.svelte'
+  // Could not find out why path "#activitypub" throw TS error
+  import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let uri

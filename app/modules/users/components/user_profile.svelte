@@ -1,6 +1,5 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import ActorFollowers from '#activitypub/components/actor_followers.svelte'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
@@ -10,6 +9,7 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { getISODay, getISOTime } from '#app/lib/time'
+  import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import Modal from '#components/modal.svelte'
   import UserInventory from '#inventory/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
