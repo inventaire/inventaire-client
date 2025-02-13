@@ -1,5 +1,4 @@
 <script>
-  import { without } from 'underscore'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import Dropdown from '#components/dropdown.svelte'
@@ -8,8 +7,10 @@
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let entitiesType, type, taskId
-  $: menuEntitiesTypes = without(entitiesTypesByTypes[type], entitiesType)
-  $: menuTypes = without([ 'merge', 'delete', 'deduplicate' ], type)
+
+  const menuTypes = [ 'merge', 'delete', 'deduplicate' ]
+
+  $: menuEntitiesTypes = entitiesTypesByTypes[type]
 </script>
 <div class="breadcrumb">
   <Link
