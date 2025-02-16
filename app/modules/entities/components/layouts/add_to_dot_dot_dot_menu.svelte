@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { pluck } from 'underscore'
+  import { indexBy } from 'underscore'
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { showLoginPageAndRedirectHere } from '#app/lib/utils'
+  import { loadInternalLink, showLoginPageAndRedirectHere } from '#app/lib/utils'
   import Dropdown, { type Align } from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
   import { listingTypeByEntitiesTypes } from '#listings/lib/entities_typing'
-  import { askUserConfirmationAndRemove, getElementByUri } from '#listings/lib/listings'
+  import { askUserConfirmationAndRemove, getElementByUri, getElementPathname } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
@@ -25,26 +25,30 @@
   const { uri, type } = entity
   const { loggedIn } = app.user
 
-  let listings, listingsIdsMatchingUri
+  let listings, listingsIdsMatchingUri, listingsMatchingUriByIds
 
   const entityListingType = listingTypeByEntitiesTypes[type]
   function refreshListings () {
-    if (!listingsIdsMatchingUri) return
+    if (!listingsMatchingUriByIds) return
     // TODO: refactor with only one map and compact
     listings = $userListings.filter(listing => {
       const { type: entitiesType = 'work' } = listing
       return entityListingType === entitiesType
     }).map(listing => {
-      listing.checked = listingsIdsMatchingUri.includes(listing._id)
+      if (listingsMatchingUriByIds[listing._id] != null) {
+        listing.checked = true
+        listing.element = listingsMatchingUriByIds[listing._id].elements.find(element => element.uri === uri)
+        console.log('🚀 ~ file: add_to_dot_dot_dot_menu.svelte ~ line', 41, 'refreshListings ~ ', listing.element)
+      }
       return listing
     })
   }
 
-  $: onChange($userListings, listingsIdsMatchingUri, refreshListings)
+  $: onChange($userListings, listingsMatchingUriByIds, refreshListings)
 
   const waitingForListingsStates = getUserListingsByEntityUri({ userId: app.user.id, uri })
     .then(listingsMatchingUri => {
-      listingsIdsMatchingUri = pluck(listingsMatchingUri, '_id')
+      listingsMatchingUriByIds = indexBy(listingsMatchingUri, '_id')
     })
     .catch(err => flash = err)
 
@@ -121,7 +125,7 @@
           {:then}
             <div role="menu">
               {#each listings as listing}
-                <div role="menuitem">
+                <div role="menuitem" class="listing-row">
                   <label>
                     <input
                       type="checkbox"
@@ -130,6 +134,11 @@
                     />
                     {listing.name}
                   </label>
+                  {#if listing.element}
+                    <a class="edit-listing-element" href={getElementPathname(listing._id, listing.element._id)} on:click={loadInternalLink}>
+                      {@html icon('pencil')}
+                    </a>
+                  {/if}
                 </div>
               {/each}
               <div role="menuitem">
@@ -217,6 +226,7 @@
   [role="menu"]{
     max-block-size: 11em;
     overflow-y: auto;
+    // scrollbar-gutter: stable;
   }
   [role="menuitem"]:not(:last-child){
     border-block-end: 1px solid #ddd;
@@ -228,9 +238,19 @@
     @include tiny-button-padding;
     @include bg-hover(white, 5%);
   }
-  label{
-    font-size: 1rem;
+  .listing-row{
+    @include display-flex(row, center, space-between);
     color: $default-text-color;
+    label{
+      font-size: 1rem;
+      flex: 1;
+    }
+    .edit-listing-element{
+      flex: 0 0 2rem;
+      text-align: center;
+      // Leave room for the scrollbar
+      margin-inline-end: 1rem;
+    }
   }
   .no-edition{
     color: $label-grey;
