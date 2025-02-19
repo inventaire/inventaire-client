@@ -6,9 +6,12 @@
 
   export let currentValue, property, valueLabel, entity
 
-  const { allowEntityCreation, entityValueTypes } = propertiesEditorsConfigs[property]
+  let { allowEntityCreation, entityValueTypes } = propertiesEditorsConfigs[property]
   const createOnWikidata = entity.uri?.startsWith('wd:')
 
+  if (property === 'wdt:P1889' && entity.type) {
+    entityValueTypes = [ entity.type ]
+  }
   const createdEntityType = entityValueTypes?.[0]
 
   const dispatch = createEventDispatcher()
