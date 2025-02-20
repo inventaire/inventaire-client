@@ -11,7 +11,7 @@ export interface SeriePartPlaceholder {
   isPlaceholder: true
 }
 
-export function fillGaps (worksWithOrdinal: (SerializedEntity | SeriePartPlaceholder)[], serieUri: EntityUri, serieLabel: string, titlePattern: string, titleKey: string, numberKey: string, partsNumber: number) {
+export function addPlaceholdersForMissingParts (worksWithOrdinal: (SerializedEntity | SeriePartPlaceholder)[], serieUri: EntityUri, serieLabel: string, titlePattern: string, titleKey: string, numberKey: string, partsNumber: number) {
   const existingOrdinals = pluck(worksWithOrdinal, 'serieOrdinalNum')
   const end = Math.max(...existingOrdinals, partsNumber)
   if (end < 1) return worksWithOrdinal
