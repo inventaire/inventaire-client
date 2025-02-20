@@ -11,7 +11,7 @@ interface WorkSuggestionExtras {
 
 export type WorkSuggestion = SerializedEntity & WorkSuggestionExtras
 
-export function addPertinanceScore (serie: SerializedEntity) {
+export function addRelevanceScore (serie: SerializedEntity) {
   return function (work: SerializedEntity & Partial<WorkSuggestionExtras>) {
     const authorsScore = getAuthorsIntersectionLength(serie, work) * 10
     const smallestLabelDistance = getSmallestLabelDistance(serie, work)
