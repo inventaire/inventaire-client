@@ -10,14 +10,14 @@
   import { getSerieOrWorkExtendedAuthorsUris, getSerieParts } from '#entities/lib/types/serie_alt'
   import type { EntityValue } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { fillGaps, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/fill_gaps'
+  import { addPlaceholdersForMissingParts, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/add_placeholders_for_missing_parts'
   import { getPartsSuggestions } from './lib/get_parts_suggestions'
   import { getIsolatedEditions, getPossibleOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
   import { spreadParts } from './lib/spread_part'
   import SerieCleanupControls from './serie_cleanup_controls.svelte'
   import SerieCleanupEdition from './serie_cleanup_edition.svelte'
   import SerieCleanupWork from './serie_cleanup_work.svelte'
-  import type { WorkSuggestion } from './lib/add_pertinance_score'
+  import type { WorkSuggestion } from './lib/add_relevance_score'
 
   export let serie: SerializedEntity
 
@@ -69,7 +69,7 @@
   function updatePartsPartitions () {
     ;({ worksWithOrdinal, worksWithoutOrdinal, worksInConflicts, maxOrdinal } = spreadParts(allSerieParts))
     partsNumber = Math.max(maxOrdinal, partsNumber)
-    worksWithOrdinal = fillGaps(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey, partsNumber)
+    worksWithOrdinal = addPlaceholdersForMissingParts(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey, partsNumber)
     possibleOrdinals = getPossibleOrdinals(worksWithOrdinal)
     placeholderCounter = worksWithOrdinal.filter(workIsPlaceholder).length
   }

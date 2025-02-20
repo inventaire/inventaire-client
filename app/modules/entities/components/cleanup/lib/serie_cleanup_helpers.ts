@@ -1,6 +1,6 @@
 import { pluck, range } from 'underscore'
 import { newError } from '#app/lib/error'
-import type { SeriePartPlaceholder } from '#app/modules/entities/components/cleanup/lib/fill_gaps'
+import type { SeriePartPlaceholder } from '#app/modules/entities/components/cleanup/lib/add_placeholders_for_missing_parts'
 import { getEntitiesList, getReverseClaims, type SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri } from '#server/types/entity'
 
