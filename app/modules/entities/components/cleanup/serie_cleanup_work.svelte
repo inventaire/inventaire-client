@@ -124,7 +124,7 @@
     if (!showPlaceholderEditor) placeholderLabel = placeholderTitle
   })
 
-  function onNextPlaceholderOrdinalToCreateChange () {
+  function maybeCreateWorkPlaceholder () {
     if (nextPlaceholderOrdinalToCreate != null && !creatingPlaceholder && nextPlaceholderOrdinalToCreate === work.serieOrdinalNum) {
       if (workIsPlaceholder(work)) {
         createPlaceholder()
@@ -135,7 +135,7 @@
     }
   }
 
-  $: onChange(nextPlaceholderOrdinalToCreate, onNextPlaceholderOrdinalToCreateChange)
+  $: onChange(nextPlaceholderOrdinalToCreate, maybeCreateWorkPlaceholder)
 
   async function getEditions () {
     const allEditions = await getWorkEditions(nonPlaceholderWork.uri, { refresh: true })
