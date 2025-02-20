@@ -1,4 +1,4 @@
-import { isPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
+import { isStrictlyPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
 import decodeHtmlEntities from './decode_html_entities.ts'
 
 export default obj => ({
@@ -12,7 +12,7 @@ export default obj => ({
   title: decodeHtmlEntities(obj.title),
   authors: getAuthors(obj),
   publicationDate: isDateString(obj.date) ? obj.date : undefined,
-  numberOfPages: isPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
+  numberOfPages: isStrictlyPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
   details: obj.review,
   notes: obj.privatecomment,
   libraryThingWorkId: obj.workcode,

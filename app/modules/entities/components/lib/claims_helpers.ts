@@ -9,7 +9,8 @@ import platforms_ from '#app/lib/handlebars_helpers/platforms.ts'
 import typeOf from '#app/lib/type_of'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import type { AuthorProperty } from '#app/modules/entities/lib/properties'
-import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
+import type { SerializedEntity } from '#entities/lib/entities'
+import { isStandaloneEntityType, typeDefaultP31 } from '#entities/lib/types/entities_types'
 
 // @ts-expect-error
 const { escapeExpression } = Handlebars
@@ -316,4 +317,9 @@ export const defaultWorkP31PerSerieP31 = {
   'wd:Q21198342': 'wd:Q8274', // manga
   'wd:Q74262765': 'wd:Q562214', // manhwa
   'wd:Q104213567': 'wd:Q747381', // light novel
+}
+
+export function getDefaultWorkP31FromSerie (serie: SerializedEntity) {
+  const P31Value = serie.claims['wdt:P31'][0]
+  return defaultWorkP31PerSerieP31[P31Value] || typeDefaultP31.work
 }

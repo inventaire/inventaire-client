@@ -1,5 +1,5 @@
 import { compact } from 'underscore'
-import { isPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
+import { isStrictlyPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
 import { trim, capitalize } from '#app/lib/utils'
 
 export default obj => ({
@@ -10,7 +10,7 @@ export default obj => ({
   details: obj['My Review'],
   publisher: obj.Publisher,
   publicationDate: isDateString(obj['Year Published']) ? obj['Year Published'] : undefined,
-  numberOfPages: isPositiveIntegerString(obj['Number of Pages']) ? parseInt(obj['Number of Pages']) : undefined,
+  numberOfPages: isStrictlyPositiveIntegerString(obj['Number of Pages']) ? parseInt(obj['Number of Pages']) : undefined,
   notes: obj['Private Notes'],
   // See https://www.goodreads.com/api/index#book.id_to_work_id
   goodReadsEditionId: obj['Book Id'],

@@ -6,7 +6,7 @@
   import { treq } from '#app/lib/preq'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
+  import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { EntityUri } from '#server/types/entity'
