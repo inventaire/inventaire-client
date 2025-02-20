@@ -9,7 +9,7 @@ import { addRelevanceScore, type WorkSuggestion } from './add_relevance_score.ts
 
 export async function getPartsSuggestions (serie: SerializedEntity, parts: SerializedEntity[], authorsUris: EntityUri[]) {
   const uris = await Promise.all([
-    getAuthorsWorks(authorsUris),
+    getAuthorsWorksUris(authorsUris),
     searchMatchWorks(serie, parts),
   ])
   .then(flatten)
@@ -32,7 +32,7 @@ function byDescendingPertinanceScore (a: WorkSuggestion, b: WorkSuggestion) {
   return b.pertinanceScore - a.pertinanceScore
 }
 
-async function getAuthorsWorks (authorsUris: EntityUri[]) {
+async function getAuthorsWorksUris (authorsUris: EntityUri[]) {
   const authorsWorks = await Promise.all(authorsUris.map(fetchAuthorWorks))
   const authorsWorksUris = authorsWorks.map(works => pluck(works.filter(hasNoSerie), 'uri'))
   return authorsWorksUris.flat()
