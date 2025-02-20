@@ -5,12 +5,12 @@ import type { EntityUri } from '#server/types/entity'
 
 export type WorkWithEditions = SerializedEntity & { editions?: SerializedEntity[] }
 
-export function getPossibleOrdinals (worksWithOrdinal: (SerializedEntity | SeriePartPlaceholder)[]) {
+export function getAvailableOrdinals (worksWithOrdinal: (SerializedEntity | SeriePartPlaceholder)[]) {
   const nonPlaceholdersWorksWithOrdinals = worksWithOrdinal.filter(workIsNotPlaceholder)
-  const nonPlaceholdersOrdinals = pluck(nonPlaceholdersWorksWithOrdinals, 'serieOrdinalNum')
-  const maxOrdinal = Math.max(...nonPlaceholdersOrdinals, -1)
+  const usedOrdinals = pluck(nonPlaceholdersWorksWithOrdinals, 'serieOrdinalNum')
+  const maxOrdinal = Math.max(...usedOrdinals, -1)
   return range(0, (maxOrdinal + 10))
-    .filter(num => !nonPlaceholdersOrdinals.includes(num))
+    .filter(num => !usedOrdinals.includes(num))
 }
 
 export function workIsPlaceholder (work: SerializedEntity | SeriePartPlaceholder): work is SeriePartPlaceholder {
