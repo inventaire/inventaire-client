@@ -5,7 +5,7 @@ import { getEntities, type SerializedEntity } from '#app/modules/entities/lib/en
 import { searchWorks } from '#entities/lib/search/search_by_types'
 import type { GetAuthorWorksResponse } from '#server/controllers/entities/get_entity_relatives'
 import type { EntityUri } from '#server/types/entity'
-import { addPertinanceScore, type WorkSuggestion } from './add_pertinance_score.ts'
+import { addRelevanceScore, type WorkSuggestion } from './add_relevance_score.ts'
 
 export async function getPartsSuggestions (serie: SerializedEntity, parts: SerializedEntity[], authorsUris: EntityUri[]) {
   const uris = await Promise.all([
@@ -21,7 +21,7 @@ export async function getPartsSuggestions (serie: SerializedEntity, parts: Seria
     // Confirm the type, as the search might have failed to unindex a serie that use
     // to be considered a work
     .filter(isWorkWithoutSerie)
-    .map(addPertinanceScore(serie))
+    .map(addRelevanceScore(serie))
     .filter(work => work.authorMatch || work.labelMatch)
     .sort(byDescendingPertinanceScore)
 
