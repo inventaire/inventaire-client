@@ -10,7 +10,7 @@
   import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
   import { I18n } from '#user/lib/i18n'
   import WorkPicker from './work_picker.svelte'
-  import type { WorkSuggestion } from './lib/add_pertinance_score'
+  import type { WorkSuggestion } from './lib/add_relevance_score'
 
   export let partSuggestion: WorkSuggestion
   export let serie: SerializedEntity
