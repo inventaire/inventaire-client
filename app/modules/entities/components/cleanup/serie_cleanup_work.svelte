@@ -29,7 +29,7 @@
 
   export let work: WorkWithEditions | SeriePartPlaceholder
   export let serie: SerializedEntity
-  export let possibleOrdinals: number[]
+  export let availableOrdinals: number[]
   export let showAuthors: boolean
   export let showEditions: boolean
   export let showDescriptions: boolean
@@ -157,7 +157,7 @@
     {:else}
       <select class="ordinal-selector glowing" on:change={selectOrdinal}>
         <option value="">--</option>
-        {#each possibleOrdinals as num}
+        {#each availableOrdinals as num}
           <option value={num}>{num}</option>
         {/each}
       </select>

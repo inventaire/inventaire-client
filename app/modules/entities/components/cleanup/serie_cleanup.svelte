@@ -12,7 +12,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { addPlaceholdersForMissingParts, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/add_placeholders_for_missing_parts'
   import { getPartsSuggestions } from './lib/get_parts_suggestions'
-  import { getIsolatedEditions, getPossibleOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
+  import { getIsolatedEditions, getAvailableOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
   import { spreadParts } from './lib/spread_part'
   import SerieCleanupControls from './serie_cleanup_controls.svelte'
   import SerieCleanupEdition from './serie_cleanup_edition.svelte'
@@ -64,13 +64,13 @@
     partsSuggestions = await getPartsSuggestions(serie, allSerieParts, serieAuthorsUris)
   })
 
-  let possibleOrdinals: number[] = []
+  let availableOrdinals: number[] = []
 
   function updatePartsPartitions () {
     ;({ worksWithOrdinal, worksWithoutOrdinal, worksInConflicts, maxOrdinal } = spreadParts(allSerieParts))
     partsNumber = Math.max(maxOrdinal, partsNumber)
     worksWithOrdinal = addPlaceholdersForMissingParts(worksWithOrdinal, serie.uri, serie.label, titlePattern, titleKey, numberKey, partsNumber)
-    possibleOrdinals = getPossibleOrdinals(worksWithOrdinal)
+    availableOrdinals = getAvailableOrdinals(worksWithOrdinal)
     placeholderCounter = worksWithOrdinal.filter(workIsPlaceholder).length
   }
 
@@ -175,7 +175,7 @@
             <SerieCleanupWork
               {work}
               {serie}
-              {possibleOrdinals}
+              {availableOrdinals}
               {showAuthors}
               {showEditions}
               {showDescriptions}
@@ -216,7 +216,7 @@
           <SerieCleanupWork
             bind:work
             {serie}
-            {possibleOrdinals}
+            {availableOrdinals}
             {showAuthors}
             {showEditions}
             {showDescriptions}
@@ -237,7 +237,7 @@
           <SerieCleanupWork
             {work}
             {serie}
-            {possibleOrdinals}
+            {availableOrdinals}
             {showAuthors}
             {showEditions}
             {showDescriptions}
