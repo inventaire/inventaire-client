@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { debounce } from 'underscore'
   import Flash from '#app/lib/components/flash.svelte'
   import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -69,7 +70,9 @@
     if (err.message !== 'no items found') flash = err
   }
 
-  $: onChange(map, fetchItemsUsersAndGroups)
+  const lazyFetchItemsUsersAndGroups = debounce(fetchItemsUsersAndGroups, 500)
+
+  $: onChange(map, lazyFetchItemsUsersAndGroups)
 </script>
 
 <section>
@@ -80,7 +83,7 @@
       bind:map
       cluster={true}
       bind:zoom={mapZoom}
-      on:moveend={fetchItemsUsersAndGroups}
+      on:moveend={lazyFetchItemsUsersAndGroups}
       showLocationSearchInput={true}
       showFindPositionFromGeolocation={true}
     >
