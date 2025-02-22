@@ -8,6 +8,7 @@ import app from '#app/app'
 // strings were fetched, but it's so much simpler to handle, and less verbose as
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
+import { config } from '#app/config'
 import type { UserLang } from '#app/lib/active_languages.ts'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -30,7 +31,7 @@ let currentLangI18n = (key: string, context?: unknown) => {
 
 export const i18n = (key: string, context?: unknown) => currentLangI18n(key, context)
 
-const missingKey = window.env === 'dev' ? i18nMissingKey : noop
+const missingKey = config.env === 'production' ? noop : i18nMissingKey
 
 function onMissingKey (key: string) {
   console.warn(`Missing translation for key: ${key}`)

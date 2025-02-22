@@ -1,3 +1,4 @@
+import { config } from '#app/config'
 import { i18nContentHash } from '#assets/js/build_metadata'
 import type { RelativeUrl } from '#server/types/common'
 import activitypub from './activitypub.ts'
@@ -54,8 +55,7 @@ export const API = {
   img,
 }
 
-const getBuster = () => {
-  // TS2339: Property 'env' does not exist on type 'Window & typeof globalThis'.
-  if (window.env === 'dev') return `?${Date.now()}`
-  else return `?${i18nContentHash}`
+function getBuster () {
+  if (config.env === 'production') return `?${i18nContentHash}`
+  else return `?${Date.now()}`
 }
