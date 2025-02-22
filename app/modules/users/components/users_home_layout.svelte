@@ -17,8 +17,8 @@
   export let shelf = null
   export let section = null
   export let profileSection = null
-  export let showShelfFollowers
-  export let showUserFollowers
+  export let showShelfFollowers = null
+  export let showUserFollowers = null
 
   const { loggedIn } = app.user
 
