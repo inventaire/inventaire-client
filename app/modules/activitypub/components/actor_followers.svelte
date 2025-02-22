@@ -6,7 +6,11 @@
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import { i18n } from '#user/lib/i18n'
 
-  export let actorName, actorLabel = null, standalone = false
+  export let actorName: string
+  export let actorLabel: string = null
+  export let standalone = false
+  export let followersCount: number = 0
+
   let flash, fetching
   let hasMore = true
   let remoteFollowers = []
@@ -45,6 +49,8 @@
       fetching = false
     }
   }
+
+  $: followersCount = remoteFollowers.length
 </script>
 
 {#if standalone}

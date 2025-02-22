@@ -6,10 +6,14 @@
   export let uri
 
   const actorName = uri.replace(':', '-')
+
+  let followersCount = 0
 </script>
-<div class="actor-followers-section">
+
+<!-- Use class:hidden rather than a if block to let ActorFollowers fetch followers and update followersCount  -->
+<div class="actor-followers-section" class:hidden={followersCount === 0}>
   <h4>{i18n('Fediverse followers')}</h4>
-  <ActorFollowers {actorName} />
+  <ActorFollowers {actorName} bind:followersCount />
 </div>
 
 <style lang="scss">
@@ -26,5 +30,8 @@
     :global(li){
       @include bg-hover(white, 5%);
     }
+  }
+  .hidden{
+    display: none;
   }
 </style>
