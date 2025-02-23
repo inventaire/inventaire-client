@@ -132,12 +132,14 @@
           {/if}
           {#if fediversable}
             {#await waitingForFollowersCount then}
-              <li class="followers-count">
-                <a href="{username}/followers" on:click={showFollowersModal}>
-                  <span>{@html icon('address-book')}{i18n('followers')}</span>
-                  <span class="count">{followersCount}</span>
-                </a>
-              </li>
+              {#if followersCount > 0}
+                <li class="followers-count">
+                  <a href="{username}/followers" on:click={showFollowersModal}>
+                    <span>{@html icon('address-book')}{i18n('followers')}</span>
+                    <span class="count">{followersCount}</span>
+                  </a>
+                </li>
+              {/if}
             {/await}
           {/if}
         </ul>
