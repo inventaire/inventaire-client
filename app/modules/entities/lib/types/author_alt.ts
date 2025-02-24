@@ -47,7 +47,11 @@ export async function getAuthorWorks ({ uri }) {
   const worksUris = works.map(getUri)
   const worksEntities: WorkEntity[] = await getEntities(worksUris)
   // Filtering-out any non-work undetected by the SPARQL query
-  return worksEntities.filter(entity => entity.type === 'work')
+  return worksEntities.filter(isWork)
+}
+
+function isWork (entity: SerializedEntity) {
+  return entity.type === 'work'
 }
 
 const getUri = property('uri')

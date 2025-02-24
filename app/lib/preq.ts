@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { newError } from '#app/lib/error'
+import { newError, type ContextualizedError } from '#app/lib/error'
 import type { Url } from '#server/types/common'
 
 type Method = 'get' | 'post' | 'put' | 'delete'
@@ -87,8 +87,9 @@ preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
 
 export default preq
 
-function rewriteJqueryError (err, context) {
+function rewriteJqueryError (err: ContextualizedError, context: Record<string, unknown>) {
   let message
+  // @ts-expect-error
   const { status: statusCode, statusText, responseText, responseJSON } = err
   const { url, type: verb } = context
   if (statusCode >= 400) {

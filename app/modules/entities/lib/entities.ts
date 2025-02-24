@@ -1,4 +1,4 @@
-import { flatten, chunk, compact, indexBy, pluck, values } from 'underscore'
+import { flatten, chunk, compact, indexBy, pluck, values, without } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
@@ -11,7 +11,7 @@ import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntit
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
-import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri } from '#server/types/entity'
+import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri, ClaimValueByProperty } from '#server/types/entity'
 import { getBestLangValue } from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
@@ -22,11 +22,13 @@ export interface SerializedEntityCommons {
   description?: string
   publicationYear?: string
   serieOrdinal?: string
+  serieOrdinalNum?: number
   title?: string
   subtitle?: string
   pathname?: RelativeUrl
   editPathname?: RelativeUrl
   historyPathname?: RelativeUrl
+  cleanupPathname?: RelativeUrl
   prefix: EntityUriPrefix
   // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
@@ -88,17 +90,17 @@ export function normalizeUri (uri: string) {
 export async function getEntities (uris: EntityUri[], params: Omit<GetEntitiesAttributesByUrisParams, 'uris'> = {}) {
   if (uris.length === 0) return []
   const { entities } = await getManyEntities({ uris, ...params })
-  return Object.values(entities).map(serializeEntity)
+  return values(entities).map(serializeEntity)
 }
 
 export async function getEntitiesByUris (params: GetEntitiesParams) {
   const { uris, attributes, lang } = params
-  if (uris.length === 0) return []
+  if (uris.length === 0) return {}
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
-  const serializedEntities = Object.values(entities).map(serializeEntity)
+  const serializedEntities = values(entities).map(serializeEntity)
   const serializedEntitiesByUris = indexBy(serializedEntities, 'uri')
   addRedirectionsAliases(serializedEntitiesByUris, redirects)
-  return serializedEntitiesByUris
+  return serializedEntitiesByUris as SerializedEntitiesByUris
 }
 
 export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: InvEntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedInvEntity>
@@ -139,6 +141,8 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   const basePathname = entity.pathname = getPathname(entity.uri)
   entity.editPathname = `${basePathname}/edit`
   entity.historyPathname = `${basePathname}/history`
+  entity.cleanupPathname = `${basePathname}/cleanup`
+
   let wdUri, invUri
   let isWikidataEntity = false
   const { invId, wdId } = entity
@@ -194,21 +198,21 @@ function mergeResponsesObjects (responses, attribute) {
   }
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
   uris = forceArray(uris)
   let entities: SerializedEntitiesByUris = {}
   if (!isNonEmptyArray(uris)) {
     return { entities }
   }
   let redirects: RedirectionsByUris = {}
-  attributes = forceArray(attributes)
-  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, autocreate }))
+  ;({ entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives, refresh, autocreate }))
+  values(entities).forEach(serializeEntity)
   addRedirectionsAliases(entities, redirects)
   return { entities }
 }
 
-export async function getEntitiesList ({ uris, attributes, lang, relatives, autocreate }: GetEntitiesAttributesByUrisParams) {
-  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, autocreate })
+export async function getEntitiesList ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
+  const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, refresh, autocreate })
   return values(entities)
 }
 
@@ -234,7 +238,7 @@ export async function getEntityLabel (uri: EntityUri) {
     attributes: [ 'labels' ],
     lang: app.user.lang,
   })
-  const entity = Object.values(entities)[0]
+  const entity = values(entities)[0]
   const { value, lang } = getBestLangValue(app.user.lang, null, entity.labels)
   return { label: value, lang }
 }
@@ -400,4 +404,47 @@ function getEditionWorksUris (edition: SerializedEntity) {
     throw err
   }
   return editionWorksUris
+}
+
+export async function getWorkEditions (workUri: EntityUri, params: Omit<GetEntitiesAttributesByUrisParams, 'uris'> = {}) {
+  const { refresh = false } = params
+  const uris = await getReverseClaims('wdt:P629', workUri, refresh)
+  return getEntitiesList({ uris, ...params })
+}
+
+export async function addClaim <P extends keyof ClaimValueByProperty, T extends ClaimValueByProperty[P]> (entity: SerializedEntity, property: P, newValue: T) {
+  const { uri } = entity
+  try {
+    entity.claims[property] ??= []
+    // @ts-expect-error
+    entity.claims[property].push(newValue)
+    await preq.put(API.entities.claims.update, {
+      uri,
+      property,
+      'old-value': null,
+      'new-value': newValue,
+    })
+  } catch (err) {
+    // @ts-expect-error
+    entity.claims[property] = without(entity.claims[property], newValue)
+    throw err
+  }
+  return serializeEntity(entity)
+}
+
+export async function updateClaim <P extends keyof ClaimValueByProperty, T extends ClaimValueByProperty[P]> (entity: SerializedEntity, property: P, oldValue: T, newValue: T) {
+  const { uri } = entity
+  try {
+    entity.claims[property] = entity.claims[property].map(value => value === oldValue ? newValue : value)
+    await preq.put(API.entities.claims.update, {
+      uri,
+      property,
+      'old-value': oldValue,
+      'new-value': newValue,
+    })
+  } catch (err) {
+    entity.claims[property] = entity.claims[property].map(value => value === newValue ? oldValue : value)
+    throw err
+  }
+  return serializeEntity(entity)
 }
