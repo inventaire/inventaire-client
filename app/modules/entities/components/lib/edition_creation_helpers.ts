@@ -1,7 +1,7 @@
 import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import { newError } from '#app/lib/error'
+import { newError, type ContextualizedError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import { buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
@@ -10,6 +10,7 @@ import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import { createEntity } from '#entities/lib/create_entity'
 import type { SerializedEntity } from '#entities/lib/entities'
 import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
+import type { EntityUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
 export async function createEditionFromWork (params) {
@@ -19,11 +20,15 @@ export async function createEditionFromWork (params) {
   const isbn = normalizeIsbn(userInput)
 
   const { labels, claims } = await createWorkEditionDraft({ workEntity, isbn })
-  await createEntity({ labels, claims })
-  .catch(renameIsbnDuplicateErr(workEntity.uri, userInput))
+  try {
+    const entity = await createEntity({ labels, claims })
+    return entity
+  } catch (err) {
+    renameIsbnDuplicateErr(workEntity.uri, userInput, err)
+  }
 }
 
-export const renameIsbnDuplicateErr = (workUri, isbn) => err => {
+export function renameIsbnDuplicateErr (workUri: EntityUri, isbn: string, err: ContextualizedError) {
   if (err.responseJSON?.status_verbose !== 'this property value is already used') throw err
   reportIsbnIssue(workUri, isbn)
   formatDuplicateWorkErr(err, isbn)

@@ -128,8 +128,8 @@
     @include tiny-button($grey);
     display: block;
     margin: 0 auto;
-    &.disabled{
-      // cursor: not-allowed;
+    &:disabled{
+      cursor: not-allowed;
     }
   }
   .toggle-merge-work-picker{

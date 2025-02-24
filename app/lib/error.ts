@@ -8,9 +8,13 @@ export interface ContextualizedError extends Error {
   context?: ErrorContext
   i18n?: string | boolean
   selector?: unknown
-  statusCode?: number
   timestamp?: string
   serverError?: boolean
+  // Request error
+  statusCode?: number
+  statusText?: string
+  responseText?: string
+  responseJSON?: Record<string, unknown>
 }
 
 export function newError (message: string, statusCode?: number | ErrorContext, context?: ErrorContext) {
