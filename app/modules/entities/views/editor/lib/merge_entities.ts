@@ -7,7 +7,7 @@ import preq from '#app/lib/preq'
 import type { EntityUri } from '#server/types/entity'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
 
-export default async function (fromUri: EntityUri, toUri: EntityUri) {
+export async function mergeEntities (fromUri: EntityUri, toUri: EntityUri) {
   if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {
     throw newError('Wikidata entities can not be merged on Inventaire', 400, { fromUri, toUri })
   }
@@ -26,11 +26,11 @@ export default async function (fromUri: EntityUri, toUri: EntityUri) {
   }
 }
 
-const merge = async (fromUri, toUri) => {
+async function merge (fromUri: EntityUri, toUri: EntityUri) {
   return preq.put(API.entities.merge, { from: fromUri, to: toUri })
 }
 
-const importEntityDataToWikidata = async (fromUri, toUri) => {
+async function importEntityDataToWikidata (fromUri: EntityUri, toUri: EntityUri) {
   const importData = await getEntityWikidataImportData(fromUri, toUri)
   log_.info(importData, 'importData')
   // @ts-expect-error
@@ -42,7 +42,7 @@ const importEntityDataToWikidata = async (fromUri, toUri) => {
   }
 }
 
-const showWikidataDataImporter = async importData => {
+async function showWikidataDataImporter (importData) {
   const { default: WikidataDataImporter } = await import('#entities/views/wikidata_data_importer')
   return new Promise((resolve, reject) => {
     app.layout.showChildView('modal', new WikidataDataImporter({ resolve, reject, importData }))

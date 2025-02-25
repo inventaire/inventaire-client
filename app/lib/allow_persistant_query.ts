@@ -9,11 +9,7 @@ const allowRedirectPersistantQuery = [
 ]
 
 export default {
-  authors: alwaysKeep,
   debug: alwaysKeep,
-  descriptions: alwaysKeep,
-  editions: alwaysKeep,
   lang: alwaysKeep,
-  large: alwaysKeep,
   redirect: redirectTest,
 }

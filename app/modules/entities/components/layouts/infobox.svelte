@@ -1,17 +1,16 @@
 <script lang="ts">
-  import app from '#app/app'
-  import { isNonEmptyArray, isEntityUri } from '#app/lib/boolean_tests'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import WrapToggler from '#components/wrap_toggler.svelte'
+  import ClaimsInfobox from '#entities/components/layouts/claims_infobox.svelte'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
   import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
+  import type { SerializedEntitiesByUris } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import type { Claims, ExtendedEntityType, PropertyUri } from '#server/types/entity'
+  import type { ExtendedEntityType, PropertyUri, SimplifiedClaims } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
-  import ClaimInfobox from './claim_infobox.svelte'
 
-  export let claims: Claims = {}
+  export let claims: SimplifiedClaims = {}
   export let omittedProperties: PropertyUri[] = []
   export let relatedEntities: SerializedEntitiesByUris = {}
   export let entityType: ExtendedEntityType
@@ -28,29 +27,7 @@
   }
   allowlistedProperties = allowlistedProperties || []
 
-  async function getMissingEntities () {
-    const missingUris = []
-    allowlistedProperties.forEach(prop => {
-      if (claims[prop]) {
-        const propMissingUris = claims[prop].filter(value => {
-          if (isEntityUri(value)) return !relatedEntities[value]
-          else return false
-        })
-        missingUris.push(...propMissingUris)
-      }
-    })
-    if (isNonEmptyArray(missingUris)) {
-      const { entities } = await getEntitiesAttributesByUris({
-        uris: missingUris,
-        attributes: [ 'info', 'labels' ],
-        lang: app.user.lang,
-      })
-      relatedEntities = { ...relatedEntities, ...entities }
-    }
-  }
-  const waitingForEntities = getMissingEntities()
-
-  let infoboxHeight, showDetails, infobox
+  let infoboxHeight, showDetails, infobox, waitingForEntities
   const wrappedInfoboxHeight = 128
   $: infoboxHeight = infobox?.clientHeight
   $: wrappedSize = listDisplay && infoboxHeight && infoboxHeight > wrappedInfoboxHeight
@@ -62,14 +39,13 @@
     class:wrapped-size={wrappedSize && !showDetails}
     class="claims-infobox"
   >
-    {#each allowlistedProperties as prop}
-      <ClaimInfobox
-        values={displayedClaims[prop]}
-        {prop}
-        entitiesByUris={relatedEntities}
-        {entityType}
-      />
-    {/each}
+    <ClaimsInfobox
+      {allowlistedProperties}
+      claims={displayedClaims}
+      {relatedEntities}
+      {entityType}
+      {waitingForEntities}
+    />
     {#if !shortlistOnly}
       <EntityClaimsLinks {claims} />
     {/if}

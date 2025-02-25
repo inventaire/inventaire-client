@@ -16,24 +16,16 @@ import { I18n } from '#user/lib/i18n'
 import { getReverseClaims } from '../lib/entities.ts'
 import editableEntity from '../lib/inv/editable_entity.ts'
 import initializeInvEntity from '../lib/inv/init_entity.ts'
-import initAuthor from '../lib/types/author.ts'
-import initCollection from '../lib/types/collection.ts'
-import initEdition from '../lib/types/edition.ts'
-import initPublisher from '../lib/types/publisher.ts'
-import initSerie from '../lib/types/serie.ts'
-import initWork from '../lib/types/work.ts'
 import initializeWikidataEntity from '../lib/wikidata/init_entity.ts'
 
-const specialInitializersByType = {
-  human: initAuthor,
-  serie: initSerie,
-  work: initWork,
-  edition: initEdition,
-  publisher: initPublisher,
-  collection: initCollection,
-}
-
-const editableTypes = Object.keys(specialInitializersByType)
+const editableTypes = [
+  'human',
+  'serie',
+  'work',
+  'edition',
+  'publisher',
+  'collection',
+]
 
 const placeholdersTypes = [ 'meta', 'missing' ]
 
@@ -94,18 +86,11 @@ export default Filterable.extend({
     // /!\ Legacy: to be harmonized/merged with @subentities
     this.set('reverseClaims', {})
 
-    this.typeSpecificInit()
-
     if (this._dataPromises.length === 0) {
       this.waitForData = Promise.resolve()
     } else {
       this.waitForData = Promise.all(this._dataPromises)
     }
-  },
-
-  typeSpecificInit () {
-    const specialInitializer = specialInitializersByType[this.type]
-    if (specialInitializer != null) return specialInitializer.call(this)
   },
 
   setCommonAttributes (attrs) {
