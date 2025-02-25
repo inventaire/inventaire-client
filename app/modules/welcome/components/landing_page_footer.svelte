@@ -1,8 +1,13 @@
 <script lang="ts">
+  import { bundleMeta, config } from '#app/config'
   import Link from '#app/lib/components/link.svelte'
   import { git, wiki, dataHome, translate, blog, faq, communicationChannels } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
   import FooterIconLink from '#welcome/components/footer_icon_link.svelte'
+
+  const { version, serverGitHeadRev, softwareName } = config
+  const { commit, time } = bundleMeta
+  const clientBuild = commit && time ? `${commit} - ${time}` : 'dev'
 </script>
 
 <section id="icon-links">
@@ -48,6 +53,10 @@
   />
 </section>
 
+<section class="build-meta">
+  <p>{i18n('Version')}: {softwareName} {version} / server: {serverGitHeadRev} / client: {clientBuild}</p>
+</section>
+
 <style lang="scss">
   @import "#general/scss/utils";
 
@@ -63,6 +72,15 @@
     @include display-flex(row, center, center, wrap);
     :global(a){
       margin: 0.5em;
+    }
+  }
+  .build-meta{
+    @include display-flex(row, center, center);
+    p{
+      font-size: 0.9rem;
+      @include radius;
+      margin-block-end: 1rem;
+      color: $grey;
     }
   }
 </style>
