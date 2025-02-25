@@ -4,10 +4,8 @@
   import { isPositiveIntegerString } from '#app/lib/boolean_tests'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
-  import { newError } from '#app/lib/error'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
-  import log_ from '#app/lib/loggers'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
   import type { EntityDraft } from '#app/types/entity'
@@ -125,13 +123,10 @@
   })
 
   function maybeCreateWorkPlaceholder () {
-    if (nextPlaceholderOrdinalToCreate != null && !creatingPlaceholder && nextPlaceholderOrdinalToCreate === work.serieOrdinalNum) {
-      if (workIsPlaceholder(work)) {
-        createPlaceholder()
-      } else {
-        const err = newError('work was already created', 500, { work })
-        log_.error(err, 'work was already created')
-      }
+    // Check if work is still a placeholder, as after createPlaceholder was called,
+    // the component might be reinitialized with the created work entity and in a state that fits all the other conditions
+    if (nextPlaceholderOrdinalToCreate != null && !creatingPlaceholder && nextPlaceholderOrdinalToCreate === work.serieOrdinalNum && workIsPlaceholder(work)) {
+      createPlaceholder()
     }
   }
 
