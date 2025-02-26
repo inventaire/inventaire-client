@@ -16,13 +16,18 @@ curl -sk https://raw.githubusercontent.com/WICG/visual-viewport/44deaba/polyfill
 
 npm run build
 
+echo -e "\e[0;32msetup githooks\e[0m"
 # Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
 rm -rf .git/hooks
 # Symbolic link is relative to the .git directory, thus the path starting with ".."
 ln -s ../scripts/githooks .git/hooks
+echo -e "\e[0;32msetup githooks: done\e[0m"
 
+echo -e "\e[0;32mclear node_modules cache\e[0m"
 # Remove assets cached by node modules, in particular webpack cached builds,
 # as webpack does not invalidate its cache on modules updates.
 # This is recommanded in https://webpack.js.org/guides/build-performance/#persistent-cache
 # See also https://webpack.js.org/configuration/cache/
 rm -rf ./node_modules/.cache
+
+echo -e "\e[0;32mpostinstall: done\e[0m"
