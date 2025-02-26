@@ -31,3 +31,6 @@ echo -e "\e[0;32mclear node_modules cache\e[0m"
 rm -rf ./node_modules/.cache
 
 echo -e "\e[0;32mpostinstall: done\e[0m"
+
+# Exit with code 0 (apparently required for Docker image build to succeed)
+true
