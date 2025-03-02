@@ -5,6 +5,8 @@ set -e
 
 echo -e "$(date --iso-8601=seconds) \e[0;32mstart building\e[0m"
 
+echo "DOCKER: $DOCKER"
+
 if [ "$DOCKER" != 1 ]; then
   ./scripts/check_build_environment.sh
 fi
