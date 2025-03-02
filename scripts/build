@@ -5,7 +5,9 @@ set -e
 
 echo -e "$(date --iso-8601=seconds) \e[0;32mstart building\e[0m"
 
-./scripts/check_build_environment.sh
+if [ "$DOCKER" != 1 ]; then
+  ./scripts/check_build_environment.sh
+fi
 
 echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
