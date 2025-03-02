@@ -25,26 +25,31 @@ webpack --config ./bundle/webpack.config.prod.cjs --progress --color
 utc_time=$(date -Ins | sed 's/,.*//')
 last_commit_hash=$(git rev-parse --short HEAD)
 bundle_name="${utc_time}_commit_${last_commit_hash}"
-mkdir -p ./scripts/assets/bundles_archives ./scripts/assets/bundles_stats
-archive_path="./scripts/assets/bundles_archives/${bundle_name}"
+
+if [ "$DOCKER" != 1 ]; then
+  mkdir -p ./scripts/assets/bundles_archives ./scripts/assets/bundles_stats
+  archive_path="./scripts/assets/bundles_archives/${bundle_name}"
+fi
 
 echo -e "\e[0;30mcreate index.html symlink\e[0m"
 # Allows to not have to change inventaire (local) and nginx (prod) servers expectactions
 ln -sf ./dist/index.html public
 
-# Keeping a copy of generated builds can be useful for debugging (i.e. resolving source maps)
-# but you might want to delete old archives after a while, which can be done by running something like
-#   find ./scripts/assets/bundles_archives -type d -mtime +90 -delete
-echo -e "\e[0;30mcreate bundle archive in $archive_path\e[0m"
-cp -r ./public/dist "$archive_path"
-# Remove the part of the path specific to the local machine from module identifiers
-sed -i "s|$PWD||g" ./public/dist/bundle_*
-# Copy stats in a separate directory, so that cleaning up the bundles_archives directory doesn't delete stats
-# Those files can then be passed to webpack-bundle-analyzer cli to generate the html report, or to other bundle analyzers,
-# such as https://statoscope.tech
-# for more, see https://survivejs.com/webpack/optimizing/build-analysis/#dependency-analysis
-gzip --best ./public/dist/bundle_report.html
-mv ./public/dist/bundle_report.html.gz "./scripts/assets/bundles_stats/${bundle_name}.html.gz"
+if [ "$DOCKER" != 1 ]; then
+  # Keeping a copy of generated builds can be useful for debugging (i.e. resolving source maps)
+  # but you might want to delete old archives after a while, which can be done by running something like
+  #   find ./scripts/assets/bundles_archives -type d -mtime +90 -delete
+  echo -e "\e[0;30mcopying bundle archive in $archive_path\e[0m"
+  cp -r ./public/dist "$archive_path"
+  # Remove the part of the path specific to the local machine from module identifiers
+  sed -i "s|$PWD||g" ./public/dist/bundle_*
+  # Copy stats in a separate directory, so that cleaning up the bundles_archives directory doesn't delete stats
+  # Those files can then be passed to webpack-bundle-analyzer cli to generate the html report,
+  # or to other bundle analyzers such as https://statoscope.tech
+  # for more, see https://survivejs.com/webpack/optimizing/build-analysis/#dependency-analysis
+  gzip --best ./public/dist/bundle_report.html
+  mv ./public/dist/bundle_report.html.gz "./scripts/assets/bundles_stats/${bundle_name}.html.gz"
+fi
 
 cat > ./public/dist/bundle_meta.json <<EOF
 {
@@ -76,9 +81,12 @@ gzip -9kf public/*.xml
 gzip -9kf public/*.jsonld
 gzip -9kf public/*.txt
 
+if [ "$DOCKER" != 1 ]; then
+  echo "inspect: file://$PWD/scripts/assets/bundles_stats/${bundle_name}.html"
+  echo "archive: $archive_path"
+fi
+
 echo -e "$(date --iso-8601=seconds) \e[0;32mbuild: done\e[0m"
-echo "inspect: file://$PWD/scripts/assets/bundles_stats/${bundle_name}.html"
-echo "archive: $archive_path"
 
 # Exit with code 0
 true

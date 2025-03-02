@@ -17,7 +17,9 @@ Object.assign(webpackConfig, {
 
 webpackConfig.output.filename = '[name].[contenthash:8].js'
 
-webpackConfig.plugins.push(require('./plugins/bundle_analyzer.cjs'))
+if (!process.env.DOCKER) {
+  webpackConfig.plugins.push(require('./plugins/bundle_analyzer.cjs'))
+}
 webpackConfig.optimization = require('./optimization.cjs')
 
 module.exports = webpackConfig
