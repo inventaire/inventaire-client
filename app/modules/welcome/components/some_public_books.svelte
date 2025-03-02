@@ -26,7 +26,7 @@
     })
 </script>
 
-<div class="some-public-books">
+<div class="some-public-books" class:empty={items.length === 0}>
   {#if waitingForItems}
     {#await waitingForItems}
       <div class="spinner-wrapper">
@@ -73,7 +73,11 @@
   @import "#welcome/scss/welcome_layout_commons";
 
   .some-public-books{
-    min-height: 80vh;
+    min-height: 1rem;
+    @include transition(min-height);
+    &:not(.empty){
+      min-height: 80vh;
+    }
     background-color: $off-white;
   }
 
