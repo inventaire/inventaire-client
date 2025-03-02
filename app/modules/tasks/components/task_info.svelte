@@ -1,17 +1,18 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
+  import type { SerializedContributor } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
+  import type { Task } from '#server/types/task'
   import { I18n } from '#user/lib/i18n'
   import UserInfobox from '#users/components/user_infobox.svelte'
-  import { getUsersByIds } from '#users/users_data'
+  import { getUsersByAccts } from '#users/users_data'
 
-  export let task
+  export let task: Task
 
-  const { reporters: reportersIds, clue } = task
+  const { reporters: reportersAccts, clue } = task
 
-  let reporters: SerializedUser[] = []
-  const waitingForUsers = getUsersByIds(reportersIds)
+  let reporters: SerializedContributor[] = []
+  const waitingForUsers = getUsersByAccts(reportersAccts)
     .then(res => reporters = Object.values(res))
 </script>
 
@@ -25,7 +26,7 @@
         <UserInfobox
           name={reporter.username}
           picture={reporter.picture}
-          linkUrl={`/users/${reporter._id}/contributions`}
+          linkUrl={reporter.contributionsPathname}
           linkTitle={I18n('contributions_by', reporter)}
         />
       </li>
