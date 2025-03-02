@@ -3,6 +3,7 @@
   "description": "a libre collaborative resources mapper powered by open-knowledge (client-side)",
   "license": "AGPL-3.0",
   "homepage": "https://inventaire.io",
+  "version": "3.0.1-beta",
   "repository": {
     "type": "git",
     "url": "http://github.com/inventaire/inventaire-client"
