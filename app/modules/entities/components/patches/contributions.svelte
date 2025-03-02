@@ -78,12 +78,12 @@
         {#if contributor.pathname}
           <li class="profile">
             <span class="stat-label">{i18n('profile')}</span>
-            <a class="link" href={contributor.pathname} on:click={loadLink}>{contributor.username}</a>
+            <a class="link" href={contributor.pathname} on:click={loadLink}>{contributor.username || contributor.acct}</a>
             <div class="user-status">
               {#if contributor.deleted}
-                <span class="deleted">{@html icon('cross')} {i18n('deleted')}</span>
+                <span class="deleted">{@html icon('times')} {i18n('deleted')}</span>
               {:else if !contributor.found}
-                <span class="not-found">{@html icon('cross')} {i18n('not found')}</span>
+                <span class="not-found">{@html icon('times')} {i18n('not found')}</span>
               {:else if contributor.settings.contributions.anonymize}
                 <span class="anonymized">{@html icon('user-secret')} {i18n('anonymized')}</span>
               {:else}
@@ -104,7 +104,7 @@
         </li>
       {/if}
     {/if}
-    {#if total != null}
+    {#if contributor.found && total != null}
       <li>
         <span class="stat-label">{i18n('contributions')}</span>
         <span class="stat-value total">{total}</span>

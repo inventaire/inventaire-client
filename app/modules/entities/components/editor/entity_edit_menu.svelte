@@ -228,7 +228,7 @@
         on:click={() => showDeletionConfirmationModal = false}
         disabled={deleting}
       >
-        {@html icon('cross')}
+        {@html icon('times')}
         {I18n('cancel')}
       </button>
       <button

@@ -127,7 +127,7 @@ export function getUserPathnames (user: { username?: Username, acct?: UserAccoun
     }
     return pathnames
   } else {
-    const base = getUserBasePathname(user.username)
+    const base = getUserBasePathname(user.username || user.acct)
     return {
       pathname: base,
       inventoryPathname: `${base}/inventory`,
