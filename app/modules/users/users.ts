@@ -149,10 +149,10 @@ async function showUserContributions (userAcctOrIdOrUsername: string, filter: st
 export async function showUserContributionsFromAcct (userAcct: UserAccountUri, filter?: string) {
   try {
     const contributor = await getUserByAcct(userAcct)
-    const { username, contributionsPathname, shortAcct } = contributor
+    const { username, contributionsPathname, acct } = contributor
     let path = contributionsPathname
     if (filter) path += `?filter=${filter}`
-    const title = i18n('contributions_by', { username: username || shortAcct })
+    const title = i18n('contributions_by', { username: username || acct })
     app.navigate(path, { metadata: { title } })
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
     app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })

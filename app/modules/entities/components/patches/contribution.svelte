@@ -95,7 +95,7 @@
           title={contributor.special ? i18n('bot') : contributor.roles?.join(' ') || ''}
           on:click={loadLink}
         >
-          <p class="username">{contributor.username || contributor.shortAcct}</p>
+          <p class="username">{contributor.username || contributor.acct}</p>
           {#if contributor.special}
             {@html icon('cogs')}
           {:else}

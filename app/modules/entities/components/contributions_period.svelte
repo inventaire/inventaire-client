@@ -49,7 +49,7 @@
     {#each usersData as { contributions, contributor }}
       <div class="row">
         <div class="cell user" class:deleted={contributor.deleted}>
-          <a href={contributor.contributionsPathname} class="link" on:click={e => showUserContributions(e, contributor)}>{contributor.username || contributor.shortAcct}</a>
+          <a href={contributor.contributionsPathname} class="link" on:click={e => showUserContributions(e, contributor)}>{contributor.username || contributor.acct}</a>
         </div>
         <div class="histogram">
           <div class="contributions">

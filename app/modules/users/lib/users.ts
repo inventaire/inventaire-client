@@ -28,7 +28,6 @@ export interface SerializedUser extends User {
 
 export interface SerializedContributor extends InstanceAgnosticContributor {
   isMainUser: boolean
-  shortAcct: string
   handle: Username | `${Username}@${Host}`
   pathname?: RelativeUrl
   inventoryPathname?: RelativeUrl
@@ -58,17 +57,11 @@ export function serializeContributor (user: InstanceAgnosticContributor & Partia
   } else {
     user.handle = `${user.username}@${host}`
   }
-  user.shortAcct = shortenAcct(user.acct)
   user.picture = getPicture(user)
   Object.assign(user, getUserPathnames(user))
   user.special ??= false
   user.deleted ??= false
   return user as SerializedContributor
-}
-
-function shortenAcct (acct: UserAccountUri) {
-  const [ id, host ] = acct.split('@')
-  return `${id.slice(0, 7)}@${host}`
 }
 
 export function getPicture (user) {

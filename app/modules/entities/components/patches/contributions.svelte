@@ -60,7 +60,7 @@
 <div class="contributions">
   <h3>
     {#if contributor}
-      {I18n('contributions_by', { username: contributor.handle || contributor.shortAcct })}
+      {I18n('contributions_by', { username: contributor.handle || contributor.acct })}
     {:else}
       {I18n('recent changes')}
     {/if}
