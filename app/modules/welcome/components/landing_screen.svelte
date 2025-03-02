@@ -22,9 +22,9 @@
     {#if !isCanonicalName}
       <h3 class="subtitle">
         {#if orgName && orgUrl}
-          {@html i18n('An [Inventaire](https://inventaire.io/) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
+          {@html i18n('An [Inventaire](https://wiki.inventaire.io/wiki/Main_Page) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
         {:else}
-          {@html i18n('An [Inventaire](https://inventaire.io/) instance')}
+          {@html i18n('An [Inventaire](https://wiki.inventaire.io/wiki/Main_Page) instance')}
         {/if}
       </h3>
     {/if}
