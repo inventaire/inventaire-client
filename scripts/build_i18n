@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
-[ -e inventaire-i18n ] || {
-  git clone https://github.com/inventaire/inventaire-i18n.git
-}
+if [ ! -e inventaire-i18n ]; then
+  if [ "$DOCKER" != 1 ]; then
+    git clone https://github.com/inventaire/inventaire-i18n.git --depth=1
+  else
+    git clone https://github.com/inventaire/inventaire-i18n.git
+  fi
+fi
 
 source_branch=$(git branch --show-current)
 echo "source_branch: $source_branch"
