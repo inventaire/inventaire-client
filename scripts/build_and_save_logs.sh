@@ -4,6 +4,8 @@
 # which is even worse that what is described here https://github.com/npm/npm/issues/18517
 set -o pipefail
 
+mkdir -p logs
+
 echo -e "\e[0;32mbuild and save logs\e[0m"
 ./scripts/build | tee ./logs/build.log
 echo -e "\e[0;32mbuild and save logs: done\e[0m"
