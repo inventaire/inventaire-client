@@ -1,7 +1,7 @@
 <script>
   import DashboardSection from '#tasks/components/dashboard/dashboard_section.svelte'
   import { getTasksCounts, entitiesTypesByTypes } from '#tasks/components/lib/tasks_helpers'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   const waitForTasksCounts = getTasksCounts()
   app.navigate('/tasks')
@@ -13,7 +13,7 @@
   {#await waitForTasksCounts then tasksCountByTypeAndEntitiesType}
     {#if tasksCountByTypeAndEntitiesType.merge}
       <h2>
-        {I18n('user merge request')}
+        {i18n('Merge requests')}
       </h2>
       <div class="sections">
         {#each entitiesTypesByTypes.merge as entitiesType}
@@ -27,7 +27,7 @@
     {/if}
     {#if tasksCountByTypeAndEntitiesType.delete}
       <h2>
-        {I18n('user delete request')}
+        {i18n('Delete requests')}
       </h2>
       <div class="sections">
         {#each entitiesTypesByTypes.delete as entitiesType}
@@ -41,7 +41,7 @@
     {/if}
     {#if tasksCountByTypeAndEntitiesType.deduplicate}
       <h2>
-        {I18n('deduplicate tasks')}
+        {i18n('Deduplication tasks')}
       </h2>
       <div class="sections">
         {#each entitiesTypesByTypes.deduplicate as entitiesType}
