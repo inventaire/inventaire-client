@@ -12,17 +12,14 @@
 {#if !loggedIn}
   <section class="embedded-welcome">
     <div>
-      <h2>{i18n('Welcome to Inventaire')}</h2>
-      {#if instanceName !== 'inventaire'}
-        <h3>{instanceName}</h3>
-        <span class="tagline">
-          {@html i18n('An [Inventaire](https://wiki.inventaire.io/wiki/Main_Page) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
-        </span>
-      {:else}
-        <span class="tagline">
+      <h2>{i18n('Welcome to %{instanceName}', { instanceName })}</h2>
+      <span class="tagline">
+        {#if instanceName.toLowerCase() === 'inventaire'}
           {I18n('the library of your friends and communities')}
-        </span>
-      {/if}
+        {:else}
+          {@html i18n('An [Inventaire](https://wiki.inventaire.io/wiki/Main_Page) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
+        {/if}
+      </span>
     </div>
     <a
       href="/welcome"
