@@ -1,7 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import { config } from '#app/config'
   import { loadInternalLink } from '#app/lib/utils'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
+
+  const { instanceName, orgName, orgUrl } = config
 
   const { loggedIn } = app.user
 </script>
@@ -10,16 +13,23 @@
   <section class="embedded-welcome">
     <div>
       <h2>{i18n('Welcome to Inventaire')}</h2>
-      <span class="tagline">
-        {i18n('the library of your friends and communities')}
-      </span>
+      {#if instanceName !== 'inventaire'}
+        <h3>{instanceName}</h3>
+        <span class="tagline">
+          {@html i18n('An [Inventaire](https://wiki.inventaire.io/wiki/Main_Page) instance managed by [%{orgName}](%{orgUrl})', { orgName, orgUrl })}
+        </span>
+      {:else}
+        <span class="tagline">
+          {I18n('the library of your friends and communities')}
+        </span>
+      {/if}
     </div>
     <a
       href="/welcome"
-      class="showWelcome button secondary bold radius"
+      class="button secondary bold radius"
       on:click={loadInternalLink}
     >
-      {i18n('learn more')}
+      {I18n('learn more')}
     </a>
   </section>
 {/if}
