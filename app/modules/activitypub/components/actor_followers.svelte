@@ -77,7 +77,11 @@
     text-align: center;
   }
   ul{
-    max-width: 50em;
     margin: auto;
+    @include display-flex(row, center, flex-start, wrap);
+    :global(li){
+      flex: 1;
+      min-width: min(25em, 90vw);
+    }
   }
 </style>
