@@ -104,7 +104,7 @@
         </li>
       {/if}
     {/if}
-    {#if contributor.found && total != null}
+    {#if contributor?.found && total != null}
       <li>
         <span class="stat-label">{i18n('contributions')}</span>
         <span class="stat-value total">{total}</span>
