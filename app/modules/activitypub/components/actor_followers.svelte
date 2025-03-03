@@ -50,6 +50,8 @@
     }
   }
 
+  fetchMore()
+
   $: followersCount = remoteFollowers.length
 </script>
 
