@@ -31,12 +31,12 @@
 {#await waitingForListings}
   <p class="loading">{I18n('loading')}<Spinner /></p>
 {:then}
-  <div class="listings-layout listings-comments-layout">
+  <div class="listings-layout listings-comments-layout" class:empty={listingsWithEntityComment.length === 0}>
     <h5>{i18n('Comments')}</h5>
     {#if listingsWithEntityComment.length === 0}
-      <div class="empty">
+      <p class="empty">
         {i18n('There is nothing here')}
-      </div>
+      </p>
     {:else}
       <ul class="listings-list">
         {#each listingsWithEntityComment as listing (listing._id)}
@@ -45,12 +45,12 @@
       </ul>
     {/if}
   </div>
-  <div class="listings-layout listings-without-comments-layout">
+  <div class="listings-layout listings-without-comments-layout" class:empty={listingsWithoutEntityComment.length === 0}>
     <h5>{i18n('Lists')}</h5>
     {#if listingsWithoutEntityComment.length === 0}
-      <div class="empty">
+      <p class="empty">
         {i18n('There is nothing here')}
-      </div>
+      </p>
     {:else}
       <ul class="listings-list">
         {#each listingsWithoutEntityComment as listing (listing._id)}
@@ -67,29 +67,31 @@
     padding: 0.5em;
   }
   .listings-without-comments-layout{
-    @include display-flex(column, center);
     padding: 0.5em;
-    h5{
-      margin-block-end: 1em;
-    }
   }
   .listings-layout{
-    @include display-flex(column, center);
     background-color: $off-white;
     margin: auto;
-    inline-size: 100%;
-    max-width: 40em;
+    &.empty{
+      @include display-flex(row, center, space-between);
+    }
+    &:not(.empty){
+      h5{
+        margin-block-end: 1em;
+      }
+    }
   }
   .listings-list{
     width: 100%;
   }
   h5{
     @include sans-serif;
+    margin: 0;
   }
   .loading{
     @include display-flex(column, center);
   }
-  .empty{
+  p.empty{
     color: $grey;
     text-align: center;
   }
