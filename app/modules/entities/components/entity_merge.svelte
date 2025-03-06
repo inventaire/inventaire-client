@@ -14,16 +14,15 @@
   export let to: EntityUri = null
   export let type: EntityType = null
 
-  let flash, typeName, merging, lastMergeTargetUri, taskId
+  let flash, typeName, merging, taskId
 
   async function merge () {
     flash = null
     try {
       merging = true
       const res = await mergeEntities(from, to)
-      buildFlashMessage(res)
       from = null
-      lastMergeTargetUri = to
+      buildFlashMessage(res, to)
     } catch (err) {
       flash = err
     } finally {
@@ -31,7 +30,7 @@
     }
   }
 
-  function buildFlashMessage (res) {
+  function buildFlashMessage (res, lastMergeTargetUri) {
     flash = {
       type: 'success',
     }
