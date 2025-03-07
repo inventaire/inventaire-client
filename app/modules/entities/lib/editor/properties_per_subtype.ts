@@ -32,13 +32,11 @@ const preferredAuthorRolesPropertiesPerWorkType = {
   'wd:Q8274': manga, // manga
   'wd:Q562214': drawnWorksRoles, // manhwa
   'wd:Q725377': drawnWorksRoles, // graphic novel
-  'wd:Q747381': drawnWorksRoles, // light novel
 
   // series
   'wd:Q14406742': drawnWorksRoles, // comic book series
   'wd:Q21198342': manga, // manga series
   'wd:Q74262765': drawnWorksRoles, // manhwa series
-  'wd:Q104213567': drawnWorksRoles, // light novel series
 }
 
 export function getWorkPreferredAuthorRolesProperties (entity) {
