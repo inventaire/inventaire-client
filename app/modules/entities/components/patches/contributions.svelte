@@ -15,6 +15,8 @@
   export let contributor: SerializedContributor = null
   export let filter = null
 
+  const { hasAdminAccess: mainUserHasAdminAccess } = app.user
+
   let contributions = []
   const userContributionsContext = contributor != null
 
@@ -92,6 +94,12 @@
             </div>
           </li>
         {/if}
+      {/if}
+      {#if mainUserHasAdminAccess && contributor._id}
+        <li>
+          <span class="stat-label">id</span>
+          <span class="stat-value">{contributor._id}</span>
+        </li>
       {/if}
       <li>
         <span class="stat-label">{i18n('account uri')}</span>
