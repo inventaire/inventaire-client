@@ -63,15 +63,11 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .listings-comments-layout{
-    padding: 0.5em;
-  }
-  .listings-without-comments-layout{
-    padding: 0.5em;
-  }
   .listings-layout{
+    padding: 0.5em;
     background-color: $off-white;
-    margin: auto;
+    @include radius;
+    align-self: stretch;
     &.empty{
       @include display-flex(row, center, space-between);
     }
@@ -79,6 +75,14 @@
       h5{
         margin-block-end: 1em;
       }
+    }
+    /* Small screens */
+    @media screen and (width < $small-screen){
+      margin: 1rem 0 0;
+    }
+    /* Large screens */
+    @media screen and (width >= $small-screen){
+      margin: 0.5rem 0;
     }
   }
   .listings-list{
