@@ -114,7 +114,8 @@
     }
   }
 
-  const lazySearch = debounce(search, 400)
+  // Use a large debounce delay to reduce queries to Elasticsearch
+  const lazySearch = debounce(search, 1000)
 
   async function getResultFromUri (uri: EntityUri) {
     try {
