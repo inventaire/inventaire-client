@@ -1,13 +1,14 @@
+<script context="module" lang="ts">
+  type KeepScrolling = () => Promise<boolean>
+</script>
 <script lang="ts">
   import assert_ from '#app/lib/assert_types'
   import viewport from '#app/lib/components/actions/viewport'
   import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
 
-  export let keepScrolling
+  export let keepScrolling: KeepScrolling
   export let showSpinner = false
-
-  assert_.function(keepScrolling)
 
   let bottomElInView = false
   let fetching = false
