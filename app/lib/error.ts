@@ -10,6 +10,7 @@ export interface ContextualizedError extends Error {
   selector?: unknown
   timestamp?: string
   serverError?: boolean
+  html?: string
   // Request error
   statusCode?: number
   statusText?: string

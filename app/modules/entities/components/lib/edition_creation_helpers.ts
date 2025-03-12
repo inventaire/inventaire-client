@@ -35,12 +35,12 @@ export function renameIsbnDuplicateErr (workUri: EntityUri, isbn: string, err: C
   throw err
 }
 
-const reportIsbnIssue = async (workUri, isbn) => {
+async function reportIsbnIssue (workUri: EntityUri, isbn: string) {
   const params = { uri: workUri, isbn }
   return preq.post(API.tasks.deduplicateWorks, params)
 }
 
-const formatDuplicateWorkErr = function (err, isbn) {
+function formatDuplicateWorkErr (err: ContextualizedError, isbn: string) {
   const normalizedIsbn = normalizeIsbn(isbn)
   const alreadyExist = i18n('this ISBN already exist:')
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`
@@ -49,7 +49,7 @@ const formatDuplicateWorkErr = function (err, isbn) {
   err.message = alreadyExist
 }
 
-export const validateEditionPossibility = ({ userInput, editions }) => {
+export function validateEditionPossibility (userInput: string, editions: SerializedEntity[]) {
   if (!looksLikeAnIsbn(userInput)) {
     throw newError(`invalid isbn: ${userInput}`, 400, { userInput, editions })
   }
@@ -59,7 +59,7 @@ export const validateEditionPossibility = ({ userInput, editions }) => {
   }
 }
 
-const getNormalizedIsbn = edition => {
+function getNormalizedIsbn (edition: SerializedEntity) {
   const isbn = getEntityPropValue(edition, 'wdt:P212')
   if (isbn) return normalizeIsbn(isbn)
 }

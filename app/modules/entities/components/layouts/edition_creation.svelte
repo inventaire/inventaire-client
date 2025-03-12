@@ -7,9 +7,11 @@
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let work, editions
+  export let work: SerializedEntity
+  export let editions: SerializedEntity[]
 
   let userInput = ''
   let flash
@@ -20,7 +22,7 @@
     creatingFromIsbn = true
     flash = null
     try {
-      validateEditionPossibility({ userInput, editions })
+      validateEditionPossibility(userInput, editions)
       const newEdition = await createEditionFromWork({
         workEntity: work,
         userInput,
