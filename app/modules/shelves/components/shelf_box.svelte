@@ -57,7 +57,7 @@
   waitingForFollowersCount = getFollowersCount()
 
   async function getFollowersCount () {
-    if (fediversable) {
+    if (shelf && fediversable) {
       const name = `shelf-${shelf._id}`
       const res = await preq.get(API.activitypub.followers({ name }))
       followersCount = res.totalItems
