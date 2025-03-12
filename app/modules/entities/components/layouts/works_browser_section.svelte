@@ -1,6 +1,5 @@
 <script lang="ts">
   import { flip } from 'svelte/animate'
-  import { debounce } from 'underscore'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import { onScrollToBottom } from '#app/lib/screen'
@@ -15,7 +14,6 @@
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
@@ -69,34 +67,24 @@
 
   let scrollableElement
 
-  async function addMoreWorks () {
-    const newPaginatedWorks = filteredWorks.slice(0, displayLimit)
-    const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
-    paginatedWorks = newPaginatedWorks
-    if (newWorks.length === 0) return
-    paginatedWorks = paginatedWorks
-  }
-
-  async function resetWorks () {
+  function resetWorks () {
     if (scrollableElement) scrollableElement.scroll({ top: 0, behavior: 'smooth' })
     displayLimit = initialLimit
-    await addingMoreWorks()
-  }
-
-  let loadingMore
-  async function addingMoreWorks () {
-    loadingMore = addMoreWorks()
-    await loadingMore
+    updatedPaginatedWorks()
   }
 
   function displayMore () {
     if (displayLimit < filteredWorks.length) {
-      displayLimit += (2 * worksPerRow)
+      const incrementedDisplayLimit = displayLimit + (2 * worksPerRow)
+      displayLimit = Math.min(incrementedDisplayLimit, filteredWorks.length)
     }
   }
 
-  const lazyDisplay = debounce(displayMore, 300)
-  $: onChange(displayLimit, addingMoreWorks)
+  function updatedPaginatedWorks () {
+    paginatedWorks = filteredWorks.slice(0, displayLimit)
+  }
+
+  $: onChange(displayLimit, updatedPaginatedWorks)
   $: anyWork = paginatedWorks.length > 0
   $: onChange(filteredWorks, resetWorks)
 </script>
@@ -130,7 +118,7 @@
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
-      on:scroll={onScrollToBottom(lazyDisplay)}
+      on:scroll={onScrollToBottom(displayMore)}
       bind:this={scrollableElement}
     >
       {#if isCompactDisplay}
@@ -165,15 +153,10 @@
         </li>
       {/each}
     </ul>
+  {:else}
+    <p class="no-work">{i18n('There is nothing here')}</p>
   {/if}
-  {#await loadingMore}
-    <p class="loading"><Spinner /></p>
-  {:then}
-    {#if !anyWork}
-      <p class="no-work">{i18n('There is nothing here')}</p>
-    {/if}
-    <MissingEntityButton {section} />
-  {/await}
+  <MissingEntityButton {section} />
 </div>
 
 <style lang="scss">
@@ -207,9 +190,6 @@
     :global(.entity-wrapper){
       inline-size: 100%;
     }
-  }
-  .loading{
-    align-self: center;
   }
   li{
     @include display-flex(row, inherit, space-between);
