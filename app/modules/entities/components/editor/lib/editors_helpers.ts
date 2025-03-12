@@ -37,9 +37,9 @@ export function addClaimValue (propertyClaims = [], value) {
 export const currentEditorKey = writable(null)
 
 export function errorMessageFormatter (err) {
-  if (err.message === 'this property value is already used') {
+  if (err.message.includes('this property value is already used')) {
     const uri = err.responseJSON.context.entity
-    err.html = `${i18n(err.message)}: <a href="/entity/${uri}" class="link">${uri}</a>`
+    err.html = `${i18n('this property value is already used')}: <a href="/entity/${uri}" class="link">${uri}</a>`
   }
   if (err.statusCode === 413) {
     const cause = err

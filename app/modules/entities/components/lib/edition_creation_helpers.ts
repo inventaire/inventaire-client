@@ -29,9 +29,12 @@ export async function createEditionFromWork (params) {
 }
 
 export function renameIsbnDuplicateErr (workUri: EntityUri, isbn: string, err: ContextualizedError) {
-  if (err.responseJSON?.status_verbose !== 'this property value is already used') throw err
-  reportIsbnIssue(workUri, isbn)
-  formatDuplicateWorkErr(err, isbn)
+  if (err.responseJSON == null) throw err
+  const statusMessage = err.responseJSON.status_verbose as string
+  if (statusMessage.includes('this property value is already used')) {
+    reportIsbnIssue(workUri, isbn)
+    formatDuplicateWorkErr(err, isbn)
+  }
   throw err
 }
 
