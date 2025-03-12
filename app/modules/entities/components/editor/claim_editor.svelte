@@ -42,7 +42,7 @@
     editMode = false
     flash = null
     // Updates the parent array, mostly to remove a null value
-    dispatch('set', inputValue)
+    dispatch('set', savedValue)
   }
 
   const editorKey = `${uri || type}:${property}:${index}`
