@@ -63,6 +63,7 @@
       iconName = findIcon(type)
       // Logs the error and report it
       log_.error(state)
+      state.message ||= I18n('something went wrong :(')
     } else {
       type = state?.type
       iconName = findIcon(type)
