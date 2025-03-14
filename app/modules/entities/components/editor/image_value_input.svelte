@@ -32,6 +32,7 @@
         waitingForDataUrl = getUrlDataUrl(urlValue)
         dataUrl = await waitingForDataUrl
         dataUrlBeforeImageEdits = dataUrl
+        setTimeout(resetIfImageWasBadlyLoaded, 100)
       }
     } catch (err) {
       dispatch('error', err)
@@ -44,6 +45,7 @@
     waitingForDataUrl = getFirstFileDataUrl({ fileList: files })
     dataUrl = await waitingForDataUrl
     dataUrlBeforeImageEdits = dataUrl
+    setTimeout(resetIfImageWasBadlyLoaded, 100)
   }
 
   $: urlValue && lazyOnUrlChange()
@@ -120,6 +122,13 @@
   function reset () {
     cropper.replace(dataUrlBeforeImageEdits)
     cropper.reset()
+  }
+
+  function resetIfImageWasBadlyLoaded () {
+    // It has been observed that sometimes the image is displayed small.
+    // That can be fixed by clicking on the reset button, but that's annoying,
+    // so the following is an attempt to automatize that, until we can find the source of the issue
+    if (imageElement.height > 150) reset()
   }
 
   function getEditedImageDataUrl () {
