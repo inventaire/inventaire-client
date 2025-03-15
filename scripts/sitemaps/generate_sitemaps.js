@@ -1,5 +1,5 @@
 import chalk from 'tiny-chalk'
-import wdk from 'wikidata-sdk'
+import wdk from 'wikibase-sdk/wikidata.org'
 import { folderPath } from './config.js'
 import queries from './queries.js'
 import wrapUrls from './wrap_urls.js'

@@ -1,4 +1,4 @@
-import wdk from 'wikidata-sdk'
+import wdk from 'wikibase-sdk/wikidata.org'
 
 const { sparqlQuery } = wdk
 
