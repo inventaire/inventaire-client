@@ -74,8 +74,8 @@
     {/if}
   </h3>
 
-  <ul class="stats">
-    {#if contributor}
+  {#if contributor}
+    <ul class="stats">
       {#if !contributor.special}
         {#if contributor.pathname}
           <li class="profile">
@@ -94,40 +94,40 @@
             </div>
           </li>
         {/if}
-      {/if}
-      {#if mainUserHasAdminAccess && contributor._id}
+        {#if mainUserHasAdminAccess && contributor._id}
+          <li>
+            <span class="stat-label">id</span>
+            <span class="stat-value">{contributor._id}</span>
+          </li>
+        {/if}
         <li>
-          <span class="stat-label">id</span>
-          <span class="stat-value">{contributor._id}</span>
+          <span class="stat-label">{i18n('account uri')}</span>
+          <span class="stat-value">{contributor.acct}</span>
+        </li>
+        {#if contributor.roles?.length > 0}
+          <li>
+            <span class="stat-label">{i18n('roles')}</span>
+            <span class="stat-value">{contributor.roles}</span>
+          </li>
+        {/if}
+      {/if}
+      {#if contributor?.found && total != null}
+        <li>
+          <span class="stat-label">{i18n('contributions')}</span>
+          <span class="stat-value total">{total}</span>
         </li>
       {/if}
-      <li>
-        <span class="stat-label">{i18n('account uri')}</span>
-        <span class="stat-value">{contributor.acct}</span>
-      </li>
-      {#if contributor.roles?.length > 0}
+      {#if contributor?.created}
         <li>
-          <span class="stat-label">{i18n('roles')}</span>
-          <span class="stat-value">{contributor.roles}</span>
+          <span class="stat-label">{i18n('created')}</span>
+          <p class="stat-value">
+            <span class="time-from-now">{timeFromNow(contributor.created)}</span>
+            <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
+          </p>
         </li>
       {/if}
-    {/if}
-    {#if contributor?.found && total != null}
-      <li>
-        <span class="stat-label">{i18n('contributions')}</span>
-        <span class="stat-value total">{total}</span>
-      </li>
-    {/if}
-    {#if contributor?.created}
-      <li>
-        <span class="stat-label">{i18n('created')}</span>
-        <p class="stat-value">
-          <span class="time-from-now">{timeFromNow(contributor.created)}</span>
-          <span class="precise-time">{getLocalTimeString(contributor.created)}</span>
-        </p>
-      </li>
-    {/if}
-  </ul>
+    </ul>
+  {/if}
 </div>
 
 <Flash state={flash} />
