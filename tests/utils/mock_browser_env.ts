@@ -1,4 +1,4 @@
-import '#app/init_globals.ts'
+import '#app/init_globals'
 import config from 'config'
 
 const { inventaireServerHost } = config

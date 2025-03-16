@@ -9,7 +9,7 @@ import app from '#app/app'
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
 import { config } from '#app/config'
-import type { UserLang } from '#app/lib/active_languages.ts'
+import type { UserLang } from '#app/lib/active_languages'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { capitalize } from '#app/lib/utils'

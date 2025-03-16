@@ -16,7 +16,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#general/components/spinner.svelte'
   import LocationSearchInput from '#map/components/location_search_input.svelte'
-  import mapConfig from '#map/lib/config.ts'
+  import mapConfig from '#map/lib/config'
   import { uniqBounds } from '#map/lib/map'
   import { getPositionFromNavigator } from '#map/lib/navigator_position'
   import { fitResultBbox } from '#map/lib/nominatim'

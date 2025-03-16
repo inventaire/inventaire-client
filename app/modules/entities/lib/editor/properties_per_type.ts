@@ -1,7 +1,7 @@
 import { omit, pick } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { arrayIncludes, objectEntries, objectKeys } from '#app/lib/utils.ts'
+import { arrayIncludes, objectEntries, objectKeys } from '#app/lib/utils'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 import { pluralize } from '#entities/lib/types/entities_types'

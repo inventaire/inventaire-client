@@ -16,7 +16,7 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubentitiesTypes } from '#entities/components/lib/claim_layout_helpers'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'

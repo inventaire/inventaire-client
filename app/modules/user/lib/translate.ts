@@ -1,4 +1,4 @@
-import type { UserLang } from '#app/lib/active_languages.ts'
+import type { UserLang } from '#app/lib/active_languages'
 import assert_ from '#app/lib/assert_types'
 import { isWikidataPropertyId } from '#app/lib/boolean_tests'
 import type Polyglot from 'node-polyglot'

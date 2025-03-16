@@ -1,5 +1,5 @@
 import { property, values } from 'underscore'
-import { arrayIncludes } from '#app/lib/utils.ts'
+import { arrayIncludes } from '#app/lib/utils'
 import type { PropertyUri } from '#server/types/entity'
 import { propertiesEditorsConfigs } from './properties.ts'
 

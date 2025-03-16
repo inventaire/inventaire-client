@@ -2,7 +2,7 @@ import { intersection, pluck, uniq } from 'underscore'
 import app from '#app/app'
 import { objectEntries } from '#app/lib/utils'
 import type { Facets, FacetsSelectedValues } from '#app/types/entity'
-import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.ts'
+import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers'
 import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,
   byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount,

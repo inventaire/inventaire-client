@@ -4,7 +4,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
   import type { TaskId } from '#server/types/task'
-  import { getNextTask } from '#tasks/lib/get_next_task.ts'
+  import { getNextTask } from '#tasks/lib/get_next_task'
   import DeleteLayout from './delete_layout.svelte'
   import MergeLayout from './merge_layout.svelte'
   import NoTask from './no_task.svelte'

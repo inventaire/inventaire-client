@@ -1,4 +1,4 @@
-import { checkVideoInput } from '#app/lib/has_video_input.ts'
+import { checkVideoInput } from '#app/lib/has_video_input'
 import SearchLayout from '../search_layout.ts'
 
 let tabs

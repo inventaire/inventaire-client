@@ -10,7 +10,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { EntityUri } from '#server/types/entity'
-  import { areRedirects, updateTask } from '#tasks/components/lib/tasks_helpers.ts'
+  import { areRedirects, updateTask } from '#tasks/components/lib/tasks_helpers'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'

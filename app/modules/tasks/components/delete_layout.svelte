@@ -6,7 +6,7 @@
   import { serializeEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
-  import { areRedirects, updateTask } from '#tasks/components/lib/tasks_helpers.ts'
+  import { areRedirects, updateTask } from '#tasks/components/lib/tasks_helpers'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
 

@@ -1,7 +1,7 @@
 <script>
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
-  import { hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.ts'
+  import { hasMatchedLabel } from '#tasks/components/lib/tasks_helpers'
   import { I18n } from '#user/lib/i18n'
 
   export let section, matchedTitles

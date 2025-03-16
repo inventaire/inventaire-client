@@ -9,7 +9,7 @@ import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import { createEntity } from '#entities/lib/create_entity'
 import type { SerializedEntity } from '#entities/lib/entities'
-import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
+import isLoggedIn from '#entities/views/editor/lib/is_logged_in'
 import type { EntityUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 

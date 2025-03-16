@@ -8,7 +8,7 @@
   import { scrollToElement } from '#app/lib/screen'
   import ActorFollowersSection from '#entities/components/layouts/actor_followers_section.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers'
   import { getPublishersUrisFromEditions } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'

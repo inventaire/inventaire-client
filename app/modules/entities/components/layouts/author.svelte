@@ -9,7 +9,7 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
