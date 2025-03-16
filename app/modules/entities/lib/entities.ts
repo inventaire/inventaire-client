@@ -448,3 +448,11 @@ export async function updateClaim <P extends keyof ClaimValueByProperty, T exten
   }
   return serializeEntity(entity)
 }
+
+export async function updateLabel (uri: EntityUri, lang: WikimediaLanguageCode, value: string) {
+  return preq.put(API.entities.labels.update, { uri, lang, value })
+}
+
+export async function removeLabel (uri: EntityUri, lang: WikimediaLanguageCode) {
+  return preq.put(API.entities.labels.remove, { uri, lang })
+}
