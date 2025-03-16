@@ -36,7 +36,6 @@ export default {
       'show:error:missing': showErrorMissing,
       'show:error:other': showOtherError,
       'show:offline:error': showOfflineError,
-      'show:call:to:connection': showCallToConnection,
       'show:error:cookieRequired': showErrorCookieRequired,
       'show:signup:redirect': showSignupRedirect,
       'show:login:redirect': showLoginRedirect,
@@ -226,11 +225,6 @@ async function showError (options: ShowErrorOptions) {
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
   // option to prevent it
   if (options.navigate) app.navigate(`error/${options.name}`)
-}
-
-async function showCallToConnection (message) {
-  const { default: CallToConnection } = await import('#general/views/call_to_connection')
-  app.layout.showChildView('modal', new CallToConnection({ connectionMessage: message }))
 }
 
 function showMenuStandalone (Menu, titleKey) {
