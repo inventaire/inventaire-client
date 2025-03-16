@@ -33,7 +33,11 @@
     selectedGroup = null
     $focusedSection = { type: 'user' }
   }
-
+  function unselect () {
+    selectedUser = null
+    selectedGroup = null
+    $focusedSection = { type: null }
+  }
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
@@ -126,11 +130,11 @@
 {#if selectedUser}
   <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
   {#key selectedUser}
-    <UserProfile user={selectedUser} {focusedSection} />
+    <UserProfile user={selectedUser} {focusedSection} on:unselectProfile={unselect} />
   {/key}
 {:else if selectedGroup}
   {#key selectedGroup}
-    <GroupProfile group={selectedGroup} {focusedSection} />
+    <GroupProfile group={selectedGroup} {focusedSection} on:unselectGroup={unselect} />
   {/key}
 {:else}
   <PaginatedSectionItems sectionRequestName="items:getNetworkItems" />

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { writable } from 'svelte/store'
+  import { debounce } from 'underscore'
   import app from '#app/app'
   import { resizeObserver } from '#app/lib/components/actions/resize_observer'
   import { getViewportHeight } from '#app/lib/screen'
@@ -25,7 +26,7 @@
   // The focus store is used to determine which component should claim the focus
   // It plays the role of an event bus between the layout children component
   // to allow url navigation and scroll within the layout
-  const focusedSection = writable({})
+  const focusedSection = writable({ type: null })
 
   if (shelf) {
     $focusedSection = { type: 'shelf' }
@@ -65,6 +66,15 @@
       wrapperEl.style.minHeight = `${minHeight}px`
     }
   }
+
+  function onFocus () {
+    const pathname = `users/${section}`
+    app.navigate(pathname, { pageSectionElement: wrapperEl })
+  }
+
+  const debouncedOnFocus = debounce(onFocus, 200, true)
+
+  $: if ($focusedSection.type == null) debouncedOnFocus()
 </script>
 
 <div class="wrapper" bind:this={wrapperEl}>

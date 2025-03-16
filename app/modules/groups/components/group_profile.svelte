@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { tick } from 'svelte'
+  import { tick, createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
@@ -45,6 +46,12 @@
     selectedMember = e.detail.doc
     $focusedSection = { type: 'user' }
   }
+  function unselectMember () {
+    selectedMember = null
+    $focusedSection = { type: 'group' }
+  }
+
+  const dispatch = createEventDispatcher()
 
   async function onFocus () {
     if (!groupProfileEl) await tick()
@@ -89,6 +96,9 @@
             <span class="name">{name}</span>
           </div>
           <div class="icon-buttons">
+            {#if !standalone && $screen.isSmallerThan('$smaller-screen')}
+              <button class="unselect-group" on:click={() => dispatch('unselectGroup')}>{@html icon('times')}</button>
+            {/if}
             {#if mainUserIsMember}
               <a
                 class="show-group-settings"
@@ -109,7 +119,11 @@
         {/if}
       </div>
 
-      <div class="section-two">
+      <div class="section-two" class:has-unselect-button={!standalone}>
+        {#if !standalone && $screen.isLargerThan('$smaller-screen')}
+          <button class="unselect-group" on:click={() => dispatch('unselectGroup')}>{@html icon('times')}</button>
+        {/if}
+
         <div class="list-label-wrapper">
           <p class="list-label">{I18n('members')}</p>
           {#if mainUserIsMember}
@@ -148,7 +162,12 @@
   {#if selectedMember}
     <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
     {#key selectedMember}
-      <UserProfile user={selectedMember} {groupId} {focusedSection} />
+      <UserProfile
+        user={selectedMember}
+        {groupId}
+        {focusedSection}
+        on:unselectProfile={unselectMember}
+      />
     {/key}
   {:else}
     <ProfileNav {group} bind:profileSection {focusedSection} />
@@ -196,6 +215,9 @@
         text-align: center;
       }
     }
+    .unselect-group{
+      color: white;
+    }
   }
   .info{
     // Somehow needed to make it appear above group-cover-picture and picture-color-filter
@@ -213,6 +235,15 @@
   }
   .section-two{
     flex: 2 0 auto;
+    @include display-flex(column, stretch);
+  }
+  .unselect-group{
+    align-self: flex-end;
+    padding: 0.2rem;
+    :global(.fa){
+      @include shy;
+      font-size: 2rem;
+    }
   }
   .show-group-settings{
     position: relative;
@@ -260,6 +291,9 @@
   .list-label-wrapper{
     @include display-flex(row, flex-end, space-between);
     padding: 0.5em 0;
+  }
+  .has-unselect-button .list-label-wrapper{
+    padding: 0 0 0.5em;
   }
 
   /* Small screens */

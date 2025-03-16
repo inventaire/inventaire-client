@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
   import assert_ from '#app/lib/assert_types'
+  import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
@@ -14,7 +16,9 @@
   import { updateRelationStatus } from '#users/lib/relations'
   import { serializeUser } from '#users/lib/users'
 
-  export let user, flash
+  export let user
+  export let flash
+  export let displayUnselectButton = true
 
   const { username, isMainUser, distanceFromMainUser } = serializeUser(user)
 
@@ -58,9 +62,13 @@
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })
     app.execute('ask:confirmation', { confirmationText, warningText, action })
   }
+  const dispatch = createEventDispatcher()
 </script>
 
-<div class="profile-buttons">
+<div class="profile-buttons" class:has-unselect-button={displayUnselectButton}>
+  {#if displayUnselectButton && $screen.isLargerThan('$smaller-screen')}
+    <button class="unselect-profile" on:click={() => dispatch('unselectProfile')}>{@html icon('times')}</button>
+  {/if}
   {#if isMainUser}
     <a
       class="editProfile action tiny-button light-blue"
@@ -171,9 +179,8 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .profile-buttons{
-    margin: 0.5em;
-    @include display-flex(column, stretch, center);
-    a, button{
+    @include display-flex(column, stretch, flex-start);
+    a, .tiny-button{
       line-height: 1;
       padding: 0.5em;
       min-width: 10em;
@@ -187,13 +194,20 @@
       @include display-flex(row, center, flex-start);
     }
   }
-  .map{
-    height: 80vh;
+  .unselect-profile{
+    // Other rules are set in UserProfile
+    align-self: flex-end;
   }
   /* Large screens */
   @media screen and (width >= $smaller-screen){
     .profile-buttons{
       margin-inline-start: auto;
+      &.has-unselect-button{
+        margin: 0 0.5em;
+      }
+      &:not(.has-unselect-button){
+        margin: 0.5em;
+      }
     }
     .action{
       margin: 0 0.5em;
@@ -203,8 +217,8 @@
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .profile-buttons{
-      margin-block-end: 0.5em;
       flex-direction: column;
+      margin: 0.5em;
     }
     .show-user-on-map{
       margin-block-end: 1em;
@@ -212,5 +226,9 @@
     .action{
       margin: 0.5em 0;
     }
+  }
+
+  .map{
+    height: 80vh;
   }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tick } from 'svelte'
+  import { tick, createEventDispatcher } from 'svelte'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
@@ -8,6 +8,7 @@
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { getISODay, getISOTime } from '#app/lib/time'
   import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import Modal from '#components/modal.svelte'
@@ -97,6 +98,9 @@
   }
 
   $: if ($focusedSection.type === 'user') onFocus()
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
 <div class="full-user-profile">
@@ -106,9 +110,13 @@
         <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
       </div>
       <div class="info">
-        <h2 class="username respect-case">
-          {username}
-          {#if mainUserHasAdminAccess}
+        <h2 class="respect-case">
+          <span class="username">{username}</span>
+          {#if $screen.isSmallerThan('$smaller-screen')}
+            {#if !standalone}
+              <button class="unselect-profile" on:click={() => dispatch('unselectProfile')}>{@html icon('times')}</button>
+            {/if}
+          {:else if mainUserHasAdminAccess}
             <div class="admin-info">
               <span class="identifier">{userId}</span>
               <span class="creation-date" title={`${I18n('created')}: ${getISOTime(created)}`}>
@@ -156,8 +164,12 @@
         <p class="bio-wrapper">{@html userContent(bio)}</p>
       {/if}
     {/if}
-
-    <UserProfileButtons {user} bind:flash />
+    <UserProfileButtons
+      {user}
+      bind:flash
+      displayUnselectButton={!standalone}
+      on:unselectProfile={bubbleUpComponentEvent}
+    />
   </div>
 
   <Flash state={flash} />
@@ -194,10 +206,27 @@
     // Make sure it is possible to scroll to put the user profile at the top of the viewport
     min-height: 100vh;
   }
+  h2{
+    @include display-flex(row, baseline, flex-start);
+    margin: 0;
+  }
   .user-profile{
     background-color: #eee;
     @include display-flex(row);
     margin: 0.5em 0;
+    // Also include .unselect-profile in UserProfileButtons
+    :global(.unselect-profile){
+      width: 2.5rem;
+      padding: 0.5rem 0;
+      :global(.fa){
+        @include shy;
+        font-size: 2rem;
+      }
+    }
+    .unselect-profile{
+      align-self: flex-start;
+      margin-inline-start: auto;
+    }
   }
   .user-card{
     flex: 1;
@@ -212,7 +241,6 @@
   .username{
     @include sans-serif;
     margin: 0;
-    @include display-flex(row, baseline, flex-start);
   }
   .admin-info{
     margin: 0 0.5rem;
