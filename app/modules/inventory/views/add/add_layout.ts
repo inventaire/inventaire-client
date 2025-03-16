@@ -41,12 +41,7 @@ export default Marionette.View.extend({
   },
 
   onRender () {
-    if (this.loggedIn) {
-      this.showTabView(this.options.tab)
-    } else {
-      const msg = 'you need to be connected to add a book to your inventory'
-      app.execute('show:call:to:connection', msg)
-    }
+    this.showTabView(this.options.tab)
   },
 
   onDestroy () {

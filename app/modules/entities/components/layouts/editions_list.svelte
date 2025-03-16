@@ -1,4 +1,5 @@
 <script lang="ts">
+  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
@@ -14,6 +15,8 @@
   export let initialEditions: SerializedEntity[]
   export let waitingForItems = null
   export let itemsByEditions: ItemsByEditions = {}
+
+  const { loggedIn } = app.user
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -47,10 +50,12 @@
       {I18n('no editions found')}
     </div>
   {/if}
-  <EditionCreation
-    work={parentEntity}
-    bind:editions={initialEditions}
-  />
+  {#if loggedIn}
+    <EditionCreation
+      work={parentEntity}
+      bind:editions={initialEditions}
+    />
+  {/if}
 </div>
 <style lang="scss">
   @import "#general/scss/utils";
