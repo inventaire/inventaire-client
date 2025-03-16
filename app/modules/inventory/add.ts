@@ -48,13 +48,18 @@ const controller = {
   },
 }
 
-const showAddLayout = async (tab = 'search', options = {}) => {
+interface AddLayoutOptions {
+  isbns?: string[]
+}
+async function showAddLayout (tab = 'search', options: AddLayoutOptions = {}) {
   if (app.request('require:loggedIn', `add/${tab}`)) {
-    app.execute('last:add:mode:set', tab)
-    // @ts-expect-error
-    options.tab = tab
-    const { default: AddLayout } = await import('./views/add/add_layout.ts')
-    app.layout.showChildView('main', new AddLayout(options))
+    const { default: AddLayout } = await import('./components/add/add_layout.svelte')
+    app.layout.showChildComponent('main', AddLayout, {
+      props: {
+        tab,
+        ...options,
+      },
+    })
   }
 }
 
@@ -64,7 +69,7 @@ const initializeHandlers = () => app.commands.setHandlers({
   // but more explicit
   'show:add:layout:search': controller.showSearch,
 
-  'show:add:layout:import:isbns' (isbns) {
+  'show:add:layout:import:isbns' (isbns: string[]) {
     showAddLayout('import', { isbns })
   },
 
