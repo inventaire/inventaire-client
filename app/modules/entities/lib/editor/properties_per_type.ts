@@ -130,3 +130,7 @@ for (const [ type, propertiesData ] of objectEntries(propertiesPerType)) {
     propertiesPerTypeAndCategory[type][category][property] = propertyData
   }
 }
+
+export function getPropertyDatatype (property: PropertyUri) {
+  return properties[property]?.datatype
+}

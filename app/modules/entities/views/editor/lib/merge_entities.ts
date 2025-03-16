@@ -1,11 +1,11 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
-import { isWikidataItemUri } from '#app/lib/boolean_tests.ts'
+import { isWikidataItemUri } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
-import type { EntityUri } from '#server/types/entity'
-import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
+import { getInvEntityImportableData, type InvEntityImportableData } from '#entities/lib/get_entity_wikidata_import_data'
+import type { EntityUri, WdEntityUri } from '#server/types/entity'
 
 export async function mergeEntities (fromUri: EntityUri, toUri: EntityUri) {
   if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {
@@ -15,10 +15,8 @@ export async function mergeEntities (fromUri: EntityUri, toUri: EntityUri) {
   // as we can't request Wikidata entities to merge into inv entities
   if (isWikidataItemUri(fromUri)) [ fromUri, toUri ] = [ toUri, fromUri ]
 
-  // Show the Wikidata data importer only if the user has already set their Wikidata tokens
-  // Otherwise, just merge the entity without importing the data
-  if ((toUri.split(':')[0] === 'wd') && app.user.hasWikidataOauthTokens()) {
-    await importEntityDataToWikidata(fromUri, toUri)
+  if (toUri.split(':')[0] === 'wd') {
+    await importEntityDataToWikidata(fromUri, toUri as WdEntityUri)
     return merge(fromUri, toUri)
   } else {
     // Inventaire entities auto-merge their data
@@ -30,10 +28,9 @@ async function merge (fromUri: EntityUri, toUri: EntityUri) {
   return preq.put(API.entities.merge, { from: fromUri, to: toUri })
 }
 
-async function importEntityDataToWikidata (fromUri: EntityUri, toUri: EntityUri) {
-  const importData = await getEntityWikidataImportData(fromUri, toUri)
+async function importEntityDataToWikidata (fromUri: EntityUri, toUri: WdEntityUri) {
+  const importData = await getInvEntityImportableData(fromUri, toUri)
   log_.info(importData, 'importData')
-  // @ts-expect-error
   if (importData.total === 0) {
     log_.info({ fromUri, toUri }, 'no data to import')
   } else {
@@ -42,9 +39,14 @@ async function importEntityDataToWikidata (fromUri: EntityUri, toUri: EntityUri)
   }
 }
 
-async function showWikidataDataImporter (importData) {
-  const { default: WikidataDataImporter } = await import('#entities/views/wikidata_data_importer')
-  return new Promise((resolve, reject) => {
-    app.layout.showChildView('modal', new WikidataDataImporter({ resolve, reject, importData }))
+async function showWikidataDataImporter (importData: InvEntityImportableData) {
+  const { default: WikidataDataImporter } = await import('#entities/components/wikidata_data_importer.svelte')
+  return new Promise(resolve => {
+    app.layout.showChildComponent('modal', WikidataDataImporter, {
+      props: {
+        resolve,
+        importData,
+      },
+    })
   })
 }

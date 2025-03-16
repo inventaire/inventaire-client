@@ -1,17 +1,16 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { isString } from 'underscore'
-  import { API } from '#app/api/api'
   import app from '#app/app'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
-  import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { alphabeticallySortedEntries } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { getLangsData } from '#entities/lib/editor/get_langs_data'
+  import { updateLabel, removeLabel } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
   import type { EntityUri, Label } from '#server/types/entity'
@@ -71,7 +70,7 @@
   async function saveFromInput () {
     flash = null
     const value = input.value.trim()
-    if (value === '') return removeLabel()
+    if (value === '') return deleteLabel()
     save(value)
   }
 
@@ -83,7 +82,7 @@
     return updateOrRemoveLabel(uri, currentLang, value)
   }
 
-  async function removeLabel () {
+  async function deleteLabel () {
     flash = null
     previousValue = labels[currentLang]
     labels[currentLang] = Symbol.for('removed')
@@ -101,9 +100,9 @@
   function updateOrRemoveLabel (uri: EntityUri, lang: WikimediaLanguageCode, value?: Label) {
     let promise
     if (value) {
-      promise = preq.put(API.entities.labels.update, { uri, lang, value })
+      promise = updateLabel(uri, lang, value)
     } else {
-      promise = preq.put(API.entities.labels.remove, { uri, lang })
+      promise = removeLabel(uri, lang)
     }
     return promise
       .catch(err => {
@@ -182,7 +181,7 @@
         <EditModeButtons
           on:cancel={closeEditMode}
           on:save={saveFromInput}
-          on:delete={removeLabel}
+          on:delete={deleteLabel}
           showDelete={labels[currentLang] != null}
           deleteButtonDisableMessage={deleteButtonDisable ? i18n('There should be at least one label') : null}
         />
