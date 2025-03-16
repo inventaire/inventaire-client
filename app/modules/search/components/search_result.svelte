@@ -1,10 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import app from '#app/app'
+  import { findWhere } from 'underscore'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { forceArray, isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
   import { i18n } from '#user/lib/i18n'
+  import { resortSearchResultsHistory, searchResultsHistory } from '../lib/search_results_history'
 
   export let result, highlighted
 
@@ -16,7 +17,9 @@
   function addToSearchHistory () {
     if (uri) {
       const pictures = forceArray(image).map(urlifyImageHash.bind(null, type))
-      app.request('search:history:add', { uri, label, type, pictures })
+      const entry = findWhere($searchResultsHistory, { uri }) || { uri, label, type, pictures, timestamp: 0 }
+      entry.timestamp = Date.now()
+      $searchResultsHistory = resortSearchResultsHistory($searchResultsHistory.concat([ entry ]))
     }
   }
 
@@ -34,8 +37,8 @@
 <li class="result" class:highlighted>
   <a
     href={pathname}
-    on:click={loadResult}
     on:click={addToSearchHistory}
+    on:click={loadResult}
   >
     <div
       class="image"

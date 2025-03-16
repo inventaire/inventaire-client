@@ -138,7 +138,7 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
       entity.title = entity.label
     }
   }
-  const basePathname = entity.pathname = getPathname(entity.uri)
+  const basePathname = entity.pathname = getEntityPathname(entity.uri)
   entity.editPathname = `${basePathname}/edit`
   entity.historyPathname = `${basePathname}/history`
   entity.cleanupPathname = `${basePathname}/cleanup`
@@ -168,7 +168,7 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   return entity as SerializedEntity
 }
 
-const getPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
+export const getEntityPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
 
 export async function attachEntities (entity: Entity | SerializedEntity, attribute: string, uris: EntityUri[]) {
   entity[attribute] = await getEntities(uris)

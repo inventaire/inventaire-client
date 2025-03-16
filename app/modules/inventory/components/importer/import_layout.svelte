@@ -9,7 +9,7 @@
   import { I18n } from '#user/lib/i18n'
 
   // Known cases: incoming from scan
-  export let isbns
+  export let isbns: string[] = null
 
   // This importer is capable of creating items from:
   //   - import file from some other websites

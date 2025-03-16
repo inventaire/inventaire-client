@@ -2,7 +2,6 @@ import app from '#app/app'
 import { parseQuery } from '#app/lib/location'
 import { setPrerenderStatusCode } from '#app/lib/metadata/update'
 import { parseBooleanString } from '#app/lib/utils'
-import SearchResultsHistory from './collections/search_results_history.ts'
 import findUri from './lib/find_uri.ts'
 import type { SearchSection } from './lib/search_sections.ts'
 
@@ -16,16 +15,10 @@ export default {
 
     new Router({ controller })
 
-    app.searchResultsHistory = new SearchResultsHistory()
-
     app.commands.setHandlers({
       'search:global': controller.search,
       'show:users:search' () { return controller.search('', 'user') },
       'show:groups:search' () { return controller.search('', 'group') },
-    })
-
-    app.reqres.setHandlers({
-      'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) },
     })
   },
 }
