@@ -9,6 +9,7 @@ import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normali
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import type { WdEntityUri, EntityUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
+import { postFeedback } from '../general/lib/feedback.ts'
 import * as entitiesModelsIndex from './lib/entities_models_index.ts'
 import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
 import { getEntityLayoutComponentByType } from './lib/get_entity_layout_component_by_type.ts'
@@ -437,7 +438,7 @@ function reportTypeIssue (params) {
   reportedTypeIssueUris.push(uri)
 
   const subject = `[Entity type] ${uri}: expected ${expectedType}, got ${realType}`
-  app.request('post:feedback', { subject, uris: [ uri ], context })
+  postFeedback({ subject, uris: [ uri ], context })
 }
 
 const reportedTypeIssueUris = []

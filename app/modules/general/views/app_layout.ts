@@ -1,9 +1,6 @@
 import { debounce } from 'underscore'
-import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
-import log_ from '#app/lib/loggers'
-import preq from '#app/lib/preq'
 import { viewportIsSmall } from '#app/lib/screen'
 import Dropdown from '#behaviors/dropdown'
 import General from '#behaviors/general'
@@ -11,7 +8,7 @@ import PreventDefault from '#behaviors/prevent_default'
 import initDocumentLang from '../lib/document_lang.ts'
 import initFlashMessage from '../lib/flash_message.ts'
 import initModal from '../lib/modal.ts'
-import { showFeedbackMenu, showLoader } from '../lib/show_views.ts'
+import { showLoader } from '../lib/show_views.ts'
 import waitForCheck from '../lib/wait_for_check.ts'
 import ConfirmationModal from './confirmation_modal.ts'
 import appLayoutTemplate from './templates/app_layout.hbs'
@@ -44,7 +41,6 @@ export default Marionette.View.extend({
 
     app.commands.setHandlers({
       'show:loader': showLoader,
-      'show:feedback:menu': showFeedbackMenu,
       'ask:confirmation': this.askConfirmation.bind(this),
       'history:back' (options) {
         // Go back only if going back means staying in the app
@@ -59,7 +55,6 @@ export default Marionette.View.extend({
 
     app.reqres.setHandlers({
       waitForCheck,
-      'post:feedback': postFeedback,
     })
 
     app.vent.on('overlay:shown', () => $('body').addClass('hasOverlay'))
@@ -104,12 +99,4 @@ const initWindowResizeEvents = function () {
 
   const resize = debounce(resizeEnd, 150)
   $(window).resize(resize)
-}
-
-// params = { subject, message, uris, context, unknownUser }
-const postFeedback = function (params) {
-  if (params.context == null) params.context = {}
-  params.context.location = document.location.pathname + document.location.search
-  log_.info(params, 'posting feedback')
-  return preq.post(API.feedback, params)
 }
