@@ -8,6 +8,7 @@
   import preq from '#app/lib/preq'
   import { wait } from '#app/lib/promises'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
+  import { showFeedbackModal } from '#app/modules/general/lib/feedback'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -60,12 +61,11 @@
     }
   }
 
-  function reportDataError (e) {
+  async function reportDataError () {
     flash = null
-    app.execute('show:feedback:menu', {
+    await showFeedbackModal({
       subject: `[${uri}][${I18n('data error')}] `,
       uris: [ uri ],
-      event: e,
     })
   }
 

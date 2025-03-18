@@ -1,7 +1,7 @@
 import { isNumber, isArguments } from 'underscore'
 import log_ from '#app/lib/loggers'
 
-type ErrorContext = object | Record<string, unknown> | string[]
+export type ErrorContext = object | Record<string, unknown> | string[]
 
 export interface ContextualizedError extends Error {
   code?: string

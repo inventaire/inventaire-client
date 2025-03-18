@@ -2,13 +2,6 @@ import app from '#app/app'
 import { isOpenedOutside } from '#app/lib/utils'
 import FullScreenLoader from '#components/full_screen_loader.svelte'
 
-// Work around circular dependencies
-let FeedbackMenu
-const lateImport = async () => {
-  ;({ default: FeedbackMenu } = await import('../views/feedback_menu.ts'))
-}
-setTimeout(lateImport, 0)
-
 export default {
   showEntity (e) {
     entityAction(e, 'show:entity')
@@ -39,20 +32,4 @@ const entityAction = function (e, action) {
 
 export function showLoader () {
   app.layout.showChildComponent('main', FullScreenLoader)
-}
-
-export function showFeedbackMenu (options) {
-  // In the case of 'show:feedback:menu', a unique object is passed
-  // in which the event object is passed either directly
-  // or as the value for the key 'event'
-  // but options might also be a click event object
-  const event = options?.event || options
-  // Known case of missing href: #signalDataError anchors won't have an href
-  const ignoreMissingHref = true
-  if (!isOpenedOutside(event, ignoreMissingHref)) {
-    if (!options) options = {}
-    // Do not navigate as that's a  mess to go back then
-    // and handle the feedback modals with or without dedicated pathnames
-    app.layout.showChildView('modal', new FeedbackMenu(options))
-  }
 }

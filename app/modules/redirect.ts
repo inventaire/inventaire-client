@@ -82,8 +82,13 @@ const controller = {
   },
 
   async showFeedback () {
-    const { default: FeedbackMenu } = await import('#general/views/feedback_menu')
-    showMenuStandalone(FeedbackMenu, 'feedback')
+    const { default: FeedbackMenu } = await import('#general/components/feedback_menu.svelte')
+    app.layout.showChildComponent('main', FeedbackMenu, {
+      props: {
+        standalone: true,
+      },
+    })
+    app.navigate('feedback', { metadata: { title: I18n('feedback') } })
   },
 
   showMainUser () { app.execute('show:inventory:main:user') },
@@ -225,11 +230,6 @@ async function showError (options: ShowErrorOptions) {
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
   // option to prevent it
   if (options.navigate) app.navigate(`error/${options.name}`)
-}
-
-function showMenuStandalone (Menu, titleKey) {
-  app.layout.showChildView('main', new Menu({ standalone: true }))
-  app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
 }
 
 function redirectOutside (url) {
