@@ -31,7 +31,7 @@
   import type { EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, waiting, flash
+  let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, liveSearchEl, waiting, flash
   let results = []
   let searchOffset = 0
   let showSearchDropdown = false
@@ -188,7 +188,9 @@
   $: onChange(highlightedResultIndex, scrollDropdownIfNeeded)
 
   function onOutsideClick (e) {
-    if (!searchGroupEl.contains(e.target)) {
+    // Clicks directly on liveSearchEl are likely clicks on the overlay on small screens,
+    // when searchSettingsTogglerWrapper is pushed down the screen
+    if (e.target === liveSearchEl || !searchGroupEl.contains(e.target)) {
       hideLiveSearch()
     }
   }
@@ -282,7 +284,7 @@
     >
       {@html icon('close')}
     </button>
-    <div id="live-search">
+    <div id="live-search" bind:this={liveSearchEl}>
       <SearchControls
         bind:showSearchControls
         bind:selectedCategory
