@@ -236,7 +236,7 @@
   $: onChange(selectedCategory, selectedSection, onSectionChange)
 
   let showFallbackLayout
-  function onSearchQuery ({ search: text, section, showFallbackLayout: fallback }) {
+  async function onSearchQuery ({ search: text, section, showFallbackLayout: fallback }) {
     searchText = text
     // Checking on sectionsNames.entity so that 'all' default to 'entity:all'
     // rather than 'social:all'
@@ -244,6 +244,8 @@
     selectedSection = section
     showFallbackLayout = fallback
     lazySearch()
+    // Let the click that triggered onSearchQuery also trigger onOutsideClick before calling showLiveSearch
+    setTimeout(showLiveSearch, 10)
   }
 
   app.vent.on('live:search:query', onSearchQuery)
