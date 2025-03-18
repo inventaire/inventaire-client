@@ -7,6 +7,7 @@
 
 import { writable } from 'svelte/store'
 import { serverReportError } from '#app/lib/error'
+import { localStorageProxy } from '#app/lib/local_storage'
 
 const stores = {}
 
@@ -19,10 +20,10 @@ function initStore (key, initialValue) {
   const start = set => {
     let value, stringifiedStoredValue
     try {
-      stringifiedStoredValue = localStorage.getItem(key)
+      stringifiedStoredValue = localStorageProxy.getItem(key)
       value = JSON.parse(stringifiedStoredValue)
     } catch (err) {
-      if (err.name === 'SyntaxError') localStorage.removeItem(key)
+      if (err.name === 'SyntaxError') localStorageProxy.removeItem(key)
       serverReportError(err, { key, initialValue, stringifiedStoredValue })
     }
     if (value == null) value = initialValue
@@ -37,7 +38,7 @@ function initStore (key, initialValue) {
       // There is a known case where the store is shortly assigned an empty value:
       // when binding the store to an input, the value may start by being undefined
       if (value != null) {
-        localStorage.setItem(key, JSON.stringify(value))
+        localStorageProxy.setItem(key, JSON.stringify(value))
       }
       store.set(value)
     },
