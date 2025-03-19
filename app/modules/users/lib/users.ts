@@ -5,16 +5,21 @@ import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { distanceBetween } from '#map/lib/geo'
 import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
+import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { Host, RelativeUrl } from '#server/types/common'
+import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
-import type { AnonymizableUserId, User, Username } from '#server/types/user'
+import type { AnonymizableUserId, Username } from '#server/types/user'
+import type { OverrideProperties } from 'type-fest'
 
 const { publicHost } = config
 const { defaultAvatar } = images
 
 export type ItemCategory = 'personal' | 'network' | 'public' | 'nearbyPublic' | 'otherPublic'
 
-export interface SerializedUser extends User {
+export type ServerUser = GetUsersByIdsResponse['users'][number]
+
+export interface SerializedUserExtra {
   isMainUser: boolean
   kmDistanceFormMainUser: number
   distanceFromMainUser: number
@@ -26,6 +31,14 @@ export interface SerializedUser extends User {
   acct?: UserAccountUri
 }
 
+export interface SerializedUserOverrides {
+  picture: UserImagePath | AssetImagePath
+}
+
+// @ts-expect-error picture override conflicts with `picture: never` from DeletedUser and such
+export type SerializedUser = OverrideProperties<ServerUser, SerializedUserOverrides> & SerializedUserExtra
+
+// @ts-expect-error
 export interface SerializedContributor extends InstanceAgnosticContributor {
   isMainUser: boolean
   handle: Username | `${Username}@${Host}`
@@ -35,9 +48,10 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
   contributionsPathname: RelativeUrl
   special: boolean
   deleted: boolean
+  picture: UserImagePath | AssetImagePath
 }
 
-export function serializeUser (user: User & Partial<SerializedUser>) {
+export function serializeUser (user: ServerUser & Partial<SerializedUser>) {
   user.isMainUser = user._id === app.user.id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
@@ -57,6 +71,7 @@ export function serializeContributor (user: InstanceAgnosticContributor & Partia
   } else {
     user.handle = `${user.username}@${host}`
   }
+  // @ts-expect-error
   user.picture = getPicture(user)
   Object.assign(user, getUserPathnames(user))
   user.special ??= false
@@ -64,7 +79,7 @@ export function serializeContributor (user: InstanceAgnosticContributor & Partia
   return user as SerializedContributor
 }
 
-export function getPicture (user) {
+export function getPicture (user: Partial<SerializedUser>) {
   return user.picture || defaultAvatar
 }
 

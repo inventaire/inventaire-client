@@ -2,13 +2,17 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import type { RelationAction } from '#server/controllers/relations/actions'
+import type { UserId } from '#server/types/user'
+import { getCachedSerializedUsers } from '../helpers'
+import type { SerializedUser } from './users'
 
-export async function updateRelationStatus ({ user, action }) {
+export async function updateRelationStatus (user: SerializedUser, action: RelationAction) {
   const { _id: userId } = user
-  return preq.post(API.relations, { action, user: userId })
+  await preq.post(API.relations, { action, user: userId })
 }
 
-export const initRelations = function () {
+export function initRelations () {
   if (app.user.loggedIn) {
     return preq.get(API.relations)
     .then(relations => {
@@ -25,4 +29,10 @@ export const initRelations = function () {
     }
     app.execute('waiter:resolve', 'relations')
   }
+}
+
+export async function getFriendshipRequests () {
+  await app.request('wait:for', 'relations')
+  const userIds = app.relations.otherRequested as UserId[]
+  return getCachedSerializedUsers(userIds)
 }

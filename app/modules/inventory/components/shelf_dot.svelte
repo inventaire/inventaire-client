@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { getColorHexCodeFromModelId } from '#app/lib/images'
+  import { getColorHexCodeFromCouchUuId } from '#app/lib/images'
   import { viewportIsSmallerThan } from '#app/lib/screen'
   import { isOpenedOutside } from '#app/lib/utils'
 
@@ -8,7 +8,7 @@
 
   const { name, _id } = shelf
 
-  const colorHexCode = shelf.color || `#${getColorHexCodeFromModelId(_id)}`
+  const colorHexCode = shelf.color || `#${getColorHexCodeFromCouchUuId(_id)}`
 
   const dispatch = createEventDispatcher()
 
