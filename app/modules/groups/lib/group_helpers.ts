@@ -5,11 +5,13 @@ import { isModel, isGroupId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { Updater } from '#app/lib/model_update'
 import preq from '#app/lib/preq'
+import type { Group, GroupId, GroupSlug } from '#server/types/group'
+import { getGroupById, getGroupBySlug } from './groups'
 
 export default function () {
   const { groups } = app
 
-  const getGroupModelById = function (id) {
+  function getGroupModelById (id) {
     const group = groups.byId(id)
     if (group == null) return getGroupPublicData(id)
 
@@ -22,18 +24,18 @@ export default function () {
     }
   }
 
-  const getGroupPublicData = function (id, groupModel?) {
+  function getGroupPublicData (id, groupModel?) {
     if (groupModel != null) ({ id } = groupModel)
     return preq.get(API.groups.byId(id))
     .then(res => addGroupData(res, groupModel))
   }
 
-  const getGroupModelFromSlug = slug => {
+  function getGroupModelFromSlug (slug) {
     return preq.get(API.groups.bySlug(slug))
     .then(addGroupData)
   }
 
-  const addGroupData = function (res, groupModel?) {
+  function addGroupData (res, groupModel?) {
     const { group, users } = res
     app.execute('users:add', users)
     if (groupModel == null) groupModel = groups.add(group)
@@ -47,7 +49,7 @@ export default function () {
     modelIdLabel: 'group',
   })
 
-  const getGroupModel = function (id) {
+  function getGroupModel (id) {
     if (isGroupId(id)) {
       return getGroupModelById(id)
     } else {
@@ -56,25 +58,21 @@ export default function () {
   }
 
   const resolveToGroupModel = async function (group) {
-    // 'group' is either the group model, a group id, or a group slug
-    if (isModel(group)) return group
-    const groupModel = await getGroupModel(group)
-    if (groupModel != null) {
-      return groupModel
+  }
+
+  async function resolveToGroup (group: Group | GroupId | GroupSlug) {
+    if (typeof group === 'string') {
+      if (isGroupId(group)) {
+        return getGroupById(group)
+      } else {
+        return getGroupBySlug(group)
+      }
     } else {
-      throw newError('group model not found', 404, { group })
+      return group
     }
   }
 
-  const resolveToGroup = async function (group) {
-    const groupModel = await resolveToGroupModel(group)
-    return groupModel.toJSON()
-  }
-
   app.reqres.setHandlers({
-    'get:group:model': getGroupModel,
-    'group:update:settings': groupSettingsUpdater,
-    'resolve:to:groupModel': resolveToGroupModel,
     'resolve:to:group': resolveToGroup,
   })
 
@@ -82,7 +80,7 @@ export default function () {
   initGroupFilteredCollection(groups, 'mainUserInvited')
 }
 
-const initGroupFilteredCollection = function (groups, name) {
+function initGroupFilteredCollection (groups, name) {
   const filtered = (groups[name] = new FilteredCollection(groups))
   filtered.filterBy(name, filters[name])
   return filtered.listenTo(app.vent, 'group:main:user:move', filtered.refilter.bind(filtered))

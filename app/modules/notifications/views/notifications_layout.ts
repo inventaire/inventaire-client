@@ -26,13 +26,13 @@ export default Marionette.View.extend({
   childViewContainer: 'ul',
 
   regions: {
-    friendsRequestsList: '#friendsRequestsList',
+    friendshipRequestsList: '#friendshipRequestsList',
     groupsInvitationsList: '#groupsInvitationsList',
     notificationsList: '#notificationsList',
   },
 
   ui: {
-    friendsRequestsSection: '.friendsRequests',
+    friendshipRequestsSection: '.friendshipRequests',
     groupsInvitationsSection: '.groupsInvitations',
   },
 
@@ -65,8 +65,8 @@ export default Marionette.View.extend({
 
   showFriendsRequests () {
     if (this.otherRequested.length > 0) {
-      this.ui.friendsRequestsSection.removeClass('hidden')
-      this.showChildView('friendsRequestsList', new UsersList({
+      this.ui.friendshipRequestsSection.removeClass('hidden')
+      this.showChildView('friendshipRequestsList', new UsersList({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
         stretch: true,

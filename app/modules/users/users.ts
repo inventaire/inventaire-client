@@ -6,6 +6,7 @@ import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { initRelations } from '#users/lib/relations'
+import { resolveToGroup } from '../groups/lib/groups.ts'
 import initHelpers from './helpers.ts'
 import { getLocalUserAccount } from './lib/users.ts'
 import initRequests from './requests.ts'
@@ -130,7 +131,7 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
     const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
     const props: UsersHomeLayoutProps = { section, profileSection }
     if (user) props.user = await app.request('resolve:to:user', user)
-    if (group) props.group = await app.request('resolve:to:group', group)
+    if (group) props.group = await resolveToGroup(group)
     app.layout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
     app.execute('show:error', err)

@@ -31,7 +31,7 @@
     previousRelationState = relationState
     try {
       relationState = newRelationState
-      waitingForUpdate = await updateRelationStatus({ user, action })
+      waitingForUpdate = await updateRelationStatus(user, action)
     } catch (err) {
       relationState = previousRelationState
       flash = err

@@ -5,6 +5,7 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
+  import { getNotificationsUnreadCount } from '#app/modules/notifications/lib/notifications'
   import Dropdown from '#components/dropdown.svelte'
   import IconWithCounter from '#components/icon_with_counter.svelte'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
@@ -25,7 +26,7 @@
     })
 
   function getNotificationsCount () {
-    const unreadNotifications = app.request('notifications:unread:count')
+    const unreadNotifications = getNotificationsUnreadCount()
     const networkRequestsCount = app.request('get:network:invitations:count')
     return unreadNotifications + networkRequestsCount
   }

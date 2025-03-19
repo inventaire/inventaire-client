@@ -1,5 +1,7 @@
+import type { AssetImagePath } from '#server/types/image'
+
 const subdomain = sub => `https://${sub}.inventaire.io`
-const image = filename => `/img/assets/${filename}`
+const image = filename => `/img/assets/${filename}` as AssetImagePath
 
 export const domain = 'inventaire.io'
 export const host = `https://${domain}`
@@ -17,7 +19,7 @@ export const dataHome = subdomain('data')
 export const contact = {
   email: 'hello@inventaire.io',
   mailto: 'mailto:hello@inventaire.io',
-}
+} as const
 
 export const images = {
   // not passing an absolute url so that it can be easily digested
@@ -27,4 +29,4 @@ export const images = {
   // images in CC-BY or CC-BY-SA
   // See https://wiki.inventaire.io/wiki/Credits#Images for originals
   brittanystevens: image('brittanystevens.jpg'),
-}
+} as const

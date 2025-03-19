@@ -262,6 +262,10 @@ export function objectEntries <Obj extends Record<string, unknown>> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
 
+export function objectValues <Obj> (obj: Obj) {
+  return Object.values(obj) as Obj[keyof Obj][]
+}
+
 export function moveArrayElement (array, oldIndex, newIndex) {
   array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
   return array

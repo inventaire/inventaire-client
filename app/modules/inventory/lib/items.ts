@@ -79,7 +79,7 @@ export function setItemUserData (item: SerializedItemWithUserData, user: Seriali
   item.user = user
   item.category = user.itemsCategory
   item.distanceFromMainUser = user.distanceFromMainUser
-  item.position = user.position
+  if ('position' in user) item.position = user.position
   return item
 }
 

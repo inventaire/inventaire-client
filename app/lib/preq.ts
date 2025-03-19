@@ -72,8 +72,17 @@ const preq = {
 
 /** Typed HTTP requests */
 export const treq = {
-  get: async function <Response> (url): Promise<Response> {
+  get: async function <Response> (url: Url): Promise<Response> {
     return preq.get(url)
+  },
+  post: async function <Response> (url: Url, body?: unknown): Promise<Response> {
+    return preq.post(url, body)
+  },
+  put: async function <Response> (url: Url, body?: unknown): Promise<Response> {
+    return preq.put(url, body)
+  },
+  delete: async function <Response> (url: Url): Promise<Response> {
+    return preq.delete(url)
   },
 }
 

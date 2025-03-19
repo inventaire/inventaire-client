@@ -1,10 +1,8 @@
 import app from '#app/app'
 import { isModel } from '#app/lib/boolean_tests'
-import fetchData from '#app/lib/data/fetch'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import { showUsersHome } from '#users/users'
-import Groups from './collections/groups.ts'
-import initGroupHelpers from './lib/group_helpers.ts'
+import { getUserGroups } from './lib/groups_data.ts'
 
 export default {
   initialize () {
@@ -26,26 +24,10 @@ export default {
 
     app.commands.setHandlers({
       'show:group:board': showGroupBoardFromDocOrModel,
-      'create:group': controller.showCreateGroupLayout,
     })
 
-    fetchData({
-      name: 'groups',
-      Collection: Groups,
-      condition: app.user.loggedIn,
-    })
-
-    return app.request('wait:for', 'user')
-    .then(initGroupHelpers)
-    .then(initRequestsCollectionsEvent.bind(this))
+    if (app.user.loggedIn) getUserGroups()
   },
-}
-
-const initRequestsCollectionsEvent = function () {
-  if (app.user.loggedIn) {
-    return app.request('waitForNetwork')
-    .then(() => app.vent.trigger('network:requests:update'))
-  }
 }
 
 const controller = {

@@ -32,6 +32,8 @@
   }
 </script>
 
+<pre>{JSON.stringify({ categoryAvailableExternalIds }, null, 2)} (category_external_ids.svelte:35)</pre>
+
 {#if categoryAvailableExternalIds.length > 0}
   <p class="category" dir={getTextDirection($user?.language)}>
     <span class="category-label">{I18n(categoryLabels[category])}:</span>

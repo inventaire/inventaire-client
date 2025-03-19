@@ -33,7 +33,7 @@ const controller = {
 const getNetworkNotificationsCount = function () {
   // TODO: introduce a 'read' flag on the relation document to stop counting
   // requests that were already seen.
-  const friendsRequestsCount = app.relations?.otherRequested.length || 0
+  const friendshipRequestsCount = app.relations?.otherRequested.length || 0
   const mainUserInvitationsCount = app.groups?.mainUserInvited.length || 0
-  return friendsRequestsCount + mainUserInvitationsCount
+  return friendshipRequestsCount + mainUserInvitationsCount
 }
