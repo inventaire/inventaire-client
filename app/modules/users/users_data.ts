@@ -5,6 +5,7 @@ import log_ from '#app/lib/loggers'
 import preq, { treq } from '#app/lib/preq'
 import { forceArray } from '#app/lib/utils'
 import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
+import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { UserAccountUri } from '#server/types/server'
 import type { User, UserId, Username } from '#server/types/user'
 import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
@@ -37,7 +38,7 @@ export default {
 
 export async function getUsersByIds (ids: UserId[]) {
   if (ids.length === 0) return {}
-  const { users } = await preq.get(API.users.byIds(ids))
+  const { users } = await treq.get<GetUsersByIdsResponse>(API.users.byIds(ids))
   return users
 }
 
