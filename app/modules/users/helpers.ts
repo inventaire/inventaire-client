@@ -2,9 +2,9 @@ import { pick } from 'underscore'
 import app from '#app/app'
 import { isModel, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import { forceArray } from '#app/lib/utils'
+import { forceArray, objectEntries, objectValues } from '#app/lib/utils'
 import type { User, UserId } from '#server/types/user'
-import { serializeUser } from '#users/lib/users'
+import { serializeUser, type ServerUser } from '#users/lib/users'
 import usersData, { getUserByUsername, getUsersByIds } from './users_data.ts'
 
 export default function (app) {
@@ -140,18 +140,23 @@ const isntMainUser = user => user._id !== app.user.id
 const cachedSerializedUsers = {}
 
 // TODO: handle special case of main user, for which we might have fresher data
-export async function getCachedSerializedUsers (ids) {
+export async function getCachedSerializedUsers (ids: UserId[]) {
   const missingUsersIds = ids.filter(isntCached)
-  const foundUsersByIds: Record<UserId, User> = await getUsersByIds(missingUsersIds)
+  // TODO: cache promises instead, to prevent fetching several times the same user in parallel
+  const foundUsersByIds = await getUsersByIds(missingUsersIds)
   addSerializedUsersToCache(foundUsersByIds)
-  return Object.values(pick(cachedSerializedUsers, ids))
+  return objectValues(pick(cachedSerializedUsers, ids))
 }
 
 const isntCached = id => cachedSerializedUsers[id] == null
 
-function addSerializedUsersToCache (usersByIds: Record<UserId, User>) {
-  const users: User[] = Object.values(usersByIds)
-  for (const user of users) {
-    cachedSerializedUsers[user._id] = serializeUser(user)
+function addSerializedUsersToCache (usersByIds: Record<UserId, ServerUser>) {
+  for (const [ userId, user ] of objectEntries(usersByIds)) {
+    cachedSerializedUsers[userId] = serializeUser(user)
   }
+}
+
+export async function getCachedSerializedUser (id: UserId) {
+  const [ user ] = await getCachedSerializedUsers([ id ])
+  return user
 }

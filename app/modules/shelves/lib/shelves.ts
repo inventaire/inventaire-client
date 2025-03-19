@@ -2,7 +2,7 @@ import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
-import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#app/lib/images'
+import { getColorHexCodeFromCouchUuId, getColorSquareDataUri } from '#app/lib/images'
 import preq, { treq } from '#app/lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import type { ShelvesByIdsResponse } from '#server/controllers/shelves/by_ids'
@@ -76,7 +76,7 @@ const getShelf = ({ shelves }) => Object.values(shelves)[0] as Shelf
 export function serializeShelf (shelf) {
   const { _id, visibility } = shelf
   let { color } = shelf
-  color = color || getColorHexCodeFromModelId(_id)
+  color = color || getColorHexCodeFromCouchUuId(_id)
   Object.assign(shelf, {
     pathname: `/shelves/${_id}`,
     picture: getColorSquareDataUri(color),

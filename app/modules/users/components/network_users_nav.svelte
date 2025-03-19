@@ -3,6 +3,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
+  import { getUserGroups } from '#app/modules/groups/lib/groups_data'
   import Modal from '#components/modal.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -21,8 +22,8 @@
     })
     .catch(err => flash = err)
 
-  app.request('wait:for', 'groups')
-    .then(() => groups = app.groups.toJSON())
+  getUserGroups()
+    .then(userGroups => groups = userGroups)
     .catch(err => flash = err)
 
   let showUsersMenu, showGroupsMenu, showInviteFriendByEmail

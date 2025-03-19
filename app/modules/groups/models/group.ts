@@ -2,7 +2,7 @@ import { findWhere, property } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
-import { getColorSquareDataUriFromModelId } from '#app/lib/images'
+import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
 import log_ from '#app/lib/loggers'
 import { getNumberOfDaysAgo } from '#app/lib/time'
 import { images } from '#app/lib/urls'
@@ -53,7 +53,7 @@ export default Positionable.extend({
     })
 
     if (this.get('picture') == null) {
-      this.set('picture', getColorSquareDataUriFromModelId(this.get('_id')))
+      this.set('picture', getColorSquareDataUriFromCouchUuId(this.get('_id')))
     }
   },
 

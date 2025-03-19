@@ -197,13 +197,6 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:inventory:group': controller.showGroupInventory,
 
-    'show:inventory:group:byId' (params) {
-      const { groupId, standalone } = params
-      return app.request('get:group:model', groupId)
-      .then(group => controller.showGroupInventory(group, standalone))
-      .catch(app.Execute('show:error'))
-    },
-
     'show:item:creation:form': showItemCreationForm,
 
     'show:item': showItem,
