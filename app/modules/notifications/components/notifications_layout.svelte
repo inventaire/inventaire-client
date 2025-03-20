@@ -5,14 +5,15 @@
   import { getFriendshipRequests } from '#app/modules/users/lib/relations'
   import Spinner from '#components/spinner.svelte'
   import GroupLi from '#groups/components/group_li.svelte'
-  import { notifications } from '#notifications/lib/notifications'
+  import { markNotificationsAsRead, notifications } from '#notifications/lib/notifications'
   import { I18n } from '#user/lib/i18n'
   import FriendshipRequest from './friendship_request.svelte'
   import Notification from './notification.svelte'
 
-  // TODO: mark notifications as read
-
   let friendshipRequests, groupsInvications, flash
+
+  markNotificationsAsRead(notifications)
+    .catch(err => flash = err)
 
   const waitingForFriendsRequests = getFriendshipRequests()
     .then(users => friendshipRequests = users)

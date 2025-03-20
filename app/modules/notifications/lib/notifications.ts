@@ -1,3 +1,4 @@
+import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
@@ -45,4 +46,11 @@ const texts = {
       false: 'group_update_open_false',
     },
   },
+}
+
+export async function markNotificationsAsRead (notifications: Notification[]) {
+  notifications = notifications.filter(notification => notification.status === 'unread')
+  if (notifications.length === 0) return
+  const times = pluck(notifications, 'time')
+  return preq.post(API.notifications, { times })
 }
