@@ -12,7 +12,7 @@
       text={I18n('add books')}
       title={i18n('title_add_layout')}
       tinyButton={true}
-      classNames="light-blue"
+      classNames="light-blue button"
     />
   </div>
 </div>
@@ -31,5 +31,8 @@
   }
   .ideas{
     margin: 1em;
+    :global(a){
+      font-weight: normal;
+    }
   }
 </style>
