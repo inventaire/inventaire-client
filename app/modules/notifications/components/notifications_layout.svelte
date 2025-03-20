@@ -1,8 +1,10 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
-  import { getFriendsRequests } from '#app/modules/users/lib/relations'
+  import { getGroupInvitations } from '#app/modules/groups/lib/groups_data'
+  import { getFriendshipRequests } from '#app/modules/users/lib/relations'
   import Spinner from '#components/spinner.svelte'
+  import GroupLi from '#groups/components/group_li.svelte'
   import { notifications } from '#notifications/lib/notifications'
   import { I18n } from '#user/lib/i18n'
   import FriendshipRequest from './friendship_request.svelte'
@@ -10,15 +12,20 @@
 
   // TODO: mark notifications as read
 
-  let friendshipRequests, flash
-  const waitingForFriendsRequests = getFriendsRequests()
+  let friendshipRequests, groupsInvications, flash
+
+  const waitingForFriendsRequests = getFriendshipRequests()
     .then(users => friendshipRequests = users)
     .catch(err => flash = err)
 
+  const waitingForGroupsInvitations = getGroupInvitations()
+    .then(groups => groupsInvications = groups)
+    .catch(err => flash = err)
 </script>
 
 <div class="notifications-layout">
   <Flash state={flash} />
+
   {#await waitingForFriendsRequests}
     <Spinner center={true} />
   {:then}
@@ -34,11 +41,20 @@
     {/if}
   {/await}
 
-  <!-- TODO -->
-  <section class="groups-invitations">
-    <h3>{I18n('pending groups invitations')}</h3>
-    <div class="groups-invitations-list"></div>
-  </section>
+  {#await waitingForGroupsInvitations}
+    <Spinner center={true} />
+  {:then}
+    {#if groupsInvications.length > 0}
+      <section class="groups-invitations">
+        <h3>{I18n('pending groups invitations')}</h3>
+        <ul class="groups-invitations-list">
+          {#each groupsInvications as group (group._id)}
+            <GroupLi {group} />
+          {/each}
+        </ul>
+      </section>
+    {/if}
+  {/await}
 
   <section class="notifications">
     <h3>{I18n('notifications')}</h3>
@@ -54,7 +70,7 @@
 
     <Link
       url="/settings/notifications"
-      icon="evenlope"
+      icon="envelope"
       text={I18n('email notifications settings')}
       classNames="show-notifications-settings button dark-grey"
     />
@@ -67,15 +83,19 @@
   .notifications-layout{
     @include central-column(50em);
     text-align: center;
-    section{
-      background-color: #eee;
-      margin: 1em 0;
-      padding: 1em;
-      @include radius;
-    }
     :global(.time){
       color: $grey;
     }
+  }
+  section{
+    background-color: #eee;
+    margin: 1em 0;
+    padding: 1em;
+    @include radius;
+  }
+  h3{
+    font-size: 1.2rem;
+    @include sans-serif;
   }
   .notifications{
     ul{

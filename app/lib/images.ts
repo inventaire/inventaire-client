@@ -6,6 +6,7 @@ import { newError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { forceArray } from '#app/lib/utils'
 import type { ColorHexCode, Url } from '#server/types/common'
+import type { CouchUuid } from '#server/types/couchdb'
 import type { ImageContainer, ImageDataUrl } from '#server/types/image'
 
 export async function getUrlDataUrl (url: Url) {
@@ -111,12 +112,12 @@ export function getColorSquareDataUri (colorHexCode: string) {
 
 const normalizeColorHexCode = code => (code[0] === '#' ? code : `#${code}`) as ColorHexCode
 
-export function getColorSquareDataUriFromModelId (modelId) {
-  const colorHexCode = getColorHexCodeFromModelId(modelId)
+export function getColorSquareDataUriFromCouchUuId (couchUuid: CouchUuid) {
+  const colorHexCode = getColorHexCodeFromCouchUuId(couchUuid)
   return getColorSquareDataUri(colorHexCode)
 }
 
-const getResizedDimensions = function (width, height, maxSize) {
+function getResizedDimensions (width, height, maxSize) {
   if (width > height) {
     if (width > maxSize) {
       height *= maxSize / width
@@ -148,9 +149,9 @@ const someSuggestedColors = [
   'cddc39',
 ]
 
-export const getColorHexCodeFromModelId = function (modelId) {
-  if (modelId == null) return someSuggestedColors[0]
-  const someStableModelNumber = parseInt(modelId.slice(-2), 16)
+export function getColorHexCodeFromCouchUuId (couchUuid) {
+  if (couchUuid == null) return someSuggestedColors[0]
+  const someStableModelNumber = parseInt(couchUuid.slice(-2), 16)
   // Pick one of the colors based on the group slug length
   const index = someStableModelNumber % someSuggestedColors.length
   return someSuggestedColors[index]

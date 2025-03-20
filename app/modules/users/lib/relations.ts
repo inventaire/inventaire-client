@@ -31,7 +31,7 @@ export function initRelations () {
   }
 }
 
-export async function getFriendsRequests () {
+export async function getFriendshipRequests () {
   await app.request('wait:for', 'relations')
   const userIds = app.relations.otherRequested as UserId[]
   return getCachedSerializedUsers(userIds)

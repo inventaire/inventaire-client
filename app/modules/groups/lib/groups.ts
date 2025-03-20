@@ -3,16 +3,37 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import { isGroupId } from '#app/lib/boolean_tests'
 import { formatAndThrowError } from '#app/lib/error'
-import { getColorSquareDataUriFromModelId } from '#app/lib/images'
+import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { fixedEncodeURIComponent } from '#app/lib/utils'
 import { pass } from '#general/lib/forms'
-import type { Group, GroupId, GroupMembershipCategory } from '#server/types/group'
+import type { RelativeUrl } from '#server/types/common'
+import type { Group, GroupId, GroupMembershipCategory, GroupSlug } from '#server/types/group'
+import type { GroupImagePath, ImageDataUrl } from '#server/types/image'
 import type { UserId } from '#server/types/user'
 import { getCachedSerializedUsers } from '#users/helpers'
 import { serializeUser } from '#users/lib/users'
 import { getUserById } from '#users/users_data'
+import type { OverrideProperties } from 'type-fest'
+
+interface SerializedGroupExtra {
+  canonical: RelativeUrl
+  pathname: RelativeUrl
+  inventoryPathname: RelativeUrl
+  listingsPathname: RelativeUrl
+  settingsPathname: RelativeUrl
+  mainUserIsAdmin: boolean
+  mainUserIsMember: boolean
+  mainUserStatus: ReturnType<typeof getUserGroupStatus>
+}
+
+interface SerializedGroupOverrides {
+  // TODO: user another attribute to avoid the need to override
+  picture: GroupImagePath | ImageDataUrl
+}
+
+export type SerializedGroup = OverrideProperties<Group, SerializedGroupOverrides> & SerializedGroupExtra
 
 export default {
   createGroup (data) {
@@ -74,7 +95,7 @@ export function getGroupMembersCount (group) {
 }
 
 export function getGroupPicture (group) {
-  return group.picture || getColorSquareDataUriFromModelId(group._id)
+  return group.picture || getColorSquareDataUriFromCouchUuId(group._id)
 }
 
 export function getGroupPathname (group) {
@@ -95,30 +116,28 @@ export function mainUserIsGroupMember (group) {
   return mainUserIsGroupAdmin(group) || mainUserIsGroupNonAdminMember(group)
 }
 
-export function getUserGroupStatus (userId, group) {
+export function getUserGroupStatus (userId: UserId, group: Group | SerializedGroup) {
   if (getAllGroupMembersIds(group).includes(userId)) return 'member'
   if (getGroupInvitedUsersIds(group).includes(userId)) return 'invited'
   if (getGroupRequestingUsersIds(group).includes(userId)) return 'requested'
   return 'none'
 }
 
-export const getMainUserGroupStatus = group => getUserGroupStatus(app.user.id, group)
+export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(app.user.id, group)
 
 export async function getCachedSerializedGroupMembers (group) {
   const allMembersIds = getAllGroupMembersIds(group)
   return getCachedSerializedUsers(allMembersIds)
 }
 
-export function serializeGroup (group, options?) {
-  if (group._serialized && !(options?.refresh)) return group
+export function serializeGroup (group: Group & Partial<SerializedGroupExtra>, options?: { refresh: boolean }) {
+  if ('pathname' in group && !options?.refresh) return group as SerializedGroup
   const slug = fixedEncodeURIComponent(group.slug)
   const base = `/groups/${slug}`
-  if (group.picture == null) {
-    group.picture = getColorSquareDataUriFromModelId(group._id)
-  }
+  // @ts-expect-error
+  group.picture ??= getColorSquareDataUriFromCouchUuId(group._id)
   const mainUserIsAdmin = mainUserIsGroupAdmin(group)
   return Object.assign(group, {
-    _serialized: true,
     canonical: base,
     pathname: base,
     inventoryPathname: `${base}/inventory`,
@@ -127,7 +146,7 @@ export function serializeGroup (group, options?) {
     mainUserIsAdmin,
     mainUserIsMember: mainUserIsAdmin || mainUserIsGroupNonAdminMember(group),
     mainUserStatus: getMainUserGroupStatus(group),
-  })
+  }) as SerializedGroup
 }
 
 export async function getGroup (groupId: GroupId) {

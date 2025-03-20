@@ -42,7 +42,7 @@
   function onceDone () {
     flash = { type: 'success', message: '', canBeClosed: false }
     done = true
-    setTimeout(() => flash = null, 2000)
+    setTimeout(() => flash = null, 1000)
   }
 </script>
 
@@ -56,7 +56,7 @@
       </a>
     {:else}
       <button
-        class="accept action tiny-button light-blue"
+        class="accept action tiny-button success"
         title={I18n('accept friend request')}
         on:click={accept}
         disabled={accepting || discarding}
@@ -89,7 +89,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .actions{
-    @include display-flex(row);
     :global(.flash){
       padding: 0.2rem 0.6rem;
       margin-inline-end: 0.5em;
@@ -97,6 +96,23 @@
   }
   .action{
     @include radius;
-    margin-inline-end: 0.5em;
+  }
+  /* Small screens */
+  @media screen and (width < 500px){
+    .actions{
+      @include display-flex(column);
+    }
+    .action:not(:last-child){
+      margin-block: 0.2em;
+    }
+  }
+  /* Large screens */
+  @media screen and (width >= 500px){
+    .actions{
+      @include display-flex(row);
+    }
+    .action{
+      margin-inline-end: 0.5em;
+    }
   }
 </style>

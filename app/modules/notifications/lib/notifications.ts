@@ -17,7 +17,8 @@ export async function getNotificationsData () {
   return notifications
 }
 
-export function getNotificationsUnreadCount () {
+export async function getNotificationsUnreadCount () {
+  await getNotificationsData()
   return notifications.filter(notification => notification.status === 'unread').length
 }
 
