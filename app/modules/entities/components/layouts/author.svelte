@@ -14,7 +14,6 @@
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
-  import { i18n } from '#user/lib/i18n'
   import EntityImage from '../entity_image.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
@@ -85,11 +84,6 @@
     <!-- to not having to push them down while work browser is being displayed -->
     {#await waitingForSubEntities then}
       <div class="relatives-lists">
-        <RelativeEntitiesList
-          {entity}
-          property={[ 'wdt:P2679', 'wdt:P2680' ]}
-          label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
-        />
         {#each getRelativeEntitiesProperties(type) as property}
           <RelativeEntitiesList
             {entity}

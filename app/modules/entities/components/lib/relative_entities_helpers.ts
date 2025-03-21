@@ -36,5 +36,6 @@ export const relativeEntitiesPropertiesByType = {
     'wdt:P655', // translator
     'wdt:P737', // influenced by
     'wdt:P921', // main subject
+    [ 'wdt:P2679', 'wdt:P2680' ], // author of foreword and afterword
   ],
 }
