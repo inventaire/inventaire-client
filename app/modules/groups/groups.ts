@@ -1,6 +1,7 @@
 import app from '#app/app'
 import { isModel } from '#app/lib/boolean_tests'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
+import type { GroupSlug } from '#server/types/group'
 import { showUsersHome } from '#users/users'
 import { getUserGroups } from './lib/groups_data.ts'
 
@@ -31,18 +32,18 @@ export default {
 }
 
 const controller = {
-  showGroupProfile (slug) {
+  showGroupProfile (slug: GroupSlug) {
     return showUsersHome({ group: slug })
   },
-  showGroupInventory (slug) {
+  showGroupInventory (slug: GroupSlug) {
     return showUsersHome({ group: slug, profileSection: 'inventory' })
   },
-  showGroupListings (slug) {
+  showGroupListings (slug: GroupSlug) {
     return showUsersHome({ group: slug, profileSection: 'listings' })
   },
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard
-  showGroupBoard (slug) {
+  showGroupBoard (slug: GroupSlug) {
     const pathname = `groups/${slug}/settings`
     if (app.request('require:loggedIn', pathname)) {
       return showGroupBoard(slug)
@@ -59,7 +60,7 @@ const controller = {
   },
 }
 
-async function showGroupBoard (slug) {
+async function showGroupBoard (slug: GroupSlug) {
   try {
     let group = await getGroupBySlug(slug)
     if (mainUserIsGroupMember(group)) {
