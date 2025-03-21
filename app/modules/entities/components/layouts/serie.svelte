@@ -12,15 +12,17 @@
   import { bySerieOrdinal } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '../lib/relative_entities_helpers'
   import AuthorsInfo from './authors_info.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import EntityTitle from './entity_title.svelte'
   import Infobox from './infobox.svelte'
+  import RelativeEntitiesList from './relative_entities_list.svelte'
 
   export let entity
 
-  const { uri, claims } = entity
+  const { uri, claims, type } = entity
   runEntityNavigate(entity)
 
   setContext('layout-context', 'serie')
@@ -69,6 +71,15 @@
         </div>
       {/await}
     </div>
+    <div class="relatives-lists">
+      {#each getRelativeEntitiesProperties(type) as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={getRelativeEntitiesListLabel({ property, entity })}
+        />
+      {/each}
+    </div>
     <ActorFollowersSection uri={entity.uri} />
     <HomonymDeduplicates {entity} />
   </div>
@@ -76,6 +87,7 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
+  @import "#entities/scss/relatives_lists";
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
@@ -91,5 +103,8 @@
       margin-block-start: 1em;
       width: 10em;
     }
+  }
+  .relatives-lists{
+    @include relatives-lists-commons;
   }
 </style>

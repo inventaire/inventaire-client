@@ -16,13 +16,16 @@ export function getRelativeEntitiesProperties (type: ExtendedEntityType, mainPro
   return properties || []
 }
 
-export const relativeEntitiesPropertiesByType = {
-  work: [
-    'wdt:P144', // based on
-    'wdt:P941', // inspired by
-    'wdt:P921', // main subject
-    'wdt:P2675', // reply to
-  ],
+const workRelativeEntitiesProperties = [
+  'wdt:P144', // based on
+  'wdt:P941', // inspired by
+  'wdt:P921', // main subject
+  'wdt:P2675', // reply to
+]
+
+const relativeEntitiesPropertiesByType = {
+  work: workRelativeEntitiesProperties,
+  serie: workRelativeEntitiesProperties,
   subject: [
     'wdt:P135', // movement
     'wdt:P144', // based on
