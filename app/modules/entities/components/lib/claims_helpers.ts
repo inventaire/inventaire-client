@@ -91,6 +91,7 @@ export const inverseLabels = {
   'wdt:P941': 'works_inspired_by_work',
   'wdt:P1433': 'published_in',
   'wdt:P2675': 'works_replying_to_work',
+  'wdt:P2679,wdt:P2680': 'editions_prefaced_or_postfaced_by_author',
   'wdt:P7937': 'works_in_this_form',
 }
 
