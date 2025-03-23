@@ -2,6 +2,7 @@
   import { tick } from 'svelte'
   import { scrollToElement } from '#app/lib/screen'
   import ActorFollowersSection from '#entities/components/layouts/actor_followers_section.svelte'
+  import Ebooks from '#entities/components/layouts/ebooks.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
@@ -50,6 +51,7 @@
               omittedProperties={[ 'wdt:P1680' ]}
               entityType={entity.type}
             />
+            <Ebooks {entity} />
             <Summary {entity} />
           </div>
           <EditionActions {entity}

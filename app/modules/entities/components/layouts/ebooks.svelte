@@ -23,7 +23,7 @@
 
   const wikisourceLink = getWikisourceData(entity.sitelinks, userLang, entity.originalLang)
 </script>
-{#if isNonEmptyArray(ebooksData)}
+{#if isNonEmptyArray(ebooksData) || wikisourceLink}
   <div class="ebooks">
     <span>{i18n('ebooks')}:</span>
     {#each ebooksData as value}
