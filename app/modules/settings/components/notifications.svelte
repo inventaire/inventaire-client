@@ -1,10 +1,9 @@
 <script lang="ts">
   import { range } from 'underscore'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Toggler from '#settings/components/notification_toggler.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser, updateUser } from '#user/lib/main_user'
 
   let flashPeriodicity
   const days = range(1, 180).filter(num => num <= 30 || num % 10 === 0)
@@ -12,16 +11,13 @@
   const updatePeriodicity = async periodicity => {
     flashPeriodicity = null
     try {
-      await app.request('user:update', {
-        attribute: 'summaryPeriodicity',
-        value: parseInt(periodicity),
-      })
+      await updateUser('summaryPeriodicity', parseInt(periodicity))
     } catch (err) {
       flashPeriodicity = err
     }
   }
 
-  $: notificationData = $user.settings.notifications || {}
+  $: notificationData = $mainUser.settings.notifications || {}
 </script>
 
 <div class="wrapper">
@@ -39,7 +35,7 @@
         {#if notificationData.inventories_activity_summary}
           <div>
             <span>{@html I18n('activity_summary_periodicity_tip')}</span>
-            <select name="periodicity" value={$user.summaryPeriodicity} on:change={e => updatePeriodicity(e.currentTarget.value)}>
+            <select name="periodicity" value={$mainUser.summaryPeriodicity} on:change={e => updatePeriodicity(e.currentTarget.value)}>
               {#each days as day}
                 <option value={day}>{day}</option>
               {/each}

@@ -48,7 +48,7 @@ const controller = {
       // Passing shelf to display items and passing owner for user profile info
       app.layout.showChildComponent('main', UsersHomeLayout, {
         props: {
-          user: app.user.toJSON(),
+          user: app.user,
           shelf: 'without-shelf',
         },
       })

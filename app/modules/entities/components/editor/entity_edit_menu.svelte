@@ -9,6 +9,7 @@
   import { wait } from '#app/lib/promises'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
   import { showFeedbackModal } from '#app/modules/general/lib/feedback'
+  import { mainUserHasWikidataOauthTokens } from '#app/modules/user/lib/main_user'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -36,7 +37,7 @@
   async function _moveToWikidata () {
     flash = null
     try {
-      if (!app.user.hasWikidataOauthTokens()) {
+      if (!mainUserHasWikidataOauthTokens()) {
         return app.execute('show:wikidata:edit', invUri)
       }
       await moveToWikidata(invUri)

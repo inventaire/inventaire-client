@@ -12,7 +12,7 @@
   import IconWithCounter from '#components/icon_with_counter.svelte'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
 
   // TODO: replace by global stores
   let notificationsUpdates = 0
@@ -58,16 +58,16 @@
         {#if $screen.isSmallerThan('$small-screen')}
           {@html icon('bars')}
         {:else}
-          <img src={imgSrc($user.picture, 32)} alt={i18n('profile pic')} />
+          <img src={imgSrc($mainUser.picture, 32)} alt={i18n('profile pic')} />
           {@html icon('caret-down')}
         {/if}
       </div>
       <div slot="dropdown-content">
         <ul>
           <li>
-            <a href={$user.pathname} on:click={loadInternalLink}>
-              <img src={imgSrc($user.picture, 32)} alt="" />
-              <span class="label">{$user.username}</span>
+            <a href={$mainUser.pathname} on:click={loadInternalLink}>
+              <img src={imgSrc($mainUser.picture, 32)} alt="" />
+              <span class="label">{$mainUser.username}</span>
             </a>
           </li>
           {#if $screen.isSmallerThan('$small-screen')}

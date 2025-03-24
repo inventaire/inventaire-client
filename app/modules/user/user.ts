@@ -5,7 +5,7 @@ import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
-import initMainUser from './lib/init_main_user.ts'
+import { initMainUser } from './lib/main_user.ts'
 import userUpdate from './lib/user_update.ts'
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
     new Router({ controller })
 
-    initMainUser(app)
+    initMainUser()
     auth()
     userUpdate(app)
 

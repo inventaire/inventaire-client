@@ -1,26 +1,22 @@
 <script lang="ts">
   import { debounce } from 'underscore'
-  import app from '#app/app'
   import { config } from '#app/config'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { i18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser, updateUser } from '#user/lib/main_user'
 
   const name = 'anonymize'
   const { publicHost } = config
 
   let flash
 
-  let value = $user.settings.contributions.anonymize
+  let value = $mainUser.settings.contributions.anonymize
 
-  const updateSetting = () => {
+  async function updateSetting () {
     flash = null
     try {
-      app.request('user:update', {
-        attribute: 'settings.contributions.anonymize',
-        value,
-      })
+      await updateUser('settings.contributions.anonymize', value)
     } catch (err) {
       flash = err
     }
