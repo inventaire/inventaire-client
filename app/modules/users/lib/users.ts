@@ -85,8 +85,8 @@ export function getPicture (user: Partial<SerializedUser>) {
 
 export function setDistance (user) {
   if (user.distanceFromMainUser != null) return
-  if (!(app.user.has('position') && user.position)) return
-  const a = app.user.getCoords()
+  if (!(app.user.position && user.position)) return
+  const a = getCoords(app.user)
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
   user.kmDistanceFormMainUser = distance

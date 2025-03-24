@@ -6,7 +6,7 @@
   import Spinner from '#components/spinner.svelte'
   import { emailConfirmationRequest } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
 
   export let validEmail
 
@@ -39,8 +39,8 @@
             {@html icon('check')}
             {I18n('email_confirmation_success')}
           </p>
-          {#if $user._id}
-            <a href={$user.pathname} class="button dark-grey radius" on:click={onLinkClick}>
+          {#if $mainUser._id}
+            <a href={$mainUser.pathname} class="button dark-grey radius" on:click={onLinkClick}>
               {I18n('back to your inventory')}
             </a>
           {:else}
@@ -55,7 +55,7 @@
             {@html icon('bolt')}
             {I18n('email_confirmation_error')}
           </p>
-          {#if $user._id}
+          {#if $mainUser._id}
             <button class="button dark-grey radius" on:click={requestEmailConfirmation} disabled={requestingEmail != null}>
               {I18n('email_confirmation_error_button')}
               {#await requestingEmail}

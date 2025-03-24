@@ -1,6 +1,6 @@
 import Radio from 'backbone.radio'
 import assert_ from '#app/lib/assert_types'
-import { serverReportError } from '#app/lib/error'
+import { newError, serverReportError } from '#app/lib/error'
 import { objectEntries } from './lib/utils'
 
 export const channel = Radio.channel('global')
@@ -17,6 +17,10 @@ export const reqres = {
 }
 
 export function request (handlerKey, ...args) {
+  // @ts-expect-error
+  if (channel._requests == null) {
+    throw newError('radio request called before before handlers were set', 500, { handlerKey, args })
+  }
   // Prevent silent errors when a handler is called but hasn't been defined yet
   // @ts-expect-error "Property '_requests' does not exist on type 'Channel'": _requests is a pseudo-private attribute
   if (channel._requests[handlerKey] == null) {

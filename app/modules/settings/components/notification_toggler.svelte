@@ -1,6 +1,6 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
+  import { updateUser } from '#app/modules/user/lib/main_user'
   import { I18n } from '#user/lib/i18n'
 
   export let name
@@ -11,10 +11,7 @@
   const updateSetting = () => {
     flash = null
     try {
-      app.request('user:update', {
-        attribute: `settings.notifications.${name}`,
-        value,
-      })
+      updateUser(`settings.notifications.${name}`, value)
     } catch (err) {
       flash = err
     }

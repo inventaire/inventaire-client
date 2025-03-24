@@ -51,7 +51,7 @@ export default {
 }
 
 export async function showHome () {
-  if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
+  if (app.request('require:loggedIn', app.user.inventoryPathname)) {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
     $('#home').focus()

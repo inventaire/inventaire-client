@@ -96,7 +96,7 @@ export default function (app) {
 
   const getUserModelFromUsername = async username => {
     username = username.toLowerCase()
-    if (app.user.loggedIn && (username === app.user.get('username').toLowerCase())) {
+    if (app.user.loggedIn && (username === app.user.username.toLowerCase())) {
       return app.user
     }
 
