@@ -100,9 +100,9 @@ export function serializeTransaction (transaction) {
 
 export async function grabUsers (transaction) {
   if (transaction.mainUserIsOwner) {
-    transaction.owner = app.user.toJSON()
+    transaction.owner = app.user
   } else {
-    transaction.requester = app.user.toJSON()
+    transaction.requester = app.user
   }
 }
 

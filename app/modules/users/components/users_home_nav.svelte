@@ -4,14 +4,14 @@
   import { icon } from '#app/lib/icons'
   import { isOpenedOutside } from '#app/lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
 
   export let section
 
   function selectTab (e) {
     if (isOpenedOutside(e)) return
     section = e.currentTarget.id.replace('Tab', '')
-    if (section === 'user') app.navigate($user.pathname)
+    if (section === 'user') app.navigate($mainUser.pathname)
     else app.navigate(`users/${section}`)
     e.preventDefault()
   }
@@ -20,12 +20,12 @@
 <div id="tabs" class="tab-selected-{section}">
   <a
     id="userTab"
-    href={$user.pathname}
+    href={$mainUser.pathname}
     class:selected={section === 'user'}
     on:click={selectTab}
   >
-    <img class="avatar" alt="{$user.username} avatar" src={imgSrc($user.picture, 40)} />
-    <span class="label">{$user.username}</span>
+    <img class="avatar" alt="{$mainUser.username} avatar" src={imgSrc($mainUser.picture, 40)} />
+    <span class="label">{$mainUser.username}</span>
   </a>
   <a
     id="networkTab"

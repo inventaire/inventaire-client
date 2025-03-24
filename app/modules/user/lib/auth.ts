@@ -14,7 +14,7 @@ export async function requestSignup ({ username, email, password }) {
 
 export function passwordConfirmation (currentPassword) {
   // using the login route to verify the password validity
-  const username = app.user.get('username')
+  const username = app.user.username
   return login(username, currentPassword)
 }
 

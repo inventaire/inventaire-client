@@ -10,24 +10,21 @@
   import { domain } from '#app/lib/urls'
   import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { deleteMainUserAccount, mainUser, updateUser } from '#user/lib/main_user'
   import EmailValidation from './email_validation.svelte'
 
   let flashLang, flashEmail, flashDiscoverability
-  let fediversable = $user.fediversable
-  let poolActivities = $user.poolActivities
-  let userLang = $user.language
-  let emailValue = $user.email
+  let fediversable = $mainUser.fediversable
+  let poolActivities = $mainUser.poolActivities
+  let userLang = $mainUser.language
+  let emailValue = $mainUser.email
 
   const pickLanguage = async () => {
     flashLang = null
-    if (userLang === $user.language) return
+    if (userLang === $mainUser.language) return
     try {
       flashLang = { type: 'loading' }
-      await app.request('user:update', {
-        attribute: 'language',
-        value: userLang,
-      })
+      await updateUser('language', userLang)
       window.location.reload()
     } catch (err) {
       flashLang = err
@@ -38,7 +35,7 @@
     if (emailValue.trim() === '') return
     // email has been modified back to its original state
     // nothing to update and nothing to flash notify either
-    if ($user.email === emailValue) return
+    if ($mainUser.email === emailValue) return
     try {
       const res = await verifyEmailAvailability(emailValue)
       if (!(res.status === 'available')) {
@@ -56,15 +53,12 @@
 
   const updateEmail = async () => {
     flashEmail = null
-    if ($user.email === emailValue) {
+    if ($mainUser.email === emailValue) {
       return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
       flashEmail = { type: 'loading' }
-      await app.request('user:update', {
-        attribute: 'email',
-        value: emailValue,
-      })
+      await updateUser('email', emailValue)
       flashEmail = {
         type: 'success',
         message: I18n('new_confirmation_email'),
@@ -78,10 +72,7 @@
     flashDiscoverability = null
     fediversable = !fediversable
     try {
-      await app.request('user:update', {
-        attribute: 'fediversable',
-        value: fediversable,
-      })
+      await updateUser('fediversable', fediversable)
     } catch (err) {
       fediversable = !fediversable
       flashDiscoverability = err
@@ -92,10 +83,7 @@
     flashDiscoverability = null
     poolActivities = !poolActivities
     try {
-      await app.request('user:update', {
-        attribute: 'poolActivities',
-        value: poolActivities,
-      })
+      await updateUser('poolActivities', poolActivities)
     } catch (err) {
       poolActivities = !poolActivities
       flashDiscoverability = err
@@ -108,11 +96,11 @@
   })
 
   const deleteAccount = () => {
-    const args = { username: $user.username }
+    const args = { username: $mainUser.username }
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_account_confirmation', args),
       warningText: i18n('cant_undo_warning'),
-      action: app.user.deleteAccount.bind(app.user),
+      action: deleteMainUserAccount,
       formAction: sendDeletionFeedback,
       formLabel: "that would really help us if you could say a few words about why you're leaving:",
       formPlaceholder: "our love wasn't possible because",
@@ -144,7 +132,7 @@
     <p class="note">{I18n('email will not be publicly displayed.')}</p>
     <button class="light-blue-button" on:click={updateEmail}>{I18n('update email')}</button>
 
-    {#if !$user.validEmail}
+    {#if !$mainUser.validEmail}
       <EmailValidation />
     {/if}
 
@@ -156,7 +144,7 @@
 
   <fieldset>
     <h2 class="title">{I18n('discoverability')}</h2>
-    <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
+    <p class="note">{@html I18n('fediversable_description', { username: $mainUser.stableUsername, host: domain })}</p>
     <label class="inline">
       <input
         type="checkbox"

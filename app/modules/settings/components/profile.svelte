@@ -12,45 +12,38 @@
   import PicturePicker from '#components/picture_picker.svelte'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser, updateUser } from '#user/lib/main_user'
 
   let bioState, usernameState
-  let usernameValue = $user.username
-  let bioValue = $user.bio || ''
+  let usernameValue = $mainUser.username
+  let bioValue = $mainUser.bio || ''
 
   const showUsernameConfirmation = async () => {
-    if ($user.username === usernameValue) {
+    if ($mainUser.username === usernameValue) {
       usernameState = { type: 'info', message: 'this is already your username' }
       return
     }
     app.execute('ask:confirmation', {
-      confirmationText: i18n('username_change_confirmation', { currentUsername: $user.username, requestedUsername: usernameValue }),
+      confirmationText: i18n('username_change_confirmation', { currentUsername: $mainUser.username, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
       action: updateUsername,
     })
   }
 
-  const updateUsername = async () => {
+  async function updateUsername () {
     try {
-      await updateUserReq('username', usernameValue)
+      await updateUser('username', usernameValue)
     } catch (err) {
       usernameState = err
     }
   }
 
-  const doesUsernameCaseChange = () => $user.username.toLowerCase() === usernameValue.toLowerCase()
-
-  const updateUserReq = async (attribute, value) => {
-    return app.request('user:update', {
-      attribute,
-      value,
-    })
-  }
+  const doesUsernameCaseChange = () => $mainUser.username.toLowerCase() === usernameValue.toLowerCase()
 
   const validateUsername = async () => {
     usernameState = null
-    if ($user.username.toLowerCase() === usernameValue.toLowerCase()) {
+    if ($mainUser.username.toLowerCase() === usernameValue.toLowerCase()) {
       // username has been modfied back to its original state
       // nothing to update and nothing to notify either
       return
@@ -84,13 +77,13 @@
       bioState = newError(I18n('presentation cannot be longer than 1000 characters'), 400)
       return
     }
-    if (bioValue === $user.bio) {
+    if (bioValue === $mainUser.bio) {
       bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
     try {
       bioState = { type: 'loading', message: I18n('waiting') }
-      await updateUserReq('bio', bioValue)
+      await updateUser('bio', bioValue)
       bioState = { type: 'success', message: I18n('done') }
     } catch (err) {
       bioState = err
@@ -100,10 +93,10 @@
   let showPositionPicker, showPicturePicker
 
   async function savePicture (imageHash) {
-    await updateUserReq('picture', `/img/users/${imageHash}`)
+    await updateUser('picture', `/img/users/${imageHash}`)
   }
   async function deletePicture () {
-    await updateUserReq('picture', null)
+    await updateUser('picture', null)
   }
 
   $: onChange(usernameValue, validateUsername)
@@ -144,8 +137,8 @@
 
     <h3>{I18n('profile picture')}</h3>
     <div>
-      {#if $user.picture}
-        <img src={imgSrc($user.picture, 250, 250)} alt={i18n('profile picture')} />
+      {#if $mainUser.picture}
+        <img src={imgSrc($mainUser.picture, 250, 250)} alt={i18n('profile picture')} />
       {/if}
     </div>
 
@@ -155,15 +148,15 @@
 
     <h3>{I18n('location')}</h3>
     <p class="position-status">
-      {#if $user.position}
-        {I18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
+      {#if $mainUser.position}
+        {I18n('position is set to')}: {$mainUser.position[0]}, {$mainUser.position[1]}
       {:else}
         {I18n('no position set')}
       {/if}
     </p>
     <p class="note">{I18n('position_settings_description')}</p>
     <button class="light-blue-button" on:click={() => showPositionPicker = true}>
-      {#if $user.position}
+      {#if $mainUser.position}
         {I18n('change position')}
       {:else}
         {I18n('add a position')}
@@ -175,7 +168,7 @@
 {#if showPicturePicker}
   <Modal on:closeModal={() => showPicturePicker = false}>
     <PicturePicker
-      picture={$user.picture}
+      picture={$mainUser.picture}
       aspectRatio={1 / 1}
       imageContainer="users"
       {savePicture}
