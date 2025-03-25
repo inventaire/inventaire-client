@@ -289,6 +289,7 @@ export const infoboxPropertiesByType = {
     'wdt:P98', // editor
     'wdt:P112', // founded by
     'wdt:P127', // owned by
+    'wdt:P407', // language
     ...websites,
     'wdt:P921', // subject
   ],
