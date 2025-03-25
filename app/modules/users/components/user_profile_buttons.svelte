@@ -13,29 +13,31 @@
   import UserMarker from '#map/components/user_marker.svelte'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { user as mainUser } from '#user/user_store'
-  import { updateRelationStatus } from '#users/lib/relations'
-  import { serializeUser } from '#users/lib/users'
+  import { mainUser } from '#user/lib/main_user'
+  import { getUserRelationStatus, updateRelationStatus } from '#users/lib/relations'
+  import { type SerializedUser } from '#users/lib/users'
 
-  export let user
-  export let flash
+  export let user: SerializedUser
+  export let flash: FlashState = null
   export let displayUnselectButton = true
 
-  const { username, isMainUser, distanceFromMainUser } = serializeUser(user)
+  const { _id, username, distanceFromMainUser } = user
+  const isMainUser = _id === app.user.id
 
   let showShelfCreator, showUserOnMap
 
-  let relationState = user.status
+  let relationState = getUserRelationStatus(user._id)
 
-  let previousRelationState, waitingForUpdate
-  const makeRequest = async ({ action, newRelationState }) => {
-    previousRelationState = relationState
+  let waitingForUpdate
+  async function makeRequest ({ action, newRelationState }) {
     try {
       relationState = newRelationState
-      waitingForUpdate = await updateRelationStatus(user, action)
+      waitingForUpdate = updateRelationStatus(user, action)
+      await waitingForUpdate
     } catch (err) {
-      relationState = previousRelationState
       flash = err
+    } finally {
+      relationState = getUserRelationStatus(user._id)
     }
   }
 
@@ -162,7 +164,7 @@
   </Modal>
 {/if}
 
-{#if showUserOnMap}
+{#if 'position' in user && showUserOnMap}
   <Modal size="large" on:closeModal={() => showUserOnMap = false}>
     <div class="map">
       <LeafletMap bounds={[ user.position, $mainUser.position ]}>

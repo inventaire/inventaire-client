@@ -1,5 +1,4 @@
 import app from '#app/app'
-import { getGroupInvitations } from '../groups/lib/groups_data'
 
 export default {
   initialize () {
@@ -27,16 +26,4 @@ export default {
 const controller = {
   redirectToInventoryNetwork () { app.execute('show:inventory:network') },
   redirectToInventoryPublic () { app.execute('show:inventory:public') },
-}
-
-// TODO: introduce a 'read' flag on the relation document to stop counting
-// requests that were already seen.
-export async function getNetworkNotificationsCount () {
-  const [ groupsInvidations ] = await Promise.all([
-    getGroupInvitations(),
-    app.request('wait:for', 'relations'),
-  ])
-  const friendshipRequestsCount = app.relations?.otherRequested.length || 0
-  const mainUserInvitationsCount = groupsInvidations.length || 0
-  return friendshipRequestsCount + mainUserInvitationsCount
 }

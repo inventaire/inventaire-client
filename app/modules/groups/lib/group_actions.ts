@@ -109,7 +109,6 @@ export default {
 
   _postActionHooks (action) {
     this.trigger(`action:${action}`)
-    app.vent.trigger('network:requests:update')
   },
 
   revertMove (user, previousCategory, newCategory, err) {

@@ -10,6 +10,7 @@ import type { Host, RelativeUrl } from '#server/types/common'
 import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
 import type { AnonymizableUserId, Username } from '#server/types/user'
+import { relations } from './relations'
 import type { OverrideProperties } from 'type-fest'
 
 const { publicHost } = config
@@ -117,7 +118,7 @@ function getCoords (user) {
 export function setItemsCategory (user) {
   if (user._id === app.user.id) {
     user.itemsCategory = 'personal'
-  } else if (app.relations.network.includes(user._id)) {
+  } else if (relations.network.includes(user._id)) {
     user.itemsCategory = 'network'
   } else {
     user.itemsCategory = 'public'

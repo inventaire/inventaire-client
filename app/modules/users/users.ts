@@ -7,9 +7,9 @@ import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
-import { initRelations } from '#users/lib/relations'
 import { resolveToGroup } from '../groups/lib/groups.ts'
 import initHelpers from './helpers.ts'
+import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount } from './lib/users.ts'
 import initRequests from './requests.ts'
 import initUsersCollections from './users_collections.ts'
@@ -42,12 +42,6 @@ export default {
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
       'show:user:contributions': showUserContributions,
-    })
-
-    app.reqres.setHandlers({
-      // Refreshing relations can be useful
-      // to refresh notifications counters that depend on app.relations
-      'refresh:relations': initRelations,
     })
   },
 }
