@@ -5,7 +5,6 @@ import allowPersistantQuery from './allow_persistant_query.ts'
 
 export default function () {
   app.reqres.setHandlers({
-    'querystring:get': get,
     'querystring:get:all': getQuery,
     'querystring:keep': keep,
   })
@@ -16,7 +15,7 @@ export default function () {
   })
 }
 
-export const get = function (key) {
+export function getQuerystringParameter (key: string) {
   const value = getQuery()?.[key]
   // Parsing boolean strings
   if (value === 'true') return true
