@@ -13,7 +13,7 @@ import initHelpers from './helpers.ts'
 import { getLocalUserAccount } from './lib/users.ts'
 import initRequests from './requests.ts'
 import initUsersCollections from './users_collections.ts'
-import { getUserByAcct, getUserByUsername } from './users_data.ts'
+import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
 
 export default {
   initialize () {
@@ -115,25 +115,21 @@ const controller = {
 }
 
 interface ShowUsersHome {
-  user?: UserId
-  group?: string
+  user?: User | UserId | Username | UserAccountUri
+  group?: Group | GroupId | GroupSlug
   section?: 'public' | 'network'
   profileSection?: 'inventory' | 'listings'
-}
-
-interface UsersHomeLayoutProps{
-  user?: User
-  group?: Group
-  section: 'public' | 'network'
-  profileSection: 'inventory' | 'listings'
 }
 
 export async function showUsersHome ({ user, group, section, profileSection }: ShowUsersHome) {
   try {
     const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-    const props: UsersHomeLayoutProps = { section, profileSection }
-    if (user) props.user = await app.request('resolve:to:user', user)
-    if (group) props.group = await resolveToGroup(group)
+    const props = {
+      section,
+      profileSection,
+      user: user ? await resolveToUser(user) : undefined,
+      group: group ? await resolveToGroup(group) : undefined,
+    }
     app.layout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
     app.execute('show:error', err)

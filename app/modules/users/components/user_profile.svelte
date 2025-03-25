@@ -17,8 +17,9 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import ProfileNav from '#users/components/profile_nav.svelte'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
+  import type { SerializedUser } from '../lib/users'
 
-  export let user
+  export let user: SerializedUser
   export let shelf = null
   export let profileSection = null
   export let groupId = null
