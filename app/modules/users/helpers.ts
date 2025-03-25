@@ -3,7 +3,7 @@ import app from '#app/app'
 import { isModel, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { forceArray, objectEntries, objectValues } from '#app/lib/utils'
-import type { User, UserId } from '#server/types/user'
+import type { UserId } from '#server/types/user'
 import { serializeUser, type ServerUser } from '#users/lib/users'
 import usersData, { getUserByUsername, getUsersByIds } from './users_data.ts'
 

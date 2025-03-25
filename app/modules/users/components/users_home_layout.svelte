@@ -5,19 +5,20 @@
   import { resizeObserver } from '#app/lib/components/actions/resize_observer'
   import { getViewportHeight } from '#app/lib/screen'
   import { onChange } from '#app/lib/svelte/svelte'
+  import type { SerializedGroup } from '#app/modules/groups/lib/groups'
+  import { mainUser } from '#app/modules/user/lib/main_user'
   import GroupProfile from '#groups/components/group_profile.svelte'
-  import { user as mainUser } from '#user/user_store'
   import NetworkUsersNav from '#users/components/network_users_nav.svelte'
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import UsersHomeNav from '#users/components/users_home_nav.svelte'
-  import { serializeUser } from '#users/lib/users'
+  import { type SerializedUser } from '#users/lib/users'
 
-  export let user = null
-  export let group = null
+  export let user: SerializedUser = null
+  export let group: SerializedGroup = null
   export let shelf = null
-  export let section = null
-  export let profileSection = null
+  export let section: 'user' | 'public' | 'network' = null
+  export let profileSection: 'inventory' | 'listings' = null
   export let showShelfFollowers = null
   export let showUserFollowers = null
 
@@ -37,8 +38,7 @@
   }
 
   $: if (user) {
-    user = serializeUser(user)
-    if (user.deleted) app.execute('show:error:missing')
+    if ('deleted' in user && user.deleted) app.execute('show:error:missing')
   }
 
   if (user && user._id === app.user.id) section = 'user'
