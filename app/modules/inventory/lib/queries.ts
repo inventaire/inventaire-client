@@ -4,6 +4,7 @@ import app from '#app/app'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { getRelations } from '#app/modules/users/lib/relations'
 import Items from '#inventory/collections/items'
 import Item from '#inventory/models/item'
 import { serializeUser } from '#users/lib/users'
@@ -97,8 +98,7 @@ export async function getUserItems (params) {
 }
 
 const getNetworkItems = async params => {
-  await app.request('wait:for', 'relations')
-  const { network: networkIds } = app.relations
+  const { network: networkIds } = await getRelations()
   return makeRequestAlt(params, 'byUsers', networkIds)
 }
 

@@ -1,3 +1,4 @@
+import { derived, writable } from 'svelte/store'
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
@@ -7,20 +8,18 @@ import type { Notification } from '#server/types/notification'
 let waitForNotifications
 export let notifications: Notification[] = []
 
+export const notificationsStore = writable(notifications)
+
 async function _getNotificationsData () {
   if (!app.user.loggedIn) return
   const { notifications: userNotifications } = await preq.get(API.notifications)
   notifications = userNotifications
+  notificationsStore.set(notifications)
 }
 
 export async function getNotificationsData () {
   waitForNotifications ??= _getNotificationsData()
   return notifications
-}
-
-export async function getNotificationsUnreadCount () {
-  await getNotificationsData()
-  return notifications.filter(notification => notification.status === 'unread').length
 }
 
 export function getNotificationText (type: Notification['type'], attribute?: string, newValue?: boolean) {
@@ -52,5 +51,11 @@ export async function markNotificationsAsRead (notifications: Notification[]) {
   notifications = notifications.filter(notification => notification.status === 'unread')
   if (notifications.length === 0) return
   const times = pluck(notifications, 'time')
-  return preq.post(API.notifications, { times })
+  await preq.post(API.notifications, { times })
+  notifications.forEach(notification => { notification.status = 'read' })
+  notificationsStore.set(notifications)
 }
+
+export const unreadNotificationsCount = derived(notificationsStore, $notificationsStore => {
+  return $notificationsStore.filter(notification => notification.status === 'unread').length
+})

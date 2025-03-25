@@ -11,15 +11,14 @@
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
+  import { getFriends } from '../lib/relations'
 
   export let focusedSection
 
   let flash, users, groups
 
-  app.request('fetch:friends')
-    .then(() => {
-      users = app.users.filtered.friends().toJSON()
-    })
+  getFriends()
+    .then(friends => users = friends)
     .catch(err => flash = err)
 
   getUserGroups()

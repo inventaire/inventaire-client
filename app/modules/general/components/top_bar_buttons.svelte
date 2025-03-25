@@ -4,29 +4,19 @@
   import { screen } from '#app/lib/components/stores/screen'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
-  import log_ from '#app/lib/loggers'
   import { loadInternalLink } from '#app/lib/utils'
-  import { getNetworkNotificationsCount } from '#app/modules/network/network'
-  import { getNotificationsUnreadCount } from '#app/modules/notifications/lib/notifications'
+  import { userGroupsInvitationsCount } from '#app/modules/groups/lib/groups_data'
+  import { unreadNotificationsCount } from '#app/modules/notifications/lib/notifications'
+  import { friendshipRequestsCount } from '#app/modules/users/lib/relations'
   import Dropdown from '#components/dropdown.svelte'
   import IconWithCounter from '#components/icon_with_counter.svelte'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
 
-  // TODO: replace by global stores
-  let notificationsUpdates = 0
+  $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
 
   const unreadTransactionsCountStore = getUnreadTransactionsCountStore()
-
-  Promise.all([
-    getNotificationsUnreadCount(),
-    getNetworkNotificationsCount(),
-  ])
-    .then(([ unreadNotifications, networkRequestsCount ]) => {
-      notificationsUpdates = unreadNotifications + networkRequestsCount
-    })
-    .catch(log_.Error('getNetworkNotificationsCount error'))
 </script>
 
 <div class="inner-top-bar-buttons">
