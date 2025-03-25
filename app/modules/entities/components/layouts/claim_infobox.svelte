@@ -3,6 +3,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { localizeDateString } from '#entities/lib/localize_date_string'
   import { I18n } from '#user/lib/i18n'
   import ClaimValue from './claim_value.svelte'
 
@@ -19,13 +20,16 @@
 
   // Known case: values = [ '1954-07-29', '1954' ]
   // Assumptions: longest date is more precice and more accurate than shorter one
-  const findLongestDate = values => [ max(values, v => v.length) ]
 
-  if (propertiesType[prop] === 'timeClaim' && values && values.length > 1) {
-    values = findLongestDate(values)
+  const findLongestValue = values => max(values, v => v.length)
+
+  let serializedValues = values
+  if (propertiesType[prop] === 'timeClaim' && values) {
+    const dateString = findLongestValue(values)
+    serializedValues = [ localizeDateString(dateString) ]
   }
 </script>
-{#if values && isNonEmptyArray(values)}
+{#if serializedValues && isNonEmptyArray(serializedValues)}
   <div class="claim">
     {#if !omitLabel}
       <span class="property">
@@ -33,12 +37,12 @@
       </span>
     {/if}
     <span class="values">
-      {#each values as value, i}
+      {#each serializedValues as value, i}
         <ClaimValue
           {value}
           {prop}
           entity={entitiesByUris[value]}
-        />{#if i !== values.length - 1},&nbsp;{/if}
+        />{#if i !== serializedValues.length - 1},&nbsp;{/if}
       {/each}
     </span>
   </div>
