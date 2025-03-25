@@ -1,7 +1,9 @@
+import { isString } from 'underscore'
 import app from '#app/app'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import type { Group } from '#server/types/group'
+import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
@@ -106,8 +108,8 @@ const controller = {
     app.execute('show:user:items:by:entity', username, uri)
   },
   showUserContributionsFromRoute (idOrUsername) {
-    const filter = app.request('querystring:get', 'filter')
-    showUserContributions(idOrUsername, filter)
+    const filter = getQuerystringParameter('filter')
+    showUserContributions(idOrUsername, isString(filter) ? filter : undefined)
   },
   showLatestUsers,
 }

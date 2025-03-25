@@ -2,6 +2,7 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import { host } from '#app/lib/urls'
 import { dropLeadingSlash } from '#app/lib/utils'
+import { getQuerystringParameter } from '../querystring_helpers'
 
 const absolutePath = url => {
   if (url?.[0] === '/') {
@@ -27,7 +28,7 @@ export const transformers = {
 
     // Preserver parameters that make a resource different enough,
     // that the prerendered version returned should be different
-    const lang = app.request('querystring:get', 'lang') || app.user?.lang || 'en'
+    const lang = getQuerystringParameter('lang') || app.user?.lang || 'en'
     url += `?lang=${lang}`
 
     return url

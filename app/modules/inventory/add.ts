@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { getDevicesInfo } from '#app/lib/has_video_input'
+import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import initAddHelpers from './lib/add_helpers.ts'
 
 export default {
@@ -28,8 +29,8 @@ const controller = {
     showAddLayout('scan')
   },
   showImport () {
-    let isbns = app.request('querystring:get', 'isbns')
-    if (isbns) isbns = isbns.split('|')
+    const isbnsStr = getQuerystringParameter('isbns')
+    const isbns = typeof isbnsStr === 'string' ? isbnsStr.split('|') : undefined
     showAddLayout('import', { isbns })
   },
   async showEmbeddedScanner () {
