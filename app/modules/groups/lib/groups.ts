@@ -1,8 +1,8 @@
 import { findWhere, pluck, without } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import { isGroupId } from '#app/lib/boolean_tests'
-import { formatAndThrowError } from '#app/lib/error'
+import { isGroupId, isModel } from '#app/lib/boolean_tests'
+import { formatAndThrowError, newError } from '#app/lib/error'
 import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -247,13 +247,20 @@ export function serializeGroupUser (group) {
 }
 
 export async function resolveToGroup (group: Group | GroupId | GroupSlug) {
-  if (typeof group === 'string') {
-    if (isGroupId(group)) {
-      return getGroupById(group)
-    } else {
-      return getGroupBySlug(group)
-    }
-  } else {
-    return group
+  let resolvedGroup
+  if (isModel(group)) {
+    // Transition helper: let getGroupById get a SerializedGroup instead of using the model data
+    group = group.id as GroupId
   }
+  if (typeof group === 'object' && '_id' in group) {
+    resolvedGroup = group
+  } else if (typeof group === 'string') {
+    if (isGroupId(group)) {
+      resolvedGroup = await getGroupById(group)
+    } else {
+      resolvedGroup = await getGroupBySlug(group)
+    }
+  }
+  if (resolvedGroup) return serializeGroup(resolvedGroup)
+  else throw newError('can not resolve group', 500, { group })
 }

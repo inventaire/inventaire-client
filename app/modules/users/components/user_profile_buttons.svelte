@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
   import assert_ from '#app/lib/assert_types'
+  import type { FlashState } from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'

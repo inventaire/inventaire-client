@@ -1,5 +1,6 @@
 import { uniq } from 'underscore'
 import { API } from '#app/api/api'
+import { isModel, isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq, { treq } from '#app/lib/preq'
@@ -77,4 +78,24 @@ export async function getUserByAcct (userAcct: UserAccountUri) {
   const user = users[userAcct]
   if (!user) throw newError('user not found', 404, { userAcct })
   return user
+}
+
+export async function resolveToUser (user: User | UserId | Username) {
+  let resolvedUser
+  if (isModel(user)) {
+    // Transition helper: let getUserById get a SerializedUser instead of using the model data
+    user = user.id as UserId
+  }
+  if (typeof user === 'object' && '_id' in user) {
+    resolvedUser = user
+  } else if (isUserId(user)) {
+    resolvedUser = await getUserById(user)
+  } else if (isUserAcct(user)) {
+    const contributor = await getUserByAcct(user)
+    if (contributor._id) resolvedUser = await getUserById(user)
+  } else if (typeof user === 'string') {
+    resolvedUser = await getUserByUsername(user)
+  }
+  if (resolvedUser) return serializeUser(resolvedUser)
+  else throw newError('can not resolve user', 500, { user })
 }

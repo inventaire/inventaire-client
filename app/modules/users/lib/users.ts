@@ -33,6 +33,9 @@ export interface SerializedUserExtra {
 
 export interface SerializedUserOverrides {
   picture: UserImagePath | AssetImagePath
+  bio: string | undefined
+  created: EpochTimeStamp | undefined
+  fediversable: boolean | undefined
 }
 
 // @ts-expect-error picture override conflicts with `picture: never` from DeletedUser and such
@@ -49,9 +52,11 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
   special: boolean
   deleted: boolean
   picture: UserImagePath | AssetImagePath
+  distanceFromMainUser?: number
 }
 
-export function serializeUser (user: ServerUser & Partial<SerializedUser>) {
+export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
+  if ('pathname' in user) return user as SerializedUser
   user.isMainUser = user._id === app.user.id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
