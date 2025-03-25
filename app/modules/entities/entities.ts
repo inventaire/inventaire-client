@@ -5,6 +5,7 @@ import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import type { WdEntityUri, EntityUri } from '#server/types/entity'
@@ -41,7 +42,7 @@ export default {
 
 const controller = {
   async showEntity (uri, params?) {
-    const refresh = params?.refresh || app.request('querystring:get', 'refresh') || entityDataShouldBeRefreshed(uri)
+    const refresh = params?.refresh || getQuerystringParameter('refresh') || entityDataShouldBeRefreshed(uri)
     if (refresh) startRefreshTimeSpan(uri)
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
