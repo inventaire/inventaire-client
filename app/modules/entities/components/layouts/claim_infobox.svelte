@@ -3,7 +3,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import ClaimValue from './claim_value.svelte'
 
   export let prop
@@ -29,7 +29,7 @@
   <div class="claim">
     {#if !omitLabel}
       <span class="property">
-        {i18n(propertyLabelI18nKey)}:&nbsp;
+        {I18n(propertyLabelI18nKey)}:&nbsp;
       </span>
     {/if}
     <span class="values">

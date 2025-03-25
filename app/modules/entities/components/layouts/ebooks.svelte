@@ -4,7 +4,7 @@
   import Link from '#app/lib/components/link.svelte'
   import { getWikisourceData } from '#app/lib/wikimedia/sitelinks'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
-  import { i18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity
 
@@ -25,7 +25,7 @@
 </script>
 {#if isNonEmptyArray(ebooksData) || wikisourceLink}
   <div class="ebooks">
-    <span>{i18n('ebooks')}:</span>
+    <span>{I18n('ebooks')}:</span>
     {#each ebooksData as value}
       <Link
         url={value.url}
