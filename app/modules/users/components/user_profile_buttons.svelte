@@ -1,16 +1,17 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
-  import assert_ from '#app/lib/assert_types'
   import type { FlashState } from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'
+  import type { RelationAction } from '#server/controllers/relations/actions'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
@@ -29,7 +30,7 @@
   let relationState = getUserRelationStatus(user._id)
 
   let waitingForUpdate
-  async function makeRequest ({ action, newRelationState }) {
+  async function makeRequest ({ action, newRelationState }: { action: RelationAction, newRelationState: string }) {
     try {
       relationState = newRelationState
       waitingForUpdate = updateRelationStatus(user, action)
@@ -43,27 +44,25 @@
 
   const unfriend = () => {
     confirmAction('unfriend', () => {
-      makeRequest({ action: 'unfriend', newRelationState: 'none' })
+      return makeRequest({ action: 'unfriend', newRelationState: 'none' })
     })
   }
   const cancelFriendRequest = () => {
-    makeRequest({ action: 'cancel', newRelationState: 'none' })
+    return makeRequest({ action: 'cancel', newRelationState: 'none' })
   }
   const acceptFriendRequest = () => {
-    makeRequest({ action: 'accept', newRelationState: 'friends' })
+    return makeRequest({ action: 'accept', newRelationState: 'friends' })
   }
   const discardFriendRequest = () => {
-    makeRequest({ action: 'discard', newRelationState: 'none' })
+    return makeRequest({ action: 'discard', newRelationState: 'none' })
   }
   const sendFriendRequest = () => {
-    makeRequest({ action: 'request', newRelationState: 'userRequested' })
+    return makeRequest({ action: 'request', newRelationState: 'userRequested' })
   }
 
-  function confirmAction (actionLabel: string, action: (() => void), warningText?: string) {
-    assert_.string(actionLabel)
-    assert_.function(action)
+  function confirmAction (actionLabel: string, action: (() => Promise<void>), warningText?: string) {
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })
-    app.execute('ask:confirmation', { confirmationText, warningText, action })
+    askConfirmation({ confirmationText, warningText, action })
   }
   const dispatch = createEventDispatcher()
 </script>

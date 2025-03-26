@@ -5,9 +5,10 @@ import assert_ from '#app/lib/assert_types'
 import { isCouchUuid, isModel } from '#app/lib/boolean_tests'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { askConfirmation } from '#general/lib/confirmation_modal'
 import Item from '#inventory/models/item'
 import type { ItemId } from '#server/types/item'
-import { I18n, i18n } from '#user/lib/i18n'
+import { I18n } from '#user/lib/i18n'
 import { getItemById } from './items'
 
 export default {
@@ -74,14 +75,14 @@ export default {
       } else {
         title = item.snapshot?.['entity:title']
       }
-      confirmationText = i18n('delete_item_confirmation', { title })
+      confirmationText = I18n('delete_item_confirmation', { title })
     } else {
-      confirmationText = i18n('delete_items_confirmation', { amount: ids.length })
+      confirmationText = I18n('delete_items_confirmation', { amount: ids.length })
     }
 
     const warningText = I18n('cant_undo_warning')
 
-    app.execute('ask:confirmation', { confirmationText, warningText, action, back })
+    askConfirmation({ confirmationText, warningText, action, back })
   },
 }
 
