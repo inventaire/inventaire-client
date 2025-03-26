@@ -1,16 +1,15 @@
-import { isString, isArray } from 'underscore'
+import { isString } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
-import { removeCurrentComponent } from '#app/lib/global_libs_extender'
 import { parseQuery, buildPath } from '#app/lib/location'
-import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { showUsersHome } from '#users/users'
-import itemActions from './lib/item_actions.ts'
-import initQueries from './lib/queries.ts'
+import { resolveToUser } from '../users/users_data.ts'
+import { getItemsByUserIdAndEntities, getNearbyItems, getNetworkItems } from './lib/queries.ts'
 import showItemCreationForm from './lib/show_item_creation_form.ts'
+import type { SerializedItemWithUserData } from './lib/items.ts'
 
 export default {
   initialize () {
@@ -31,7 +30,6 @@ export default {
 
     new Router({ controller })
 
-    initQueries(app)
     initializeInventoriesHandlers(app)
   },
 }
@@ -47,7 +45,7 @@ const controller = {
       controller.showUserInventory(app.user.id)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
-      return $('#home').focus()
+      ;(document.querySelector('#home') as HTMLElement).focus()
     }
   },
 
@@ -88,56 +86,45 @@ const controller = {
     showItem({ itemId: id, regionName: 'main' })
   },
 
-  showUserItemsByEntity (username, uri, label?) {
-    const pathname = `/users/${username}/inventory/${uri}`
-    if (!isUsername(username) || !isEntityUri(uri)) {
-      return app.execute('show:error:missing', { pathname })
+  async showUserItemsByEntity (username, uri, label?) {
+    try {
+      const user = await resolveToUser(username)
+      username = user.username
+      const pathname = `/users/${username}/inventory/${uri}`
+      if (!isUsername(username) || !isEntityUri(uri)) {
+        return app.execute('show:error:missing', { pathname })
+      }
+
+      const title = label ? `${label} - ${username}` : `${uri} - ${username}`
+
+      app.execute('show:loader')
+      app.navigate(pathname, { metadata: { title } })
+
+      const items = await getItemsByUserIdAndEntities(user._id, uri)
+      await showItems(items)
+    } catch (err) {
+      app.execute('show:error', err)
     }
-
-    const title = label ? `${label} - ${username}` : `${uri} - ${username}`
-
-    app.execute('show:loader')
-    app.navigate(pathname, { metadata: { title } })
-
-    return app.request('get:userId:from:username', username)
-    .then(userId => app.request('items:getByUserIdAndEntities', userId, uri))
-    .then(showItemsFromModels)
-    .catch(log_.Error('showItemShowFromUserAndEntity'))
   },
 }
 
-const showItemsFromModels = function (items) {
-  // Accept either an items collection or an array of items models
-  if (isArray(items)) items = new Backbone.Collection(items)
-
-  if (items?.length == null) {
-    throw new Error('shouldnt be at least an empty array here?')
-  }
-
+async function showItems (items: SerializedItemWithUserData[]) {
   if (items.length === 0) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
-    const item = items.models[0]
-    showItem({ itemId: item._id })
+    const item = items[0]
+    await showItem({ itemId: item._id })
   } else {
-    showItemsList(items)
+    await showItemsList(items)
   }
 }
 
-const showItemsList = async collection => {
+async function showItemsList (items: SerializedItemWithUserData[]) {
   const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
   app.layout.showChildComponent('main', ItemsCascade, {
     props: {
-      items: getItemsListFromItemsCollection(collection),
+      items,
     },
-  })
-}
-
-export const getItemsListFromItemsCollection = collection => {
-  return collection.models.map(model => {
-    const item = model.toJSON()
-    item.user = model.user.toJSON()
-    return item
   })
 }
 
@@ -147,7 +134,7 @@ interface ShowItem {
   pathnameAfterClosingModal?: string
 }
 
-const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal }: ShowItem) => {
+async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModal }: ShowItem) {
   try {
     assert_.string(itemId)
     const pathname = `/items/${itemId}`
@@ -162,7 +149,8 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
           item,
           user,
           pathnameAfterClosingModal,
-          autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName)),
+          // TODO: fix
+          // autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName)),
         },
       })
     } else {
@@ -200,24 +188,10 @@ const initializeInventoriesHandlers = function (app) {
     'show:item:creation:form': showItemCreationForm,
 
     'show:item': showItem,
-    'show:item:byId': controller.showItemFromId,
   })
 
   app.reqres.setHandlers({
-    'items:update': itemActions.update,
-    'items:delete': itemActions.delete,
-    'item:create': itemActions.create,
-    'item:main:user:entity:items': async entityUri => {
-      const { models } = await app.request('items:getByUserIdAndEntities', app.user.id, entityUri)
-      return models
-    },
-    'item:update:entity': async (item, entity) => {
-      await itemActions.update({
-        item,
-        attribute: 'entity',
-        value: entity.get('uri'),
-      })
-      app.execute('show:item:byId', item.get('_id'))
-    },
+    'items:getNearbyItems': getNearbyItems,
+    'items:getNetworkItems': getNetworkItems,
   })
 }

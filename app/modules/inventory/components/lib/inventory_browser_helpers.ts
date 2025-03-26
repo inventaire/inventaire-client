@@ -6,6 +6,7 @@ import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { getItemsByIds } from '#inventory/lib/queries'
 import type { CouchDoc } from '#server/types/couchdb'
 
 export async function getSelectorsData ({ worksTree }) {
@@ -150,7 +151,7 @@ export function resetPagination (itemsIds) {
       fetching = true
       const batch = remainingItems.splice(0, 20)
       if (batch.length > 0) {
-        await app.request('items:getByIds', { ids: batch, items })
+        await getItemsByIds({ ids: batch, items })
       }
       pagination.items = items
       fetching = false

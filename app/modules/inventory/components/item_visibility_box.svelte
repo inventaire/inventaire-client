@@ -1,15 +1,17 @@
 <script lang="ts">
   import { debounce, isEqual } from 'underscore'
-  import app from '#app/app'
+  import type { FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { updateItems } from '#inventory/lib/item_actions'
+  import type { SerializedItem } from '#inventory/lib/items'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let item
-  export let flash
+  export let item: SerializedItem
+  export let flash: FlashState = null
   export let large = false
   export let dropdownWidthReferenceEl = null
 
@@ -20,7 +22,7 @@
   async function save () {
     try {
       if (isEqual(savedVisibility, visibility)) return
-      await app.request('items:update', {
+      await updateItems({
         items: [ item ],
         attribute: 'visibility',
         value: visibility,
