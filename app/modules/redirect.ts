@@ -4,6 +4,7 @@ import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#app/lib/metadata/update'
+import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
 import { showMainUserProfile } from '#users/users'
 
@@ -207,7 +208,7 @@ const showErrorCookieRequired = (command: string) => showError({
   },
 })
 
-interface ShowErrorOptions {
+export interface ShowErrorOptions {
   name: string
   icon: string
   header: string
@@ -219,12 +220,16 @@ interface ShowErrorOptions {
     text: string
     classes: string
     buttonAction: () => void
+    href?: Url
   }
 }
+
 async function showError (options: ShowErrorOptions) {
-  const { default: ErrorView } = await import('#general/views/error')
+  const { default: ErrorLayout } = await import('#general/components/error_layout.svelte')
   app.execute('modal:close')
-  app.layout.showChildView('main', new ErrorView(options))
+  app.layout.showChildComponent('main', ErrorLayout, {
+    props: options,
+  })
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
