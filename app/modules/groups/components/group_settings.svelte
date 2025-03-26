@@ -11,6 +11,7 @@
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
   import Spinner from '#components/spinner.svelte'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import GroupOpenness from '#groups/components/group_openness.svelte'
   import GroupSearchability from '#groups/components/group_searchability.svelte'
   import GroupUrl from '#groups/components/group_url.svelte'
@@ -99,9 +100,9 @@
   }
 
   async function deleteGroup () {
-    app.execute('ask:confirmation', {
-      confirmationText: i18n('delete_group_confirmation', { groupName: name }),
-      warningText: i18n('cant_undo_warning'),
+    askConfirmation({
+      confirmationText: I18n('delete_group_confirmation', { groupName: name }),
+      warningText: I18n('cant_undo_warning'),
       action: async () => {
         await leaveGroup({ groupId })
         // Change page as staying on the same page would just display
@@ -112,9 +113,9 @@
   }
 
   async function _leaveGroup () {
-    app.execute('ask:confirmation', {
+    askConfirmation({
       confirmationText: i18n('leave_group_confirmation', { groupName: name }),
-      warningText: i18n('leave_group_warning'),
+      warningText: I18n('leave_group_warning'),
       action: async () => {
         await leaveGroup({ groupId })
         app.navigateAndLoad(pathname)

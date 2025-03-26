@@ -5,6 +5,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import Spinner from '#general/components/spinner.svelte'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
   import { showMainUserListings } from '#listings/listings'
@@ -69,9 +70,9 @@
   }
 
   async function askListDeletionConfirmation () {
-    app.execute('ask:confirmation', {
-      confirmationText: i18n('delete_list_confirmation', { name }),
-      warningText: i18n('cant_undo_warning'),
+    askConfirmation({
+      confirmationText: I18n('delete_list_confirmation', { name }),
+      warningText: I18n('cant_undo_warning'),
       action: _deleteListing,
     })
   }

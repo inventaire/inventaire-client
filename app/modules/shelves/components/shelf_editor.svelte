@@ -7,6 +7,7 @@
   import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
   import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -48,9 +49,9 @@
     }
   }
   async function askShelfDeletionConfirmation () {
-    app.execute('ask:confirmation', {
-      confirmationText: i18n('delete_shelf_confirmation', { name }),
-      warningText: i18n('cant_undo_warning'),
+    askConfirmation({
+      confirmationText: I18n('delete_shelf_confirmation', { name }),
+      warningText: I18n('cant_undo_warning'),
       action: _deleteShelf,
     })
   }

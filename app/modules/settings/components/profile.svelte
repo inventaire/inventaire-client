@@ -1,6 +1,5 @@
 <script lang="ts">
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { newError } from '#app/lib/error'
@@ -10,6 +9,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { mainUser, updateUser } from '#user/lib/main_user'
@@ -23,7 +23,7 @@
       usernameState = { type: 'info', message: 'this is already your username' }
       return
     }
-    app.execute('ask:confirmation', {
+    askConfirmation({
       confirmationText: i18n('username_change_confirmation', { currentUsername: $mainUser.username, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
