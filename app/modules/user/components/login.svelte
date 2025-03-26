@@ -123,7 +123,7 @@
         disabled={usernameFlash || passwordFlash || loginFlash || loggingIn}
       >
         {i18n('login_verb')}
-        {#if loggingIn}<Spinner />{/if}
+        {#if loggingIn}<Spinner light={true} />{/if}
       </button>
     </form>
 

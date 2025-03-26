@@ -123,7 +123,7 @@
       disabled={usernameFlash || emailFlash || passwordFlash || signupFlash || signingUp}
     >
       {i18n('signup_verb')}
-      {#if signingUp}<Spinner />{/if}
+      {#if signingUp}<Spinner light={true} />{/if}
     </button>
 
     <hr />
