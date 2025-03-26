@@ -1,8 +1,10 @@
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
-import { isModel, isShelfId } from '#app/lib/boolean_tests'
+import { isShelfId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import { getById, getShelfMetadata } from './lib/shelves.ts'
+import type { Shelf, ShelfId } from '#server/types/shelf'
+import { resolveToUser } from '../users/users_data.ts'
+import { getShelfById, getShelfMetadata } from './lib/shelves.ts'
 
 export default {
   initialize () {
@@ -17,17 +19,13 @@ export default {
     })
 
     new Router({ controller })
-
-    app.commands.setHandlers({
-      'show:shelf': showShelf,
-    })
   },
 }
 
-async function showShelfFromId (shelfId) {
+async function showShelfFromId (shelfId: ShelfId) {
   try {
     assert_.string(shelfId)
-    const shelf = await getById(shelfId)
+    const shelf = await getShelfById(shelfId)
     if (shelf != null) {
       return showShelf(shelf)
     } else {
@@ -57,16 +55,15 @@ const controller = {
   },
 }
 
-async function showShelf (shelf) {
+export async function showShelf (shelf: ShelfId | Shelf) {
   if (isShelfId(shelf)) return controller.showShelfFromId(shelf)
-  if (isModel(shelf)) shelf = shelf.toJSON()
   const { owner } = shelf
   const [
     { default: UsersHomeLayout },
     user,
   ] = await Promise.all([
     import('#users/components/users_home_layout.svelte'),
-    app.request('resolve:to:user', owner),
+    resolveToUser(owner),
   ])
   // Passing shelf to display items and passing owner for user profile info
   app.layout.showChildComponent('main', UsersHomeLayout, {
@@ -87,9 +84,9 @@ async function showShelfFollowers (shelfId) {
       shelf,
     ] = await Promise.all([
       import('#users/components/users_home_layout.svelte'),
-      getById(shelfId),
+      getShelfById(shelfId),
     ])
-    const user = await app.request('resolve:to:user', shelf.owner)
+    const user = await resolveToUser(shelf.owner)
     app.layout.showChildComponent('main', UsersHomeLayout, {
       props: {
         shelf,
