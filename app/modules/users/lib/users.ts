@@ -3,13 +3,15 @@ import { config } from '#app/config'
 import assert_ from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
+import { countListings } from '#app/modules/listings/lib/listings'
+import { countShelves } from '#app/modules/shelves/lib/shelves'
 import { distanceBetween } from '#map/lib/geo'
 import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
 import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { Host, RelativeUrl } from '#server/types/common'
 import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
-import type { AnonymizableUserId, Username } from '#server/types/user'
+import type { AnonymizableUserId, SnapshotVisibilitySection, Username } from '#server/types/user'
 import { relations } from './relations'
 import type { OverrideProperties } from 'type-fest'
 
@@ -30,6 +32,10 @@ export interface SerializedUserExtra {
   listingsPathname: RelativeUrl
   contributionsPathname: RelativeUrl
   acct?: UserAccountUri
+  itemsCount?: number
+  itemsLastAdded?: EpochTimeStamp
+  shelvesCount?: number
+  listingsCount?: number
 }
 
 export interface SerializedUserOverrides {
@@ -167,4 +173,37 @@ export function getPositionUrl (user) {
 export function getLocalUserAccount (anonymizableId: AnonymizableUserId) {
   assert_.string(anonymizableId)
   return `${anonymizableId}@${publicHost}` as UserAccountUri
+}
+
+export async function setInventoryStats (user: SerializedUser) {
+  const created = user.created || 0
+  // Make lastAdd default to the user creation date
+  let data = { itemsCount: 0, lastAdd: created }
+
+  // Known case of missing snapshot data: deleted users, user documents return from search
+  const snapshot = 'snapshot' in user ? user.snapshot : null
+  if (snapshot != null) {
+    // @ts-ignore
+    data = Object.values(snapshot).reduce(aggregateScoreData, data)
+  }
+
+  const { itemsCount, lastAdd } = data
+  // Setting those as model attributes
+  // so that updating them trigger a model 'change' event
+  user.itemsCount = itemsCount
+  user.itemsLastAdded = lastAdd
+
+  const [ shelvesCount, listingsCount ] = await Promise.all([
+    countShelves(user._id),
+    countListings(user._id),
+  ])
+  user.shelvesCount = shelvesCount
+  user.listingsCount = listingsCount
+}
+
+function aggregateScoreData (data: { itemsCount: number, lastAdd: EpochTimeStamp }, snapshotSection: SnapshotVisibilitySection) {
+  const { 'items:count': count, 'items:last-add': lastAdd } = snapshotSection
+  data.itemsCount += count
+  if (lastAdd > data.lastAdd) data.lastAdd = lastAdd
+  return data
 }

@@ -17,7 +17,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import ProfileNav from '#users/components/profile_nav.svelte'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
-  import type { SerializedUser } from '../lib/users'
+  import { setInventoryStats, type SerializedUser } from '../lib/users'
 
   export let user: SerializedUser
   export let shelf = null
@@ -33,8 +33,6 @@
     username,
     bio,
     picture,
-    inventoryLength,
-    shelvesCount,
     created,
     fediversable,
   } = user
@@ -42,6 +40,14 @@
   const { hasAdminAccess: mainUserHasAdminAccess } = app.user
 
   let flash, userProfileEl, followersCount, waitingForFollowersCount
+
+  let itemsCount, shelvesCount
+
+  setInventoryStats(user)
+    .then(() => {
+      ;({ itemsCount, shelvesCount } = user)
+    })
+    .catch(err => flash = err)
 
   async function onFocus () {
     if (!userProfileEl) await tick()
@@ -127,10 +133,10 @@
           {/if}
         </h2>
         <ul class="data">
-          {#if inventoryLength != null}
+          {#if itemsCount != null}
             <li class="inventory-length">
               <span>{@html icon('book')}{i18n('books')}</span>
-              <span class="count">{inventoryLength}</span>
+              <span class="count">{itemsCount}</span>
             </li>
           {/if}
           {#if shelvesCount != null}
