@@ -1,56 +1,23 @@
-import { isArray, flatten, indexBy } from 'underscore'
+import { indexBy } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
-import { newError } from '#app/lib/error'
-import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
-import { getRelations } from '#app/modules/users/lib/relations'
-import Items from '#inventory/collections/items'
-import Item from '#inventory/models/item'
+import { getRelations } from '#modules/users/lib/relations'
+import type { EntityUri } from '#server/types/entity'
+import type { UserId } from '#server/types/user'
 import { serializeUser } from '#users/lib/users'
+import { serializeItem, setItemUserData, type SerializedItemWithUserData } from './items'
 
-const getById = async id => {
-  const ids = [ id ]
-
-  const { items, users } = await preq.get(API.items.byIds({ ids, includeUsers: true }))
-    .catch(log_.ErrorRethrow('findItemById err'))
-
-  const item = items[0]
-
-  if (item != null) {
-    app.execute('users:add', users)
-    return new Item(item)
-  } else {
-    throw newError('not found', 404, id)
-  }
+export async function getItemsByUserIdAndEntities (userId: UserId, uris: EntityUri | EntityUri[]) {
+  const { items, users } = await preq.get(API.items.byUserAndEntities(userId, uris, true))
+  const serializedUsers = users.map(serializeUser)
+  const serializedItems = items.map(serializeItem)
+  const usersByIds = indexBy(serializedUsers, '_id')
+  return serializedItems.map(item => {
+    return setItemUserData(item, usersByIds[item.owner])
+  }) as SerializedItemWithUserData[]
 }
 
-const getItemByQueryUrl = function (queryUrl) {
-  const collection = new Items()
-  return preq.get(queryUrl)
-  .then(addItemsAndUsers(collection))
-}
-
-const getByEntities = uris => getItemByQueryUrl(API.items.byEntities({ ids: uris }))
-
-const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(API.items.byUserAndEntities(userId, uris))
-
-const addItemsAndUsers = collection => function (res) {
-  let { items, users } = res
-  // Also accepts items indexed by listings: user, network, public
-  if (!isArray(items)) items = flatten(Object.values(items))
-
-  if (users?.length > 0) app.execute('users:add', users)
-
-  // If no collection is passed, let the consumer deal with the results
-  if (collection == null) return
-
-  if (items?.length > 0) collection.add(items)
-
-  return collection
-}
-
-const makeRequestAlt = async (params, endpoint, ids, filter?) => {
+async function makeRequestAlt (params, endpoint, ids, filter?) {
   if (ids.length === 0) return { items: [], total: 0 }
   const { limit, offset } = params
   const res = await preq.get(API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))
@@ -58,27 +25,20 @@ const makeRequestAlt = async (params, endpoint, ids, filter?) => {
   return res
 }
 
-const getByIds = async ({ ids, items }) => {
+export async function getItemsByIds ({ ids, items }) {
   const res = await preq.get(API.items.byIds({ ids, includeUsers: true }))
   updateItemsParams(res, { items })
   return res
 }
 
-const getNearbyItems = async params => {
+export async function getNearbyItems (params) {
   const { limit, offset } = params
   const res = await preq.get(API.items.nearby(limit, offset))
   updateItemsParams(res, params)
   return res
 }
 
-const getLastPublic = async params => {
-  const { limit, offset, assertImage } = params
-  const res = await preq.get(API.items.lastPublic(limit, offset, assertImage))
-  updateItemsParams(res, params)
-  return res
-}
-
-const getRecentPublic = async params => {
+export async function getRecentPublicItems (params) {
   const { limit, lang, assertImage } = params
   const res = await preq.get(API.items.recentPublic(limit, lang, assertImage))
   updateItemsParams(res, params)
@@ -97,12 +57,12 @@ export async function getUserItems (params) {
   return makeRequestAlt(params, 'byUsers', [ userId ])
 }
 
-const getNetworkItems = async params => {
+export async function getNetworkItems (params) {
   const { network: networkIds } = await getRelations()
   return makeRequestAlt(params, 'byUsers', networkIds)
 }
 
-const updateItemsParams = (res, params) => {
+function updateItemsParams (res, params) {
   const { items: newItems, continue: continu, total } = res
   params.hasMore = continu != null
   params.total = total
@@ -111,22 +71,9 @@ const updateItemsParams = (res, params) => {
   return res
 }
 
-export const addItemsUsers = ({ items, users }) => {
+export function addItemsUsers ({ items, users }) {
   const usersById = indexBy(users.map(serializeUser), '_id')
   items.forEach(item => {
     item.user = usersById[item.owner]
   })
 }
-
-export default app => app.reqres.setHandlers({
-  'items:getByIds': getByIds,
-  'items:getByEntities': getByEntities,
-  'items:getNearbyItems': getNearbyItems,
-  'items:getLastPublic': getLastPublic,
-  'items:getRecentPublic': getRecentPublic,
-  'items:getNetworkItems': getNetworkItems,
-  'items:getByUserIdAndEntities': getByUserIdAndEntities,
-
-  // Using a different naming to match reqGrab requests style
-  'get:item:model': getById,
-})

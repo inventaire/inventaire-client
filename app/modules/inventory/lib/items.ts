@@ -1,6 +1,7 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
+import type { iconByVisibilitySummary } from '#app/modules/general/lib/visibility'
 import type { ItemCategory, SerializedUser } from '#app/modules/users/lib/users'
 import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
@@ -30,6 +31,9 @@ export interface SerializedItem extends ServerSerializedItem {
   authors: ItemSnapshot['entity:authors']
   series: ItemSnapshot['entity:series']
   ordinal: ItemSnapshot['entity:ordinal']
+  visibilitySummary?: keyof typeof iconByVisibilitySummary
+  visibilitySummaryIconName?: typeof iconByVisibilitySummary[keyof typeof iconByVisibilitySummary]
+  hasBeenDeleted?: boolean
 }
 
 export function serializeItem (item: Item & Partial<SerializedItem>) {

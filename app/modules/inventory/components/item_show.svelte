@@ -15,6 +15,7 @@
   import { serializeItem } from '#inventory/lib/items'
   import { I18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
+  import { deleteItems } from '../lib/item_actions'
 
   export let item, user
 
@@ -35,7 +36,7 @@
   const { snapshot } = item
 
   function destroyItem () {
-    return app.request('items:delete', {
+    return deleteItems({
       items: [ item ],
       next: () => {
         // Force a refresh of the inventory, so that the deleted item doesn't appear

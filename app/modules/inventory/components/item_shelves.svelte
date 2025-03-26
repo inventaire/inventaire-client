@@ -6,6 +6,7 @@
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
+  import { updateItems } from '#inventory/lib/item_actions'
   import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -40,7 +41,7 @@
     try {
       if (isEqual(shelvesIds, currentShelves)) return
       serializedItem.shelves = currentShelves = shelvesIds
-      await app.request('items:update', {
+      await updateItems({
         items: [ itemId ],
         attribute: 'shelves',
         value: shelvesIds,
