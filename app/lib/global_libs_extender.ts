@@ -1,5 +1,4 @@
 // @ts-nocheck
-import FilteredCollection from 'backbone-filtered-collection'
 import { without, isString, isArray, debounce } from 'underscore'
 import app from '#app/app'
 // Sets $(selector).visible function
@@ -102,24 +101,6 @@ WrapModelRequests(Backbone.Collection, 'destroy')
 Backbone.Collection.prototype.byId = Backbone.Collection.prototype.get
 Backbone.Collection.prototype.byIds = function (ids) { return ids.map(id => this._byId[id]) }
 
-FilteredCollection.prototype.filterByText = function (text, reset = true) {
-  if (reset) this.resetFilters()
-
-  // Not completly raw, we are not barbarians
-  const rawText = text.trim()
-    // Replace any double space by a simple space
-    .replace(/\s{2,}/g, ' ')
-
-  const regexText = rawText
-    // Escape regex special characters
-    // especially to prevent errors of type "Unterminated group"
-    .replace(specialRegexCharactersRegex, '\\$1')
-
-  const filterRegex = new RegExp(regexText, 'i')
-
-  return this.filterBy('text', model => model.matches(filterRegex, rawText))
-}
-
 // Extend Backbone.View.prototype to extend both Marionette.View and Marionette.CollectionView
 
 // Use in promise chains when the view might be about to be re-rendered
@@ -215,13 +196,6 @@ const triggerChange = function (model, attr, value) {
   model.trigger('change', model, attr, value)
   model.trigger(`change:${attr}`, model, value)
 }
-
-const specialRegexCharacters = '()[]$^\\'
-  .split('')
-  .map(char => '\\' + char)
-  .join('')
-
-const specialRegexCharactersRegex = new RegExp(`([${specialRegexCharacters}])`, 'g')
 
 const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
