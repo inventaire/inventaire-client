@@ -11,6 +11,7 @@
   import GroupSearchability from '#groups/components/group_searchability.svelte'
   import GroupUrl from '#groups/components/group_url.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { createGroup as _createGroup } from '../lib/groups_data'
 
   app.execute('modal:open', 'medium')
 
@@ -20,8 +21,7 @@
   async function createGroup () {
     try {
       creating = true
-      const group = await preq.post(API.groups.base, {
-        action: 'create',
+      const group = await _createGroup({
         name,
         description,
         searchable,
