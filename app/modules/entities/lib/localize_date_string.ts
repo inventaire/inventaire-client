@@ -1,17 +1,19 @@
-export function localizeDateString (dateString) {
-  const datePrecision = precisionByDateStringLength[dateString.length] || 'year'
-  dateString = fillDateString(dateString, datePrecision)
-  const date = new Date(dateString.split('-'))
+import app from '#app/app'
 
-  // First argument is 'undefined' to let the browser
-  // set the language variable.
-  return date.toLocaleDateString(undefined, optionsDatesByPrecisions[datePrecision])
+export function localizeDateString (dateString) {
+  const datePartsCount = dateString.replace(/^-/, '').split('-').length
+  const datePrecision = precisionByDatePartsCount[datePartsCount] || 'year'
+  dateString = fillDateString(dateString, datePrecision)
+  const date = new Date(dateString)
+
+  const preferredLocal = navigator.languages?.find(local => local.startsWith(`${app.user.lang}-`)) || undefined
+  return date.toLocaleDateString(preferredLocal, optionsDatesByPrecisions[datePrecision])
 }
 
-const precisionByDateStringLength = {
-  4: 'year',
-  7: 'month',
-  10: 'day',
+const precisionByDatePartsCount = {
+  1: 'year',
+  2: 'month',
+  3: 'day',
 }
 
 function fillDateString (dateString, datePrecision) {
