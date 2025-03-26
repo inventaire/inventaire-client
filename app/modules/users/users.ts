@@ -11,8 +11,6 @@ import { resolveToGroup } from '../groups/lib/groups.ts'
 import initHelpers from './helpers.ts'
 import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount } from './lib/users.ts'
-import initRequests from './requests.ts'
-import initUsersCollections from './users_collections.ts'
 import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
 
 export default {
@@ -34,9 +32,7 @@ export default {
 
     new Router({ controller })
 
-    app.users = initUsersCollections(app)
     initHelpers(app)
-    initRequests(app)
     initRelations()
 
     app.commands.setHandlers({
@@ -161,7 +157,7 @@ async function showUserFollowers (idOrUsernameOrModel) {
       user,
     ] = await Promise.all([
       import('#users/components/users_home_layout.svelte'),
-      app.request('resolve:to:user', idOrUsernameOrModel),
+      resolveToUser(idOrUsernameOrModel),
     ])
     app.layout.showChildComponent('main', UsersHomeLayout, {
       props: {

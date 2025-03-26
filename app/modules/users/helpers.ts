@@ -122,9 +122,7 @@ export default function (app) {
   app.reqres.setHandlers({
     'get:user:model': async.getUserModel,
     'get:users:models': async.getUsersModels,
-    'resolve:to:user': async.resolveToUser,
     'get:userModel:from:userId': sync.getUserModelFromUserId,
-    'get:userId:from:username': async.getUserIdFromUsername,
   })
 
   app.commands.setHandlers({
