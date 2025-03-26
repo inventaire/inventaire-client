@@ -1,13 +1,13 @@
 <script lang="ts">
   import { debounce } from 'underscore'
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
   import UpdatePassword from '#app/lib/components/update_password.svelte'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { domain } from '#app/lib/urls'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
   import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
   import { deleteMainUserAccount, mainUser, updateUser } from '#user/lib/main_user'
@@ -97,9 +97,9 @@
 
   const deleteAccount = () => {
     const args = { username: $mainUser.username }
-    app.execute('ask:confirmation', {
-      confirmationText: i18n('delete_account_confirmation', args),
-      warningText: i18n('cant_undo_warning'),
+    askConfirmation({
+      confirmationText: I18n('delete_account_confirmation', args),
+      warningText: I18n('cant_undo_warning'),
       action: deleteMainUserAccount,
       formAction: sendDeletionFeedback,
       formLabel: "that would really help us if you could say a few words about why you're leaving:",

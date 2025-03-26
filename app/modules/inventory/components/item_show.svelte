@@ -41,10 +41,6 @@
         // Force a refresh of the inventory, so that the deleted item doesn't appear
         app.execute('show:inventory:main:user')
       },
-      back: () => {
-        if (item.hasBeenDeleted) app.execute('modal:close')
-        else app.execute('show:item', { itemId: item._id })
-      },
     })
   }
 
