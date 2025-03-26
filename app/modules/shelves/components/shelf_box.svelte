@@ -32,7 +32,6 @@
 
   let showShelfEditor = false
   let showShelfItemsAdder = false
-  let waitingForFollowersCount, followersCount
 
   const dispatch = createEventDispatcher()
   const closeShelf = () => dispatch('closeShelf')
@@ -54,15 +53,27 @@
     app.navigate(`/shelves/${shelf._id}/followers`)
   }
 
-  waitingForFollowersCount = getFollowersCount()
+  async function getFollowersCount (currentShelf) {
+    if (fediversable && currentShelf) {
+      // Visibility will be accessible only by the shelf owner
+      if ('visibility' in currentShelf && !currentShelf.visibility.includes('public')) return
+      const name = `shelf-${currentShelf._id}`
+      try {
+        const res = await preq.get(API.activitypub.followers({ name }))
+        return res.totalItems
+      } catch (err) {
+        // A 404 will be throwned if the shelf is not public
+        // (The guard above should make it unlikely, unless the shelf visibility data is out-of-sync)
+        if (err.statusCode !== 404) throw err
+      }
+    }
+  }
 
-  async function getFollowersCount () {
-    if (shelf && fediversable) {
-      const name = `shelf-${shelf._id}`
-      const res = await preq.get(API.activitypub.followers({ name }))
-      followersCount = res.totalItems
-    } else {
-      followersCount = null
+  const followersCountByShelfId = {}
+  function getShelfFollowersCount () {
+    if (shelf?._id) {
+      // Memoize the promise, so that multiple calls to onChange don't trigger multiple server requests
+      followersCountByShelfId[shelf._id] ??= getFollowersCount(shelf)
     }
   }
 
@@ -71,7 +82,7 @@
     app.navigate(`/shelves/${shelf._id}`)
   }
 
-  $: onChange(shelf, getFollowersCount)
+  $: onChange(shelf, getShelfFollowersCount)
   $: if ($focusedSection.type === 'shelf') onFocus()
 </script>
 
@@ -107,7 +118,7 @@
                 {@html icon(iconData.icon)} {i18n(iconLabel)}
               </li>
             {/if}
-            {#await waitingForFollowersCount then}
+            {#await followersCountByShelfId[shelf._id] then followersCount}
               {#if followersCount}
                 <li class="followers-count">
                   <a href="/shelves/{shelf._id}/followers" on:click={showFollowersModal}>
