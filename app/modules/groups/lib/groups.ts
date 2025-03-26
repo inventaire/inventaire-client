@@ -2,12 +2,10 @@ import { findWhere, pluck, without } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import { isGroupId, isModel } from '#app/lib/boolean_tests'
-import { formatAndThrowError, newError } from '#app/lib/error'
+import { newError } from '#app/lib/error'
 import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
-import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { fixedEncodeURIComponent } from '#app/lib/utils'
-import { pass } from '#general/lib/forms'
 import type { RelativeUrl } from '#server/types/common'
 import type { Group, GroupId, GroupMembershipCategory, GroupSlug } from '#server/types/group'
 import type { GroupImagePath, ImageDataUrl } from '#server/types/image'
@@ -34,53 +32,6 @@ interface SerializedGroupOverrides {
 }
 
 export type SerializedGroup = OverrideProperties<Group, SerializedGroupOverrides> & SerializedGroupExtra
-
-export default {
-  createGroup (data) {
-    const { name, description, searchable, open, position } = data
-    const { groups } = app
-
-    return preq.post(API.groups.base, {
-      action: 'create',
-      name,
-      description,
-      searchable,
-      open,
-      position,
-    })
-    .then(groups.add.bind(groups))
-    .then(log_.Info('group'))
-    .catch(formatAndThrowError('#createGroup'))
-  },
-
-  validateName (name, selector) {
-    pass({
-      value: name,
-      tests: groupNameTests,
-      selector,
-    })
-  },
-
-  validateDescription (description, selector) {
-    pass({
-      value: description,
-      tests: groupDescriptionTests,
-      selector,
-    })
-  },
-}
-
-const groupNameTests = {
-  'The group name can not be longer than 80 characters' (name) {
-    return name.length > 80
-  },
-}
-
-const groupDescriptionTests = {
-  'The group description can not be longer than 5000 characters' (description) {
-    return description.length > 5000
-  },
-}
 
 export function getAllGroupMembersIds (group) {
   const { admins, members } = group
@@ -130,11 +81,10 @@ export async function getCachedSerializedGroupMembers (group) {
   return getCachedSerializedUsers(allMembersIds)
 }
 
-export function serializeGroup (group: Group & Partial<SerializedGroupExtra>, options?: { refresh: boolean }) {
+export function serializeGroup (group: (Group & Partial<SerializedGroupExtra>) | SerializedGroup, options?: { refresh: boolean }) {
   if ('pathname' in group && !options?.refresh) return group as SerializedGroup
   const slug = fixedEncodeURIComponent(group.slug)
   const base = `/groups/${slug}`
-  // @ts-expect-error
   group.picture ??= getColorSquareDataUriFromCouchUuId(group._id)
   const mainUserIsAdmin = mainUserIsGroupAdmin(group)
   return Object.assign(group, {

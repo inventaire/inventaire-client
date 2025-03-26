@@ -1,10 +1,8 @@
 <script lang="ts">
-  import { API } from '#app/api/api'
   import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
-  import preq from '#app/lib/preq'
   import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
   import GroupOpenness from '#groups/components/group_openness.svelte'
