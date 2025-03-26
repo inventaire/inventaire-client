@@ -1,6 +1,7 @@
 import assert_ from '#app/lib/assert_types'
 import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
+import type { EntityUri } from '#server/types/entity'
 import type { GroupId } from '#server/types/group'
 import type { ShelfId } from '#server/types/shelf'
 import type { UserId } from '#server/types/user'
@@ -27,9 +28,12 @@ export default {
   byUsers: queryEndpoint('by-users', 'users'),
   byEntities: queryEndpoint('by-entities', 'uris'),
 
-  byUserAndEntities (user, uris) {
-    uris = forceArray(uris).join('|')
-    return action('by-user-and-entities', { user, uris })
+  byUserAndEntities (user: UserId, uris: EntityUri | EntityUri[], includeUsers = false) {
+    return action('by-user-and-entities', {
+      user,
+      uris: forceArray(uris).join('|'),
+      'include-users': includeUsers === true,
+    })
   },
 
   lastPublic (limit = 15, offset = 0, assertImage) {

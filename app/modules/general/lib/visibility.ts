@@ -1,3 +1,5 @@
+import type { VisibilityKey } from '#server/types/visibility'
+
 export const commonVisibilityKeys = [
   'public',
   'friends',
@@ -9,7 +11,7 @@ export const getGroupVisibilityKey = group => `group:${group._id}`
 export const isGroupVisibilityKey = key => key.startsWith('group:')
 export const isNotGroupVisibilityKey = key => !isGroupVisibilityKey(key)
 
-export const getVisibilitySummary = visibility => {
+export function getVisibilitySummary (visibility: VisibilityKey[]) {
   if (visibility.length === 0) return 'private'
   if (visibility.includes('public')) return 'public'
   return 'network'
@@ -19,9 +21,9 @@ export const iconByVisibilitySummary = {
   private: 'lock',
   network: 'users',
   public: 'globe',
-}
+} as const
 
-export const getVisibilitySummaryLabel = visibility => {
+export function getVisibilitySummaryLabel (visibility) {
   if (visibility.length === 0) return 'private'
   if (visibility.includes('public')) return 'public'
 
