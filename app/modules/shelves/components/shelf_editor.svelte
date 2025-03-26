@@ -11,6 +11,7 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { showShelf } from '../shelves'
 
   export let shelf
   export let inGlobalModal = true
@@ -34,7 +35,7 @@
         waiting = createShelf({ name, description, visibility, color })
         const newShelf = await waiting
         app.user.trigger('shelves:change', 'createShelf')
-        app.execute('show:shelf', newShelf)
+        showShelf(newShelf)
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
         await waiting
