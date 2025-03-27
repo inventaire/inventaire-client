@@ -1,5 +1,5 @@
 // For some reason, ::first-letter doesn't apply to a <legend> element, which is thus omitted here
-.button, label, .capitalized{
+.button, label{
   &:not(.respect-case)::first-letter{
     text-transform: uppercase;
   }
@@ -7,10 +7,6 @@
 
 .subheader::first-letter{
   text-transform: uppercase;
-}
-
-.capitalizedAll{
-  text-transform: capitalize;
 }
 
 .uppercased{

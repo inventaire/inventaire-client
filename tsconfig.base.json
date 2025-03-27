@@ -24,9 +24,6 @@
       "#activitypub": [
         "./app/modules/activitypub/*"
       ],
-      "#behaviors/*": [
-        "./app/modules/general/behaviors/*"
-      ],
       "#client/tests/*": [
         "./tests/*",
       ],
