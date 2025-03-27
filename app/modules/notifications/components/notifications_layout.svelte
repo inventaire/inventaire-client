@@ -1,12 +1,12 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
-  import { getGroupInvitations } from '#app/modules/groups/lib/groups_data'
-  import { getFriendshipRequests } from '#app/modules/users/lib/relations'
   import Spinner from '#components/spinner.svelte'
   import GroupLi from '#groups/components/group_li.svelte'
+  import { getGroupInvitations } from '#groups/lib/groups_data'
   import { markNotificationsAsRead, notifications } from '#notifications/lib/notifications'
   import { I18n } from '#user/lib/i18n'
+  import { getFriendshipRequests } from '#users/lib/relations'
   import FriendshipRequest from './friendship_request.svelte'
   import Notification from './notification.svelte'
 

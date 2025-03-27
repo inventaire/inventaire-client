@@ -14,7 +14,6 @@
   },
   "imports": {
     "#activitypub/*": "./app/modules/activitypub/*.js",
-    "#app/*": "./app/*.js",
     "#assets/*": "./app/assets/*.js",
     "#behaviors/*": "./app/modules/general/behaviors/*.js",
     "#client/tests/*": "./tests/*.js",
@@ -37,8 +36,9 @@
     "#transactions/*": "./app/modules/transactions/*.js",
     "#user/*": "./app/modules/user/*.js",
     "#users/*": "./app/modules/users/*.js",
-    "#vendor/*": "./vendor/*.js",
-    "#welcome/*": "./app/modules/welcome/*.js"
+    "#welcome/*": "./app/modules/welcome/*.js",
+    "#app/*": "./app/*.js",
+    "#vendor/*": "./vendor/*.js"
   },
   "scripts": {
     "build": "./scripts/build_and_save_logs.sh",

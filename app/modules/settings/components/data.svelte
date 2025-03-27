@@ -4,8 +4,8 @@
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import { apiDoc } from '#app/lib/urls'
-  import { mainUserHasWikidataOauthTokens } from '#app/modules/user/lib/main_user'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
   import ContributionAnonymizationToggler from './contribution_anonymization_toggler.svelte'
 
   export let user

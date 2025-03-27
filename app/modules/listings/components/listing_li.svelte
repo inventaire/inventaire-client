@@ -1,9 +1,9 @@
 <script lang="ts">
   import { loadInternalLink } from '#app/lib/utils'
-  import { getUserById } from '#app/modules/users/users_data'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getListingPathname, getElementsImages } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
+  import { getUserById } from '#users/users_data'
 
   export let listing
 

@@ -8,15 +8,15 @@
   import preq from '#app/lib/preq'
   import { wait } from '#app/lib/promises'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
-  import { showFeedbackModal } from '#app/modules/general/lib/feedback'
-  import { mainUserHasWikidataOauthTokens } from '#app/modules/user/lib/main_user'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getEntityLabel, getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
+  import { showFeedbackModal } from '#general/lib/feedback'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
 
   export let entity: SerializedEntity
 

@@ -1,9 +1,9 @@
 import { intersection, pluck, values } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { getSerieOrWorkExtendedAuthorsUris } from '#app/modules/entities/lib/types/serie_alt'
 import { getSubEntities, fetchSectionEntities } from '#entities/components/lib/entities'
 import { type SerializedEntity, getEditionsWorks } from '#entities/lib/entities'
+import { getSerieOrWorkExtendedAuthorsUris } from '#entities/lib/types/serie_alt'
 import { I18n } from '#user/lib/i18n'
 
 export const calculateGlobalScore = task => {

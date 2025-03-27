@@ -4,8 +4,8 @@ import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import * as icons_ from '#app/lib/handlebars_helpers/icons'
 import platforms_ from '#app/lib/handlebars_helpers/platforms'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
-import type { AuthorProperty } from '#app/modules/entities/lib/properties'
 import type { SerializedEntity } from '#entities/lib/entities'
+import type { AuthorProperty } from '#entities/lib/properties'
 import { isStandaloneEntityType, typeDefaultP31 } from '#entities/lib/types/entities_types'
 
 export const formatClaimValue = params => {
