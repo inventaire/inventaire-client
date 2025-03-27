@@ -1,17 +1,14 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
-import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
-import type { WdEntityUri, EntityUri } from '#server/types/entity'
+import { showItemCreationForm } from '#inventory/lib/show_item_creation_form'
+import type { WdEntityUri, EntityUri, SimplifiedClaims } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
-import { postFeedback } from '../general/lib/feedback.ts'
-import * as entitiesModelsIndex from './lib/entities_models_index.ts'
 import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
 import { getEntityLayoutComponentByType } from './lib/get_entity_layout_component_by_type.ts'
 
@@ -41,12 +38,19 @@ export default {
 }
 
 const controller = {
-  async showEntity (uri, params?) {
+  async showEntity (input: string, params?) {
+    let uri
+    if (input.includes('-')) {
+      const [ property, entity ] = input.split('-')
+      uri = `${property}-${normalizeUri(entity)}`
+    } else {
+      uri = normalizeUri(input)
+    }
+
     const refresh = params?.refresh || getQuerystringParameter('refresh') || entityDataShouldBeRefreshed(uri)
     if (refresh) startRefreshTimeSpan(uri)
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
-    uri = normalizeUri(uri)
     const pathname = `/entity/${uri}`
     if (!isEntityUri(uri)) return app.execute('show:error:missing', { pathname })
 
@@ -62,19 +66,19 @@ const controller = {
     }
   },
 
-  async showAddEntity (uri) {
-    uri = normalizeUri(uri)
+  async showAddEntity (input: string) {
+    const uri = normalizeUri(input)
     try {
-      const entity = await getEntityModel(uri)
-      app.execute('show:item:creation:form', { entity })
+      const entity = await getEntityByUri({ uri })
+      await showItemCreationForm({ entity })
     } catch (err) {
       handleMissingEntity(uri, err)
     }
   },
 
-  async showEditEntityFromUri (uri) {
+  async showEditEntityFromUri (input: string) {
     app.execute('show:loader')
-    uri = normalizeUri(uri)
+    const uri = normalizeUri(input)
 
     try {
       // Make sure we have the freshest data before trying to edit (refresh=true)
@@ -128,7 +132,8 @@ const controller = {
     })
   },
 
-  async showEntityDeduplicate (uri) {
+  async showEntityDeduplicate (input: string) {
+    const uri = normalizeUri(input)
     const [
       entity,
       { default: DeduplicateWorks },
@@ -153,10 +158,10 @@ const controller = {
     })
   },
 
-  async showEntityCleanup (uri: EntityUri) {
+  async showEntityCleanup  (input: string) {
+    const uri = normalizeUri(input)
     if (app.request('require:loggedIn', `entity/${uri}/cleanup`)) {
       app.execute('show:loader')
-      uri = normalizeUri(uri)
       try {
         const entity = await getEntityByUri({ uri, refresh: true })
         showEntityCleanup(entity)
@@ -166,7 +171,8 @@ const controller = {
     }
   },
 
-  async showHomonyms (uri) {
+  async showHomonyms (input: string) {
+    const uri = normalizeUri(input)
     if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
     if (!app.request('require:dataadmin:access')) return
 
@@ -186,9 +192,9 @@ const controller = {
     })
   },
 
-  async showEntityHistory (uri) {
+  async showEntityHistory (input: string) {
     app.execute('show:loader')
-    uri = normalizeUri(uri)
+    const uri = normalizeUri(input)
     const { default: EntityHistory } = await import('./components/patches/entity_history.svelte')
     app.layout.showChildComponent('main', EntityHistory, {
       props: { uri },
@@ -205,7 +211,7 @@ const controller = {
   },
 }
 
-async function showEntityCreate (params) {
+export async function showEntityCreate (params: { label: string, type?: string, claims?: SimplifiedClaims }) {
   const path = 'entity/new'
   if (!app.request('require:loggedIn', path)) return
   app.navigate(path)
@@ -229,86 +235,14 @@ async function showEntityCreate (params) {
 function setHandlers () {
   app.commands.setHandlers({
     'show:entity': controller.showEntity.bind(controller),
-    'show:claim:entities' (property, value) {
-      const claim = `${property}-${value}`
-      controller.showEntity(claim)
-      app.navigate(`entity/${claim}`)
-    },
-
-    'show:entity:from:model' (model, params) {
-      const uri = model.get('uri')
-      if (uri != null) {
-        app.execute('show:entity', uri, params)
-      } else {
-        throw new Error("couldn't show:entity:from:model")
-      }
-    },
-
-    'show:entity:refresh' (model) {
-      app.execute('show:entity:from:model', model, { refresh: true })
-    },
-
-    'show:deduplicate:sub:entities' (model) {
-      const uri = model.get('uri')
-      controller.showEntityDeduplicate(uri)
-    },
-
-    'show:entity:add': controller.showAddEntity.bind(controller),
-    'show:entity:add:from:model' (model) { return controller.showAddEntity(model.get('uri')) },
     'show:entity:edit': controller.showEditEntityFromUri,
-    'show:entity:edit:from:model' (model) {
-      // Uses controller.showEditEntityFromUri the fetch fresh entity data
-      return controller.showEditEntityFromUri(model.get('uri'))
-    },
-    'show:entity:create': showEntityCreate,
     'show:entity:cleanup': controller.showEntityCleanup,
     'show:entity:history': controller.showEntityHistory,
-    'report:entity:type:issue': reportTypeIssue,
-    'show:wikidata:edit': async (uri: WdEntityUri) => {
+    'show:wikidata:edit:intro': async (uri: WdEntityUri) => {
       const entity = await getEntityByUri({ uri })
       showWikidataEditIntro(entity)
     },
   })
-
-  app.reqres.setHandlers({
-    'get:entity:model': getEntityModel,
-    'get:entities:models': getEntitiesModels,
-    'entity:exists:or:create:from:seed': existsOrCreateFromSeed,
-  })
-}
-
-const getEntitiesModels = async function (params) {
-  let { uris, refresh, defaultType, index } = params
-  assert_.array(uris)
-  assert_.strings(uris)
-  // Make sure its a 'true' flag and not an object incidently passed
-  refresh = refresh === true
-
-  if (uris.length === 0) return []
-
-  const models = await entitiesModelsIndex.get({ uris, refresh, defaultType })
-  if (index) return models
-  // Do not return entities with type 'missing'.
-  // This type is used to avoid re-fetching an entity already known to be missing
-  // but has no interest past entitiesModelsIndex
-  else return Object.values(models).filter(isntMissing)
-}
-
-// Known case of model being undefined: when the model initialization failed
-const isntMissing = model => (model != null) && (model?.type !== 'missing')
-
-async function getEntityModel (uri, refresh?) {
-  // @ts-expect-error deprecated
-  const [ model ] = await getEntitiesModels({ uris: [ uri ], refresh })
-  if (model != null) {
-    return model
-  } else {
-    // See getEntitiesModels "Possible reasons for missing entities"
-    log_.info(`getEntityModel entity_not_found: ${uri}`)
-    const err = newError('entity_not_found', [ uri, model ])
-    err.code = 'entity_not_found'
-    throw err
-  }
 }
 
 async function showEntityEdit (entity: SerializedEntity) {
@@ -373,20 +307,6 @@ async function showEntityCreateFromIsbn (isbn) {
   })
 }
 
-// Create from the seed data we have, if the entity isn't known yet
-async function existsOrCreateFromSeed (entry) {
-  const { entries } = await preq.post(API.entities.resolve, {
-    entries: [ entry ],
-    update: true,
-    create: true,
-    enrich: true,
-  })
-  // Add the possibly newly created edition entity to the local index
-  // and get it's model
-  const { uri } = entries[0].edition
-  return getEntityModel(uri, true)
-}
-
 function showViewByAccessLevel (params) {
   let { path, title, View, viewOptions, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
@@ -431,18 +351,6 @@ async function showClaimEntities (claim, refresh) {
     },
   })
 }
-
-function reportTypeIssue (params) {
-  const { expectedType, model, context } = params
-  const [ uri, realType ] = model.gets('uri', 'type')
-  if (reportedTypeIssueUris.includes(uri)) return
-  reportedTypeIssueUris.push(uri)
-
-  const subject = `[Entity type] ${uri}: expected ${expectedType}, got ${realType}`
-  postFeedback({ subject, uris: [ uri ], context })
-}
-
-const reportedTypeIssueUris = []
 
 async function showEntityCleanup (entity: SerializedEntity) {
   if (entity.type !== 'serie') {
