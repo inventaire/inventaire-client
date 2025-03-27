@@ -16,14 +16,6 @@ import { capitalize } from '#app/lib/utils'
 import i18nMissingKey from './i18n_missing_key.ts'
 import translate from './translate.ts'
 
-// Work around circular dependency
-let update = noop
-let refreshData = noop
-async function lateImport () {
-  ({ update, refreshData } = await import('#app/lib/uri_label/uri_label'))
-}
-setTimeout(lateImport, 0)
-
 let currentLangI18n = (key: string, context?: unknown) => {
   console.trace(`i18n function was called before we received language strings: ${key}`, context)
   return key
@@ -46,17 +38,11 @@ let lastLocalLang
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export async function initI18n (lang: UserLang) {
-  app.vent.on('lang:local:change', value => { lastLocalLang = value })
   app.reqres.setHandlers({
     'lang:local:get': () => lastLocalLang,
   })
 
   setLanguage(lang).catch(log_.Error('setLanguage error'))
-
-  app.commands.setHandlers({
-    'uriLabel:update': update,
-    'uriLabel:refresh': refreshData,
-  })
 }
 
 export const I18n = (key: string, context?: unknown) => capitalize(currentLangI18n(key, context))
@@ -65,7 +51,6 @@ async function setLanguage (lang: UserLang) {
   lastLocalLang = lang
   app.polyglot = new Polyglot({ onMissingKey })
   currentLangI18n = translate(lang, app.polyglot)
-  app.vent.trigger('uriLabel:update')
   return requestI18nFile(app.polyglot, lang)
 }
 

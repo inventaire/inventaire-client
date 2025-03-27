@@ -37,3 +37,18 @@ export function getWdHistoryUrl (wdId: WdEntityId) {
   if (!wdId) return
   return `${wdHost}/w/index.php?title=${wdId}&action=history`
 }
+
+export function getWikidataItemMergeUrl (fromUri, toUri?) {
+  let fromid = unprefixify(fromUri)
+  let toid
+  if (toUri) {
+    toid = unprefixify(toUri)
+    // Recommend to merge the newest item into the oldest
+    if (getWikidataItemNumeridIdNumber(toid) > getWikidataItemNumeridIdNumber(fromid)) {
+      [ fromid, toid ] = [ toid, fromid ]
+    }
+  }
+  return buildPath(`${wdHost}/wiki/Special:MergeItems`, { fromid, toid })
+}
+
+const getWikidataItemNumeridIdNumber = id => parseInt(id.split('Q')[1])

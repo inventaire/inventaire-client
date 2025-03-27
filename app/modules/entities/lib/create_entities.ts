@@ -2,16 +2,13 @@ import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { getIsbnData } from '#app/lib/isbn'
 import log_ from '#app/lib/loggers'
-import { arrayIncludes, objectEntries } from '#app/lib/utils'
+import { objectEntries } from '#app/lib/utils'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
-import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import type { PropertyUri, SimplifiedClaims } from '#server/types/entity'
-import Entity from '../models/entity.ts'
 import { createEntity, type EntityDraftWithCreationParams } from './create_entity.ts'
 import { getPluralType } from './entities.ts'
-import { graphRelationsProperties } from './graph_relations_properties.ts'
 import { propertiesEditorsConfigs } from './properties.ts'
 
 function getTitleFromWork ({ workLabels, workClaims, editionLang }) {
@@ -68,7 +65,7 @@ export async function createWorkEditionDraft ({ workEntity, isbn }) {
   return { labels: {}, claims }
 }
 
-export const createByProperty = async function (options) {
+export async function createByProperty (options) {
   let { property, name, relationSubjectEntity, createOnWikidata, lang } = options
   if (!lang) lang = app.user.lang
 
@@ -98,7 +95,7 @@ export const createByProperty = async function (options) {
     }
   }
 
-  return createAndGetEntityModel({ labels, claims, createOnWikidata } as EntityDraftWithCreationParams)
+  return createAndGetEntity({ labels, claims, createOnWikidata } as EntityDraftWithCreationParams)
 }
 
 function getPropertyDefaultSubjectEntityP31 (property: PropertyUri) {
@@ -107,36 +104,15 @@ function getPropertyDefaultSubjectEntityP31 (property: PropertyUri) {
   return allowedValuesPerTypePerProperty['wdt:P31'][entityValueType][0]
 }
 
-export async function createAndGetEntityModel (params: EntityDraftWithCreationParams) {
+export async function createAndGetEntity (params: EntityDraftWithCreationParams) {
   const { claims } = params
   cleanupClaims(claims)
-  const entityData = await createEntity(params)
-  triggerEntityGraphChangesEvents(claims)
-  const model = new Entity(entityData)
-  // Update the local cache
-  addEntityModel(model)
-  return model
+  return createEntity(params)
 }
 
 function cleanupClaims (claims: SimplifiedClaims) {
   for (const [ property, propertyClaims ] of objectEntries(claims)) {
     // @ts-expect-error
     claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
-  }
-}
-
-export async function createAndGetEntity (params) {
-  const model = await createAndGetEntityModel(params)
-  return model.toJSON()
-}
-
-function triggerEntityGraphChangesEvents (claims) {
-  for (const prop in claims) {
-    const values = claims[prop]
-    if (arrayIncludes(graphRelationsProperties, prop)) {
-      // Signal to the entity that it was affected by another entity's change
-      // so that it refreshes it's graph data next time
-      app.execute('invalidate:entities:graph', values)
-    }
   }
 }

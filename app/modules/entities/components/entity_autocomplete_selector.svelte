@@ -9,10 +9,11 @@
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
   import { createByProperty } from '#entities/lib/create_entities'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import typeSearch, { type SearchableType } from '#entities/lib/search/type_search'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityUri, ExtendedEntityType } from '#server/types/entity'
+  import type { EntityUri, ExtendedEntityType, PropertyUri } from '#server/types/entity'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntitySuggestion from './entity_suggestion.svelte'
 
@@ -24,8 +25,8 @@
   export let showDefaultSuggestions = true
   export let createdEntityType: ExtendedEntityType = null
   export let createOnWikidata = false
-  export let relationSubjectEntity = null
-  export let relationProperty = null
+  export let relationSubjectEntity: SerializedEntity = null
+  export let relationProperty: PropertyUri = null
   export let displaySuggestionType = false
   export let autofocus = true
   export let showSuggestions = false
@@ -150,13 +151,13 @@
 
   async function create () {
     try {
-      const createdEntityModel = await createByProperty({
+      const createdEntity = await createByProperty({
         relationSubjectEntity,
         property: relationProperty,
         name: searchText,
         createOnWikidata,
       })
-      dispatch('select', createdEntityModel.toJSON())
+      dispatch('select', createdEntity)
     } catch (err) {
       dispatch('error', err)
     }
