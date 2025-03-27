@@ -85,7 +85,6 @@
     <div class="data">
       <h2><a href={pathname} on:click|stopPropagation={loadInternalLink} class="link">{label}</a></h2>
       <p class="uri">{uri}</p>
-      <!-- {PARTIAL 'entities:clamped_extract' this} -->
     </div>
   </div>
 
@@ -176,6 +175,7 @@
   }
 
   .panel{
+    @include panel;
     :global(fieldset){
       margin-block-end: 1em;
     }

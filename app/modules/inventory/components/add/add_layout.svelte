@@ -192,7 +192,7 @@
   /* Small screens */
   @media screen and (width < $small-screen){
     .custom-tabs-content{
-      // Allow scrollTo$Element to really get the top of the div
+      // Allow scrollToElement to really get the top of the div
       // at the top of the screen
       min-height: 100vh
     }

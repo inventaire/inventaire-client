@@ -4,7 +4,6 @@ import assert_ from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
-import log_ from '#app/lib/loggers'
 import type { ObjectEntries } from 'type-fest/source/entries'
 
 export function deepClone (obj: unknown) {
@@ -115,25 +114,10 @@ export function lazyMethod (methodName: string, delay: number = 200) {
   }
 }
 
-// Returns a .catch function that execute the reverse action
-// then passes the error to the next .catch
-export const Rollback = (reverseAction, label) => err => {
-  if (label != null) log_.info(`rollback: ${label}`)
-  reverseAction()
-  throw err
-}
-
 const add = (a: number, b: number) => a + b
 export const sum = (array: number[]) => array.reduce(add, 0)
 
 export const trim = (str: string) => str.trim()
-
-export const focusInput = $el => {
-  $el.focus()
-  const value = $el[0]?.value
-  if (value == null) return
-  return $el[0].setSelectionRange(0, value.length)
-}
 
 // Adapted from https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 export function hashCode (string: string) {
@@ -280,4 +264,19 @@ export function uniqSortedByCount <T extends string> (values: T[]) {
     valuesSet.add(value)
   }
   return Array.from(valuesSet).sort((a: T, b: T) => counts[b] - counts[a])
+}
+
+// Source: https://stackoverflow.com/a/12418814
+export function elementIsInViewport (element: Element) {
+  if (!element) return false
+  if (element.nodeType !== 1) return false
+
+  const html = document.documentElement
+  const rect = element.getBoundingClientRect()
+
+  return rect != null &&
+    rect.bottom >= 0 &&
+    rect.right >= 0 &&
+    rect.left <= html.clientWidth &&
+    rect.top <= html.clientHeight
 }

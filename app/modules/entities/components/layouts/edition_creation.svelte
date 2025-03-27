@@ -51,7 +51,7 @@
           <input
             type="text"
             name="isbn"
-            class="has-alertbox enterClick"
+            class="has-alertbox"
             bind:value={userInput}
             placeholder="ex: 2070368228"
             on:keyup={onInputKeyup}

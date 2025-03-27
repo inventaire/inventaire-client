@@ -2,11 +2,12 @@ import app from '#app/app'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { removeCurrentComponent } from '#app/lib/global_libs_extender'
 import { getActionKey } from '#app/lib/key_events'
-import log_ from '#app/lib/loggers'
 import isMobile from '#app/lib/mobile_check'
 import { viewportIsSmallerThan } from '#app/lib/screen'
+import { elementIsInViewport } from '#app/lib/utils'
 import Spinner from '#components/spinner.svelte'
 
+// TODO: replace with app/modules/general/components/modal.svelte
 export default function () {
   const $body = $('body')
   const $topbar = $('#top-bar')
@@ -15,7 +16,7 @@ export default function () {
   const $modalContent = $('#modalContent')
   const $closeModal = $('#modal .close')
 
-  const modalOpen = function (size?, focusSelector?, dark?) {
+  function modalOpen (size?: 'large' | 'medium', focusSelector?: string) {
     switch (size) {
     case 'large': largeModal(); break
     case 'medium': mediumModal(); break
@@ -23,12 +24,6 @@ export default function () {
     }
 
     openModal()
-
-    if (dark) {
-      $modalContent.addClass('dark')
-    } else {
-      $modalContent.removeClass('dark')
-    }
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices
@@ -39,7 +34,7 @@ export default function () {
     }
   }
 
-  const focusFirstTabElement = function () {
+  function focusFirstTabElement () {
     const $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
     // Do not focus if the element is not visible as that makes the scroll jump
     // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
@@ -52,7 +47,7 @@ export default function () {
   }
 
   let lastOpen = 0
-  const openModal = function () {
+  function openModal () {
     lastOpen = Date.now()
     if (isOpened()) return
 
@@ -68,7 +63,7 @@ export default function () {
     app.vent.trigger('modal:opened')
   }
 
-  const closeModal = function (goBack?) {
+  function closeModal (goBack?) {
     // Ignore closing call happening less than 200ms after the last open call:
     // it's probably a view destroying itself and calling modal:close
     // while an other view requiring the modal to be opened just requested it
@@ -96,7 +91,7 @@ export default function () {
     app.vent.trigger('modal:closed')
   }
 
-  const exitModal = function () {
+  function exitModal () {
     const region = app.layout.getRegion('modal')
     region.currentView?.onModalExit?.()
     region.currentComponent?.onModalExit?.()
@@ -104,7 +99,7 @@ export default function () {
     closeModal()
   }
 
-  const setWidthJumpPreventingRules = function (maxWidth, rightOffset) {
+  function setWidthJumpPreventingRules (maxWidth, rightOffset) {
     $body.css('max-width', maxWidth)
     return $topbar.css('right', rightOffset)
   }
@@ -128,12 +123,12 @@ export default function () {
     if (getActionKey(e) === 'esc') exitModal()
   })
 
-  const modalHtml = function (html) {
+  function modalHtml (html) {
     $modalContent.html(html)
     modalOpen()
   }
 
-  const showModalSpinner = () => {
+  function showModalSpinner () {
     app.layout.showChildComponent('modal', Spinner, {
       props: {
         center: true,
@@ -149,14 +144,12 @@ export default function () {
   })
 }
 
-const prepareRefocus = function (focusSelector) {
-  log_.info(focusSelector, 'preparing re-focus')
+function prepareRefocus (focusSelector: string) {
   app.vent.once('modal:closed', () => {
-    const $el = $(focusSelector)
+    const el = document.querySelector(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
-    // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
-    // @ts-expect-error `visible` is defined by the jquery-visible plugin
-    if ($el.visible()) $(focusSelector).focus()
-    log_.info(focusSelector, 're-focusing')
+    if ('focus' in el && typeof el.focus === 'function' && elementIsInViewport(el)) {
+      el.focus()
+    }
   })
 }

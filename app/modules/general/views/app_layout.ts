@@ -1,9 +1,6 @@
 import { debounce } from 'underscore'
 import app from '#app/app'
 import { viewportIsSmall } from '#app/lib/screen'
-import Dropdown from '#behaviors/dropdown'
-import General from '#behaviors/general'
-import PreventDefault from '#behaviors/prevent_default'
 import initDocumentLang from '../lib/document_lang.ts'
 import initFlashMessage from '../lib/flash_message.ts'
 import initModal from '../lib/modal.ts'
@@ -26,12 +23,6 @@ export default Marionette.View.extend({
   ui: {
     topBar: '#topBar',
     flashMessage: '#flashMessage',
-  },
-
-  behaviors: {
-    Dropdown,
-    General,
-    PreventDefault,
   },
 
   initialize () {
