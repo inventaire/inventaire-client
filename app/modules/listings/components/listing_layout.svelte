@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
   import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
   import type { ListingElement } from '#server/types/element'
   import type { ListingWithElements } from '#server/types/listing'
   import { I18n } from '#user/lib/i18n'
+  import type { SerializedUser } from '#users/lib/users'
   import ListingElements from './listing_elements.svelte'
 
   export let listing: ListingWithElements

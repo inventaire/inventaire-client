@@ -4,10 +4,10 @@
   import { icon } from '#app/lib/icons'
   import { timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
-  import { getGroup } from '#app/modules/groups/lib/groups'
-  import { getUserById } from '#app/modules/users/users_data'
+  import { getGroup } from '#groups/lib/groups'
   import type { Notification } from '#server/types/notification'
   import { i18n } from '#user/lib/i18n'
+  import { getUserById } from '#users/users_data'
   import { getNotificationText } from '../lib/notifications'
 
   export let notification: Notification
@@ -54,18 +54,18 @@
   <li class="notification" class:unread>
     {#if type === 'friendAcceptedRequest'}
       <a class="notification-link" href={user.pathname} on:click={loadInternalLink}>
-        <img src={imgSrc(user.picture, 48)} alt={user.username}>
+        <img src={imgSrc(user.picture, 48)} alt={user.username} />
         <div class="info">
-          <span>{@html i18n('friend_accepted_request', { username: user.username })}</span><br>
+          <span>{@html i18n('friend_accepted_request', { username: user.username })}</span><br />
           <span class="time">{timeFromNow(time)}</span>
         </div>
         <div class="unread-flag">{@html icon('circle')}</div>
       </a>
     {:else if type === 'groupUpdate' || type === 'userMadeAdmin'}
       <a class="notification-link {type}" href={group.pathname}>
-        <img src={imgSrc(group.picture, 48)} alt={group.name}>
+        <img src={imgSrc(group.picture, 48)} alt={group.name} />
         <div class="info">
-          <span>{@html i18n(text, textContext)}</span><br>
+          <span>{@html i18n(text, textContext)}</span><br />
           <span class="time">{timeFromNow(time)}</span>
         </div>
         {#if unread}

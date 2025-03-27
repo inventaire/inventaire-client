@@ -1,6 +1,6 @@
 import { compact, difference, uniq } from 'underscore'
-import { getEntities } from '#app/modules/entities/lib/entities'
 import { defaultWorkP31PerSerieP31 } from '#entities/components/lib/claims_helpers'
+import { getEntities } from '#entities/lib/entities'
 import type { EntityUri, SerializedEntity } from '#server/types/entity'
 import { getPropertyValuesShortlist } from './property_values_shortlist'
 

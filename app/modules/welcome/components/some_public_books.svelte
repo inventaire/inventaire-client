@@ -4,10 +4,10 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
-  import { getRecentPublicItems } from '#app/modules/inventory/lib/queries'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
+  import { getRecentPublicItems } from '#inventory/lib/queries'
   import type { SerializedItem } from '#server/types/item'
   import { i18n } from '#user/lib/i18n'
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
-  import { updateUser } from '#app/modules/user/lib/main_user'
   import { I18n } from '#user/lib/i18n'
+  import { updateUser } from '#user/lib/main_user'
 
   export let name
   export let value

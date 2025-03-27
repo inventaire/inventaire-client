@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition'
   import { icon } from '#app/lib/icons'
   import { wait } from '#app/lib/promises'
-  import { i18n } from '#app/modules/user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
 
   export let text: string
   export let buttonTitle = ''

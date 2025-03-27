@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
-  import { clearSearchHistory, searchResultsHistory } from '#app/modules/search/lib/search_results_history'
+  import { clearSearchHistory, searchResultsHistory } from '#search/lib/search_results_history'
   import { I18n } from '#user/lib/i18n'
   import PreviousSearch from './previous_search.svelte'
 
