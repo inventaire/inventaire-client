@@ -1,4 +1,3 @@
-import app from '#app/app'
 import { newError, type ContextualizedError } from '#app/lib/error'
 import type { Url } from '#server/types/common'
 
@@ -47,7 +46,7 @@ function ajaxFactory (method, hasBody) {
         // We need a clean message in case this is to be displayed as an alert
         message = responseJSON?.status_verbose || messageWithContext
       } else if (statusCode === 0) {
-        app.execute('flash:message:show:network:error')
+        showNetworkError()
         message = 'network error'
       } else {
         // cf https://stackoverflow.com/a/6186905
@@ -106,7 +105,7 @@ function rewriteJqueryError (err: ContextualizedError, context: Record<string, u
     // We need a clean message in case this is to be displayed as an alert
     message = responseJSON?.status_verbose || messageWithContext
   } else if (statusCode === 0) {
-    app.execute('flash:message:show:network:error')
+    showNetworkError()
     message = 'network error'
   } else {
     // cf https://stackoverflow.com/a/6186905
@@ -123,4 +122,9 @@ got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}
 
 export function getOngoingRequestsCount () {
   return ongoingRequestsCount
+}
+
+function showNetworkError () {
+  // Disabled to avoid a circular dependency on the '#app/api/api'
+  // app.execute('flash:message:show:network:error')
 }

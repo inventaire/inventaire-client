@@ -11,15 +11,6 @@ img{
   }
 }
 
-.profilePic{
-  height: 2.8em;
-  background-color: white;
-}
-
-.large-profilePic{
-  height: 5em;
-}
-
 figure{
   margin:0;
   display: inline-block;
@@ -31,21 +22,5 @@ figure{
       margin: 0;
       padding: 0.8rem;
     }
-  }
-}
-
-/*Small screens*/
-@media screen and (width < $small-screen) {
-  .max-large-profilePic{
-    max-width: 90%;
-    max-height: 10em;
-  }
-}
-
-/*Large screens*/
-@media screen and (width >= $small-screen) {
-  .max-large-profilePic{
-    max-width: 25em;
-    max-height: 25em;
   }
 }

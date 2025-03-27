@@ -1,10 +1,9 @@
-import { getEndpointBase } from '#app/api/endpoint'
 import preq from '#app/lib/preq'
 import type { ClientConfig } from '#server/controllers/config'
 import log_ from './lib/loggers'
 
-// Do not use API.config to avoid a circular dependency
-const configEndpoint = getEndpointBase('config')
+// Do not use API.config or getEndpointBase to avoid a circular dependency
+const configEndpoint = '/api/config'
 
 export const config: ClientConfig = await preq.get(configEndpoint)
 

@@ -1,4 +1,4 @@
-import { serverReportError, newError } from '#app/lib/error'
+import { serverReportError } from '#app/lib/error'
 
 // Keep in sync with app/modules/general/scss/_media_query_thresholds.scss
 const wellknownWidths = {
@@ -17,23 +17,6 @@ export const viewportIsSmallerThan = maxWidth => getViewportWidth() < resolveWid
 export const viewportIsLargerThan = maxWidth => getViewportWidth() >= resolveWidth(maxWidth)
 
 export const viewportIsSmall = () => viewportIsSmallerThan('$small-screen')
-
-// Scroll to the top of an $el
-// Increase marginTop to scroll to a point before the element top
-export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 100 }: { $el: JQuery, duration?: number, marginTop?: number, delay?: number }) {
-  if (!($el instanceof $)) {
-    throw newError('expected jquery $el', 500, arguments)
-  }
-  const scroll = function () {
-    if (!$el[0]?.isConnected) {
-      serverReportError('element is not connected to the DOM anymore', { $el })
-      return
-    }
-    const top = $el.position().top - marginTop
-    return $('html, body').animate({ scrollTop: top }, duration)
-  }
-  return setTimeout(scroll, delay)
-}
 
 interface ScrollOptions{
   marginTop?: number

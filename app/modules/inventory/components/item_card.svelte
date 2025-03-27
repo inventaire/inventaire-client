@@ -164,7 +164,7 @@
     margin: 0.2em auto;
     max-width: 1em;
   }
-  img:not(.profilePic){
+  img{
     max-height: 20em;
     border-block-end: 1px solid #ccc;
     padding-block-end: 15px;

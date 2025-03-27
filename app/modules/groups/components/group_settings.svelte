@@ -165,7 +165,7 @@
     {#if description !== group.description}
       <div class="textarea-buttons" transition:slide>
         <button
-          class="cancelButton"
+          class="cancel-button"
           on:click={() => description = group.description}
           disabled={savingDescription != null}
         >
@@ -173,7 +173,7 @@
           {I18n('cancel')}
         </button>
         <button
-          class="saveButton"
+          class="save-button"
           on:click={saveDescription}
           disabled={savingDescription != null}
         >
