@@ -3,9 +3,9 @@
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { updateUser } from '#app/modules/user/lib/main_user'
   import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
   import { I18n } from '#user/lib/i18n'
+  import { updateUser } from '#user/lib/main_user'
 
   export let category = null
 

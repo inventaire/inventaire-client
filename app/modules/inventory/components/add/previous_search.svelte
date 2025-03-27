@@ -1,8 +1,8 @@
 <script lang="ts">
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { loadInternalLink } from '#app/lib/utils'
-  import { getEntityPathname } from '#app/modules/entities/lib/entities'
-  import type { HistoryEntry } from '#app/modules/search/lib/search_results_history'
+  import { getEntityPathname } from '#entities/lib/entities'
+  import type { HistoryEntry } from '#search/lib/search_results_history'
 
   export let entry: HistoryEntry
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
-  import { mainUserHasWikidataOauthTokens } from '#app/modules/user/lib/main_user'
+  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
 
   export let entity
   const { uri } = entity

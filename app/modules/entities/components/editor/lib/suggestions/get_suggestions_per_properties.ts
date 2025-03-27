@@ -1,7 +1,7 @@
 import app from '#app/app'
 import { reportError } from '#app/lib/reports'
-import { authorProperties } from '#app/modules/entities/lib/properties'
 import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+import { authorProperties } from '#entities/lib/properties'
 import { authorProperty } from './author_properties.ts'
 import wdtP123 from './wdt_P123.ts'
 import wdtP195 from './wdt_P195.ts'

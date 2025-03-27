@@ -2,11 +2,11 @@
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
-  import { I18n } from '#app/modules/user/lib/i18n'
-  import { updateRelationStatus } from '#app/modules/users/lib/relations'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
+  import { I18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
+  import { updateRelationStatus } from '#users/lib/relations'
+  import type { SerializedUser } from '#users/lib/users'
 
   export let user: SerializedUser
 

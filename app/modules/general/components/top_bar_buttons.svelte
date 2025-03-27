@@ -5,14 +5,14 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
-  import { userGroupsInvitationsCount } from '#app/modules/groups/lib/groups_data'
-  import { unreadNotificationsCount } from '#app/modules/notifications/lib/notifications'
-  import { friendshipRequestsCount } from '#app/modules/users/lib/relations'
   import Dropdown from '#components/dropdown.svelte'
   import IconWithCounter from '#components/icon_with_counter.svelte'
+  import { userGroupsInvitationsCount } from '#groups/lib/groups_data'
+  import { unreadNotificationsCount } from '#notifications/lib/notifications'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
+  import { friendshipRequestsCount } from '#users/lib/relations'
 
   $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
 

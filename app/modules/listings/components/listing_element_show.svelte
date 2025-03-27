@@ -6,8 +6,6 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
-  import type { SerializedEntity } from '#app/modules/entities/lib/entities'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
   import Dropdown from '#components/dropdown.svelte'
   import EntityImage from '#entities/components/entity_image.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
@@ -16,11 +14,13 @@
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { authorsProps } from '#entities/components/lib/claims_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import { entitiesTypesByListingType } from '#listings/lib/entities_typing'
   import { updateElement } from '#listings/lib/listings'
   import { userListings } from '#listings/lib/stores/user_listings'
   import ListingElementComment from '#modules/listings/components/listing_element_comment.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
+  import type { SerializedUser } from '#users/lib/users'
   import type { ListingElementWithEntity } from '../lib/listings'
 
   export let element: ListingElementWithEntity

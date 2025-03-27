@@ -3,7 +3,6 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Spinner from '#general/components/spinner.svelte'
@@ -12,6 +11,7 @@
   import type { ListingElement as ListingElementT } from '#server/types/element'
   import type { Listing } from '#server/types/listing'
   import { i18n, I18n } from '#user/lib/i18n'
+  import type { SerializedUser } from '#users/lib/users'
   import ListingElement from './listing_element.svelte'
 
   export let elements: ListingElementT[] = []

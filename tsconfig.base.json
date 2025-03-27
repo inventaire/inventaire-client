@@ -95,7 +95,10 @@
       ],
       "#app/*": [
         "./app/*"
-      ]
+      ],
+      "#vendor/*": [
+        "./vendor/*"
+      ],
     },
     // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248
     // "exactOptionalPropertyTypes": true,
