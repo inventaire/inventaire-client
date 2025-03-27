@@ -66,6 +66,7 @@
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropperjs": "^1.5.12",
     "enumerate-devices": "^1.1.0",
+    "escape-html": "^1.0.3",
     "fork-awesome": "^1.2.0",
     "handlebars": "^4.7.6",
     "isbn3": "^1.1.6",
