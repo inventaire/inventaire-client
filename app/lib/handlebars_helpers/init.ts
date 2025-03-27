@@ -4,10 +4,9 @@ import * as icons from './icons.ts'
 import images from './images.ts'
 import linkify from './linkify.ts'
 import misc from './misc.ts'
-import { userContent } from './user_content.ts'
 import utils from './utils.ts'
 
-const API = Object.assign({ linkify, userContent }, blocks, misc, utils, icons, images)
+const API = Object.assign({ linkify }, blocks, misc, utils, icons, images)
 
 for (const name in API) {
   const fn = API[name]

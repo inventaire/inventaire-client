@@ -2,7 +2,7 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
