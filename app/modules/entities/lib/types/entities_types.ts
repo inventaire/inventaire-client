@@ -59,3 +59,17 @@ export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'ed
 export function isStandaloneEntityType (type) {
   return Object.keys(typeDefaultP31).includes(type)
 }
+
+export const typesString = {
+  'wd:Q5': 'author',
+  // works
+  'wd:Q571': 'book',
+  'wd:Q47461344': 'book',
+  'wd:Q1004': 'comic book',
+  'wd:Q8274': 'manga',
+  'wd:Q49084': 'short story',
+  // series
+  'wd:Q277759': 'book series',
+  'wd:Q14406742': 'comic book series',
+  'wd:Q21198342': 'manga series',
+} as const

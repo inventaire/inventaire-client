@@ -38,7 +38,7 @@
     flash = null
     try {
       if (!mainUserHasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit', invUri)
+        return app.execute('show:wikidata:edit:intro', invUri)
       }
       await moveToWikidata(invUri)
       // This should now redirect us to the new Wikidata edit page

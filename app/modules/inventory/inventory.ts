@@ -8,7 +8,6 @@ import preq from '#app/lib/preq'
 import { showUsersHome } from '#users/users'
 import { resolveToUser } from '../users/users_data.ts'
 import { getItemsByUserIdAndEntities, getNearbyItems, getNetworkItems } from './lib/queries.ts'
-import showItemCreationForm from './lib/show_item_creation_form.ts'
 import type { SerializedItemWithUserData } from './lib/items.ts'
 
 export default {
@@ -184,8 +183,6 @@ const initializeInventoriesHandlers = function (app) {
     },
 
     'show:inventory:group': controller.showGroupInventory,
-
-    'show:item:creation:form': showItemCreationForm,
 
     'show:item': showItem,
   })
