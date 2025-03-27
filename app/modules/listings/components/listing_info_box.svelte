@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { userContent } from '#app/lib/user_content'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'

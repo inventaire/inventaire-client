@@ -1,8 +1,8 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
+  import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside } from '#app/lib/utils'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'

@@ -1,11 +1,8 @@
-import Handlebars from 'handlebars/runtime.js'
 import { API } from '#app/api/api'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
-
-// @ts-expect-error
-const { escapeExpression } = Handlebars
+import { escapeHtml } from '../user_content'
 
 export default {
   extract (lang, title) {
@@ -16,7 +13,7 @@ export default {
       // Escaping as extracts are user-generated external content
       // that will be displayed as {{{SafeStrings}}} in views as
       // they are enriched with HTML by sourcedExtract hereafter
-      extract = escapeExpression(extract)
+      extract = escapeHtml(extract)
       extract = sourcedExtract(extract, url)
       return { extract, lang }
     })
