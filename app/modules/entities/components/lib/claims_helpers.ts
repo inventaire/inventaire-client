@@ -93,7 +93,7 @@ export const inverseLabels = {
   'wdt:P2675': 'works_replying_to_work',
   'wdt:P2679,wdt:P2680': 'editions_prefaced_or_postfaced_by_author',
   'wdt:P7937': 'works_in_this_form',
-}
+} as const
 
 const specialPathnameProperties = Object.keys(inverseLabels)
 

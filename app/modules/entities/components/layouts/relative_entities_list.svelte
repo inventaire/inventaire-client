@@ -9,12 +9,15 @@
   import Spinner from '#components/spinner.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
-  import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
   import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
+  import type { PropertyUri } from '#server/types/entity'
   import { i18n } from '#user/lib/i18n'
 
-  export let entity, property, label
+  export let entity: SerializedEntity
+  export let property: PropertyUri
+  export let label: string
   export let claims = null
 
   let flash

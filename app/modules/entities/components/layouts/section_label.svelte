@@ -3,8 +3,8 @@
   import { loadInternalLink } from '#app/lib/utils'
   import { i18n } from '#user/lib/i18n'
 
-  export let label
-  export let entitiesLength
+  export let label: string
+  export let entitiesLength: number
   export let filteredEntitiesLength = null
   export let property = null
   export let uri = null

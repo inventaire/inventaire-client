@@ -94,7 +94,7 @@
         <RelativeEntitiesList
           {entity}
           property={relativeProperty}
-          label={getRelativeEntitiesListLabel({ property, entity })}
+          label={getRelativeEntitiesListLabel({ property: relativeProperty, entity })}
         />
       {/each}
     </div>

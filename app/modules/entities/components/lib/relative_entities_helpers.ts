@@ -1,16 +1,17 @@
 import { without } from 'underscore'
 import { inverseLabels } from '#entities/components/lib/claims_helpers'
+import type { SerializedEntity } from '#entities/lib/entities'
 import type { ExtendedEntityType, PropertyUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
-export function getRelativeEntitiesListLabel ({ property, entity }) {
-  const label = inverseLabels[property]
+export function getRelativeEntitiesListLabel ({ property, entity }: { property: PropertyUri, entity: SerializedEntity }) {
+  const label = inverseLabels[property] as string
   if (label) return i18n(label, { name: entity.label })
 }
 
 export function getRelativeEntitiesProperties (type: ExtendedEntityType, mainProperty?: PropertyUri) {
   // TODO: add genre relatives
-  let properties = relativeEntitiesPropertiesByType[type]
+  let properties = relativeEntitiesPropertiesByType[type].flat() as PropertyUri[]
   // Omit the property already displayed in the entity browser of a claim layout.
   if (mainProperty) properties = without(properties, mainProperty)
   return properties || []
@@ -21,7 +22,7 @@ const workRelativeEntitiesProperties = [
   'wdt:P941', // inspired by
   'wdt:P921', // main subject
   'wdt:P2675', // reply to
-]
+] as const
 
 const relativeEntitiesPropertiesByType = {
   work: workRelativeEntitiesProperties,
@@ -41,4 +42,4 @@ const relativeEntitiesPropertiesByType = {
     'wdt:P921', // main subject
     [ 'wdt:P2679', 'wdt:P2680' ], // author of foreword and afterword
   ],
-}
+} as const
