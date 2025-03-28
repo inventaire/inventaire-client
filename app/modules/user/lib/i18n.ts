@@ -1,4 +1,5 @@
 import Polyglot from 'node-polyglot'
+import { writable } from 'svelte/store'
 import { noop } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
@@ -34,14 +35,11 @@ function onMissingKey (key: string) {
 }
 
 let lastLocalLang
+export const localLang = writable()
 
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export async function initI18n (lang: UserLang) {
-  app.reqres.setHandlers({
-    'lang:local:get': () => lastLocalLang,
-  })
-
   setLanguage(lang).catch(log_.Error('setLanguage error'))
 }
 
@@ -49,6 +47,7 @@ export const I18n = (key: string, context?: unknown) => capitalize(currentLangI1
 
 async function setLanguage (lang: UserLang) {
   lastLocalLang = lang
+  localLang.set(lang)
   app.polyglot = new Polyglot({ onMissingKey })
   currentLangI18n = translate(lang, app.polyglot)
   return requestI18nFile(app.polyglot, lang)
