@@ -124,7 +124,8 @@ export function getOngoingRequestsCount () {
   return ongoingRequestsCount
 }
 
-function showNetworkError () {
-  // Disabled to avoid a circular dependency on the '#app/api/api'
-  // app.execute('flash:message:show:network:error')
+async function showNetworkError () {
+  // Late import to avoid a circular dependency on the '#app/api/api'
+  const { default: app } = await import('#app/app')
+  app.execute('flash:message:show:network:error')
 }

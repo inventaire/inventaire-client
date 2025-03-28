@@ -4,13 +4,13 @@ import { property } from 'underscore'
 
 export default () => setInterval(tryReload, 24 * 60 * 60 * 1000)
 
-const tryReload = function () {
+function tryReload () {
   if (textareaContentLength() > 0) return
   return window.location.reload()
 }
 
-const textareaContentLength = () => {
-  return Array.from($('textarea'))
+function textareaContentLength () {
+  return Array.from(document.querySelectorAll('textarea'))
   .map(property('value'))
   .join('')
   .length
