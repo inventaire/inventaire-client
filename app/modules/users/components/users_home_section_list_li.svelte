@@ -27,8 +27,9 @@
 
   const dispatch = createEventDispatcher()
 
-  function select () {
+  function select (e) {
     dispatch('select', { type, doc })
+    e.preventDefault()
   }
 </script>
 
