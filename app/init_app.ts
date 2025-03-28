@@ -5,7 +5,6 @@ import reloadOnceADay from '#app/lib/reload_once_a_day'
 import Entities from '#entities/entities'
 import AppLayout from '#general/components/app_layout.svelte'
 import { initQuerystringActions } from '#general/lib/querystring_actions'
-import { preventAnchorDefault } from '#general/lib/smart_prevent_default'
 import Groups from '#groups/groups'
 import Add from '#inventory/add'
 import Inventory from '#inventory/inventory'
@@ -51,7 +50,6 @@ export default async function () {
 
   await app.request('wait:for', 'i18n')
   initAppLayout()
-  initGlobalEventListners()
   app.start()
   app.execute('waiter:resolve', 'layout')
   reloadOnceADay()
@@ -84,8 +82,4 @@ function showChildComponent (regionName: RegionName, component: ComponentType, o
 
 function removeCurrentComponent (regionName: RegionName) {
   app.layout.$set({ [regionName]: null })
-}
-
-function initGlobalEventListners () {
-  document.addEventListener('click', preventAnchorDefault)
 }

@@ -32,6 +32,7 @@
     selectedUser = e.detail.doc
     selectedGroup = null
     $focusedSection = { type: 'user' }
+    e.preventDefault()
   }
   function unselect () {
     selectedUser = null
@@ -42,6 +43,7 @@
     selectedUser = null
     selectedGroup = e.detail.doc
     $focusedSection = { type: 'group' }
+    e.preventDefault()
   }
 </script>
 
