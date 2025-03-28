@@ -6,7 +6,7 @@ const { origin } = location
 
 // lang metadata updates needed by search engines
 // or to make by-language css rules (with :lang)
-export default function (lang) {
+export function initDocumentLang (lang: string) {
   document.documentElement.setAttribute('lang', lang)
   document.documentElement.setAttribute('dir', getTextDirection(lang))
 

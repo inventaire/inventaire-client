@@ -409,7 +409,7 @@
   #overlay{
     background: rgba(black, 0.55);
     @include position(fixed, 0, 0, 0, 0);
-    // The #topBar gives it a positive z-index, and it sould be displayed just below
+    // The .top-bar gives it a positive z-index, and it sould be displayed just below
     z-index: -1;
   }
   .loader, .search-results, .no-result{

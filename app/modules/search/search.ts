@@ -28,7 +28,7 @@ const controller = {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
     setPrerenderStatusCode(302, '')
     // Wait for the global search bar to have been initialized
-    await app.request('wait:for', 'topbar')
+    await app.request('wait:for', 'layout')
     app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
   },
 
