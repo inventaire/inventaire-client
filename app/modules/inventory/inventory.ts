@@ -148,8 +148,7 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
           item,
           user,
           pathnameAfterClosingModal,
-          // TODO: fix
-          // autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName)),
+          autodestroyComponent: () => app.layout.removeCurrentComponent(regionName),
         },
       })
     } else {
