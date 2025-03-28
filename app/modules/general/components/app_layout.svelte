@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
   import type { RegionComponent } from '#app/init_app'
-  import { initDocumentLang } from '#general/lib/document_lang'
   import { preventFormSubmit } from '#general/lib/prevent_form_submit'
+  import DocumentHeaders from './document_headers.svelte'
   import FullScreenLoader from './full_screen_loader.svelte'
   import GlobalFlashMessage from './global_flash_message.svelte'
   import Modal from './modal.svelte'
@@ -11,8 +11,6 @@
   export let main: RegionComponent = null
   export let modal: RegionComponent = null
   export let svelteModal: RegionComponent = null
-
-  initDocumentLang(app.user.lang)
 
   // Unfortunately, setting class:hasOverlay on <svelte:body> doesn't work
   // See https://github.com/sveltejs/svelte/issues/3105
@@ -35,6 +33,8 @@
 
   $: main ??= { component: FullScreenLoader, props: {} }
 </script>
+
+<DocumentHeaders />
 
 <div class="top-bar">
   <TopBar />
