@@ -8,6 +8,7 @@
   function onClick (e) {
     const type = e.currentTarget.href.split('type=')[1]
     app.execute('search:global', '', type)
+    e.preventDefault()
   }
 </script>
 

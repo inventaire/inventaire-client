@@ -17,6 +17,7 @@
     if (isOpenedOutside(e)) return
     const { pathname } = new URL(e.currentTarget.href)
     tab = pathname.split('/')[2]
+    e.preventDefault()
   }
 
   function onTabChange () {
