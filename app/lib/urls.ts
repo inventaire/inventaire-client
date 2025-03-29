@@ -3,8 +3,8 @@ import type { AssetImagePath } from '#server/types/image'
 const subdomain = sub => `https://${sub}.inventaire.io`
 const image = filename => `/img/assets/${filename}` as AssetImagePath
 
+// TODO: generate from config
 export const domain = 'inventaire.io'
-export const host = `https://${domain}`
 export const blog = subdomain('blog')
 export const git = subdomain('git')
 export const wiki = subdomain('wiki')

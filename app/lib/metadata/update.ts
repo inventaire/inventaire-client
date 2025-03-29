@@ -1,24 +1,21 @@
-import { API } from '#app/api/api'
 // Metadata update is coupled to the needs of:
 // - Browsers:
 //   - document title update (which is important for the browser history)
 //   - RSS feed detection
-// - Prerender (https://github.com/inventaire/prerender), which itself aims to serve:
+// - Prerender (https://github.com/inventaire/firefox-headless-prerender), which itself aims to serve:
 //   - search engines need status codes and redirection locations
 //   - social media need metadata in different formats to show link previews:
 //     - opengraph (https://ogp.me)
 //     - twitter cards (https://developer.twitter.com/cards)
 //   - other crawlers
-//
-// For all the needs covered by Prerender, only the first update matters,
-// but further updates might be needed for in browser metadata access,
-// such as RSS feed detections
-import { dropLeadingSlash } from '#app/lib/utils'
-import type { Url } from '#server/types/common'
+import { writable } from 'svelte/store'
+import { API } from '#app/api/api'
+import { dropLeadingSlash, objectEntries } from '#app/lib/utils'
+import type { RelativeUrl, Url } from '#server/types/common'
 import { i18n } from '#user/lib/i18n'
 import { getOngoingRequestsCount } from '../preq.ts'
-import { transformers } from './apply_transformers.ts'
-import updateNodeType from './update_node_type.ts'
+import { applyTransformers, transformers } from './apply_transformers.ts'
+import type { ProjectRootRelativeUrl } from '../location.ts'
 
 export const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
 
@@ -28,7 +25,6 @@ interface Metadata {
   description: string
   image: Url
   rss: Url
-  'og:type'?: 'website'
   'twitter:card': 'summary' | 'summary_large_image'
 }
 
@@ -42,7 +38,7 @@ export interface MetadataUpdate {
   rss?: Url
 }
 
-export async function updateRouteMetadata (route, metadataPromise: MetadataUpdate | Promise<MetadataUpdate> = {}) {
+export async function updateRouteMetadata (route: RelativeUrl | ProjectRootRelativeUrl, metadataPromise: MetadataUpdate | Promise<MetadataUpdate> = {}) {
   route = dropLeadingSlash(route)
   // metadataPromise can be a promise or a simple object
   const metadata = await metadataPromise
@@ -51,7 +47,21 @@ export async function updateRouteMetadata (route, metadataPromise: MetadataUpdat
   if (metadata?.title) metadataUpdateDone()
 }
 
-function applyMetadataUpdate (route, metadataUpdate: MetadataUpdate = {}) {
+export function getDefaultMetadata () {
+  return {
+    url: '',
+    title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
+    description: i18n('Make the inventory of your books, share it with your friends and communities into an infinite library!'),
+    image: '/public/images/inventaire-books.jpg' as Url,
+    rss: 'https://mamot.fr/users/inventaire.rss' as Url,
+    'og:type': 'website' as const,
+    'twitter:card': 'summary_large_image' as const,
+  } as Metadata
+}
+
+export const metadataStore = writable(null)
+
+function applyMetadataUpdate (route: ProjectRootRelativeUrl, metadataUpdate: MetadataUpdate = {}) {
   if (metadataUpdate.smallCardType) {
     metadataUpdate['twitter:card'] = 'summary'
     // Use a small image to force social media to display it small
@@ -68,30 +78,20 @@ function applyMetadataUpdate (route, metadataUpdate: MetadataUpdate = {}) {
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
   if (metadata.description == null) metadata.description = ''
-  updateMetadata(metadata)
-}
 
-export const getDefaultMetadata = () => ({
-  url: '',
-  title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
-  description: i18n('Make the inventory of your books, share it with your friends and communities into an infinite library!'),
-  image: 'https://inventaire.io/public/images/inventaire-books.jpg' as Url,
-  rss: 'https://mamot.fr/users/inventaire.rss' as Url,
-  'og:type': 'website' as const,
-  'twitter:card': 'summary_large_image' as const,
-})
-
-function updateMetadata (metadata) {
-  for (const key in metadata) {
-    const value = metadata[key]
-    updateNodeType(key, value)
+  for (const [ key, value ] of objectEntries(metadata)) {
+    if (value) {
+      // @ts-expect-error
+      metadata[key] = applyTransformers(key, value)
+    }
   }
+  metadataStore.set(metadata)
 }
 
 export function clearMetadata () {
   resetPagePrerender()
-  updateMetadata(getDefaultMetadata())
-  $('head meta[name^="prerender"]').remove()
+  metadataStore.set(getDefaultMetadata())
+  prerenderStatusStore.set({})
 }
 
 let sessionId = 0
@@ -124,20 +124,21 @@ async function metadataUpdateDone () {
   endPrerenderSession?.()
 }
 
-function setPrerenderMeta (statusCode = 500, route) {
+export const prerenderStatusStore = writable({} as { statusCode?: number, header?: string })
+
+function setPrerenderMeta (statusCode = 500, route: ProjectRootRelativeUrl) {
   if (!isPrerenderSession || window.prerenderReady) return
 
-  let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
   if (statusCode === 302 && route != null) {
     const fullUrl = transformers.url(route)
-    // See https://github.com/prerender/prerender#httpheaders
-    prerenderMeta += `<meta name='prerender-header' content='Location: ${fullUrl}'>`
+    // See https://github.com/inventaire/firefox-headless-prerender/blob/599894c/server/get_page_metadata.js
+    prerenderStatusStore.set({ statusCode, header: `Location: ${fullUrl}` })
+  } else {
+    prerenderStatusStore.set({ statusCode })
   }
-
-  $('head').append(prerenderMeta)
 }
 
-export function setPrerenderStatusCode (statusCode, route?) {
+export function setPrerenderStatusCode (statusCode: number, route?: ProjectRootRelativeUrl) {
   setPrerenderMeta(statusCode, route)
   metadataUpdateDone()
 }

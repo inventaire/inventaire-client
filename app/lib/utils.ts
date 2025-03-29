@@ -3,7 +3,8 @@ import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
-import { currentRoute } from '#app/lib/location'
+import { currentRoute, type ProjectRootRelativeUrl } from '#app/lib/location'
+import type { RelativeUrl } from '#server/types/common'
 import type { ObjectEntries } from 'type-fest/source/entries'
 
 export function deepClone (obj: unknown) {
@@ -194,7 +195,7 @@ export function bubbleUpChildViewEvent (eventName: string) {
   }
 }
 
-export const dropLeadingSlash = (str: string) => str.replace(/^\//, '')
+export const dropLeadingSlash = (str: RelativeUrl | ProjectRootRelativeUrl) => str.replace(/^\//, '') as ProjectRootRelativeUrl
 
 export function setIntersection <T> (a: Set<T>, b: Set<T> | T[]) {
   let set, arrayOrSet
@@ -242,7 +243,7 @@ export function arrayIncludes <T extends (string | number)> (array: readonly T[]
   return arrayT.includes(value)
 }
 
-export function objectEntries <Obj extends Record<string, unknown>> (obj: Obj) {
+export function objectEntries <Obj extends object> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
 
