@@ -1,37 +1,43 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
-import { host } from '#app/lib/urls'
+import { config } from '#app/config'
 import { dropLeadingSlash } from '#app/lib/utils'
+import type { AbsoluteUrl, Url } from '#server/types/common'
 import { getQuerystringParameter } from '../querystring_helpers'
 
-const absolutePath = url => {
+const { instanceName } = config
+const { origin } = location
+
+function absolutePath (url: Url) {
   if (url?.[0] === '/') {
-    return host + url
+    return origin + url
   } else {
     return url
   }
 }
 
-export default function (key, value, noCompletion) {
-  if (withTransformers.includes(key)) {
-    return transformers[key](value, noCompletion)
+export function applyTransformers (key: string, value: unknown) {
+  if (transformers[key] != null) {
+    return transformers[key](value)
   } else {
     return value
   }
 }
 
 export const transformers = {
-  title: (value, noCompletion) => noCompletion ? value : `${value} - Inventaire`,
-  url: canonicalPath => {
+  title: (value: string) => {
+    return value.endsWith(instanceName) ? value : `${value} - ${instanceName}`
+  },
+  url: (canonicalPath: string) => {
     canonicalPath = dropLeadingSlash(canonicalPath)
     let url = `${window.location.origin}/${canonicalPath}`
 
-    // Preserver parameters that make a resource different enough,
+    // Preserve parameters that make a resource different enough,
     // that the prerendered version returned should be different
     const lang = getQuerystringParameter('lang') || app.user?.lang || 'en'
     url += `?lang=${lang}`
 
-    return url
+    return url as AbsoluteUrl
   },
   image: url => {
     if (url.match(/\d+x\d+/)) {
@@ -41,5 +47,3 @@ export const transformers = {
     }
   },
 }
-
-const withTransformers = Object.keys(transformers)
