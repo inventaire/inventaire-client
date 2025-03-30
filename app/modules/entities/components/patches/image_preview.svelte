@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import type { EntityImagePath, ImageHash } from '#server/types/image'
   import { i18n } from '#user/lib/i18n'
 

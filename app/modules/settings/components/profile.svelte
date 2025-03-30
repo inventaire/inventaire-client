@@ -3,7 +3,7 @@
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { newError } from '#app/lib/error'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import preq from '#app/lib/preq'
   import { Username } from '#app/lib/regex'
   import { onChange } from '#app/lib/svelte/svelte'

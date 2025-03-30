@@ -1,10 +1,10 @@
 import { union, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
-import * as icons_ from '#app/lib/handlebars_helpers/icons'
-import platforms_ from '#app/lib/handlebars_helpers/platforms'
+import { icon as iconFn } from '#app/lib/icons'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import type { SerializedEntity } from '#entities/lib/entities'
+import { platforms } from '#entities/lib/platforms'
 import type { AuthorProperty } from '#entities/lib/properties'
 import { isStandaloneEntityType, typeDefaultP31 } from '#entities/lib/types/entities_types'
 
@@ -116,8 +116,8 @@ export function urlClaim (params) {
 
 export function platformClaim (params) {
   const { prop, value } = params
-  const platform = platforms_[prop]
-  const icon = icons_.icon(platform.icon)
+  const platform = platforms[prop]
+  const icon = iconFn(platform.icon)
   const text = icon + '<span>' + platform.text(value) + '</span>'
   const url = platform.url(value)
   return { icon, text, url }

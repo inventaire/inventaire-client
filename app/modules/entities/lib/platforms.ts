@@ -4,7 +4,7 @@ import { i18n } from '#user/lib/i18n'
 
 const gutenbergText = () => i18n('on_website', { name: 'Gutenberg.org' })
 
-export default {
+export const platforms = {
   'wdt:P724': {
     icon: 'archive-org',
     text () { return i18n('on_website', { name: 'Internet Archive' }) },
@@ -53,9 +53,9 @@ export default {
     text () { return i18n('on_website', { name: 'Gallica' }) },
     url (id) { return `https://gallica.bnf.fr/ark:/12148/${id}` },
   },
-}
+} as const
 
-const gutenbergBase = function () {
+function gutenbergBase () {
   const base = viewportIsSmall() ? 'http://m.' : 'https://www.'
   return `${base}gutenberg.org/`
 }

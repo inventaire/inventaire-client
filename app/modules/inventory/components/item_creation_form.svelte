@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'

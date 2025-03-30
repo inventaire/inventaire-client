@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside } from '#app/lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'

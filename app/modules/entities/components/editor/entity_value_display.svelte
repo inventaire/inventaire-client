@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { getEntityBasicInfoByUri, type SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { EntityUri } from '#server/types/entity'
