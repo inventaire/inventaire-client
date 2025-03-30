@@ -1,6 +1,6 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
 
   export let follower
 

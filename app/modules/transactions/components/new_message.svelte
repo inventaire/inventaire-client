@@ -1,7 +1,7 @@
 <script lang="ts">
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { getActionKey } from '#app/lib/key_events'
   import isMobile from '#app/lib/mobile_check'
   import Spinner from '#components/spinner.svelte'

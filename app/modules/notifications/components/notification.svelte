@@ -1,7 +1,7 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
   import { getGroup } from '#groups/lib/groups'

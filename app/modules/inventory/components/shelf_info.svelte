@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { getColorSquareDataUri, getColorHexCodeFromCouchUuId } from '#app/lib/images'
 
   export let shelf

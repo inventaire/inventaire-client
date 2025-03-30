@@ -2,8 +2,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside } from '#app/lib/utils'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
   import { I18n } from '#user/lib/i18n'

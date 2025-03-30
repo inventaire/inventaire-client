@@ -1,11 +1,9 @@
 import { isNumber } from 'underscore'
 import { API } from '#app/api/api'
-// This is tailored for handlebars, for other uses, use API.img directly.
-// Keep in sync with server/lib/emails/handlebars_helpers
 import { isImageDataUrl } from '#app/lib/boolean_tests'
 import type { Url } from '#server/types/common'
 import type { ImageDataUrl, ImagePath } from '#server/types/image'
-import { getViewportWidth } from '../screen'
+import { getViewportWidth } from './screen'
 
 export function imgSrc (path: ImagePath | Url, width: number, height?: number): Url
 export function imgSrc (path: ImageDataUrl): ImageDataUrl

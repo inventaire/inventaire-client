@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'

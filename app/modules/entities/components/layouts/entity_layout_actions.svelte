@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
-  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { icon as iconFn } from '#app/lib/icons'
   import { getWikidataHistoryUrl, getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'

@@ -1,6 +1,5 @@
 import './init_globals.ts'
 import '#general/scss/base.scss'
-import '#app/lib/handlebars_helpers/init'
 import '#app/lib/env_config'
 import initUnhandledErrorLogger from '#app/lib/unhandled_error_logger'
 import initApp from './init_app.ts'

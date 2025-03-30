@@ -1,5 +1,5 @@
 <script>
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
 
   export let name = null,
