@@ -69,13 +69,12 @@ export const log_ = {
   error,
   warn,
   logServer: (obj, label) => {
-    // Using jQuery promise instead of preq to be able to report errors
+    // Using native fetch promise instead of preq to be able to report errors
     // happening before preq is initialized
-    $.post({
-      url: API.tests,
-      // jquery defaults to x-www-form-urlencoded
+    fetch(API.tests, {
+      method: 'post',
       headers: { 'content-type': 'application/json' },
-      data: JSON.stringify({ obj, label }),
+      body: JSON.stringify({ obj, label }),
     })
     return obj
   },

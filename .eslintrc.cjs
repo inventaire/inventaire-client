@@ -182,13 +182,9 @@ module.exports = {
     CONFIG: 'writable',
     FormData: 'writable',
     // Libs
-    _: 'writable',
-    resize: 'writable',
-    $: 'writable',
     Backbone: 'writable',
     Marionette: 'writable',
     L: 'writable',
-    FilteredCollection: 'writable',
     // Browser globals
     alert: 'readonly',
     screen: 'readonly',
