@@ -8,7 +8,6 @@ import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { resolveToGroup } from '../groups/lib/groups.ts'
-import initHelpers from './helpers.ts'
 import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount } from './lib/users.ts'
 import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
@@ -32,7 +31,6 @@ export default {
 
     new Router({ controller })
 
-    initHelpers(app)
     initRelations()
 
     app.commands.setHandlers({
@@ -150,14 +148,14 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
   }
 }
 
-async function showUserFollowers (idOrUsernameOrModel) {
+async function showUserFollowers (idOrUsername: UserId | Username) {
   try {
     const [
       { default: UsersHomeLayout },
       user,
     ] = await Promise.all([
       import('#users/components/users_home_layout.svelte'),
-      resolveToUser(idOrUsernameOrModel),
+      resolveToUser(idOrUsername),
     ])
     app.layout.showChildComponent('main', UsersHomeLayout, {
       props: {

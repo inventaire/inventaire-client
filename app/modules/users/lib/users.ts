@@ -64,7 +64,7 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
 
 export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
   if ('pathname' in user) return user as SerializedUser
-  user.isMainUser = user._id === app.user.id
+  user.isMainUser = user._id === app.user._id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
   }
@@ -122,7 +122,7 @@ function getCoords (user) {
 }
 
 export function setItemsCategory (user) {
-  if (user._id === app.user.id) {
+  if (user._id === app.user._id) {
     user.itemsCategory = 'personal'
   } else if (relations.network.includes(user._id)) {
     user.itemsCategory = 'network'
@@ -188,8 +188,6 @@ export async function setInventoryStats (user: SerializedUser) {
   }
 
   const { itemsCount, lastAdd } = data
-  // Setting those as model attributes
-  // so that updating them trigger a model 'change' event
   user.itemsCount = itemsCount
   user.itemsLastAdded = lastAdd
 

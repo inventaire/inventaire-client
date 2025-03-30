@@ -64,11 +64,11 @@ async function searchByEntityUri (uri: EntityUri, types: SearchableType[]) {
 
   if (entity == null) return
 
-  const pluarlizedModelType = (entity.type != null) ? entity.type + 's' : undefined
+  const pluarlizedEntityType = (entity.type != null) ? entity.type + 's' : undefined
   // The type subjects accepts any type, as any entity can be a topic
   // Known issue: languages entities aren't attributed a type by the server
   // thus throwing an error here even if legit, prefer 2 letters language codes
-  if (arrayIncludes(types, pluarlizedModelType) || arrayIncludes(types, 'subjects')) {
+  if (arrayIncludes(types, pluarlizedEntityType) || arrayIncludes(types, 'subjects')) {
     return {
       results: [
         entity,

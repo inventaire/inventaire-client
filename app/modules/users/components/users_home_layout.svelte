@@ -41,7 +41,7 @@
     if ('deleted' in user && user.deleted) app.execute('show:error:missing')
   }
 
-  if (user && user._id === app.user.id) section = 'user'
+  if (user && user._id === app.user._id) section = 'user'
 
   function onSectionChange () {
     if (section) {

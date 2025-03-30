@@ -32,8 +32,6 @@ export async function initMainUser () {
       if (user.type === 'deleted') return app.execute('logout')
       // Initialize app.user so serializeUser can use it
       app.user = user
-      // Help the transition from the Backbone Model
-      app.user.id = user._id
       // @ts-expect-error
       app.user = serializeMainUser(serializeUser(user))
       mainUser.set(app.user)

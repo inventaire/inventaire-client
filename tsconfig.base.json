@@ -66,11 +66,14 @@
       "#tasks/*": [
         "./app/modules/tasks/*"
       ],
-      "#server/types/*": [
-        "../server/types/*",
-      ],
       "#server/controllers/*": [
         "../server/controllers/*",
+      ],
+      "#server/lib/*": [
+        "../server/lib/*",
+      ],
+      "#server/types/*": [
+        "../server/types/*",
       ],
       "#transactions/*": [
         "./app/modules/transactions/*"

@@ -109,7 +109,7 @@ export async function getInventoryView (type: 'without-shelf')
 export async function getInventoryView (type: string, doc?: CouchDoc) {
   let params
   if (type === 'without-shelf') {
-    params = { user: app.user.id, 'without-shelf': true }
+    params = { user: app.user._id, 'without-shelf': true }
   } else {
     params = { [type]: doc._id }
   }

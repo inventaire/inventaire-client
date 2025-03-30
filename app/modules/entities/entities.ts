@@ -2,15 +2,18 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
+import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import { showItemCreationForm } from '#inventory/lib/show_item_creation_form'
+import type { AccessLevel } from '#server/lib/user_access_levels'
 import type { WdEntityUri, EntityUri, SimplifiedClaims } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
 import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
 import { getEntityLayoutComponentByType } from './lib/get_entity_layout_component_by_type.ts'
+import type { ComponentType, ComponentProps, SvelteComponent } from 'svelte'
 
 export default {
   initialize () {
@@ -113,7 +116,7 @@ const controller = {
 
   async showContributionsCounts () {
     const { default: ContributionsCounts } = await import('./components/contributions_counts.svelte')
-    showViewByAccessLevel({
+    showComponentByAccessLevel({
       path: 'entity/contributions',
       title: 'contributions',
       Component: ContributionsCounts,
@@ -123,7 +126,7 @@ const controller = {
 
   async showDeduplicateAuthors () {
     const { default: DeduplicateAuthorsNames } = await import('./components/deduplicate_authors_names.svelte')
-    showViewByAccessLevel({
+    showComponentByAccessLevel({
       path: 'entity/deduplicate/authors',
       title: `${i18n('deduplicate')} - ${i18n('authors')}`,
       Component: DeduplicateAuthorsNames,
@@ -149,7 +152,7 @@ const controller = {
       return
     }
 
-    showViewByAccessLevel({
+    showComponentByAccessLevel({
       path: `entity/${uri}/deduplicate`,
       title: `${entity.label} - ${i18n('deduplicate')} - ${i18n('works')}`,
       Component: DeduplicateWorks,
@@ -307,19 +310,24 @@ async function showEntityCreateFromIsbn (isbn) {
   })
 }
 
-function showViewByAccessLevel (params) {
-  let { path, title, View, viewOptions, Component, componentProps, navigate, accessLevel } = params
+interface ShowComponentByAccessLevelParams {
+  path: ProjectRootRelativeUrl
+  title: string
+  Component: ComponentType
+  componentProps?: ComponentProps<SvelteComponent>
+  navigate?: boolean
+  accessLevel: AccessLevel
+}
+
+function showComponentByAccessLevel (params: ShowComponentByAccessLevelParams) {
+  let { path, title, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
     if (app.request(`require:${accessLevel}:access`)) {
-      if (View) {
-        app.layout.showChildView('main', new View(viewOptions))
-      } else {
-        app.layout.showChildComponent('main', Component, {
-          props: componentProps,
-        })
-      }
+      app.layout.showChildComponent('main', Component, {
+        props: componentProps,
+      })
     }
   }
 }

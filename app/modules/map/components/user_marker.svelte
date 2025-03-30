@@ -11,7 +11,7 @@
   export let doc
   const { _id, username, picture } = doc
   const pathname = `/users/${username}`
-  const isMainUser = _id === app.user.id
+  const isMainUser = _id === app.user._id
 
   const dispatch = createEventDispatcher()
 

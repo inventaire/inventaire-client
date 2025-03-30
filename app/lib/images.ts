@@ -47,7 +47,6 @@ export function resizeDataUrl (dataURL: ImageDataUrl, maxSize: number, outputQua
       return resolve(data)
     }
 
-    // This exact message is expected by the Img model
     image.onerror = () => reject(new Error('invalid image'))
 
     image.src = dataURL
@@ -151,9 +150,9 @@ const someSuggestedColors = [
 
 export function getColorHexCodeFromCouchUuId (couchUuid) {
   if (couchUuid == null) return someSuggestedColors[0]
-  const someStableModelNumber = parseInt(couchUuid.slice(-2), 16)
+  const someStableDocNumber = parseInt(couchUuid.slice(-2), 16)
   // Pick one of the colors based on the group slug length
-  const index = someStableModelNumber % someSuggestedColors.length
+  const index = someStableDocNumber % someSuggestedColors.length
   return someSuggestedColors[index]
 }
 

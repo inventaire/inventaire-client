@@ -63,9 +63,6 @@ export const isNonEmptyPlainObject = obj => isPlainObject(obj) && Object.keys(ob
 export const isPositiveIntegerString = str => isString(str) && /^\d*$/.test(str)
 export const isStrictlyPositiveIntegerString = str => isString(str) && /^[1-9]\d*$/.test(str)
 
-export const isModel = obj => obj instanceof Backbone.Model
-export const isView = obj => obj instanceof Backbone.View
-
 export function isImageDataUrl (str: string): str is ImageDataUrl {
   return /^data:image/.test(str)
 }
