@@ -5,6 +5,8 @@ import assert_ from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
 import { parseQuery, buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
+import type { EntityUri } from '#server/types/entity'
+import type { UserId, Username } from '#server/types/user'
 import { showUsersHome } from '#users/users'
 import { resolveToUser } from '../users/users_data.ts'
 import { getItemsByUserIdAndEntities, getNearbyItems, getNetworkItems } from './lib/queries.ts'
@@ -41,7 +43,7 @@ async function showInventory (params) {
 const controller = {
   showGeneralInventory () {
     if (app.request('require:loggedIn', app.user.inventoryPathname)) {
-      controller.showUserInventory(app.user.id)
+      controller.showUserInventory(app.user._id)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
       ;(document.querySelector('#home') as HTMLElement).focus()
@@ -168,16 +170,15 @@ const initializeInventoriesHandlers = function (app) {
     'show:users:nearby' () { return controller.showPublicInventory({ filter: 'users' }) },
     'show:groups:nearby' () { return controller.showPublicInventory({ filter: 'groups' }) },
 
-    // user can be either a username or a user model
-    'show:inventory:user' (user) {
-      controller.showUserInventory(user, true)
+    'show:inventory:user' (userId: UserId) {
+      controller.showUserInventory(userId, true)
     },
 
     'show:inventory:main:user' () {
       controller.showUserInventory(app.user, true)
     },
 
-    'show:user:items:by:entity' (username, uri) {
+    'show:user:items:by:entity' (username: Username, uri: EntityUri) {
       controller.showUserItemsByEntity(username, uri)
     },
 

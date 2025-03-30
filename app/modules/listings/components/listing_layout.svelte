@@ -13,7 +13,7 @@
 
   let { _id, elements } = listing
 
-  const isEditable = creator._id === app.user.id
+  const isEditable = creator._id === app.user._id
 </script>
 <div class="listing-layout">
   <ListingInfoBox

@@ -1,7 +1,4 @@
-import { isObject } from 'underscore'
 import BindedPartialBuilder from '#app/lib/binded_partial_builder'
-import { isNonEmptyString } from '#app/lib/boolean_tests'
-import { serverReportError } from '#app/lib/error'
 import { routeSection, currentRouteWithQueryString, parseQuery } from '#app/lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
 import { scrollToElement } from '#app/lib/screen'
@@ -42,33 +39,10 @@ const App = Marionette.Application.extend({
     this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')
 
     this.once('start', onceStart)
-
-    const navigateFromModel = function (model, pathAttribute = 'pathname', options = {}) {
-      // Polymorphism
-      if (isObject(pathAttribute)) {
-        options = pathAttribute
-        // @ts-expect-error
-        pathAttribute = options.pathAttribute || 'pathname'
-      }
-
-      // @ts-expect-error
-      options.metadata = model.updateMetadata()
-      const route = model.get(pathAttribute)
-      if (isNonEmptyString(route)) {
-        this.navigate(route, options)
-      } else {
-        serverReportError(`navigation model has no ${pathAttribute} attribute`, model)
-      }
-    }
-
-    // Make it a binded function so that it can be reused elsewhere without
-    // having to bind it again
-    this.navigateFromModel = navigateFromModel.bind(this)
   },
 
   navigate (route: string, options: NavigateOptions = {}) {
     // Close the modal if it was open
-    // If the next view just opened the modal, this will be ignored
     app.execute('modal:close')
     // Update metadata before testing if the route changed
     // so that a call from a router action would trigger a metadata update
@@ -78,8 +52,7 @@ const App = Marionette.Application.extend({
     // Easing code mutualization by firing app.navigate, even when the module
     // simply reacted to the requested URL
     if (route === currentRouteWithQueryString()) {
-      // Trigger a route event for the first URL, so that views listening
-      // on the route:change event can update accordingly
+      // Trigger a route event for the first URL, so that event listeners can update accordingly
       if (!initialUrlNavigateAlreadyCalled) {
         this.vent.trigger('route:change', routeSection(route), route)
         initialUrlNavigateAlreadyCalled = true
@@ -146,7 +119,7 @@ const onceStart = function () {
 const onPreviousRoute = function () {
   // Close the modal if it was open
   // If a modal is actually displayed in the previous route, it should
-  // be reopen by the view being reshown
+  // be reopened by the component being reshown
   app.execute('modal:close')
 
   const route = currentRouteWithQueryString()

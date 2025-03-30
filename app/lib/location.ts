@@ -1,6 +1,5 @@
 import { isObject, isNumber, isEmpty } from 'underscore'
 import type { Url } from '#server/types/common'
-import { objectEntries } from './utils'
 
 export function parseQuery (queryString?: string) {
   if (queryString == null) return {}
@@ -37,7 +36,8 @@ export function buildPath (pathname: Url, queryObj?: QueryObj) {
 
   let queryString = ''
 
-  for (let [ key, value ] of objectEntries(queryObj)) {
+  // Not using the utils objectEntries function to avoid a circular dependency
+  for (let [ key, value ] of Object.entries(queryObj)) {
     if (isObject(value)) {
       value = encodeURIComponent(JSON.stringify(value))
     }

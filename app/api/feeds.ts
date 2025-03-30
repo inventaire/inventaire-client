@@ -14,7 +14,7 @@ export default function (key, id) {
   const query: { requester?: UserId, token?: string } = {}
   query[key] = id
   if (app.user.loggedIn) {
-    query.requester = app.user.id
+    query.requester = app.user._id
     query.token = app.user.readToken
   }
 

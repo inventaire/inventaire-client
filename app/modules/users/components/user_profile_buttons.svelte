@@ -23,7 +23,7 @@
   export let displayUnselectButton = true
 
   const { _id, username, distanceFromMainUser } = user
-  const isMainUser = _id === app.user.id
+  const isMainUser = _id === app.user._id
 
   let showShelfCreator, showUserOnMap
 

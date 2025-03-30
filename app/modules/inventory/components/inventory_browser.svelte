@@ -43,7 +43,7 @@
   const waitForInventoryData = itemsDataPromise
     .then(async res => {
       ;({ worksTree, workUriItemsMap, itemsByDate } = res)
-      if (itemsByDate.length === 0 && ownerId === app.user.id) {
+      if (itemsByDate.length === 0 && ownerId === app.user._id) {
         showInventoryWelcome = true
       } else {
         await showEntitySelectors()

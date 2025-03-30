@@ -1,7 +1,6 @@
 import app from '#app/app'
-import { isModel } from '#app/lib/boolean_tests'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
-import type { GroupSlug } from '#server/types/group'
+import type { Group, GroupSlug } from '#server/types/group'
 import { showUsersHome } from '#users/users'
 import { getUserGroups } from './lib/groups_data.ts'
 
@@ -24,7 +23,7 @@ export default {
     new Router({ controller })
 
     app.commands.setHandlers({
-      'show:group:board': showGroupBoardFromDocOrModel,
+      'show:group:board': showGroupBoardFrom,
     })
 
     if (app.user.loggedIn) getUserGroups()
@@ -42,7 +41,7 @@ const controller = {
     return showUsersHome({ group: slug, profileSection: 'listings' })
   },
   // Named showGroupBoard and not showGroupSettings
-  // as GroupSettings are a child view of GroupBoard
+  // as GroupSettings are a child component of GroupBoard
   showGroupBoard (slug: GroupSlug) {
     const pathname = `groups/${slug}/settings`
     if (app.request('require:loggedIn', pathname)) {
@@ -76,7 +75,6 @@ async function showGroupBoard (slug: GroupSlug) {
   }
 }
 
-async function showGroupBoardFromDocOrModel (docOrModel) {
-  const slug = isModel(docOrModel) ? docOrModel.get('slug') : docOrModel.slug
-  return showGroupBoard(slug)
+async function showGroupBoardFrom (doc: Group) {
+  return showGroupBoard(doc.slug)
 }

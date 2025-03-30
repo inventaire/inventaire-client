@@ -1,7 +1,7 @@
 import { findWhere, pluck, without } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import { isGroupId, isModel } from '#app/lib/boolean_tests'
+import { isGroupId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
 import preq from '#app/lib/preq'
@@ -53,7 +53,7 @@ export function getGroupPathname (group) {
   return `/groups/${group.slug}`
 }
 
-const memberIsMainUser = ({ user }) => user === app.user.id
+const memberIsMainUser = ({ user }) => user === app.user._id
 
 export function mainUserIsGroupAdmin (group) {
   return group.admins.find(memberIsMainUser) != null
@@ -74,7 +74,7 @@ export function getUserGroupStatus (userId: UserId, group: Group | SerializedGro
   return 'none'
 }
 
-export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(app.user.id, group)
+export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(app.user._id, group)
 
 export async function getCachedSerializedGroupMembers (group) {
   const allMembersIds = getAllGroupMembersIds(group)
@@ -120,7 +120,7 @@ export function findInvitation (group, userId) {
 }
 
 export async function findMainUserInvitor (group) {
-  const invitation = findInvitation(group, app.user.id)
+  const invitation = findInvitation(group, app.user._id)
   if (invitation) return getUserById(invitation.invitor)
 }
 
@@ -198,10 +198,6 @@ export function serializeGroupUser (group) {
 
 export async function resolveToGroup (group: Group | GroupId | GroupSlug) {
   let resolvedGroup
-  if (isModel(group)) {
-    // Transition helper: let getGroupById get a SerializedGroup instead of using the model data
-    group = group.id as GroupId
-  }
   if (typeof group === 'object' && '_id' in group) {
     resolvedGroup = group
   } else if (typeof group === 'string') {
