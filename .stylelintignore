@@ -1,5 +1,4 @@
 **/*.js
-**/*.hbs
 **/*.scss
 **/*.json
 app/assets
