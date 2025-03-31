@@ -29,6 +29,7 @@ export const authorRolePropertiesSet = new Set(authorRoleProperties)
 const preferredAuthorRolesPropertiesPerWorkType = {
   // works
   'wd:Q1004': drawnWorksRoles, // comics
+  'wd:Q2831984': drawnWorksRoles, // comic book album
   'wd:Q8274': manga, // manga
   'wd:Q562214': drawnWorksRoles, // manhwa
   'wd:Q725377': drawnWorksRoles, // graphic novel
