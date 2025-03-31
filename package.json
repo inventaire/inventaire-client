@@ -51,10 +51,10 @@
     "lint-fix-staged": "./scripts/lint_staged fix",
     "lint-staged": "./scripts/lint_staged",
     "postinstall": "./scripts/postinstall",
-    "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
+    "start": "./scripts/watch.sh",
     "test": "./scripts/run_unit_tests",
     "update-toc": "doctoc README.md",
-    "watch": "npm start",
+    "watch": "./scripts/watch.sh",
     "watch-federated": "./scripts/watch_federated.sh",
     "watch-without-hot-reload": "webpack watch --config ./bundle/webpack.config.dev.cjs"
   },
