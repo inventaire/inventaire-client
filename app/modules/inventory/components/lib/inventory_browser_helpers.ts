@@ -6,9 +6,11 @@ import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+import type { SerializedGroup } from '#groups/lib/groups'
 import { getItemsByIds } from '#inventory/lib/queries'
-import type { CouchDoc } from '#server/types/couchdb'
+import type { SerializedUser } from '#modules/users/lib/users'
 import type { EntityUri } from '#server/types/entity'
+import type { Shelf } from '#server/types/shelf'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -104,9 +106,9 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
   }
 }
 
-export async function getInventoryView (type: 'group' | 'shelf' | 'user', doc: CouchDoc)
+export async function getInventoryView (type: 'group' | 'shelf' | 'user', doc: SerializedUser | SerializedGroup | Shelf)
 export async function getInventoryView (type: 'without-shelf')
-export async function getInventoryView (type: string, doc?: CouchDoc) {
+export async function getInventoryView (type: string, doc?: SerializedUser | SerializedGroup | Shelf) {
   let params
   if (type === 'without-shelf') {
     params = { user: app.user._id, 'without-shelf': true }
