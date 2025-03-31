@@ -314,7 +314,7 @@ export const formatEbooksClaim = (values, prop) => {
 }
 
 export const defaultWorkP31PerSerieP31 = {
-  'wd:Q1667921': 'wd:Q8261', // novel
+  'wd:Q1667921': 'wd:Q7725634', // novel
   'wd:Q14406742': 'wd:Q1004', // comic book
   'wd:Q21198342': 'wd:Q8274', // manga
   'wd:Q74262765': 'wd:Q562214', // manhwa
