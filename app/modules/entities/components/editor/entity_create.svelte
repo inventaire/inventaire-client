@@ -1,6 +1,7 @@
 <script lang="ts">
   import { pick } from 'underscore'
   import app from '#app/app'
+  import { isEntityUri } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -15,7 +16,8 @@
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { getEntityLabel } from '../../lib/entities'
   import LabelsEditor from './labels_editor.svelte'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
 
@@ -86,6 +88,16 @@
       const { uri } = await createAndGetEntity(entity)
       app.execute('show:entity', uri)
     } catch (err) {
+      if (err.message.includes('invalid claim value') && err.responseJSON.context) {
+        const { value, property } = err.responseJSON.context
+        err.message += `. ${i18n('Problematic claim')}: ${i18n(property)} (${property})=`
+        if (isEntityUri(value)) {
+          const { label } = await getEntityLabel(value)
+          err.message += `${label} (${value})`
+        } else {
+          err.message += `${value}`
+        }
+      }
       flash = err
     }
   }
