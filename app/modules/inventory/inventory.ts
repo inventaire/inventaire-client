@@ -79,10 +79,6 @@ const controller = {
     return showInventory({ user: username })
   },
 
-  showGroupInventory (group, standalone = true) {
-    return showInventory({ group, standalone })
-  },
-
   async showItemFromId (id) {
     showItem({ itemId: id, regionName: 'main' })
   },
@@ -163,7 +159,6 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
 
 const initializeInventoriesHandlers = function (app) {
   app.commands.setHandlers({
-    'show:inventory': showInventory,
     'show:inventory:network': controller.showNetworkInventory,
     'show:inventory:public': controller.showPublicInventory,
 
@@ -181,14 +176,12 @@ const initializeInventoriesHandlers = function (app) {
     'show:user:items:by:entity' (username: Username, uri: EntityUri) {
       controller.showUserItemsByEntity(username, uri)
     },
-
-    'show:inventory:group': controller.showGroupInventory,
-
-    'show:item': showItem,
   })
 
   app.reqres.setHandlers({
+    // Used by #users/components/public_users_nav.svelte
     'items:getNearbyItems': getNearbyItems,
+    // Used by #users/components/network_users_nav.svelte
     'items:getNetworkItems': getNetworkItems,
   })
 }
