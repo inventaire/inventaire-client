@@ -6,6 +6,7 @@
   import Modal from '#components/modal.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import { getUserGroups } from '#groups/lib/groups_data'
+  import { getNetworkItems } from '#inventory/lib/queries'
   import { i18n, I18n } from '#user/lib/i18n'
   import InviteByEmail from '#users/components/invite_by_email.svelte'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
@@ -139,7 +140,7 @@
     <GroupProfile group={selectedGroup} {focusedSection} on:unselectGroup={unselect} />
   {/key}
 {:else}
-  <PaginatedSectionItems sectionRequestName="items:getNetworkItems" />
+  <PaginatedSectionItems sectionRequest={getNetworkItems} />
 {/if}
 
 {#if showInviteFriendByEmail}
