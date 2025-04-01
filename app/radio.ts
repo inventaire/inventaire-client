@@ -12,10 +12,8 @@ export const vent = {
 type ReqResHandlers = Record<string, (...args) => unknown>
 const reqresHandlers: ReqResHandlers = {}
 
-export const reqres = {
-  setHandlers (handlers: ReqResHandlers) {
-    Object.assign(reqresHandlers, handlers)
-  },
+function setHandlers (handlers: ReqResHandlers) {
+  Object.assign(reqresHandlers, handlers)
 }
 
 export function request (handlerKey: string, ...args: unknown[]) {
@@ -32,4 +30,15 @@ export function request (handlerKey: string, ...args: unknown[]) {
 export function execute (handlerKey: string, ...args: unknown[]) {
   // Like request but not returning anyting
   request(handlerKey, ...args)
+}
+
+export const reqres = {
+  setHandlers,
+  request,
+}
+
+export const commands = {
+  setHandlers,
+  execute,
+  Execute: key => request.bind(null, key),
 }

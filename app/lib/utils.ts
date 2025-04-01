@@ -4,6 +4,7 @@ import { assertFunction, assertObject } from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
 import { currentRoute, type ProjectRootRelativeUrl } from '#app/lib/location'
+import { commands, reqres } from '#app/radio'
 import type { RelativeUrl } from '#server/types/common'
 import type { ObjectEntries } from 'type-fest/source/entries'
 
@@ -24,7 +25,7 @@ export function capitalize (str: string) {
 }
 
 export const clickCommand = (command: string) => e => {
-  if (!isOpenedOutside(e)) app.execute(command)
+  if (!isOpenedOutside(e)) commands.execute(command)
 }
 
 export function isOpenedOutside (e, ignoreMissingHref = false) {
@@ -86,7 +87,7 @@ export function loadLink (e) {
 }
 
 export function showLoginPageAndRedirectHere () {
-  app.request('require:loggedIn', currentRoute())
+  reqres.request('require:loggedIn', currentRoute())
 }
 
 const isModalPathname = pathname => modalPathnamesPattern.test(pathname)

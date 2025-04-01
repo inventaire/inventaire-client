@@ -1,10 +1,10 @@
 <script lang="ts">
-  import app from '#app/app'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
@@ -27,7 +27,7 @@
         workEntity: work,
         userInput,
       })
-      app.execute('show:entity', newEdition.uri)
+      commands.execute('show:entity', newEdition.uri)
     } catch (err) {
       flash = err
     } finally {

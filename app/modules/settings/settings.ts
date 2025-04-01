@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 
 export default {
   initialize () {
@@ -27,7 +28,7 @@ const controller = {
 } as const
 
 const showSettings = async section => {
-  if (app.request('require:loggedIn', `settings/${section}`)) {
+  if (reqres.request('require:loggedIn', `settings/${section}`)) {
     const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
     return app.layout.showChildComponent('main', SettingsLayout, {
       props: {
@@ -37,7 +38,7 @@ const showSettings = async section => {
   }
 }
 
-const setHandlers = () => app.commands.setHandlers({
+const setHandlers = () => commands.setHandlers({
   'show:settings': controller.showProfileSettings,
   'show:settings:profile': controller.showProfileSettings,
   'show:settings:account': controller.showAccountSettings,

@@ -5,6 +5,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { reqres } from '#app/radio'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import PartSuggestion from '#entities/components/cleanup/part_suggestion.svelte'
   import { addClaim, getEntitiesBasicInfoByUris, type SerializedEntitiesByUris, type SerializedEntity } from '#entities/lib/entities'
@@ -78,8 +79,8 @@
   const lazyUpdatePartsPartitions = debounce(updatePartsPartitions, 100)
 
   function setQueryParameter (name: string, bool: boolean) {
-    if (bool) app.request('querystring:set', name, bool)
-    else app.request('querystring:remove', name)
+    if (bool) reqres.request('querystring:set', name, bool)
+    else reqres.request('querystring:remove', name)
   }
 
   function onWorkMerged (e) {

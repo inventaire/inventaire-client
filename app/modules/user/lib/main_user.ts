@@ -8,6 +8,7 @@ import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { parseBooleanString } from '#app/lib/utils'
+import { commands } from '#app/radio'
 import type { OwnerSafeUser } from '#server/controllers/user/lib/authorized_user_data_pickers'
 import type { DeletedUser } from '#server/types/user'
 import { notificationsList } from '#settings/lib/notifications_settings_list'
@@ -52,7 +53,7 @@ export async function initMainUser () {
   if (loggedIn) {
     try {
       const user = (await preq.get(apiUser)) as (OwnerSafeUser | DeletedUser)
-      if (user.type === 'deleted') return app.execute('logout')
+      if (user.type === 'deleted') return commands.execute('logout')
       // Initialize app.user so serializeUser can use it
       // @ts-expect-error
       app.user = user
@@ -65,12 +66,12 @@ export async function initMainUser () {
       // - when the current session user was deleted but the cookies weren't removed
       //   (possibly because the deletion was done from another browser or even another device)
       console.error('resetSession', err)
-      app.execute('logout', '/login')
+      commands.execute('logout', '/login')
     }
   }
   // Do not wait for i18n initialization to call 'waiter:resolve', 'user'
   initI18n(mainUser.lang).catch(log_.Error('i18n initialize error'))
-  app.execute('waiter:resolve', 'user')
+  commands.execute('waiter:resolve', 'user')
 }
 
 function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<SerializedMainUserExtras>) {
@@ -156,7 +157,7 @@ function reserialize () {
 
 export async function deleteMainUserAccount () {
   await preq.delete(apiUser)
-  app.execute('logout')
+  commands.execute('logout')
 }
 
 export function mainUserHasWikidataOauthTokens () {

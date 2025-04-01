@@ -2,10 +2,11 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { commands } from '#app/radio'
 import requestLogout from './request_logout.ts'
 
 export default function () {
-  app.commands.setHandlers({ logout: requestLogout })
+  commands.setHandlers({ logout: requestLogout })
 }
 
 export async function requestSignup ({ username, email, password }) {

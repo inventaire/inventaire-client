@@ -1,14 +1,13 @@
-import BindedPartialBuilder from '#app/lib/binded_partial_builder'
 import { routeSection, currentRouteWithQueryString, parseQuery, type ProjectRootRelativeUrl } from '#app/lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
+import { commands, vent } from '#app/radio'
 import type { initAppLayout } from '#general/lib/init_app_layout'
 import { mainUser } from '#modules/user/lib/main_user'
 import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
 import { loadUrl, startRouter } from './lib/router.ts'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
-import { vent, reqres, request, execute } from './radio.ts'
 import type { UserLang } from './lib/active_languages.ts'
 
 let initialUrlNavigateAlreadyCalled = false
@@ -26,7 +25,7 @@ const historyLast = []
 
 function navigate (route: string, options: NavigateOptions = {}) {
   // Close the modal if it was open
-  app.execute('modal:close')
+  commands.execute('modal:close')
   // Update metadata before testing if the route changed
   // so that a call from a router action would trigger a metadata update
   // but not affect the history (due to the early return hereafter)
@@ -95,14 +94,6 @@ function navigateReplace (route: ProjectRootRelativeUrl, options: NavigateOption
 }
 
 const appBase = {
-  vent,
-  reqres,
-  commands: reqres,
-  request,
-  execute,
-  Execute: BindedPartialBuilder(null, 'execute'),
-  Request: BindedPartialBuilder(null, 'request'),
-
   user: mainUser,
 
   navigate,
