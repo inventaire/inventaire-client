@@ -1,14 +1,18 @@
 import { isObject } from 'underscore'
 import { chat, wiki, apiDoc, git } from '#app/lib/urls'
 
+// The exact env value will be returned by config
+// but some functions need a value before, in case fetching the config crashes
+export let detectedEnv
+
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|\d{1,3}\.\d{1,3}\.)/)) {
-  window.env = 'dev'
+  detectedEnv = 'dev'
 } else {
-  window.env = 'prod'
+  detectedEnv = 'prod'
 }
 
-if (window.env === 'dev') {
+if (detectedEnv === 'dev') {
   const trueAlert = window.alert
   window.alert = function (obj) {
     if (isObject(obj)) obj = JSON.stringify(obj, null, 2)
