@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { addRoutes } from '#app/lib/router'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import type { Group, GroupSlug } from '#server/types/group'
 import { showUsersHome } from '#users/users'
@@ -6,21 +7,17 @@ import { getUserGroups } from './lib/groups_data.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'g(roups)/:id(/)': 'showGroupProfile',
-        'g(roups)/:id/inventory(/)': 'showGroupInventory',
-        'g(roups)/:id/lists(/)': 'showGroupListings',
-        'g(roups)/:id/settings(/)': 'showGroupBoard',
-        'g(roups)(/)': 'showNetworkLayout',
+    addRoutes({
+      '/g(roups)/:id(/)': 'showGroupProfile',
+      '/g(roups)/:id/inventory(/)': 'showGroupInventory',
+      '/g(roups)/:id/lists(/)': 'showGroupListings',
+      '/g(roups)/:id/settings(/)': 'showGroupBoard',
+      '/g(roups)(/)': 'showNetworkLayout',
 
-        // Legacy redirections
-        'network/groups/create(/)': 'showCreateGroupLayout',
-        'network/groups/settings/:id(/)': 'showGroupBoard',
-      },
-    })
-
-    new Router({ controller })
+      // Legacy redirections
+      '/network/groups/create(/)': 'showCreateGroupLayout',
+      '/network/groups/settings/:id(/)': 'showGroupBoard',
+    }, controller)
 
     app.commands.setHandlers({
       'show:group:board': showGroupBoardFrom,
@@ -57,7 +54,7 @@ const controller = {
   showNetworkLayout () {
     app.execute('show:inventory:network')
   },
-}
+} as const
 
 async function showGroupBoard (slug: GroupSlug) {
   try {

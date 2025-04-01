@@ -2,23 +2,20 @@ import app from '#app/app'
 import { assertString } from '#app/lib/assert_types'
 import { isShelfId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
+import { addRoutes } from '#app/lib/router'
 import type { Shelf, ShelfId } from '#server/types/shelf'
 import { resolveToUser } from '../users/users_data.ts'
 import { getShelfById, getShelfMetadata } from './lib/shelves.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'shelves/without(/)': 'showItemsWithoutShelf',
-        'shelves/(:id)/followers(/)': 'showShelfFollowers',
-        'shelves(/)(:id)(/)': 'showShelfFromId',
-        // Redirection
-        'shelf(/)(:id)(/)': 'showShelfFromId',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/shelves/without(/)': 'showItemsWithoutShelf',
+      '/shelves/(:id)/followers(/)': 'showShelfFollowers',
+      '/shelves(/)(:id)(/)': 'showShelfFromId',
+      // Redirection
+      '/shelf(/)(:id)(/)': 'showShelfFromId',
+    }, controller)
   },
 }
 
@@ -53,7 +50,7 @@ const controller = {
       app.navigate('shelves/without')
     }
   },
-}
+} as const
 
 export async function showShelf (shelf: ShelfId | Shelf) {
   if (isShelfId(shelf)) return controller.showShelfFromId(shelf)

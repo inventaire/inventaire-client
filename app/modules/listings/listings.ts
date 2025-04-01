@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { newError } from '#app/lib/error'
+import { addRoutes } from '#app/lib/router'
 import { getListingMetadata, getListingPathname, getListingWithElementsById, getElementPathname, getElementMetadata, assignEntitiesToElements } from '#listings/lib/listings'
 import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
@@ -10,15 +11,11 @@ import { getSerializedUser } from '#users/users_data'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'lists/:id/element/:elementId(/)': 'showElement',
-        'lists/:id(/)': 'showListing',
-        'lists(/)': 'showMainUserListings',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/lists/:id/element/:elementId(/)': 'showElement',
+      '/lists/:id(/)': 'showListing',
+      '/lists(/)': 'showMainUserListings',
+    }, controller)
   },
 }
 
@@ -81,4 +78,4 @@ const controller = {
   showElement,
   showUserListings,
   showMainUserListings,
-}
+} as const

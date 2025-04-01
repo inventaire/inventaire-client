@@ -4,24 +4,21 @@ import { assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
+import { addRoutes } from '#app/lib/router'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
 import { initMainUser } from './lib/main_user.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'signup(/)': 'showSignup',
-        'login(/)': 'showLogin',
-        'login/forgot-password(/)': 'showForgotPassword',
-        'login/reset-password(/)': 'showResetPassword',
-        'logout(/)': 'logout',
-        'authorize(/)': 'showAuthorizeMenu',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/signup(/)': 'showSignup',
+      '/login(/)': 'showLogin',
+      '/login/forgot-password(/)': 'showForgotPassword',
+      '/login/reset-password(/)': 'showResetPassword',
+      '/logout(/)': 'logout',
+      '/authorize(/)': 'showAuthorizeMenu',
+    }, controller)
 
     initMainUser()
     auth()
@@ -104,7 +101,7 @@ const controller = {
   },
 
   logout () { app.execute('logout') },
-}
+} as const
 
 const getOAuthClient = async clientId => {
   const { clients } = await preq.get(API.oauth.clients.byId(clientId))
