@@ -3,6 +3,7 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
   import { onChange } from '#app/lib/svelte/svelte'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import PartSuggestion from '#entities/components/cleanup/part_suggestion.svelte'
@@ -34,7 +35,7 @@
   let titlePattern = `${titleKey} - ${I18n('volume')} ${numberKey}`
   let selectedLang = app.user.lang
 
-  const states = app.request('querystring:get:all')
+  const states = getAllQuerystringParameters()
   let showAuthors = states.authors === 'true'
   let showEditions = states.editions === 'true'
   let showDescriptions = states.descriptions === 'true'
