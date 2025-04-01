@@ -1,7 +1,7 @@
 import { isString } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
 import { parseQuery, buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
@@ -137,7 +137,7 @@ interface ShowItem {
 
 async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModal }: ShowItem) {
   try {
-    assert_.string(itemId)
+    assertString(itemId)
     const pathname = `/items/${itemId}`
     if (!isItemId(itemId)) return app.execute('show:error:missing', { pathname })
     const { items, users } = await preq.get(API.items.byIds({ ids: itemId, includeUsers: true }))

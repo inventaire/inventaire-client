@@ -1,6 +1,6 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
-  import assert_ from '#app/lib/assert_types'
+  import { assertString } from '#app/lib/assert_types'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
@@ -15,7 +15,7 @@
 
   let flash
   const { type } = entity
-  assert_.string(type)
+  assertString(type)
   const typeProperties = propertiesPerType[type]
   const { customLabel } = typeProperties[property]
   const { multivalue, datatype } = propertiesEditorsConfigs[property]

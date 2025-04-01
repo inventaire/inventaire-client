@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import assert_ from '#app/lib/assert_types'
+  import { assertArray } from '#app/lib/assert_types'
   import Flash from '#app/lib/components/flash.svelte'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
@@ -28,7 +28,7 @@
       fetching = true
       waiting = fetchMore()
       await waiting
-      assert_.array(pagination.items)
+      assertArray(pagination.items)
       items = pagination.items
       // TODO: make the pagination object more consistent among cases
       total = pagination.moreData?.total || pagination.total || items.length
