@@ -4,6 +4,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
+  import { getNearbyItems } from '#inventory/lib/queries'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
@@ -193,7 +194,7 @@
   {:else}
     <!-- TODO: use bbox to update displayed items accordingly -->
     <PaginatedSectionItems
-      sectionRequestName="items:getNearbyItems"
+      sectionRequest={getNearbyItems}
       showDistance={true}
     />
   {/if}
