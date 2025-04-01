@@ -4,14 +4,14 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { i18n } from '#user/lib/i18n'
-  import { mainUser, updateUser } from '#user/lib/main_user'
+  import { mainUserStore, updateUser } from '#user/lib/main_user'
 
   const name = 'anonymize'
   const { publicHost } = config
 
   let flash
 
-  let value = $mainUser.settings.contributions.anonymize
+  let value = $mainUserStore.settings.contributions.anonymize
 
   async function updateSetting () {
     flash = null
