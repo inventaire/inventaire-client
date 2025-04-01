@@ -182,8 +182,6 @@ module.exports = {
     CONFIG: 'writable',
     FormData: 'writable',
     // Libs
-    Backbone: 'writable',
-    Marionette: 'writable',
     L: 'writable',
     // Browser globals
     alert: 'readonly',

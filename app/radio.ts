@@ -1,9 +1,12 @@
-import { publish, subscribe } from '@jgarber/radioradio'
-import { serverReportError } from '#app/lib/error'
+import { publish, subscribe, unsubscribe } from '@jgarber/radioradio'
+import { serverReportError } from './lib/error'
 
-export const channel = {
+// Mapping radioradio API to the formerly used backbone-wreqr concepts
+export const vent = {
   on: subscribe,
+  off: unsubscribe,
   trigger: publish,
+  Trigger: (eventName: string) => publish.bind(null, eventName),
 }
 
 type ReqResHandlers = Record<string, (...args) => unknown>
