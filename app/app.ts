@@ -4,7 +4,7 @@ import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/li
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
-import { channel, reqres, request, execute } from './radio.ts'
+import { vent, reqres, request, execute } from './radio.ts'
 import type { UserLang } from './lib/active_languages.ts'
 
 let initialUrlNavigateAlreadyCalled = false
@@ -24,8 +24,7 @@ const App = Marionette.Application.extend({
     // @ts-expect-error
     Backbone.history.last = []
 
-    // Mapping backbone.radio concepts on the formerly used backbone-wreqr concepts
-    this.vent = channel
+    this.vent = vent
     // `commands` and `requests` now use the same handler store
     this.reqres = this.commands = reqres
     // but keep there specific behaviors when called, namely,
