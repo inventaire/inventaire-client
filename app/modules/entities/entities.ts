@@ -1,10 +1,11 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { assertObject, assertString } from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
 import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
-import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import { getAllQuerystringParameters, getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
@@ -95,8 +96,11 @@ const controller = {
   async showEntityCreateFromRoute () {
     try {
       if (app.request('require:loggedIn', 'entity/new')) {
-        const params = app.request('querystring:get:all')
-        await showEntityCreate(params)
+        const { label, type, claims } = getAllQuerystringParameters()
+        assertString(label)
+        if (type) assertString(type)
+        if (claims) assertObject(claims)
+        await showEntityCreate({ type: type as string, label, claims })
       }
     } catch (err) {
       app.execute('show:error', err)
@@ -202,7 +206,7 @@ const controller = {
   },
 
   async showEntityMerge () {
-    const { from, to, type } = app.request('querystring:get:all')
+    const { from, to, type } = getAllQuerystringParameters()
     app.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
     app.layout.showChildComponent('main', EntityMerge, {

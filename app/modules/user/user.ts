@@ -4,6 +4,7 @@ import { assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
+import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
@@ -85,7 +86,7 @@ const controller = {
   },
 
   async showAuthorizeMenu () {
-    const query = app.request('querystring:get:all')
+    const query = getAllQuerystringParameters()
 
     try {
       validateAuthorizationRequest(query)
@@ -103,12 +104,12 @@ const controller = {
   logout () { app.execute('logout') },
 } as const
 
-const getOAuthClient = async clientId => {
+async function getOAuthClient (clientId: string) {
   const { clients } = await preq.get(API.oauth.clients.byId(clientId))
   return clients[clientId]
 }
 
-const validateAuthorizationRequest = query => {
+function validateAuthorizationRequest (query) {
   const { state, scope, client_id: clientId, redirect_uri: redirectUri } = query
 
   if (!clientId) throw invalidAuthorizationRequest('missing client_id')
@@ -117,6 +118,6 @@ const validateAuthorizationRequest = query => {
   if (!redirectUri) throw invalidAuthorizationRequest('missing redirect_uri')
 }
 
-const invalidAuthorizationRequest = (reason, query?) => {
+function invalidAuthorizationRequest (reason, query?) {
   return newError(`invalid authorization request: ${reason}`, 400, { reason, query })
 }
