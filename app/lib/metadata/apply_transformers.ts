@@ -26,7 +26,7 @@ export function applyTransformers (key: string, value: unknown) {
 
 export const transformers = {
   title: (value: string) => {
-    return value.endsWith(instanceName) ? value : `${value} - ${instanceName}`
+    return value.endsWith(instanceName) ? value : `${value} - ${instanceName}`.replaceAll(/\s*-\s*-\s*/g, ' - ')
   },
   url: (canonicalPath: string) => {
     canonicalPath = dropLeadingSlash(canonicalPath)

@@ -26,12 +26,15 @@ export const i18n = (key: string, context?: unknown) => currentLangI18n(key, con
 
 const missingKey = config.env === 'production' ? noop : i18nMissingKey
 
+export let polyglot: Polyglot
+
 function onMissingKey (key: string) {
   console.warn(`Missing translation for key: ${key}`)
   missingKey(key)
   if (key == null) console.trace()
-  app.polyglot.phrases[key] = key
-  return app.polyglot.t(key)
+  // @ts-expect-error `phrases` is missing in @types/node-polyglot
+  polyglot.phrases[key] = key
+  return polyglot.t(key)
 }
 
 let lastLocalLang
@@ -48,13 +51,13 @@ export const I18n = (key: string, context?: unknown) => capitalize(currentLangI1
 async function setLanguage (lang: UserLang) {
   lastLocalLang = lang
   localLang.set(lang)
-  app.polyglot = new Polyglot({ onMissingKey })
-  currentLangI18n = translate(lang, app.polyglot)
-  return requestI18nFile(app.polyglot, lang)
+  polyglot = new Polyglot({ onMissingKey })
+  currentLangI18n = translate(lang, polyglot)
+  return requestI18nFile(lang)
 }
 
 const i18nStringsCache = {}
-async function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
+async function requestI18nFile (lang: UserLang) {
   i18nStringsCache[lang] ??= await preq.get(API.i18nStrings(lang))
   polyglot.replace(i18nStringsCache[lang])
   polyglot.locale(lang)

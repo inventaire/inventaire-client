@@ -39,7 +39,7 @@ export default {
 }
 
 export async function showHome () {
-  if (app.request('require:loggedIn', app.user.inventoryPathname)) {
+  if (app.request('require:loggedIn', '/')) {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
     ;(document.querySelector('#home') as HTMLElement).focus()
@@ -52,6 +52,7 @@ export async function showUserProfile (user) {
 }
 
 export async function showMainUserProfile () {
+  await app.request('wait:for', 'user')
   return showUsersHome({ user: app.user as SerializedLoggedInMainUser })
 }
 
