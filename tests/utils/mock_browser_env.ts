@@ -1,12 +1,15 @@
-import '#app/init_globals'
 import config from 'config'
 
 const { inventaireServerHost } = config
 
 // @ts-expect-error TS2339
-globalThis.window = globalThis.window || {}
+globalThis.window ??= {}
 // @ts-expect-error TS2339
-globalThis.document = globalThis.document || {}
+globalThis.document ??= {}
+// @ts-expect-error
+globalThis.location ??= {
+  origin: 'http://localhost:9999',
+}
 
 const nodeFetch = globalThis.fetch
 

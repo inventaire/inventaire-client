@@ -10,8 +10,11 @@
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { deleteMainUserAccount, mainUser, updateUser } from '#user/lib/main_user'
+  import { deleteMainUserAccount, mainUserStore, updateUser } from '#user/lib/main_user'
   import EmailValidation from './email_validation.svelte'
+
+  // Narrow down $mainUserStore type
+  if ($mainUserStore.loggedIn !== true) throw new Error('invalid logged in user')
 
   let flashLang, flashEmail, flashDiscoverability
   let fediversable = $mainUserStore.fediversable

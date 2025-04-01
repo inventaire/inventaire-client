@@ -39,7 +39,7 @@ async function showInventory (params) {
 
 const controller = {
   showGeneralInventory () {
-    if (app.request('require:loggedIn', app.user.inventoryPathname)) {
+    if (app.request('require:loggedIn', 'items')) {
       controller.showUserInventory(app.user._id)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input

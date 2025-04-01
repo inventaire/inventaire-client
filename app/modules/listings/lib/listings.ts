@@ -2,6 +2,7 @@ import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import type { ListingByCreatorsParams } from '#app/api/listings'
 import app from '#app/app'
+import type { MetadataUpdate } from '#app/lib/metadata/update'
 import preq from '#app/lib/preq'
 import { getEntitiesAttributesByUris, getEntitiesImagesUrls, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { addEntitiesImages } from '#entities/lib/types/work_alt'
@@ -120,7 +121,7 @@ export async function getElementMetadata (listing: Listing, element: ListingElem
     title: await getElementTitle(listing, element),
     url: getElementPathname(listing._id, element._id),
     smallCardType: true,
-  }
+  } as MetadataUpdate
 }
 
 async function getListingLongTitle (listing: Listing) {
