@@ -23,8 +23,6 @@ export async function fetchRelations () {
     relations = await preq.get(API.relations)
   }
   app.execute('waiter:resolve', 'relations')
-  // Legacy
-  app.relations = relations
   relationsStore.set(relations)
   return relations
 }

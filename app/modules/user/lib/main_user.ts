@@ -34,11 +34,12 @@ export type SerializedNotLoggedInMainUser = {
   hasDataadminAccess: false
   lang: UserLang
   _id: undefined
+  username: undefined
   position: undefined
   acct: undefined
 }
 
-export const mainUser = {
+export let mainUser = {
   loggedIn,
   hasAdminAccess: false,
   hasDataadminAccess: false,
@@ -53,9 +54,10 @@ export async function initMainUser () {
       const user = (await preq.get(apiUser)) as (OwnerSafeUser | DeletedUser)
       if (user.type === 'deleted') return app.execute('logout')
       // Initialize app.user so serializeUser can use it
-      app.user = mainUser
       // @ts-expect-error
-      mainUser = serializeMainUser(serializeUser(user))
+      app.user = user
+      // @ts-expect-error
+      app.user = mainUser = serializeMainUser(serializeUser(user))
       mainUserStore.set(mainUser)
     } catch (err) {
       // Known cases of session errors:

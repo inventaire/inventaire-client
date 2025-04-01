@@ -1,4 +1,4 @@
-import app from '#app/app'
+import app, { canGoBack } from '#app/app'
 import { getLastAddMode, getLastTransaction, getLastVisbility } from '#inventory/lib/add_helpers'
 
 export function guessInitialTransaction (transaction) {
@@ -14,8 +14,7 @@ export function guessInitialVisibility (visibility) {
 }
 
 export function cancel () {
-  // @ts-expect-error
-  if (Backbone.history.last.length > 0) {
+  if (canGoBack()) {
     window.history.back()
   } else {
     app.execute('show:home')

@@ -70,7 +70,11 @@ async function showElement (listingId, elementId) {
 }
 
 export async function showMainUserListings () {
-  return showUserListings(app.user.username)
+  if (app.user.loggedIn) {
+    return showUserListings(app.user.username)
+  } else {
+    app.request('require:loggedIn', 'lists')
+  }
 }
 
 const controller = {
