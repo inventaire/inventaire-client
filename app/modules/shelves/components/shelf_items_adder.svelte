@@ -6,6 +6,7 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { commands } from '#app/radio'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import { setLastShelves } from '#inventory/lib/add_helpers'
   import { getUserItems } from '#inventory/lib/queries'
@@ -99,7 +100,7 @@
   function addNewItems () {
     setLastShelves([ shelfId ])
     dispatch('shelfItemsAdderDone')
-    app.execute('show:add:layout')
+    commands.execute('show:add:layout')
   }
 
   function done () {

@@ -7,6 +7,7 @@ import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getAllQuerystringParameters, getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import { showItemCreationForm } from '#inventory/lib/show_item_creation_form'
@@ -53,9 +54,9 @@ const controller = {
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
     const pathname = `/entity/${uri}`
-    if (!isEntityUri(uri)) return app.execute('show:error:missing', { pathname })
+    if (!isEntityUri(uri)) return commands.execute('show:error:missing', { pathname })
 
-    app.execute('show:loader')
+    commands.execute('show:loader')
 
     try {
       const entity = await getEntityByUri({ uri, refresh })
@@ -78,7 +79,7 @@ const controller = {
   },
 
   async showEditEntityFromUri (input: string) {
-    app.execute('show:loader')
+    commands.execute('show:loader')
     const uri = normalizeUri(input)
 
     try {
@@ -95,7 +96,7 @@ const controller = {
 
   async showEntityCreateFromRoute () {
     try {
-      if (app.request('require:loggedIn', 'entity/new')) {
+      if (reqres.request('require:loggedIn', 'entity/new')) {
         const { label, type, claims } = getAllQuerystringParameters()
         assertString(label)
         if (type) assertString(type)
@@ -103,13 +104,13 @@ const controller = {
         await showEntityCreate({ type: type as string, label, claims })
       }
     } catch (err) {
-      app.execute('show:error', err)
+      commands.execute('show:error', err)
     }
   },
 
   async showChanges () {
-    if (!app.request('require:loggedIn', 'entity/changes')) return
-    if (!app.request('require:admin:access')) return
+    if (!reqres.request('require:loggedIn', 'entity/changes')) return
+    if (!reqres.request('require:admin:access')) return
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
     app.layout.showChildComponent('main', Contributions)
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
@@ -149,7 +150,7 @@ const controller = {
     const { type } = entity
     if (type !== 'human') {
       const err = new Error(`case not handled yet: ${type}`)
-      app.execute('show:error', err)
+      commands.execute('show:error', err)
       return
     }
 
@@ -164,8 +165,8 @@ const controller = {
 
   async showEntityCleanup  (input: string) {
     const uri = normalizeUri(input)
-    if (app.request('require:loggedIn', `entity/${uri}/cleanup`)) {
-      app.execute('show:loader')
+    if (reqres.request('require:loggedIn', `entity/${uri}/cleanup`)) {
+      commands.execute('show:loader')
       try {
         const entity = await getEntityByUri({ uri, refresh: true })
         showEntityCleanup(entity)
@@ -177,10 +178,10 @@ const controller = {
 
   async showHomonyms (input: string) {
     const uri = normalizeUri(input)
-    if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
-    if (!app.request('require:dataadmin:access')) return
+    if (!reqres.request('require:loggedIn', `entity/${uri}/homonyms`)) return
+    if (!reqres.request('require:dataadmin:access')) return
 
-    app.execute('show:loader')
+    commands.execute('show:loader')
     const [
       { default: HomonymDeduplicates },
       entity,
@@ -197,7 +198,7 @@ const controller = {
   },
 
   async showEntityHistory (input: string) {
-    app.execute('show:loader')
+    commands.execute('show:loader')
     const uri = normalizeUri(input)
     const { default: EntityHistory } = await import('./components/patches/entity_history.svelte')
     app.layout.showChildComponent('main', EntityHistory, {
@@ -207,7 +208,7 @@ const controller = {
 
   async showEntityMerge () {
     const { from, to, type } = getAllQuerystringParameters()
-    app.execute('show:loader')
+    commands.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
     app.layout.showChildComponent('main', EntityMerge, {
       props: { from, to, type },
@@ -217,7 +218,7 @@ const controller = {
 
 export async function showEntityCreate (params: { label: string, type?: string, claims?: SimplifiedClaims }) {
   const path = 'entity/new'
-  if (!app.request('require:loggedIn', path)) return
+  if (!reqres.request('require:loggedIn', path)) return
   app.navigate(path)
 
   // Drop possible type pluralization
@@ -227,8 +228,8 @@ export async function showEntityCreate (params: { label: string, type?: string, 
   if (entityTypeNameBySingularType[params.type] == null) {
     params.type = null
   }
-  if (params.type) app.execute('querystring:set', 'type', params.type)
-  if (params.claims) app.execute('querystring:set', 'claims', params.claims)
+  if (params.type) commands.execute('querystring:set', 'type', params.type)
+  if (params.claims) commands.execute('querystring:set', 'claims', params.claims)
 
   const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
   app.layout.showChildComponent('main', EntityCreate, {
@@ -237,7 +238,7 @@ export async function showEntityCreate (params: { label: string, type?: string, 
 }
 
 function setHandlers () {
-  app.commands.setHandlers({
+  commands.setHandlers({
     'show:entity': controller.showEntity.bind(controller),
     'show:entity:edit': controller.showEditEntityFromUri,
     'show:entity:cleanup': controller.showEntityCleanup,
@@ -250,12 +251,12 @@ function setHandlers () {
 }
 
 async function showEntityEdit (entity: SerializedEntity) {
-  if (!entity) return app.execute('show:error:missing')
+  if (!entity) return commands.execute('show:error:missing')
   const { uri, type, label, editPathname } = entity
   if (!editPathname) {
     throw newError('this entity can not be edited', 400, { uri, type })
   }
-  if (!app.request('require:loggedIn', editPathname)) return
+  if (!reqres.request('require:loggedIn', editPathname)) return
 
   rejectRemovedPlaceholder(entity)
 
@@ -282,14 +283,14 @@ function rejectRemovedPlaceholder (entity: SerializedEntity) {
 
 function handleMissingEntity (uri: EntityUri, err: ContextualizedError) {
   if (err.message === 'invalid entity type') {
-    app.execute('show:error:other', err)
+    commands.execute('show:error:other', err)
   } else if (err.code === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
     const pathname = `/entity/${uri}`
     if (app.user.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
-    else app.execute('show:error:missing', { pathname })
+    else commands.execute('show:error:missing', { pathname })
   } else {
-    app.execute('show:error:other', err, 'handleMissingEntity')
+    commands.execute('show:error:other', err, 'handleMissingEntity')
   }
 }
 
@@ -323,9 +324,9 @@ interface ShowComponentByAccessLevelParams {
 function showComponentByAccessLevel (params: ShowComponentByAccessLevelParams) {
   let { path, title, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
-  if (app.request('require:loggedIn', path)) {
+  if (reqres.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
-    if (app.request(`require:${accessLevel}:access`)) {
+    if (reqres.request(`require:${accessLevel}:access`)) {
       app.layout.showChildComponent('main', Component, {
         props: componentProps,
       })
@@ -341,13 +342,13 @@ async function showClaimEntities (claim, refresh) {
 
   if (!isPropertyUri(property)) {
     serverReportError('invalid property')
-    app.execute('show:error:missing', { pathname })
+    commands.execute('show:error:missing', { pathname })
     return
   }
 
   if (!isEntityUri(value)) {
     serverReportError('invalid value')
-    app.execute('show:error:missing', { pathname })
+    commands.execute('show:error:missing', { pathname })
     return
   }
 
@@ -364,7 +365,7 @@ async function showClaimEntities (claim, refresh) {
 async function showEntityCleanup (entity: SerializedEntity) {
   if (entity.type !== 'serie') {
     const err = newError(`cleanup isn't available for entity type ${entity.type}`, 400)
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
     return
   }
   const [ { default: SerieCleanup } ] = await Promise.all([

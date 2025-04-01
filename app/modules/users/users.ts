@@ -4,6 +4,7 @@ import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import type { SerializedLoggedInMainUser } from '#modules/user/lib/main_user'
 import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
@@ -31,15 +32,15 @@ export default {
 
     initRelations()
 
-    app.commands.setHandlers({
-      'show:user': app.Execute('show:inventory:user'),
+    commands.setHandlers({
+      'show:user': commands.Execute('show:inventory:user'),
       'show:user:contributions': showUserContributions,
     })
   },
 }
 
 export async function showHome () {
-  if (app.request('require:loggedIn', '/')) {
+  if (reqres.request('require:loggedIn', '/')) {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
     ;(document.querySelector('#home') as HTMLElement).focus()
@@ -52,7 +53,7 @@ export async function showUserProfile (user) {
 }
 
 export async function showMainUserProfile () {
-  await app.request('wait:for', 'user')
+  await reqres.request('wait:for', 'user')
   return showUsersHome({ user: app.user as SerializedLoggedInMainUser })
 }
 
@@ -65,7 +66,7 @@ export async function showUserListings (user) {
 }
 
 async function showLatestUsers () {
-  if (!app.request('require:admin:access')) return
+  if (!reqres.request('require:admin:access')) return
   const { default: LatestUsers } = await import('#users/components/latest_users.svelte')
   app.layout.showChildComponent('main', LatestUsers)
   app.navigate('users/latest', { metadata: { title: i18n('Latest users') } })
@@ -76,14 +77,14 @@ const controller = {
   showNetworkHome () {
     const pathname = 'users/network'
     app.navigate('users/network')
-    if (app.request('require:loggedIn', pathname)) {
+    if (reqres.request('require:loggedIn', pathname)) {
       showUsersHome({ section: 'network' })
     }
   },
   showPublicHome () {
     const pathname = 'users/public'
     app.navigate(pathname)
-    if (app.request('require:loggedIn', pathname)) {
+    if (reqres.request('require:loggedIn', pathname)) {
       showUsersHome({ section: 'public' })
     }
   },
@@ -92,7 +93,7 @@ const controller = {
   showUserListings,
   showUserFollowers,
   showUserItemsByEntity (username, uri) {
-    app.execute('show:user:items:by:entity', username, uri)
+    commands.execute('show:user:items:by:entity', username, uri)
   },
   showUserContributionsFromRoute (idOrUsername) {
     const filter = getQuerystringParameter('filter')
@@ -119,7 +120,7 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
     }
     app.layout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -128,7 +129,7 @@ async function showUserContributions (userAcctOrIdOrUsername: string, filter: st
     const userAcct = await resolveToUserAcct(userAcctOrIdOrUsername)
     await showUserContributionsFromAcct(userAcct, filter)
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -143,7 +144,7 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
     app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -164,7 +165,7 @@ async function showUserFollowers (idOrUsername: UserId | Username) {
       },
     })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 

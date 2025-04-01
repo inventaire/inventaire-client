@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
@@ -40,7 +41,7 @@
       items: [ item ],
       next: () => {
         // Force a refresh of the inventory, so that the deleted item doesn't appear
-        app.execute('show:inventory:main:user')
+        commands.execute('show:inventory:main:user')
       },
     })
   }

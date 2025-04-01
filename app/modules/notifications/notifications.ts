@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { I18n } from '#user/lib/i18n'
 import { getNotificationsData } from './lib/notifications'
 
@@ -11,7 +12,7 @@ export default {
       '/notifications(/)': 'showNotifications',
     }, controller)
 
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:notifications': controller.showNotifications,
     })
 
@@ -21,8 +22,8 @@ export default {
 
 const controller = {
   async showNotifications () {
-    if (app.request('require:loggedIn', 'notifications')) {
-      app.execute('show:loader')
+    if (reqres.request('require:loggedIn', 'notifications')) {
+      commands.execute('show:loader')
       const [ { default: NotificationsLayout } ] = await Promise.all([
         import('./components/notifications_layout.svelte'),
         waitForNotifications,

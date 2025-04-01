@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { commands } from '#app/radio'
 
 export interface ConfirmationModalProps {
   action: () => Promise<void> | void
@@ -18,5 +19,5 @@ export async function askConfirmation (options: ConfirmationModalProps) {
   app.layout.showChildComponent('modal', ConfirmationModal, {
     props: options,
   })
-  app.execute('modal:open')
+  commands.execute('modal:open')
 }

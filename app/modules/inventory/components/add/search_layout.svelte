@@ -1,13 +1,13 @@
 <script lang="ts">
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
+  import { commands } from '#app/radio'
   import { clearSearchHistory, searchResultsHistory } from '#search/lib/search_results_history'
   import { I18n } from '#user/lib/i18n'
   import PreviousSearch from './previous_search.svelte'
 
   function onClick (e) {
     const type = e.currentTarget.href.split('type=')[1]
-    app.execute('search:global', '', type)
+    commands.execute('search:global', '', type)
     e.preventDefault()
   }
 </script>

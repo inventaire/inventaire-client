@@ -6,6 +6,7 @@ import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
 import { parseQuery, buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import type { EntityUri } from '#server/types/entity'
 import type { UserId, Username } from '#server/types/user'
 import { showUsersHome } from '#users/users'
@@ -39,7 +40,7 @@ async function showInventory (params) {
 
 const controller = {
   showGeneralInventory () {
-    if (app.request('require:loggedIn', 'items')) {
+    if (reqres.request('require:loggedIn', 'items')) {
       controller.showUserInventory(app.user._id)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
@@ -48,7 +49,7 @@ const controller = {
   },
 
   showNetworkInventory () {
-    if (app.request('require:loggedIn', 'users/network')) {
+    if (reqres.request('require:loggedIn', 'users/network')) {
       showInventory({ section: 'network' })
       app.navigate('users/network')
     }
@@ -62,7 +63,7 @@ const controller = {
     const { filter } = options
     const url = buildPath('/users/public', { filter })
 
-    if (app.request('require:loggedIn', url)) {
+    if (reqres.request('require:loggedIn', url)) {
       showInventory({ section: 'public', filter })
       app.navigate(url)
     }
@@ -86,25 +87,25 @@ const controller = {
       username = user.username
       const pathname = `/users/${username}/inventory/${uri}`
       if (!isUsername(username) || !isEntityUri(uri)) {
-        return app.execute('show:error:missing', { pathname })
+        return commands.execute('show:error:missing', { pathname })
       }
 
       const title = label ? `${label} - ${username}` : `${uri} - ${username}`
 
-      app.execute('show:loader')
+      commands.execute('show:loader')
       app.navigate(pathname, { metadata: { title } })
 
       const items = await getItemsByUserIdAndEntities(user._id, uri)
       await showItems(items)
     } catch (err) {
-      app.execute('show:error', err)
+      commands.execute('show:error', err)
     }
   },
 } as const
 
 async function showItems (items: SerializedItemWithUserData[]) {
   if (items.length === 0) {
-    app.execute('show:error:missing')
+    commands.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items[0]
     await showItem({ itemId: item._id })
@@ -132,7 +133,7 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
   try {
     assertString(itemId)
     const pathname = `/items/${itemId}`
-    if (!isItemId(itemId)) return app.execute('show:error:missing', { pathname })
+    if (!isItemId(itemId)) return commands.execute('show:error:missing', { pathname })
     const { items, users } = await preq.get(API.items.byIds({ ids: itemId, includeUsers: true }))
     const item = items[0]
     const user = users[0]
@@ -147,15 +148,15 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
         },
       })
     } else {
-      app.execute('show:error:missing', { pathname })
+      commands.execute('show:error:missing', { pathname })
     }
   } catch (err) {
-    app.execute('show:error', err, 'showItemFromId')
+    commands.execute('show:error', err, 'showItemFromId')
   }
 }
 
 const initializeInventoriesHandlers = function (app) {
-  app.commands.setHandlers({
+  commands.setHandlers({
     'show:inventory:network': controller.showNetworkInventory,
     'show:inventory:public': controller.showPublicInventory,
 
@@ -175,7 +176,7 @@ const initializeInventoriesHandlers = function (app) {
     },
   })
 
-  app.reqres.setHandlers({
+  reqres.setHandlers({
     // Used by #users/components/public_users_nav.svelte
     'items:getNearbyItems': getNearbyItems,
     // Used by #users/components/network_users_nav.svelte

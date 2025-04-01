@@ -1,6 +1,7 @@
 import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
-import { getRefreshedTransactions } from '#transactions/lib/get_transactions'
+import { commands, reqres } from '#app/radio'
+import { getRefreshedTransactions } from './lib/get_transactions.ts'
 import initHelpers from './lib/helpers.ts'
 
 export default {
@@ -10,7 +11,7 @@ export default {
       '/transactions/:id(/)': 'showTransaction',
     }, controller)
 
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:transactions': controller.showTransactions,
       'show:transaction': controller.showTransaction,
     })
@@ -21,13 +22,13 @@ export default {
 
 const controller = {
   async showTransactions () {
-    if (app.request('require:loggedIn', 'transactions')) {
+    if (reqres.request('require:loggedIn', 'transactions')) {
       await showTransactionsLayout()
     }
   },
 
   async showTransaction (id: string) {
-    if (app.request('require:loggedIn', `transactions/${id}`)) {
+    if (reqres.request('require:loggedIn', `transactions/${id}`)) {
       await showTransactionsLayout(id)
     }
   },

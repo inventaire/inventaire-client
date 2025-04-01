@@ -5,6 +5,7 @@ import { buildPath } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { timeFromNow } from '#app/lib/time'
+import { vent } from '#app/radio'
 import { transactionsData, type TransactionData } from '#inventory/lib/transactions_data'
 import type { GetTransactionsMessagesResponse } from '#server/controllers/transactions/get_messages'
 import type { TransactionComment } from '#server/types/comment'
@@ -244,7 +245,7 @@ export async function markAsRead (transaction) {
     })
     transaction.read[transaction.mainUserRole] = true
     transaction.mainUserRead = true
-    app.vent.trigger('transactions:unread:change')
+    vent.trigger('transactions:unread:change')
   } catch (err) {
     log_.error(err, 'markAsRead')
   }

@@ -3,10 +3,11 @@ import transactionsApi from '#app/api/transactions'
 import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { reqres, vent } from '#app/radio'
 import { serializeTransaction, type SerializedTransaction } from '#transactions/lib/transactions'
 
 async function fetchTransaction () {
-  await app.request('wait:for', 'user')
+  await reqres.request('wait:for', 'user')
   if (app.user.loggedIn) {
     const { transactions } = await preq.get(transactionsApi.base)
     return transactions
@@ -59,4 +60,4 @@ export function getUnreadTransactionsCountStore () {
   return unreadTransactionsCountStore
 }
 
-app.vent.on('transactions:unread:change', updateUnreadTransactionsCount)
+vent.on('transactions:unread:change', updateUnreadTransactionsCount)

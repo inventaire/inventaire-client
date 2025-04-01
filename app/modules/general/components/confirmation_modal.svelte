@@ -1,11 +1,11 @@
 <script lang="ts">
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { wait } from '#app/lib/promises'
+  import { commands } from '#app/radio'
   import { i18n, I18n } from '#user/lib/i18n'
   import type { ConfirmationModalProps } from '../lib/confirmation_modal'
 
@@ -38,7 +38,7 @@
 
   function close () {
     if (back != null) back()
-    else app.execute('modal:close')
+    else commands.execute('modal:close')
   }
 
   async function executeFormAction () {

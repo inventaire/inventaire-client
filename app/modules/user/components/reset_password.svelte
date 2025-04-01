@@ -1,8 +1,8 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import PasswordInput from '#app/lib/components/password_input.svelte'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { passwordUpdate } from '#user/lib/auth'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -22,7 +22,7 @@
       await passwordUpdate({ newPassword: password })
       done = true
       successFlash = { type: 'success', message: I18n('done'), role: 'alert' }
-      app.execute('show:home')
+      commands.execute('show:home')
     } catch (err) {
       flash = err
     } finally {
