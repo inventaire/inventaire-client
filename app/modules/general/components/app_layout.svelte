@@ -1,6 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
-  import type { RegionComponent } from '#app/init_app'
+  import type { RegionComponent } from '#general/lib/init_app_layout'
   import { preventFormSubmit } from '#general/lib/prevent_form_submit'
   import DocumentHeaders from './document_headers.svelte'
   import FullScreenLoader from './full_screen_loader.svelte'
