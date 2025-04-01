@@ -1,7 +1,7 @@
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { getColorHexCodeFromCouchUuId, getColorSquareDataUri } from '#app/lib/images'
 import preq, { treq } from '#app/lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -56,7 +56,7 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
 }
 
 export async function getShelvesByOwner (userId: UserId) {
-  assert_.string(userId)
+  assertString(userId)
   const { shelves } = await treq.get<ShelvesByOwnersResponse>(API.shelves.byOwners(userId))
   return Object.values(shelves).sort(byName)
 }

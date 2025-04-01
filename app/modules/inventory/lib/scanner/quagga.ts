@@ -1,5 +1,5 @@
 import { min } from 'underscore'
-import assert_ from '#app/lib/assert_types'
+import { assertObject } from '#app/lib/assert_types'
 import log_ from '#app/lib/loggers'
 import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
 import { drawCanvasFactory } from './draw_canvas.ts'
@@ -24,7 +24,7 @@ export async function startQuaggaScanner (params: ScannerParams) {
   const { default: Quagga } = await import('@ericblade/quagga2')
 
   const { containerElement, beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
-  assert_.object(containerElement)
+  assertObject(containerElement)
   // Using a promise to get a friendly way to pass errors
   // but this promise will never resolve, and will be terminated,
   // if everything goes well, by a cancel event

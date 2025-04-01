@@ -1,7 +1,7 @@
 import { compact, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import type { EntityDraft } from '#app/types/entity'
@@ -19,7 +19,7 @@ interface GetMissingRequiredPropertiesParams {
 }
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }: GetMissingRequiredPropertiesParams) {
   const { type } = entity
-  assert_.string(type)
+  assertString(type)
   const missingRequiredProperties = []
   if (requiresLabel) {
     if (Object.keys(entity.labels).length <= 0) {
