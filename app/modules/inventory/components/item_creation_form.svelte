@@ -11,6 +11,7 @@
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { getLastShelves, setLastShelves, setLastTransaction, setLastVisbility } from '#inventory/lib/add_helpers'
   import { createItem as _createItem } from '#inventory/lib/item_actions'
   import { showShelf } from '#shelves/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -29,12 +30,12 @@
 
   let transaction, visibility, shelvesIds, details, notes
 
-  if (shelvesIds == null) shelvesIds = app.request('last:shelves:get')
+  if (shelvesIds == null) shelvesIds = getLastShelves()
 
   async function createItem () {
-    app.execute('last:shelves:set', shelvesIds)
-    app.request('last:transaction:set', transaction)
-    app.execute('last:visibility:set', visibility)
+    setLastShelves(shelvesIds)
+    setLastTransaction(transaction)
+    setLastVisbility(visibility)
     await _createItem({
       entity: uri,
       transaction,

@@ -15,7 +15,7 @@
       userShelves = res
       const userShelvesIds = pluck(userShelves, '_id')
       // Filter-out any shelf that might have been deleted
-      // but passed as it was saved by `app.execute('last:shelves:set')`
+      // but passed as it was saved by `getLastShelves`
       shelvesIds = shelvesIds.filter(id => userShelvesIds.includes(id))
     })
 </script>
