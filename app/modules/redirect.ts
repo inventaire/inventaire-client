@@ -4,25 +4,22 @@ import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#app/lib/metadata/update'
+import { addRoutes } from '#app/lib/router'
 import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
 import { showMainUserProfile } from '#users/users'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        '(home)': 'showHome',
-        'welcome(/)': 'showWelcome',
-        'about(/)': 'showWelcome',
-        'donate(/)': 'showDonate',
-        'feedback(/)': 'showFeedback',
-        'me(/)': 'showMainUser',
-        '*route': 'notFound',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/(home)': 'showHome',
+      '/welcome(/)': 'showWelcome',
+      '/about(/)': 'showWelcome',
+      '/donate(/)': 'showDonate',
+      '/feedback(/)': 'showFeedback',
+      '/me(/)': 'showMainUser',
+      '/*route': 'notFound',
+    }, controller)
 
     app.reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
@@ -93,7 +90,7 @@ const controller = {
   },
 
   showMainUser () { app.execute('show:inventory:main:user') },
-}
+} as const
 
 function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)

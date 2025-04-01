@@ -1,21 +1,18 @@
 import app from '#app/app'
+import { addRoutes } from '#app/lib/router'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'settings(/profile)(/)': 'showProfileSettings',
-        'settings/account(/)': 'showAccountSettings',
-        'settings/display(/)': 'showDisplaySettings',
-        'settings/notifications(/)': 'showNotificationsSettings',
-        'settings/data(/)': 'showDataSettings',
-        // Legacy
-        'settings/labs(/)': 'showDataSettings',
-        'menu(/)': 'showProfileSettings',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/settings(/profile)(/)': 'showProfileSettings',
+      '/settings/account(/)': 'showAccountSettings',
+      '/settings/display(/)': 'showDisplaySettings',
+      '/settings/notifications(/)': 'showNotificationsSettings',
+      '/settings/data(/)': 'showDataSettings',
+      // Legacy
+      '/settings/labs(/)': 'showDataSettings',
+      '/menu(/)': 'showProfileSettings',
+    }, controller)
 
     setHandlers()
   },
@@ -27,7 +24,7 @@ const controller = {
   showDisplaySettings () { showSettings('display') },
   showNotificationsSettings () { showSettings('notifications') },
   showDataSettings () { showSettings('data') },
-}
+} as const
 
 const showSettings = async section => {
   if (app.request('require:loggedIn', `settings/${section}`)) {
