@@ -7,7 +7,7 @@
   import Spinner from '#components/spinner.svelte'
   import { postTransactionMessage } from '#transactions/lib/helpers'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
 
   export let transaction
 
@@ -38,7 +38,7 @@
 <form class="new-message">
   <div class="main">
     <div class="avatar">
-      <img src={imgSrc($mainUser.picture, 50)} alt={$mainUser.username} />
+      <img src={imgSrc($mainUserStore.picture, 50)} alt={$mainUserStore.username} />
     </div>
     <textarea
       class="message"

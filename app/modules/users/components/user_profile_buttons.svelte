@@ -14,7 +14,7 @@
   import type { RelationAction } from '#server/controllers/relations/actions'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import { getUserRelationStatus, updateRelationStatus } from '#users/lib/relations'
   import { type SerializedUser } from '#users/lib/users'
 
@@ -166,12 +166,12 @@
 {#if 'position' in user && showUserOnMap}
   <Modal size="large" on:closeModal={() => showUserOnMap = false}>
     <div class="map">
-      <LeafletMap bounds={[ user.position, $mainUser.position ]}>
+      <LeafletMap bounds={[ user.position, $mainUserStore.position ]}>
         <Marker latLng={user.position}>
           <UserMarker doc={user} on:select={() => showUserOnMap = false} />
         </Marker>
-        <Marker latLng={$mainUser.position}>
-          <UserMarker doc={$mainUser} on:select={() => app.navigateAndLoad($mainUser.pathname)} />
+        <Marker latLng={$mainUserStore.position}>
+          <UserMarker doc={$mainUserStore} on:select={() => app.navigateAndLoad($mainUserStore.pathname)} />
         </Marker>
       </LeafletMap>
     </div>

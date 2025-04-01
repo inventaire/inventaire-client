@@ -14,9 +14,3 @@ interface Window {
   $: unknown
   prerenderReady: boolean
 }
-
-interface Navigator {
-  // IE only
-  // from https://stackoverflow.com/questions/40382056/typescript-navigator-merging-with-lib-d-ts
-  userLanguage?: string
-}

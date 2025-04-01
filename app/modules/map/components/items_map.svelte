@@ -12,7 +12,7 @@
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import { getDocsBounds } from './lib/map.ts'
 
   export let docsToDisplay = []
@@ -64,7 +64,7 @@
   }
 
   function findMainUserItems (displayedItems) {
-    return displayedItems.find(item => item.owner === $mainUser._id)
+    return displayedItems.find(item => item.owner === $mainUserStore._id)
   }
 
   $: onChange(docsToDisplay, onDocsToDisplayChange)
@@ -77,7 +77,7 @@
 <div class="items-map">
   {#if bounds.length > 0}
     <LeafletMap
-      bounds={$mainUser.position ? bounds.concat([ $mainUser.position ]) : bounds}
+      bounds={$mainUserStore.position ? bounds.concat([ $mainUserStore.position ]) : bounds}
       cluster={true}
     >
       {#each displayedItems as item (item._id)}
@@ -85,9 +85,9 @@
           <ItemMarker {item} on:showItem={() => modalItem = item} />
         </Marker>
       {/each}
-      {#if $mainUser?.position && !isMainUserItemsDisplayed}
-        <Marker latLng={$mainUser.position} standalone={true}>
-          <UserMarker doc={$mainUser} />
+      {#if $mainUserStore?.position && !isMainUserItemsDisplayed}
+        <Marker latLng={$mainUserStore.position} standalone={true}>
+          <UserMarker doc={$mainUserStore} />
         </Marker>
       {/if}
     </LeafletMap>

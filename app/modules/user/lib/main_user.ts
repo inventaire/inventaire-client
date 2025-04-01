@@ -12,18 +12,40 @@ import type { OwnerSafeUser } from '#server/controllers/user/lib/authorized_user
 import type { DeletedUser } from '#server/types/user'
 import { notificationsList } from '#settings/lib/notifications_settings_list'
 import { serializeUser, type SerializedUser } from '#users/lib/users'
-import { initI18n } from './i18n'
+import { initI18n, polyglot } from './i18n'
 import { solveLang } from './solve_lang'
 
 const apiUser = getEndpointBase('user')
 // the cookie is deleted on logout
 const loggedIn = parseBooleanString(cookie_.get('loggedIn'))
-app.user = {
-  loggedIn,
-  lang: solveLang(),
+
+interface SerializedMainUserExtras {
+  lang: UserLang
+  loggedIn: boolean
+  hasAdminAccess: boolean
+  hasDataadminAccess: boolean
 }
 
-export const mainUser = writable(app.user)
+export type SerializedLoggedInMainUser = OwnerSafeUser & SerializedUser & SerializedMainUserExtras
+
+export type SerializedNotLoggedInMainUser = {
+  loggedIn: false
+  hasAdminAccess: false
+  hasDataadminAccess: false
+  lang: UserLang
+  _id: undefined
+  position: undefined
+  acct: undefined
+}
+
+export const mainUser = {
+  loggedIn,
+  hasAdminAccess: false,
+  hasDataadminAccess: false,
+  lang: solveLang(),
+} as (SerializedNotLoggedInMainUser | SerializedLoggedInMainUser)
+
+export const mainUserStore = writable(mainUser)
 
 export async function initMainUser () {
   if (loggedIn) {
@@ -31,10 +53,10 @@ export async function initMainUser () {
       const user = (await preq.get(apiUser)) as (OwnerSafeUser | DeletedUser)
       if (user.type === 'deleted') return app.execute('logout')
       // Initialize app.user so serializeUser can use it
-      app.user = user
+      app.user = mainUser
       // @ts-expect-error
-      app.user = serializeMainUser(serializeUser(user))
-      mainUser.set(app.user)
+      mainUser = serializeMainUser(serializeUser(user))
+      mainUserStore.set(mainUser)
     } catch (err) {
       // Known cases of session errors:
       // - when the server secret is changed
@@ -45,18 +67,11 @@ export async function initMainUser () {
     }
   }
   // Do not wait for i18n initialization to call 'waiter:resolve', 'user'
-  initI18n(app.user.lang).catch(log_.Error('i18n initialize error'))
+  initI18n(mainUser.lang).catch(log_.Error('i18n initialize error'))
   app.execute('waiter:resolve', 'user')
 }
 
-interface SerializedMainUser {
-  lang: UserLang
-  loggedIn: boolean
-  hasAdminAccess: boolean
-  hasDataadminAccess: boolean
-}
-
-function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<SerializedMainUser>) {
+function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<SerializedMainUserExtras>) {
   user.loggedIn = loggedIn
   user.settings = setDefaultSettings(user)
   user.summaryPeriodicity = user.summaryPeriodicity || 20
@@ -65,7 +80,7 @@ function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<Seria
   const { accessLevels } = user
   user.hasAdminAccess = accessLevels.includes('admin')
   user.hasDataadminAccess = accessLevels.includes('dataadmin')
-  return user
+  return user as SerializedLoggedInMainUser
 }
 
 function setDefaultSettings (user: OwnerSafeUser & SerializedUser) {
@@ -84,19 +99,19 @@ function setDefaultNotificationsSettings (notifications: OwnerSafeUser['settings
 }
 
 export async function updateUser (attribute: string, value: unknown) {
-  const currentValue = app.user[attribute]
+  const currentValue = mainUser[attribute]
   try {
-    app.user[attribute] = value
-    mainUser.set(app.user)
+    mainUser[attribute] = value
+    mainUserStore.set(mainUser)
     if (loggedIn) await preq.put(API.user, { attribute, value })
     if (attribute in afterUserUpdateHooks) {
       afterUserUpdateHooks[attribute]()
-      mainUser.set(app.user)
+      mainUserStore.set(mainUser)
     }
   } catch (err) {
     // Rollback
-    app.user[attribute] = currentValue
-    mainUser.set(app.user)
+    mainUser[attribute] = currentValue
+    mainUserStore.set(mainUser)
     throw err
   }
 }
@@ -108,10 +123,11 @@ const afterUserUpdateHooks = {
 }
 
 function onLanguageChange () {
-  if (app.polyglot == null) return
+  if (polyglot == null) return
 
-  const lang = app.user.language
-  if (lang === app.polyglot.currentLocale) return
+  const lang = 'language' in mainUser ? mainUser.language : null
+  // @ts-expect-error `currentLocale` is missing in @types/node-polyglot
+  if (lang === polyglot.currentLocale) return
 
   let reloadHref = window.location.href
   if (getQuerystringParameter('lang') != null) {
@@ -131,8 +147,9 @@ function onLanguageChange () {
 
 function reserialize () {
   // Coupled to serializeUser implementation, which skips serialization when 'pathname' already exists
-  delete app.user.pathname
-  app.user = serializeUser(app.user)
+  if ('pathname' in mainUser) delete mainUser.pathname
+  // @ts-expect-error
+  mainUser = serializeUser(mainUser)
 }
 
 export async function deleteMainUserAccount () {
@@ -141,6 +158,7 @@ export async function deleteMainUserAccount () {
 }
 
 export function mainUserHasWikidataOauthTokens () {
-  const { enabledOAuth } = app.user
+  if (!('enabledOAuth' in mainUser)) return false
+  const { enabledOAuth } = mainUser
   return (enabledOAuth != null) && enabledOAuth.includes('wikidata')
 }
