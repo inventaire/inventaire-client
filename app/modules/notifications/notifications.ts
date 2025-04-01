@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { addRoutes } from '#app/lib/router'
 import { I18n } from '#user/lib/i18n'
 import { getNotificationsData } from './lib/notifications'
 
@@ -6,13 +7,9 @@ let waitForNotifications
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'notifications(/)': 'showNotifications',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/notifications(/)': 'showNotifications',
+    }, controller)
 
     app.commands.setHandlers({
       'show:notifications': controller.showNotifications,
@@ -36,4 +33,4 @@ const controller = {
       app.navigate('notifications', { metadata: { title: I18n('notifications') } })
     }
   },
-}
+} as const

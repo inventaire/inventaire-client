@@ -1,17 +1,14 @@
 import app from '#app/app'
+import { addRoutes } from '#app/lib/router'
 import { getTransactions } from '#transactions/lib/get_transactions'
 import initHelpers from './lib/helpers.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'transactions(/)': 'showTransactions',
-        'transactions/:id(/)': 'showTransaction',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/transactions(/)': 'showTransactions',
+      '/transactions/:id(/)': 'showTransaction',
+    }, controller)
 
     app.commands.setHandlers({
       'show:transactions': controller.showTransactions,
@@ -29,12 +26,12 @@ const controller = {
     }
   },
 
-  async showTransaction (id) {
+  async showTransaction (id: string) {
     if (app.request('require:loggedIn', `transactions/${id}`)) {
       await showTransactionsLayout(id)
     }
   },
-}
+} as const
 
 async function showTransactionsLayout (selectedTransactionId?) {
   const transactions = await getTransactions()

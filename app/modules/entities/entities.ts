@@ -5,6 +5,7 @@ import { serverReportError, newError, type ContextualizedError } from '#app/lib/
 import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import { addRoutes } from '#app/lib/router'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import { showItemCreationForm } from '#inventory/lib/show_item_creation_form'
@@ -17,24 +18,20 @@ import type { ComponentType, ComponentProps, SvelteComponent } from 'svelte'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'entity/new(/)': 'showEntityCreateFromRoute',
-        'entity/changes(/)': 'showChanges',
-        'entity/contributions(/)': 'showContributionsCounts',
-        'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
-        'entity/merge(/)': 'showEntityMerge',
-        'entity/:uri/add(/)': 'showAddEntity',
-        'entity/:uri/edit(/)': 'showEditEntityFromUri',
-        'entity/:uri/cleanup(/)': 'showEntityCleanup',
-        'entity/:uri/homonyms(/)': 'showHomonyms',
-        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
-        'entity/:uri/history(/)': 'showEntityHistory',
-        'entity/:uri(/)': 'showEntity',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/entity/new(/)': 'showEntityCreateFromRoute',
+      '/entity/changes(/)': 'showChanges',
+      '/entity/contributions(/)': 'showContributionsCounts',
+      '/entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
+      '/entity/merge(/)': 'showEntityMerge',
+      '/entity/:uri/add(/)': 'showAddEntity',
+      '/entity/:uri/edit(/)': 'showEditEntityFromUri',
+      '/entity/:uri/cleanup(/)': 'showEntityCleanup',
+      '/entity/:uri/homonyms(/)': 'showHomonyms',
+      '/entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
+      '/entity/:uri/history(/)': 'showEntityHistory',
+      '/entity/:uri(/)': 'showEntity',
+    }, controller)
 
     setHandlers()
   },
@@ -212,7 +209,7 @@ const controller = {
       props: { from, to, type },
     })
   },
-}
+} as const
 
 export async function showEntityCreate (params: { label: string, type?: string, claims?: SimplifiedClaims }) {
   const path = 'entity/new'
