@@ -1,19 +1,16 @@
 import app from '#app/app'
+import { addRoutes } from '#app/lib/router'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'tasks(/)': 'showTasksDashboard',
-        'tasks/delete/(:entitiesType)(/)': 'showDeleteTask',
-        'tasks/merge/(:entitiesType)(/)': 'showMergeTask',
-        'tasks/deduplicate/(:entitiesType)(/)': 'showDeduplicateTask',
-        'tasks/none(/)': 'showNoTask',
-        'tasks(/)(:id)(/)': 'showTask',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/tasks(/)': 'showTasksDashboard',
+      '/tasks/delete/(:entitiesType)(/)': 'showDeleteTask',
+      '/tasks/merge/(:entitiesType)(/)': 'showMergeTask',
+      '/tasks/deduplicate/(:entitiesType)(/)': 'showDeduplicateTask',
+      '/tasks/none(/)': 'showNoTask',
+      '/tasks(/)(:id)(/)': 'showTask',
+    }, controller)
   },
 }
 
@@ -36,7 +33,7 @@ const controller = {
       app.layout.showChildComponent('main', TasksDashboard, {})
     }
   },
-}
+} as const
 
 const showLayout = async params => {
   const { entitiesType } = params

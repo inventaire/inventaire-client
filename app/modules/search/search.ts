@@ -1,19 +1,16 @@
 import app from '#app/app'
 import { parseQuery } from '#app/lib/location'
 import { setPrerenderStatusCode } from '#app/lib/metadata/update'
+import { addRoutes } from '#app/lib/router'
 import { parseBooleanString } from '#app/lib/utils'
 import findUri from './lib/find_uri.ts'
 import type { SearchSection } from './lib/search_sections.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'search(/)': 'searchFromQueryString',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/search(/)': 'searchFromQueryString',
+    }, controller)
 
     app.commands.setHandlers({
       'search:global': controller.search,
@@ -55,7 +52,7 @@ const controller = {
     const showFallbackLayout = app.Execute('show:add:layout:search') as (() => void)
     return controller.search(searchString, section, showFallbackLayout)
   },
-}
+} as const
 
 const showEntityPageIfUri = function (query, refresh) {
   // If the query text is a URI, show the associated entity page
