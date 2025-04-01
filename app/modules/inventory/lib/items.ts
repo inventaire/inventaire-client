@@ -99,8 +99,6 @@ function findBestTitle (item) {
 }
 
 function hasActiveTransaction (itemId) {
-  // the reqres 'has:transactions:ongoing:byItemId' wont be defined
-  // if the user isn't logged in
   if (!app.user.loggedIn) return false
   return hasOngoingTransactionsByItemIdSync(itemId)
 }

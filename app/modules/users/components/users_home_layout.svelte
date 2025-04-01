@@ -5,6 +5,7 @@
   import { resizeObserver } from '#app/lib/components/actions/resize_observer'
   import { getViewportHeight } from '#app/lib/screen'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { commands } from '#app/radio'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import type { SerializedGroup } from '#groups/lib/groups'
   import { mainUserStore } from '#user/lib/main_user'
@@ -38,7 +39,7 @@
   }
 
   $: if (user) {
-    if ('deleted' in user && user.deleted) app.execute('show:error:missing')
+    if ('deleted' in user && user.deleted) commands.execute('show:error:missing')
   }
 
   if (user && user._id === app.user._id) section = 'user'

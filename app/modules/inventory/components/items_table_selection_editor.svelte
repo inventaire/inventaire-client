@@ -1,6 +1,6 @@
 <script lang="ts">
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
@@ -47,7 +47,7 @@
         onDone()
       },
       back: () => {
-        app.execute('modal:close')
+        commands.execute('modal:close')
         onDone()
       },
     })
@@ -123,7 +123,7 @@
     <button
       class="cancel"
       disabled={waitingForSave != null}
-      on:click={() => app.execute('modal:close')}
+      on:click={() => commands.execute('modal:close')}
     >
       {@html icon('close')}
       <span>{I18n('cancel')}</span>

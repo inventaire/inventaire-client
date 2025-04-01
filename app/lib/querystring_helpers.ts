@@ -1,10 +1,11 @@
 import app from '#app/app'
 import { parseQuery, buildPath, setQuerystring, routeSection, type ProjectRootRelativeUrl } from '#app/lib/location'
+import { commands } from '#app/radio'
 import type { RelativeUrl } from '#server/types/common'
 import allowPersistantQuery from './allow_persistant_query.ts'
 
 export default function () {
-  app.commands.setHandlers({
+  commands.setHandlers({
     'querystring:set': setParameter,
     'querystring:remove': removeParameter,
   })

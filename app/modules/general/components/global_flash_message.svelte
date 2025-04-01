@@ -1,8 +1,8 @@
 <script lang="ts">
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
+  import { commands } from '#app/radio'
   import { I18n } from '#user/lib/i18n'
 
   let intervalId = null
@@ -25,7 +25,7 @@
 
   const checkState = () => preq.get(API.tests).then(hideNetworkError)
 
-  app.commands.setHandlers({
+  commands.setHandlers({
     'flash:message:show:network:error': showNetworkError,
   })
 </script>

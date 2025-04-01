@@ -3,6 +3,7 @@ import app from '#app/app'
 import type { ErrorContext } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { commands } from '#app/radio'
 import type { EntityUri } from '#server/types/entity'
 
 export interface FeedbackParams {
@@ -31,5 +32,5 @@ export async function showFeedbackModal (options: FeedbackModalOptions) {
       ...options,
     },
   })
-  app.execute('modal:open')
+  commands.execute('modal:open')
 }
