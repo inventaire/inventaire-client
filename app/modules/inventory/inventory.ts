@@ -5,6 +5,7 @@ import { assertString } from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
 import { parseQuery, buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
+import { addRoutes } from '#app/lib/router'
 import type { EntityUri } from '#server/types/entity'
 import type { UserId, Username } from '#server/types/user'
 import { showUsersHome } from '#users/users'
@@ -14,22 +15,18 @@ import type { SerializedItemWithUserData } from './lib/items.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        // Legacy
-        'inventory(/)': 'showGeneralInventory',
-        'inventory/network(/)': 'showNetworkInventory',
-        'inventory/public(/)': 'showPublicInventory',
-        'inventory/nearby(/)': 'showPublicInventory',
-        'inventory/:username(/)': 'showUserInventoryFromUrl',
-        'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
+    addRoutes({
+      // Legacy
+      '/inventory(/)': 'showGeneralInventory',
+      '/inventory/network(/)': 'showNetworkInventory',
+      '/inventory/public(/)': 'showPublicInventory',
+      '/inventory/nearby(/)': 'showPublicInventory',
+      '/inventory/:username(/)': 'showUserInventoryFromUrl',
+      '/inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
 
-        'items/:id(/)': 'showItemFromId',
-        'items(/)': 'showGeneralInventory',
-      },
-    })
-
-    new Router({ controller })
+      '/items/:id(/)': 'showItemFromId',
+      '/items(/)': 'showGeneralInventory',
+    }, controller)
 
     initializeInventoriesHandlers(app)
   },
@@ -103,7 +100,7 @@ const controller = {
       app.execute('show:error', err)
     }
   },
-}
+} as const
 
 async function showItems (items: SerializedItemWithUserData[]) {
   if (items.length === 0) {

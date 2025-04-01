@@ -3,6 +3,7 @@ import app from '#app/app'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import { addRoutes } from '#app/lib/router'
 import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
@@ -14,22 +15,18 @@ import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'u(sers)(/)': 'showNetworkHome',
-        'u(sers)/network(/)': 'showNetworkHome',
-        'u(sers)/public(/)': 'showPublicHome',
-        'u(sers)/latest(/)': 'showLatestUsers',
-        'u(sers)/:id(/)': 'showUserProfile',
-        'u(sers)/:id/followers(/)': 'showUserFollowers',
-        'u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
-        'u(sers)/:id/inventory(/)': 'showUserInventory',
-        'u(sers)/:id/lists(/)': 'showUserListings',
-        'u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/u(sers)(/)': 'showNetworkHome',
+      '/u(sers)/network(/)': 'showNetworkHome',
+      '/u(sers)/public(/)': 'showPublicHome',
+      '/u(sers)/latest(/)': 'showLatestUsers',
+      '/u(sers)/:id(/)': 'showUserProfile',
+      '/u(sers)/:id/followers(/)': 'showUserFollowers',
+      '/u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
+      '/u(sers)/:id/inventory(/)': 'showUserInventory',
+      '/u(sers)/:id/lists(/)': 'showUserListings',
+      '/u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
+    }, controller)
 
     initRelations()
 
