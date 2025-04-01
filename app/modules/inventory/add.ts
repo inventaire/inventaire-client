@@ -2,7 +2,6 @@ import app from '#app/app'
 import { getDevicesInfo } from '#app/lib/has_video_input'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
-import initAddHelpers from './lib/add_helpers.ts'
 
 export default {
   initialize () {
@@ -13,7 +12,6 @@ export default {
       '/add/import(/)': 'showImport',
     }, controller)
 
-    initAddHelpers()
     initializeHandlers()
   },
 }
