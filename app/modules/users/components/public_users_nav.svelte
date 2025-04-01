@@ -12,7 +12,7 @@
   import ZoomInToDisplayMore from '#map/components/zoom_in_to_display_more.svelte'
   import { getBbox, isMapTooZoomedOut } from '#map/lib/map'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
@@ -63,7 +63,7 @@
 
   async function onMainUserPositionChange () {
     const positionChanged = mapViewLatLng != null
-    mapViewLatLng = $mainUser.position
+    mapViewLatLng = $mainUserStore.position
     if (positionChanged) {
       // Give the time to the server to save the new user position before refetching nearby users
       await wait(1000)
@@ -79,7 +79,7 @@
   let usersInBounds, groupsInBounds
 
   $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
-  $: onChange($mainUser.position, onMainUserPositionChange)
+  $: onChange($mainUserStore.position, onMainUserPositionChange)
 
   let selectedUser, selectedGroup
   function onSelectUser (e) {
@@ -101,7 +101,7 @@
   }
 </script>
 
-{#if $mainUser.position != null}
+{#if $mainUserStore.position != null}
   <div class="map-lists-wrapper">
     <div class="lists">
       {#if showUsers}
