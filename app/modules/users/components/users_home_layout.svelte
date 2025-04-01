@@ -7,7 +7,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import type { SerializedGroup } from '#groups/lib/groups'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import NetworkUsersNav from '#users/components/network_users_nav.svelte'
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
@@ -46,7 +46,7 @@
   function onSectionChange () {
     if (section) {
       if (section === 'user') {
-        user = $mainUser
+        user = $mainUserStore
       } else {
         shelf = null
       }

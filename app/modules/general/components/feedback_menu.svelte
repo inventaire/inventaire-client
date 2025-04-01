@@ -9,7 +9,7 @@
   import { postFeedback } from '#general/lib/feedback'
   import type { EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import Spinner from './spinner.svelte'
 
   export let subject = ''
@@ -59,7 +59,7 @@
       <div class="from">
         {#if loggedIn}
           <span class="label">{i18n('from:')}</span>
-          <span class="username">{$mainUser.username}</span>
+          <span class="username">{$mainUserStore.username}</span>
         {:else}
           <input
             type="email"

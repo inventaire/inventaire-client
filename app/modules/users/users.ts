@@ -4,13 +4,14 @@ import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
+import type { SerializedLoggedInMainUser } from '#modules/user/lib/main_user'
 import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { resolveToGroup } from '../groups/lib/groups.ts'
 import { initRelations } from './lib/relations.ts'
-import { getLocalUserAccount } from './lib/users.ts'
+import { getLocalUserAccount, type SerializedUser } from './lib/users.ts'
 import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
 
 export default {
@@ -51,7 +52,7 @@ export async function showUserProfile (user) {
 }
 
 export async function showMainUserProfile () {
-  return showUsersHome({ user: app.user })
+  return showUsersHome({ user: app.user as SerializedLoggedInMainUser })
 }
 
 export async function showUserInventory (user) {
@@ -100,7 +101,7 @@ const controller = {
 }
 
 interface ShowUsersHome {
-  user?: User | UserId | Username | UserAccountUri
+  user?: User | UserId | Username | UserAccountUri | SerializedUser | SerializedLoggedInMainUser
   group?: Group | GroupId | GroupSlug
   section?: 'public' | 'network'
   profileSection?: 'inventory' | 'listings'
