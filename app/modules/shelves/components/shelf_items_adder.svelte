@@ -7,6 +7,7 @@
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
+  import { setLastShelves } from '#inventory/lib/add_helpers'
   import { getUserItems } from '#inventory/lib/queries'
   import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -96,7 +97,7 @@
   }
 
   function addNewItems () {
-    app.execute('last:shelves:set', [ shelfId ])
+    setLastShelves([ shelfId ])
     dispatch('shelfItemsAdderDone')
     app.execute('show:add:layout')
   }
