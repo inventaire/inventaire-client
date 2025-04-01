@@ -1,5 +1,5 @@
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertNumber } from '#app/lib/assert_types'
 import { i18n } from '#user/lib/i18n'
 
 const oneSecond = 1000
@@ -10,7 +10,7 @@ const oneYear = 365.25 * oneDay
 const oneMonth = oneYear / 12
 
 export function getTimeFromNowData (date: EpochTimeStamp) {
-  assert_.number(date)
+  assertNumber(date)
   const diff = Date.now() - date
   if (diff < (10 * oneSecond)) {
     return { key: 'just now', amount: 0 }

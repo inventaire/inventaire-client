@@ -1,6 +1,6 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -53,7 +53,7 @@ const nextActionsWithReturn = Object.assign({}, basicNextActions, {
 })
 
 function getNextActionsList (transactionName) {
-  assert_.string(transactionName)
+  assertString(transactionName)
   if (transactionName === 'lending') {
     return nextActionsWithReturn
   } else {

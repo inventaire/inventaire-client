@@ -1,6 +1,6 @@
 import app from '#app/app'
 import { config } from '#app/config'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { countListings } from '#listings/lib/listings'
@@ -171,7 +171,7 @@ export function getPositionUrl (user) {
 }
 
 export function getLocalUserAccount (anonymizableId: AnonymizableUserId) {
-  assert_.string(anonymizableId)
+  assertString(anonymizableId)
   return `${anonymizableId}@${publicHost}` as UserAccountUri
 }
 

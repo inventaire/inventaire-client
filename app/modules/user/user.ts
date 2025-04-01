@@ -1,5 +1,6 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
@@ -90,6 +91,7 @@ const controller = {
       validateAuthorizationRequest(query)
       const postLoginRedirection = window.location.pathname + window.location.search
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
+      assertString(query.client_id)
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
       app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })

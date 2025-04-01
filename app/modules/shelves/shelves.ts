@@ -1,5 +1,5 @@
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { isShelfId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { addRoutes } from '#app/lib/router'
@@ -21,7 +21,7 @@ export default {
 
 async function showShelfFromId (shelfId: ShelfId) {
   try {
-    assert_.string(shelfId)
+    assertString(shelfId)
     const shelf = await getShelfById(shelfId)
     if (shelf != null) {
       return showShelf(shelf)

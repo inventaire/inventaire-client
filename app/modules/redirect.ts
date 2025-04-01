@@ -1,5 +1,5 @@
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertObject, assertString } from '#app/lib/assert_types'
 import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
@@ -94,7 +94,7 @@ const controller = {
 
 function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)
-  assert_.string(route)
+  assertString(route)
   if (app.user.loggedIn) {
     return true
   } else {
@@ -173,7 +173,7 @@ const showErrorNotAdmin = () => showError({
 })
 
 function showOtherError (err: ContextualizedError, label: string) {
-  assert_.object(err)
+  assertObject(err)
   log_.error(err, label)
   return showError({
     name: 'other',
