@@ -34,48 +34,50 @@
 </script>
 
 <svelte:head>
-  <title>{title}</title>
-  <link rel="canonical" href={url} />
+  {#if $metadataStore}
+    <title>{title}</title>
+    <link rel="canonical" href={url} />
 
-  <!-- The default lang - en - doesnt need a lang querystring to be set.
+    <!-- The default lang - en - doesnt need a lang querystring to be set.
   It could have one, but search engines need to know that the default url
   they got matches this languages hreflang -->
-  <link rel="alternate" href={baseHref} hreflang="en" />
-  {#each langs as lang}
-    {#if lang !== 'en'}
-      <link rel="alternate" href={setQuerystring(baseHref, 'lang', lang)} hreflang={lang} />
+    <link rel="alternate" href={baseHref} hreflang="en" />
+    {#each langs as lang}
+      {#if lang !== 'en'}
+        <link rel="alternate" href={setQuerystring(baseHref, 'lang', lang)} hreflang={lang} />
+      {/if}
+    {/each}
+
+    {#if typeof $localLang === 'string'}
+      <meta property="og:locale" content={regionify[$localLang]} />
     {/if}
-  {/each}
 
-  {#if typeof $localLang === 'string'}
-    <meta property="og:locale" content={regionify[$localLang]} />
-  {/if}
+    {#each objectEntries(regionify) as [ lang, territory ]}
+      {#if lang !== $localLang}
+        <meta property="og:locale:alternate" content={territory} />
+      {/if}
+    {/each}
 
-  {#each objectEntries(regionify) as [ lang, territory ]}
-    {#if lang !== $localLang}
-      <meta property="og:locale:alternate" content={territory} />
-    {/if}
-  {/each}
+    <link rel="alternate" type="application/rss+xml" href={rss} />
 
-  <link rel="alternate" type="application/rss+xml" href={rss} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
 
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:card" content={twitterCard} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
+    <meta property="og:site_name" content={instanceName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta name="description" property="og:description" content={description} />
+    <!-- limiting to one og:image to be sure it's the one selected. cf https://stackoverflow.com/questions/13424780/facebook-multiple-ogimage-tags-which-is-default -->
+    <meta property="og:image" content={image} />
 
-  <meta property="og:site_name" content={instanceName} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={url} />
-  <meta property="og:title" content={title} />
-  <meta name="description" property="og:description" content={description} />
-  <!-- limiting to one og:image to be sure it's the one selected. cf https://stackoverflow.com/questions/13424780/facebook-multiple-ogimage-tags-which-is-default -->
-  <meta property="og:image" content={image} />
-
-  {#if statusCode}
-    <meta name="prerender-status-code" content={statusCode} />
-    {#if header}
-      <meta name="prerender-header" content={header} />
+    {#if statusCode}
+      <meta name="prerender-status-code" content={statusCode} />
+      {#if header}
+        <meta name="prerender-header" content={header} />
+      {/if}
     {/if}
   {/if}
 </svelte:head>
