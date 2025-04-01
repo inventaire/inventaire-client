@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq, { treq } from '#app/lib/preq'
+import { commands } from '#app/radio'
 import type { GetUserGroupsResponse } from '#server/controllers/groups/get_user_groups'
 import type { Group, GroupId } from '#server/types/group'
 import type { UserId } from '#server/types/user'
@@ -14,7 +14,7 @@ export const userGroupsStore = writable(userGroups)
 async function fetchUserGroups () {
   const res = await treq.get<GetUserGroupsResponse>(API.groups.base)
   userGroups = res.groups.map(group => serializeGroup(group))
-  app.execute('waiter:resolve', 'groups')
+  commands.execute('waiter:resolve', 'groups')
   userGroupsStore.set(userGroups)
 }
 

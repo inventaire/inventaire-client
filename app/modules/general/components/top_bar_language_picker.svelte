@@ -4,6 +4,7 @@
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import { translate } from '#app/lib/urls'
+  import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { updateUser } from '#user/lib/main_user'
@@ -16,7 +17,7 @@
   function selectLang (lang) {
     // Remove the querystring lang parameter to be sure that the picked language
     // is the next language taken in account
-    app.execute('querystring:set', 'lang', null)
+    commands.execute('querystring:set', 'lang', null)
     return updateUser('language', lang)
   }
 </script>

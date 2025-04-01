@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
-  import app from '#app/app'
   import Flash, { type FlashType } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import log_ from '#app/lib/loggers'
   import { wait } from '#app/lib/promises'
   import { arrayIncludes } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { getEntityByUri } from '#entities/lib/entities'
   import { startQuaggaScanner } from '#inventory/lib/scanner/quagga'
@@ -151,7 +151,7 @@
   }
 
   function validateScan () {
-    app.execute('show:add:layout:import:isbns', batch)
+    commands.execute('show:add:layout:import:isbns', batch)
   }
 
   function closeScanner () {

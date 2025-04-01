@@ -1,8 +1,8 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Modal from '#components/modal.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import { getUserGroups } from '#groups/lib/groups_data'
@@ -68,12 +68,12 @@
             {@html icon('envelope')}
             {I18n('invite')}
           </button>
-          <button on:click={app.Execute('show:users:search')}
+          <button on:click={commands.Execute('show:users:search')}
           >
             {@html icon('search')}
             {I18n('search')}
           </button>
-          <button on:click={app.Execute('show:users:nearby')}
+          <button on:click={commands.Execute('show:users:nearby')}
           >
             {@html icon('map-marker')}
             {I18n('find on map')}
@@ -104,12 +104,12 @@
       {/if}
       <div class="buttons groupMenu">
         {#if showGroupsMenu}
-          <button on:click={app.Execute('show:groups:search')}
+          <button on:click={commands.Execute('show:groups:search')}
           >
             {@html icon('search')}
             {I18n('search')}
           </button>
-          <button on:click={app.Execute('show:groups:nearby')}
+          <button on:click={commands.Execute('show:groups:nearby')}
           >
             {@html icon('map-marker')}
             {I18n('find on map')}

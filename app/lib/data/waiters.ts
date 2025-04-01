@@ -1,6 +1,6 @@
 import { once } from 'underscore'
-import app from '#app/app'
 import log_ from '#app/lib/loggers'
+import { commands, reqres } from '#app/radio'
 // Some data (as little as possible) is fetched at every page load,
 // this module handles returning promises on request corresponding
 // to those global data elements being ready
@@ -40,12 +40,12 @@ export default () => {
     waitersPromises.groups,
   ])
 
-  app.reqres.setHandlers({
+  reqres.setHandlers({
     waitForNetwork: once(_waitForNetwork),
     'wait:for': name => waitersPromises[name],
   })
 
-  app.commands.setHandlers({
+  commands.setHandlers({
     'waiter:resolve': resolve,
     'waiter:reject': reject,
   })

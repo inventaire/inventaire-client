@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
+import { reqres } from '#app/radio'
 
 export default {
   initialize () {
@@ -19,7 +20,7 @@ const controller = {
   showMergeTask (entitiesType) { showLayout({ type: 'merge', entitiesType }) },
   showDeduplicateTask (entitiesType) { showLayout({ type: 'deduplicate', entitiesType }) },
   showTask (taskId) {
-    if (app.request('require:dataadmin:access', 'tasks')) {
+    if (reqres.request('require:dataadmin:access', 'tasks')) {
       return showLayout({ taskId })
     }
   },
@@ -28,7 +29,7 @@ const controller = {
     app.layout.showChildComponent('main', NoTask)
   },
   async showTasksDashboard () {
-    if (app.request('require:dataadmin:access', 'tasks')) {
+    if (reqres.request('require:dataadmin:access', 'tasks')) {
       const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
       app.layout.showChildComponent('main', TasksDashboard, {})
     }
