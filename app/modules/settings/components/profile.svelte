@@ -12,19 +12,19 @@
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser, updateUser } from '#user/lib/main_user'
+  import { mainUserStore, updateUser } from '#user/lib/main_user'
 
   let bioState, usernameState
-  let usernameValue = $mainUser.username
-  let bioValue = $mainUser.bio || ''
+  let usernameValue = $mainUserStore.username
+  let bioValue = $mainUserStore.bio || ''
 
   const showUsernameConfirmation = async () => {
-    if ($mainUser.username === usernameValue) {
+    if ($mainUserStore.username === usernameValue) {
       usernameState = { type: 'info', message: 'this is already your username' }
       return
     }
     askConfirmation({
-      confirmationText: i18n('username_change_confirmation', { currentUsername: $mainUser.username, requestedUsername: usernameValue }),
+      confirmationText: i18n('username_change_confirmation', { currentUsername: $mainUserStore.username, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
       action: updateUsername,
@@ -39,11 +39,11 @@
     }
   }
 
-  const doesUsernameCaseChange = () => $mainUser.username.toLowerCase() === usernameValue.toLowerCase()
+  const doesUsernameCaseChange = () => $mainUserStore.username.toLowerCase() === usernameValue.toLowerCase()
 
   const validateUsername = async () => {
     usernameState = null
-    if ($mainUser.username.toLowerCase() === usernameValue.toLowerCase()) {
+    if ($mainUserStore.username.toLowerCase() === usernameValue.toLowerCase()) {
       // username has been modfied back to its original state
       // nothing to update and nothing to notify either
       return
@@ -77,7 +77,7 @@
       bioState = newError(I18n('presentation cannot be longer than 1000 characters'), 400)
       return
     }
-    if (bioValue === $mainUser.bio) {
+    if (bioValue === $mainUserStore.bio) {
       bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
@@ -137,8 +137,8 @@
 
     <h3>{I18n('profile picture')}</h3>
     <div>
-      {#if $mainUser.picture}
-        <img src={imgSrc($mainUser.picture, 250, 250)} alt={i18n('profile picture')} />
+      {#if $mainUserStore.picture}
+        <img src={imgSrc($mainUserStore.picture, 250, 250)} alt={i18n('profile picture')} />
       {/if}
     </div>
 
@@ -148,15 +148,15 @@
 
     <h3>{I18n('location')}</h3>
     <p class="position-status">
-      {#if $mainUser.position}
-        {I18n('position is set to')}: {$mainUser.position[0]}, {$mainUser.position[1]}
+      {#if $mainUserStore.position}
+        {I18n('position is set to')}: {$mainUserStore.position[0]}, {$mainUserStore.position[1]}
       {:else}
         {I18n('no position set')}
       {/if}
     </p>
     <p class="note">{I18n('position_settings_description')}</p>
     <button class="light-blue-button" on:click={() => showPositionPicker = true}>
-      {#if $mainUser.position}
+      {#if $mainUserStore.position}
         {I18n('change position')}
       {:else}
         {I18n('add a position')}
@@ -168,7 +168,7 @@
 {#if showPicturePicker}
   <Modal on:closeModal={() => showPicturePicker = false}>
     <PicturePicker
-      picture={$mainUser.picture}
+      picture={$mainUserStore.picture}
       aspectRatio={1 / 1}
       imageContainer="users"
       {savePicture}

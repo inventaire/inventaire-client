@@ -5,7 +5,7 @@
   import log_ from '#app/lib/loggers'
   import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -69,7 +69,7 @@
   <input
     type="text"
     name="username"
-    value={$mainUser.username}
+    value={$mainUserStore.username}
     class="hidden"
   />
   <PasswordInput
@@ -87,7 +87,7 @@
   <input
     type="text"
     name="username"
-    value={$mainUser.username}
+    value={$mainUserStore.username}
     class="hidden"
   />
   <PasswordInput
