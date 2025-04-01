@@ -13,4 +13,5 @@ const nodeVersion = parseInt(process.version.split('.')[0].slice(1))
 module.exports = {
   extension: 'ts',
   'node-option': nodeVersion >= 20 ? nodeOptionsFromV20 : nodeOptionsBeforeV20,
+   require: './tests/utils/mock_browser_env.ts',
 }
