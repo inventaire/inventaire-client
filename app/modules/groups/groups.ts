@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import type { Group, GroupSlug } from '#server/types/group'
 import { showUsersHome } from '#users/users'
@@ -19,7 +20,7 @@ export default {
       '/network/groups/settings/:id(/)': 'showGroupBoard',
     }, controller)
 
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:group:board': showGroupBoardFrom,
     })
 
@@ -41,7 +42,7 @@ const controller = {
   // as GroupSettings are a child component of GroupBoard
   showGroupBoard (slug: GroupSlug) {
     const pathname = `groups/${slug}/settings`
-    if (app.request('require:loggedIn', pathname)) {
+    if (reqres.request('require:loggedIn', pathname)) {
       return showGroupBoard(slug)
     }
   },
@@ -52,7 +53,7 @@ const controller = {
   },
 
   showNetworkLayout () {
-    app.execute('show:inventory:network')
+    commands.execute('show:inventory:network')
   },
 } as const
 
@@ -68,7 +69,7 @@ async function showGroupBoard (slug: GroupSlug) {
       controller.showGroupInventory(slug)
     }
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 

@@ -6,6 +6,7 @@
   import { icon } from '#app/lib/icons'
   import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
   import { wait } from '#app/lib/promises'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
@@ -16,7 +17,7 @@
   export let shelf
   export let inGlobalModal = true
 
-  if (inGlobalModal) app.execute('modal:open')
+  if (inGlobalModal) commands.execute('modal:open')
   const dispatch = createEventDispatcher()
 
   const isNewShelf = !shelf._id
@@ -44,7 +45,7 @@
       flash = { type: 'success', message: I18n('saved') }
       await wait(800)
       dispatch('shelfEditorDone')
-      if (inGlobalModal) app.execute('modal:close')
+      if (inGlobalModal) commands.execute('modal:close')
     } catch (err) {
       flash = err
     }
@@ -61,8 +62,8 @@
     // TODO: catch and display error
     await deleteShelf({ ids: shelf._id })
     app.user.trigger('shelves:change', 'removeShelf')
-    app.execute('show:inventory:main:user')
-    if (inGlobalModal) app.execute('modal:close')
+    commands.execute('show:inventory:main:user')
+    if (inGlobalModal) commands.execute('modal:close')
   }
 </script>
 

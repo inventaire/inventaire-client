@@ -1,4 +1,5 @@
-import app, { canGoBack } from '#app/app'
+import { canGoBack } from '#app/app'
+import { commands } from '#app/radio'
 import { getLastAddMode, getLastTransaction, getLastVisbility } from '#inventory/lib/add_helpers'
 
 export function guessInitialTransaction (transaction) {
@@ -17,7 +18,7 @@ export function cancel () {
   if (canGoBack()) {
     window.history.back()
   } else {
-    app.execute('show:home')
+    commands.execute('show:home')
   }
 }
 
@@ -25,8 +26,8 @@ export function addNext () {
   // Supporting legacy add modes, ex: scan:embedded
   const addMode = getLastAddMode() || ''
   if (addMode.startsWith('scan')) {
-    app.execute('show:scanner:embedded')
+    commands.execute('show:scanner:embedded')
   } else {
-    app.execute('show:add:layout', addMode)
+    commands.execute('show:add:layout', addMode)
   }
 }

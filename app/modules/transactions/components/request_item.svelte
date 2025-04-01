@@ -1,10 +1,10 @@
 <script lang="ts">
-  import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
@@ -25,7 +25,7 @@
     try {
       sendingRequest = postTransactionRequest({ itemId, message })
       await sendingRequest
-      app.execute('show:transaction', transaction._id)
+      commands.execute('show:transaction', transaction._id)
     } catch (err) {
       flash = err
     }

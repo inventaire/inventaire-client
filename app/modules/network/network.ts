@@ -1,5 +1,5 @@
-import app from '#app/app'
 import { addRoutes } from '#app/lib/router'
+import { commands } from '#app/radio'
 
 export default {
   initialize () {
@@ -21,6 +21,6 @@ export default {
 }
 
 const controller = {
-  redirectToInventoryNetwork () { app.execute('show:inventory:network') },
-  redirectToInventoryPublic () { app.execute('show:inventory:public') },
+  redirectToInventoryNetwork () { commands.execute('show:inventory:network') },
+  redirectToInventoryPublic () { commands.execute('show:inventory:public') },
 } as const

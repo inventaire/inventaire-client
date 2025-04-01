@@ -1,12 +1,13 @@
 import app from '#app/app'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import { reqres } from '#app/radio'
 
 export async function initQuerystringActions () {
   const validEmail = getQuerystringParameter('validEmail')
   if (validEmail != null) {
     // we need to wait for app.user to be ready to get the validEmail value
-    await app.request('wait:for', 'user')
-    await app.request('wait:for', 'layout')
+    await reqres.request('wait:for', 'user')
+    await reqres.request('wait:for', 'layout')
     await showValidEmailConfirmation(validEmail)
   }
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
+  import { reqres } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { groupAction } from '#groups/lib/group_actions_alt'
   import { serializeGroup, type SerializedGroup } from '#groups/lib/groups'
@@ -17,7 +17,7 @@
 
   async function action (actionName) {
     try {
-      if (app.request('require:loggedIn', pathname)) {
+      if (reqres.request('require:loggedIn', pathname)) {
         waitForAction = groupAction({ action: actionName, groupId })
         const updatedGroup = await waitForAction
         group = serializeGroup(updatedGroup)

@@ -6,6 +6,7 @@ import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
 import { initMainUser } from './lib/main_user.ts'
@@ -24,7 +25,7 @@ export default {
     initMainUser()
     auth()
 
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:signup': controller.showSignup,
       'show:login': controller.showLogin,
       'show:forgot:password': controller.showForgotPassword,
@@ -34,10 +35,10 @@ export default {
 
 function showAuth (name: string, label: string, Component, options: string | object) {
   if (!navigator.cookieEnabled) {
-    return app.execute('show:error:cookieRequired', `show:${name}`)
+    return commands.execute('show:error:cookieRequired', `show:${name}`)
   }
 
-  if (app.user.loggedIn) return app.execute('show:home')
+  if (app.user.loggedIn) return commands.execute('show:home')
 
   if (typeof options === 'string') options = parseQuery(options)
   app.layout.showChildComponent('main', Component, { props: options })
@@ -47,7 +48,7 @@ function showAuth (name: string, label: string, Component, options: string | obj
 // beware that app.layout is undefined when User.define is fired
 // app.layout should thus appear only in callbacks
 const controller = {
-  // Options might be passed as an object when called by `app.execute('show:signup)`
+  // Options might be passed as an object when called by `commands.execute('show:signup)`
   async showSignup (options: string | object) {
     const { default: Signup } = await import('./components/signup.svelte')
     showAuth('signup', 'Create account', Signup, options)
@@ -81,7 +82,7 @@ const controller = {
         },
       })
     } else {
-      app.execute('show:forgot:password')
+      commands.execute('show:forgot:password')
     }
   },
 
@@ -91,17 +92,17 @@ const controller = {
     try {
       validateAuthorizationRequest(query)
       const postLoginRedirection = window.location.pathname + window.location.search
-      if (!(app.request('require:loggedIn', postLoginRedirection))) return
+      if (!(reqres.request('require:loggedIn', postLoginRedirection))) return
       assertString(query.client_id)
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
       app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })
     } catch (err) {
-      app.execute('show:error', err)
+      commands.execute('show:error', err)
     }
   },
 
-  logout () { app.execute('logout') },
+  logout () { commands.execute('logout') },
 } as const
 
 async function getOAuthClient (clientId: string) {

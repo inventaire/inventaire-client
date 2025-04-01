@@ -1,6 +1,7 @@
 import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { getListingMetadata, getListingPathname, getListingWithElementsById, getElementPathname, getElementMetadata, assignEntitiesToElements } from '#listings/lib/listings'
 import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
@@ -40,7 +41,7 @@ async function showListing (listingId) {
     app.layout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -65,7 +66,7 @@ async function showElement (listingId, elementId) {
       metadata: getElementMetadata(listing, element),
     })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -73,7 +74,7 @@ export async function showMainUserListings () {
   if (app.user.loggedIn) {
     return showUserListings(app.user.username)
   } else {
-    app.request('require:loggedIn', 'lists')
+    reqres.request('require:loggedIn', 'lists')
   }
 }
 

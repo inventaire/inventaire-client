@@ -1,8 +1,8 @@
 <script lang="ts">
   import { without } from 'underscore'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { objectEntries } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
@@ -91,7 +91,7 @@
   async function create () {
     try {
       const editionUri = await createEditionAndWorkFromEntry({ edition, work })
-      app.execute('show:entity', editionUri, { refresh: true })
+      commands.execute('show:entity', editionUri, { refresh: true })
     } catch (err) {
       flash = err
     }

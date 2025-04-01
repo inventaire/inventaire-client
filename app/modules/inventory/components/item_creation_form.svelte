@@ -4,6 +4,7 @@
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
   import ItemRow from '#inventory/components/item_row.svelte'
@@ -54,7 +55,7 @@
       if (shelvesIds.length > 0) {
         showShelf(shelvesIds[0])
       } else {
-        app.execute('show:inventory:main:user')
+        commands.execute('show:inventory:main:user')
       }
     } catch (err) {
       flash = err
