@@ -11,7 +11,7 @@ export function getRelativeEntitiesListLabel ({ property, entity }: { property: 
 
 export function getRelativeEntitiesProperties (type: ExtendedEntityType, mainProperty?: PropertyUri) {
   // TODO: add genre relatives
-  let properties = relativeEntitiesPropertiesByType[type].flat() as PropertyUri[]
+  let properties = (relativeEntitiesPropertiesByType[type] || []).flat() as PropertyUri[]
   // Omit the property already displayed in the entity browser of a claim layout.
   if (mainProperty) properties = without(properties, mainProperty)
   return properties || []
