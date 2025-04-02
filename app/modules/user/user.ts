@@ -1,5 +1,6 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
@@ -41,12 +42,12 @@ function showAuth (name: string, label: string, Component, options: string | obj
   if (app.user.loggedIn) return commands.execute('show:home')
 
   if (typeof options === 'string') options = parseQuery(options)
-  app.layout.showChildComponent('main', Component, { props: options })
+  appLayout.showChildComponent('main', Component, { props: options })
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
-// beware that app.layout is undefined when User.define is fired
-// app.layout should thus appear only in callbacks
+// beware that appLayoutis undefined when User.define is fired
+// appLayoutshould thus appear only in callbacks
 const controller = {
   // Options might be passed as an object when called by `commands.execute('show:signup)`
   async showSignup (options: string | object) {
@@ -62,7 +63,7 @@ const controller = {
   async showForgotPassword (querystring: string) {
     const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
     const { resetPasswordFail, email } = parseQuery(querystring)
-    app.layout.showChildComponent('main', ForgotPassword, {
+    appLayout.showChildComponent('main', ForgotPassword, {
       props: { resetPasswordFail, email },
     })
     app.navigate('login/forgot-password', {
@@ -75,7 +76,7 @@ const controller = {
   async showResetPassword () {
     const { default: ResetPassword } = await import('./components/reset_password.svelte')
     if (app.user.loggedIn) {
-      app.layout.showChildComponent('main', ResetPassword)
+      appLayout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {
           title: I18n('reset password'),
@@ -96,7 +97,7 @@ const controller = {
       assertString(query.client_id)
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
-      app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })
+      appLayout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })
     } catch (err) {
       commands.execute('show:error', err)
     }

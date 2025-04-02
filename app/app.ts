@@ -3,7 +3,6 @@ import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/li
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
 import { commands, vent } from '#app/radio'
-import type { initAppLayout } from '#general/lib/init_app_layout'
 import { mainUser } from '#modules/user/lib/main_user'
 import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
 import { loadUrl, startRouter } from './lib/router.ts'
@@ -93,7 +92,7 @@ function navigateReplace (route: ProjectRootRelativeUrl, options: NavigateOption
   navigate(route, options)
 }
 
-const appBase = {
+const app = {
   user: mainUser,
 
   navigate,
@@ -102,19 +101,12 @@ const appBase = {
   navigateReplace,
 
   start,
-}
-
-type App = typeof appBase & {
-  layout: ReturnType<typeof initAppLayout>
-}
-
-// @ts-expect-error
-const app: App = appBase
+} as const
 
 async function start () {
   // Import async to let AppLayout dependencies depending on the app object
-  const { initAppLayout } = await import('#general/lib/init_app_layout')
-  app.layout = initAppLayout()
+  const { initAppLayout } = await import('#app/init_app_layout')
+  initAppLayout()
   startRouter()
   window.addEventListener('popstate', navigateBack)
 }
@@ -132,7 +124,7 @@ export function canGoBack () {
   return historyLast.length > 1
 }
 
-// @ts-expect-error Required by firefox-headless-prerender
+// Required by firefox-headless-prerender
 window.app = app
 
 export default app

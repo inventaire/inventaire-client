@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { reqres } from '#app/radio'
 
@@ -17,5 +18,5 @@ async function showValidEmailConfirmation (validEmail) {
   // user.attribute.validEmail has priority over the validEmail querystring
   // (even if hopefully, there is no reason for those to be different)
   if (app.user.loggedIn) validEmail = app.user.validEmail
-  app.layout.showChildComponent('svelteModal', ValidEmailConfirmation, { props: { validEmail } })
+  appLayout.showChildComponent('svelteModal', ValidEmailConfirmation, { props: { validEmail } })
 }
