@@ -1,7 +1,6 @@
 import { derived, writable } from 'svelte/store'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { commands } from '#app/radio'
 import type { RelationAction } from '#server/controllers/relations/actions'
 import type { GetRelationsResponse } from '#server/controllers/relations/get'
 import type { UserId } from '#server/types/user'
@@ -22,7 +21,6 @@ export async function fetchRelations () {
   if (mainUser) {
     relations = await preq.get(API.relations)
   }
-  commands.execute('waiter:resolve', 'relations')
   relationsStore.set(relations)
   return relations
 }
