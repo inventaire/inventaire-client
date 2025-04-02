@@ -17,7 +17,8 @@ module.exports = {
   splitChunks: {
     cacheGroups: {
       vendor: {
-        test: /[\\/](node_modules|vendor)[\\/](underscore|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|css-loader|js-cookie|p-|leven)/,
+        // Dependencies that will be loaded at every session
+        test: /[\\/](node_modules|vendor)[\\/](svelte|underscore|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|css-loader|js-cookie|p-|leven|enumerate-devices)/,
         name: 'vendor',
         chunks: 'all',
       },
