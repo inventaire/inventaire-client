@@ -3,7 +3,7 @@
   import { createEventDispatcher } from 'svelte'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
-  import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
+  import { getSomeColorHexCodeSuggestion } from '#app/lib/images/images'
   import { wait } from '#app/lib/promises'
   import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'

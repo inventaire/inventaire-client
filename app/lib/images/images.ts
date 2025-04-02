@@ -1,13 +1,9 @@
-import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { sample } from 'underscore'
 import { API } from '#app/api/api'
-import { isImageDataUrl } from '#app/lib/boolean_tests'
-import { newError } from '#app/lib/error'
 import preq from '#app/lib/preq'
-import { forceArray } from '#app/lib/utils'
 import type { ColorHexCode, Url } from '#server/types/common'
 import type { CouchUuid } from '#server/types/couchdb'
-import type { ImageContainer, ImageDataUrl } from '#server/types/image'
+import type { ImageDataUrl } from '#server/types/image'
 
 export async function getUrlDataUrl (url: Url) {
   const { 'data-url': dataUrl } = await preq.get(API.images.dataUrl(url))
@@ -51,50 +47,6 @@ export function resizeDataUrl (dataURL: ImageDataUrl, maxSize: number, outputQua
 
     image.src = dataURL
   })
-}
-
-export function dataUrlToBlob (data) {
-  if (isImageDataUrl(data)) return _dataURLtoBlob(data)
-  else throw new Error('expected a dataURL')
-}
-
-export async function upload (container: ImageContainer, blobsData, hash = false) {
-  blobsData = forceArray(blobsData)
-  const formData = new FormData()
-
-  let i = 0
-  for (const blobData of blobsData) {
-    let { blob, id } = blobData
-    if (blob == null) throw newError('missing blob', blobData)
-    if (!id) id = `file-${++i}`
-    formData.append(id, blob)
-  }
-
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest()
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        const { status, statusText } = request
-        if (/^2/.test(request.status.toString())) {
-          return resolve(request.response)
-        } else {
-          return reject(newError(statusText, status))
-        }
-      }
-    }
-    request.onerror = reject
-    request.ontimeout = reject
-
-    request.open('POST', API.images.upload(container, hash))
-    request.responseType = 'json'
-    return request.send(formData)
-  })
-}
-
-export async function getImageHashFromDataUrl (container: ImageContainer, dataUrl: ImageDataUrl) {
-  if (!isImageDataUrl(dataUrl)) throw newError('invalid image', dataUrl)
-  return upload(container, { blob: dataUrlToBlob(dataUrl) }, true)
-  .then(res => Object.values(res)[0].split('/').slice(-1)[0])
 }
 
 export function getNonResizedUrl (url: Url) {
