@@ -1,6 +1,7 @@
 import { isString } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertString } from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
 import { parseQuery, buildPath } from '#app/lib/location'
@@ -116,7 +117,7 @@ async function showItems (items: SerializedItemWithUserData[]) {
 
 async function showItemsList (items: SerializedItemWithUserData[]) {
   const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
-  app.layout.showChildComponent('main', ItemsCascade, {
+  appLayout.showChildComponent('main', ItemsCascade, {
     props: {
       items,
     },
@@ -139,12 +140,12 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
     const user = users[0]
     const { default: ItemShowStandalone } = await import('#inventory/components/item_show_standalone.svelte')
     if (item) {
-      app.layout.showChildComponent(regionName, ItemShowStandalone, {
+      appLayout.showChildComponent(regionName, ItemShowStandalone, {
         props: {
           item,
           user,
           pathnameAfterClosingModal,
-          autodestroyComponent: () => app.layout.removeCurrentComponent(regionName),
+          autodestroyComponent: () => appLayout.removeCurrentComponent(regionName),
         },
       })
     } else {

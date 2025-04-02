@@ -1,5 +1,6 @@
 import { isString } from 'underscore'
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
@@ -68,7 +69,7 @@ export async function showUserListings (user) {
 async function showLatestUsers () {
   if (!reqres.request('require:admin:access')) return
   const { default: LatestUsers } = await import('#users/components/latest_users.svelte')
-  app.layout.showChildComponent('main', LatestUsers)
+  appLayout.showChildComponent('main', LatestUsers)
   app.navigate('users/latest', { metadata: { title: i18n('Latest users') } })
 }
 
@@ -118,7 +119,7 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
       user: user ? await resolveToUser(user) : undefined,
       group: group ? await resolveToGroup(group) : undefined,
     }
-    app.layout.showChildComponent('main', UsersHomeLayout, { props })
+    appLayout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
     commands.execute('show:error', err)
   }
@@ -142,7 +143,7 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
     const title = i18n('contributions_by', { username: username || acct })
     app.navigate(path, { metadata: { title } })
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
-    app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
+    appLayout.showChildComponent('main', Contributions, { props: { contributor, filter } })
   } catch (err) {
     commands.execute('show:error', err)
   }
@@ -157,7 +158,7 @@ async function showUserFollowers (idOrUsername: UserId | Username) {
       import('#users/components/users_home_layout.svelte'),
       resolveToUser(idOrUsername),
     ])
-    app.layout.showChildComponent('main', UsersHomeLayout, {
+    appLayout.showChildComponent('main', UsersHomeLayout, {
       props: {
         showUserFollowers: true,
         user,

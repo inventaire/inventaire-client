@@ -1,5 +1,6 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertObject, assertString } from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
@@ -62,7 +63,7 @@ const controller = {
       const entity = await getEntityByUri({ uri, refresh })
       rejectRemovedPlaceholder(entity)
       const { Component, props } = await getEntityLayoutComponentByType(entity)
-      app.layout.showChildComponent('main', Component, { props })
+      appLayout.showChildComponent('main', Component, { props })
     } catch (err) {
       handleMissingEntity(uri, err)
     }
@@ -112,7 +113,7 @@ const controller = {
     if (!reqres.request('require:loggedIn', 'entity/changes')) return
     if (!reqres.request('require:admin:access')) return
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
-    app.layout.showChildComponent('main', Contributions)
+    appLayout.showChildComponent('main', Contributions)
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 
@@ -189,7 +190,7 @@ const controller = {
       import('./components/layouts/deduplicate_homonyms.svelte'),
       getEntityByUri({ uri }),
     ])
-    app.layout.showChildComponent('main', HomonymDeduplicates, {
+    appLayout.showChildComponent('main', HomonymDeduplicates, {
       props: {
         entity,
         standalone: true,
@@ -201,7 +202,7 @@ const controller = {
     commands.execute('show:loader')
     const uri = normalizeUri(input)
     const { default: EntityHistory } = await import('./components/patches/entity_history.svelte')
-    app.layout.showChildComponent('main', EntityHistory, {
+    appLayout.showChildComponent('main', EntityHistory, {
       props: { uri },
     })
   },
@@ -210,7 +211,7 @@ const controller = {
     const { from, to, type } = getAllQuerystringParameters()
     commands.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
-    app.layout.showChildComponent('main', EntityMerge, {
+    appLayout.showChildComponent('main', EntityMerge, {
       props: { from, to, type },
     })
   },
@@ -232,7 +233,7 @@ export async function showEntityCreate (params: { label: string, type?: string, 
   if (params.claims) commands.execute('querystring:set', 'claims', params.claims)
 
   const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
-  app.layout.showChildComponent('main', EntityCreate, {
+  appLayout.showChildComponent('main', EntityCreate, {
     props: params,
   })
 }
@@ -262,7 +263,7 @@ async function showEntityEdit (entity: SerializedEntity) {
 
   if (type == null) throw newError('invalid entity type', 400, { entity })
   const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
-  app.layout.showChildComponent('main', EntityEdit, {
+  appLayout.showChildComponent('main', EntityEdit, {
     props: {
       entity,
     },
@@ -272,7 +273,7 @@ async function showEntityEdit (entity: SerializedEntity) {
 
 async function showWikidataEditIntro (entity: SerializedWdEntity) {
   const { default: WikidataEditIntro } = await import('./components/wikidata_edit_intro.svelte')
-  app.layout.showChildComponent('main', WikidataEditIntro, { props: { entity } })
+  appLayout.showChildComponent('main', WikidataEditIntro, { props: { entity } })
 }
 
 function rejectRemovedPlaceholder (entity: SerializedEntity) {
@@ -304,7 +305,7 @@ async function showEntityCreateFromIsbn (isbn) {
   }
 
   const { default: EntityCreateEditionAndWorkFromIsbn } = await import('./components/editor/entity_create_edition_and_work_from_isbn.svelte')
-  app.layout.showChildComponent('main', EntityCreateEditionAndWorkFromIsbn, {
+  appLayout.showChildComponent('main', EntityCreateEditionAndWorkFromIsbn, {
     props: {
       isbn13h,
       edition: { claims },
@@ -327,7 +328,7 @@ function showComponentByAccessLevel (params: ShowComponentByAccessLevelParams) {
   if (reqres.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
     if (reqres.request(`require:${accessLevel}:access`)) {
-      app.layout.showChildComponent('main', Component, {
+      appLayout.showChildComponent('main', Component, {
         props: componentProps,
       })
     }
@@ -354,7 +355,7 @@ async function showClaimEntities (claim, refresh) {
 
   const { default: ClaimLayout } = await import('#entities/components/layouts/claim_layout.svelte')
   const entity = await getEntityByUri({ uri: value, refresh })
-  app.layout.showChildComponent('main', ClaimLayout, {
+  appLayout.showChildComponent('main', ClaimLayout, {
     props: {
       property,
       entity,
@@ -371,7 +372,7 @@ async function showEntityCleanup (entity: SerializedEntity) {
   const [ { default: SerieCleanup } ] = await Promise.all([
     import('./components/cleanup/serie_cleanup.svelte'),
   ])
-  app.layout.showChildComponent('main', SerieCleanup, {
+  appLayout.showChildComponent('main', SerieCleanup, {
     props: { serie: entity },
   })
   app.navigate(entity.cleanupPathname, { metadata: { title: `${entity.label} - ${I18n('cleanup')}` } })

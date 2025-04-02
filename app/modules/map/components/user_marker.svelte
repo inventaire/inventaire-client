@@ -2,6 +2,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
+  import { appLayout } from '#app/init_app_layout'
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside } from '#app/lib/utils'
@@ -23,7 +24,7 @@
   }
 
   export async function showMainUserPositionPicker () {
-    app.layout.showChildComponent('svelteModal', UserPositionPicker, {
+    appLayout.showChildComponent('svelteModal', UserPositionPicker, {
       props: {
         showPositionPicker: true,
       },

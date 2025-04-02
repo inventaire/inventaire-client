@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { commands, reqres } from '#app/radio'
 import type { SerializedEntity } from '#entities/lib/entities'
 
@@ -26,7 +27,7 @@ export async function showItemCreationForm (params: ShowItemCreationFormParams) 
   if (type !== 'edition') throw new Error(`invalid entity type: ${type}`)
 
   const { default: ItemCreationForm } = await import('#inventory/components/item_creation_form.svelte')
-  app.layout.showChildComponent('main', ItemCreationForm, {
+  appLayout.showChildComponent('main', ItemCreationForm, {
     props: {
       entity,
     },

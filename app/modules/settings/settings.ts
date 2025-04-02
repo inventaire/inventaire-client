@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 
@@ -30,7 +30,7 @@ const controller = {
 const showSettings = async section => {
   if (reqres.request('require:loggedIn', `settings/${section}`)) {
     const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
-    return app.layout.showChildComponent('main', SettingsLayout, {
+    appLayout.showChildComponent('main', SettingsLayout, {
       props: {
         section,
       },

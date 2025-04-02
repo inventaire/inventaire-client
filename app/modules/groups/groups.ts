@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
@@ -49,7 +50,7 @@ const controller = {
 
   async showCreateGroupLayout () {
     const { default: CreateGroup } = await import('#groups/components/create_group.svelte')
-    app.layout.showChildComponent('modal', CreateGroup)
+    appLayout.showChildComponent('modal', CreateGroup)
   },
 
   showNetworkLayout () {
@@ -63,7 +64,7 @@ async function showGroupBoard (slug: GroupSlug) {
     if (mainUserIsGroupMember(group)) {
       group = serializeGroup(group)
       const { default: GroupBoard } = await import('#groups/components/group_board.svelte')
-      app.layout.showChildComponent('main', GroupBoard, { props: { group } })
+      appLayout.showChildComponent('main', GroupBoard, { props: { group } })
       app.navigate(group.settingsPathname)
     } else {
       controller.showGroupInventory(slug)

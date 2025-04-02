@@ -1,5 +1,5 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import type { ErrorContext } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -26,7 +26,7 @@ type FeedbackModalOptions = Pick<FeedbackParams, 'subject' | 'uris'>
 
 export async function showFeedbackModal (options: FeedbackModalOptions) {
   const { default: FeedbackMenu } = await import('#general/components/feedback_menu.svelte')
-  app.layout.showChildComponent('modal', FeedbackMenu, {
+  appLayout.showChildComponent('modal', FeedbackMenu, {
     props: {
       standalone: false,
       ...options,

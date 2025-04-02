@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertObject, assertString } from '#app/lib/assert_types'
 import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
@@ -67,7 +68,7 @@ const controller = {
 
   async showWelcome () {
     const { default: WelcomeLayout } = await import('#welcome/components/welcome_layout.svelte')
-    app.layout.showChildComponent('main', WelcomeLayout)
+    appLayout.showChildComponent('main', WelcomeLayout)
     app.navigate('welcome', {
       metadata: {
         title: i18n('Inventaire - your friends and communities are your best library'),
@@ -82,7 +83,7 @@ const controller = {
 
   async showFeedback () {
     const { default: FeedbackMenu } = await import('#general/components/feedback_menu.svelte')
-    app.layout.showChildComponent('main', FeedbackMenu, {
+    appLayout.showChildComponent('main', FeedbackMenu, {
       props: {
         standalone: true,
       },
@@ -225,7 +226,7 @@ export interface ShowErrorOptions {
 async function showError (options: ShowErrorOptions) {
   const { default: ErrorLayout } = await import('#general/components/error_layout.svelte')
   commands.execute('modal:close')
-  app.layout.showChildComponent('main', ErrorLayout, {
+  appLayout.showChildComponent('main', ErrorLayout, {
     props: options,
   })
   setPrerenderStatusCode(options.statusCode)
