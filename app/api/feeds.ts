@@ -1,7 +1,7 @@
-import app from '#app/app'
 import { buildPath } from '#app/lib/location'
 import type { AbsoluteUrl } from '#server/types/common'
 import type { UserId } from '#server/types/user'
+import { mainUser } from '#user/lib/main_user'
 import { getEndpointBase } from './endpoint.ts'
 
 const feedEndpointBase = getEndpointBase('feeds')
@@ -13,9 +13,9 @@ const feedEndpoint = `${window.location?.origin}${feedEndpointBase}` as Absolute
 export default function (key, id) {
   const query: { requester?: UserId, token?: string } = {}
   query[key] = id
-  if (app.user.loggedIn) {
-    query.requester = app.user._id
-    query.token = app.user.readToken
+  if (mainUser.loggedIn) {
+    query.requester = mainUser._id
+    query.token = mainUser.readToken
   }
 
   return buildPath(feedEndpoint, query)

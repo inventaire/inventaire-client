@@ -2,7 +2,6 @@
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import { property } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { scrollToElement } from '#app/lib/screen'
@@ -15,6 +14,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import { i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { getSubEntities } from '../lib/entities.ts'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
@@ -31,7 +31,7 @@
   let editionsUris
   let editions = []
   let initialEditions = []
-  const userLang = app.user.lang
+  const userLang = mainUser.lang
   let publishersByUris
   let allItems
   let itemsByEditions = {}

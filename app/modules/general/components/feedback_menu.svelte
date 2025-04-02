@@ -1,7 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -9,14 +8,14 @@
   import { postFeedback } from '#general/lib/feedback'
   import type { EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUserStore } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import Spinner from './spinner.svelte'
 
   export let subject = ''
   export let uris: EntityUri[] = null
   export let standalone = true
 
-  const { loggedIn } = app.user
+  const { loggedIn } = mainUser
   let unknownUser, flash
   let message = ''
   let sending = false

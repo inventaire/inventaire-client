@@ -27,7 +27,7 @@ export default async function () {
   // The first routes initialized have the lowest priority
   // /!\ routes defined before Redirect will be overriden by the glob
   Redirect.initialize()
-  // other modules might need to access app.user so it should be initialized early on
+  // other modules might need to access mainUser so it should be initialized early on
   User.initialize()
   // Users and Entities need to be initialize for the Welcome item panel to work
   Users.initialize()

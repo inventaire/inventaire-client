@@ -10,6 +10,7 @@ import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import type { EntityUri } from '#server/types/entity'
 import type { UserId, Username } from '#server/types/user'
+import { mainUser } from '#user/lib/main_user'
 import { showUsersHome } from '#users/users'
 import { resolveToUser } from '../users/users_data.ts'
 import { getItemsByUserIdAndEntities, getNearbyItems, getNetworkItems } from './lib/queries.ts'
@@ -30,7 +31,7 @@ export default {
       '/items(/)': 'showGeneralInventory',
     }, controller)
 
-    initializeInventoriesHandlers(app)
+    initializeInventoriesHandlers()
   },
 }
 
@@ -42,7 +43,7 @@ async function showInventory (params) {
 const controller = {
   showGeneralInventory () {
     if (reqres.request('require:loggedIn', 'items')) {
-      controller.showUserInventory(app.user._id)
+      controller.showUserInventory(mainUser._id)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
       ;(document.querySelector('#home') as HTMLElement).focus()
@@ -156,7 +157,7 @@ async function showItem ({ itemId, regionName = 'main', pathnameAfterClosingModa
   }
 }
 
-const initializeInventoriesHandlers = function (app) {
+const initializeInventoriesHandlers = function () {
   commands.setHandlers({
     'show:inventory:network': controller.showNetworkInventory,
     'show:inventory:public': controller.showPublicInventory,
@@ -169,7 +170,7 @@ const initializeInventoriesHandlers = function (app) {
     },
 
     'show:inventory:main:user' () {
-      controller.showUserInventory(app.user, true)
+      controller.showUserInventory(mainUser, true)
     },
 
     'show:user:items:by:entity' (username: Username, uri: EntityUri) {

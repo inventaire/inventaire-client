@@ -7,6 +7,7 @@ import { getListingMetadata, getListingPathname, getListingWithElementsById, get
 import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
 import type { ListingWithElements } from '#server/types/listing'
+import { mainUser } from '#user/lib/main_user'
 import type { SerializedUser } from '#users/lib/users'
 import { showUserListings } from '#users/users'
 import { getSerializedUser } from '#users/users_data'
@@ -72,8 +73,8 @@ async function showElement (listingId, elementId) {
 }
 
 export async function showMainUserListings () {
-  if (app.user.loggedIn) {
-    return showUserListings(app.user.username)
+  if (mainUser.loggedIn) {
+    return showUserListings(mainUser.username)
   } else {
     reqres.request('require:loggedIn', 'lists')
   }

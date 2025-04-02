@@ -1,11 +1,11 @@
 import { compact, uniqueId } from 'underscore'
-import app from '#app/app'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import type { ExternalEntry, Candidate } from '#app/types/importer'
 import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
+import { mainUser } from '#user/lib/main_user'
 
 export const createExternalEntry = candidateData => {
   const { isbn, title, authors = [] } = candidateData
@@ -28,7 +28,7 @@ export const createExternalEntry = candidateData => {
 
 export const addExistingItemsCounts = async function ({ candidates, externalEntries }: { candidates: Candidate[], externalEntries: ExternalEntry[] }) {
   const uris = compact(externalEntries.map(getExternalEntryUri))
-  const waitingForItemsCounts = getEntitiesItemsCount(app.user._id, uris)
+  const waitingForItemsCounts = getEntitiesItemsCount(mainUser._id, uris)
   candidates.forEach(candidate => { candidate.waitingForItemsCount = waitingForItemsCounts })
   const counts = await waitingForItemsCounts
   candidates.forEach(addExistingItemsCountToCandidate(counts))
