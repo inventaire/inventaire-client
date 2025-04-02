@@ -1,14 +1,14 @@
 <script lang="ts">
-  import app from '#app/app'
   import { config } from '#app/config'
   import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   const { instanceName, orgName, orgUrl } = config
 
   const isCanonicalName = instanceName === 'inventaire'
-  const needNameExplanation = isCanonicalName && app.user.lang !== 'fr'
-  const { loggedIn } = app.user
+  const needNameExplanation = isCanonicalName && mainUser.lang !== 'fr'
+  const { loggedIn } = mainUser
 </script>
 
 <section id="landingScreen" class="text-center">

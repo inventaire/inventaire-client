@@ -1,12 +1,12 @@
 <script lang="ts">
   import { pluck, partition } from 'underscore'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
   import { findExactMatches, getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import EntityListRow from './entity_list_row.svelte'
 
   export let entity
@@ -17,7 +17,7 @@
   let selectedHomonymsUris = []
   let wdExactMatches, invExactMatches
 
-  const { hasDataadminAccess } = app.user
+  const { hasDataadminAccess } = mainUser
 
   const getHomonymsPromise = async () => {
     homonyms = await getHomonymsEntities(entity)

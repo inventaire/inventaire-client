@@ -1,7 +1,6 @@
 <script lang="ts">
   import autosize from 'autosize'
   import { createEventDispatcher } from 'svelte'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import Spinner from '#general/components/spinner.svelte'
@@ -12,6 +11,7 @@
   import { serializeListing } from '#modules/listings/lib/listings'
   import type { Listing } from '#server/types/listing'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   const dispatch = createEventDispatcher()
 
@@ -66,7 +66,7 @@
       type,
     })
     listing = serializeListing(res.listing)
-    app.user.trigger('listings:change', 'createListing')
+    mainUser.trigger('listings:change', 'createListing')
   }
 
   async function askListDeletionConfirmation () {
@@ -80,7 +80,7 @@
   async function _deleteListing () {
     try {
       await deleteListing({ ids: _id })
-      app.user.trigger('listings:change', 'removeListing')
+      mainUser.trigger('listings:change', 'removeListing')
       await showMainUserListings()
     } catch (err) {
       flash = err

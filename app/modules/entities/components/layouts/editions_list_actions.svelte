@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getContext } from 'svelte'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -10,6 +9,7 @@
   import type { SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let editions: SerializedEntity[]
   export let initialEditions: SerializedEntity[]
@@ -19,7 +19,7 @@
 
   let flash
 
-  $filters.selectedLang = app.user.lang
+  $filters.selectedLang = mainUser.lang
   $filters.selectedPublisher = 'all'
 
   let editionsLangs, langEntitiesLabel

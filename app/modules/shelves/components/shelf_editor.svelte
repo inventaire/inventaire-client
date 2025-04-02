@@ -1,7 +1,6 @@
 <script lang="ts">
   import autosize from 'autosize'
   import { createEventDispatcher } from 'svelte'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
@@ -12,6 +11,7 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { showShelf } from '../shelves'
 
   export let shelf
@@ -35,7 +35,7 @@
       if (isNewShelf) {
         waiting = createShelf({ name, description, visibility, color })
         const newShelf = await waiting
-        app.user.trigger('shelves:change', 'createShelf')
+        mainUser.trigger('shelves:change', 'createShelf')
         showShelf(newShelf)
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
@@ -61,7 +61,7 @@
   async function _deleteShelf () {
     // TODO: catch and display error
     await deleteShelf({ ids: shelf._id })
-    app.user.trigger('shelves:change', 'removeShelf')
+    mainUser.trigger('shelves:change', 'removeShelf')
     commands.execute('show:inventory:main:user')
     if (inGlobalModal) commands.execute('modal:close')
   }

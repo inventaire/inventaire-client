@@ -10,12 +10,13 @@
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import type { SerializedContributor } from '#users/lib/users'
 
   export let contributor: SerializedContributor = null
   export let filter = null
 
-  const { hasAdminAccess: mainUserHasAdminAccess } = app.user
+  const { hasAdminAccess: mainUserHasAdminAccess } = mainUser
 
   let contributions = []
   const userContributionsContext = contributor != null

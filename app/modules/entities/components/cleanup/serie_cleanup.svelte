@@ -1,6 +1,5 @@
 <script lang="ts">
   import { debounce, uniq, values, without } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
@@ -12,6 +11,7 @@
   import { getSerieOrWorkExtendedAuthorsUris, getSerieParts } from '#entities/lib/types/serie_alt'
   import type { EntityValue } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { addPlaceholdersForMissingParts, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/add_placeholders_for_missing_parts'
   import { getPartsSuggestions } from './lib/get_parts_suggestions'
   import { getIsolatedEditions, getAvailableOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
@@ -34,7 +34,7 @@
   const titleKey = `{${i18n('title')}}`
   const numberKey = `{${i18n('number')}}`
   let titlePattern = `${titleKey} - ${I18n('volume')} ${numberKey}`
-  let selectedLang = app.user.lang
+  let selectedLang = mainUser.lang
 
   const states = getAllQuerystringParameters()
   let showAuthors = states.authors === 'true'

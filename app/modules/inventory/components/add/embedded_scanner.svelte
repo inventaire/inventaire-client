@@ -155,9 +155,7 @@
   }
 
   function closeScanner () {
-    // come back to the previous view
-    // which should trigger this component destroy as the previous component is expected to be shown
-    // in app.layout.getRegion('main') too
+    // come back to the previous view, which should trigger this component destroy
     window.history.back()
   }
 

@@ -6,6 +6,7 @@
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let entity: SerializedEntity
   export let showEntityEditButtons = true
@@ -95,7 +96,7 @@
   </li>
 {/if}
 
-{#if app.user.hasDataadminAccess && showEntityEditButtons}
+{#if mainUser.hasDataadminAccess && showEntityEditButtons}
   {#if type === 'human'}
     <li>
       <Link
