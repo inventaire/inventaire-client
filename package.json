@@ -60,7 +60,6 @@
   },
   "dependencies": {
     "@ericblade/quagga2": "^1.8.4",
-    "@jgarber/radioradio": "^3.0.3",
     "autosize": "^4.0.2",
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropperjs": "^1.5.12",
