@@ -50,8 +50,7 @@ if [ "$DOCKER" != 1 ]; then
   # Those files can then be passed to webpack-bundle-analyzer cli to generate the html report,
   # or to other bundle analyzers such as https://statoscope.tech
   # for more, see https://survivejs.com/webpack/optimizing/build-analysis/#dependency-analysis
-  gzip --best ./public/dist/bundle_report.html
-  mv ./public/dist/bundle_report.html.gz "./scripts/assets/bundles_stats/${bundle_name}.html.gz"
+  gzip --best < ./public/dist/bundle_report.html > "./scripts/assets/bundles_stats/${bundle_name}.html.gz"
 fi
 
 cat > ./public/dist/bundle_meta.json <<EOF
@@ -85,7 +84,7 @@ gzip -9kf public/*.jsonld
 gzip -9kf public/*.txt
 
 if [ "$DOCKER" != 1 ]; then
-  echo "inspect: file://$PWD/scripts/assets/bundles_stats/${bundle_name}.html"
+  echo "inspect: file://$PWD/public/dist/bundle_report.html"
   echo "archive: $archive_path"
 fi
 
