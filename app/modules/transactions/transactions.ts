@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import { getTransactions } from '#transactions/lib/get_transactions'
@@ -41,7 +41,7 @@ async function showTransactionsLayout (selectedTransactionId?) {
   if (selectedTransactionId) {
     selectedTransaction = transactions.find(transaction => transaction._id === selectedTransactionId)
   }
-  app.layout.showChildComponent('main', TransactionsLayout, {
+  appLayout.showChildComponent('main', TransactionsLayout, {
     props: {
       transactions,
       selectedTransaction,
