@@ -5,19 +5,20 @@
   import { translate } from '#app/lib/urls'
   import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { getCurrentLang, I18n, i18n } from '#user/lib/i18n'
   import { mainUser, updateUser } from '#user/lib/main_user'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion
   const languagesList = Object.values(languages).sort(mostCompleteFirst)
-  const currentLanguage = languages[mainUser.lang].native
-  const currentLanguageShortName = languages[mainUser.lang].lang.toUpperCase()
+  const currentLang = getCurrentLang()
+  const currentLanguage = languages[currentLang].native
+  const currentLanguageShortName = languages[currentLang].lang.toUpperCase()
 
   function selectLang (lang) {
     // Remove the querystring lang parameter to be sure that the picked language
     // is the next language taken in account
     commands.execute('querystring:set', 'lang', null)
-    return updateUser('language', lang)
+    if (mainUser) updateUser('language', lang)
   }
 </script>
 

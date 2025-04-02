@@ -6,12 +6,11 @@ import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
-import type { SerializedLoggedInMainUser } from '#modules/user/lib/main_user'
 import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
-import { mainUser } from '#user/lib/main_user'
+import { mainUser, type SerializedMainUser } from '#user/lib/main_user'
 import { resolveToGroup } from '../groups/lib/groups.ts'
 import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount, type SerializedUser } from './lib/users.ts'
@@ -55,8 +54,7 @@ export async function showUserProfile (user) {
 }
 
 export async function showMainUserProfile () {
-  await reqres.request('wait:for', 'user')
-  return showUsersHome({ user: mainUser as SerializedLoggedInMainUser })
+  return showUsersHome({ user: mainUser })
 }
 
 export async function showUserInventory (user) {
@@ -105,7 +103,7 @@ const controller = {
 }
 
 interface ShowUsersHome {
-  user?: User | UserId | Username | UserAccountUri | SerializedUser | SerializedLoggedInMainUser
+  user?: User | UserId | Username | UserAccountUri | SerializedUser | SerializedMainUser
   group?: Group | GroupId | GroupSlug
   section?: 'public' | 'network'
   profileSection?: 'inventory' | 'listings'

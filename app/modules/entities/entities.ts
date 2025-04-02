@@ -289,7 +289,7 @@ function handleMissingEntity (uri: EntityUri, err: ContextualizedError) {
   } else if (err.code === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
     const pathname = `/entity/${uri}`
-    if (mainUser.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
+    if (mainUser && prefix === 'isbn') showEntityCreateFromIsbn(id)
     else commands.execute('show:error:missing', { pathname })
   } else {
     commands.execute('show:error:other', err, 'handleMissingEntity')

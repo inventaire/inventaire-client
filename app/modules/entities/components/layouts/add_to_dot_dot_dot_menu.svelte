@@ -23,7 +23,6 @@
   export let align: Align = null
 
   const { uri, type } = entity
-  const { loggedIn } = mainUser
 
   let listings, listingsIdsMatchingUri
 
@@ -88,7 +87,7 @@
 </script>
 
 <div class="add-to-dot-dot-dot-menu">
-  {#if loggedIn}
+  {#if mainUser}
     <Dropdown
       {align}
       buttonTitle={i18n('Add this work to your inventory or to a list')}

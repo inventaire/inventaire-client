@@ -1,13 +1,14 @@
 import Polyglot from 'node-polyglot'
 import { writable } from 'svelte/store'
 import { noop } from 'underscore'
-import { API } from '#app/api/api'
+import { getBuster } from '#app/api/helpers'
 import { config } from '#app/config'
 import type { UserLang } from '#app/lib/active_languages'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { capitalize } from '#app/lib/utils'
 import { commands } from '#app/radio'
+import type { RelativeUrl } from '#server/types/common'
 import i18nMissingKey from './i18n_missing_key.ts'
 import translate from './translate.ts'
 
@@ -57,9 +58,11 @@ async function setLanguage (lang: UserLang) {
   return requestI18nFile(lang)
 }
 
+const i18nStrings = lang => `/public/i18n/${lang}.json${getBuster()}` as RelativeUrl
+
 const i18nStringsCache = {}
 async function requestI18nFile (lang: UserLang) {
-  i18nStringsCache[lang] ??= await preq.get(API.i18nStrings(lang))
+  i18nStringsCache[lang] ??= await preq.get(i18nStrings(lang))
   polyglot.replace(i18nStringsCache[lang])
   polyglot.locale(lang)
   commands.execute('waiter:resolve', 'i18n')
@@ -69,4 +72,8 @@ export async function updateI18nLang (lang: UserLang) {
   if (lang !== lastLocalLang) {
     await setLanguage(lang)
   }
+}
+
+export function getCurrentLang () {
+  return lastLocalLang
 }
