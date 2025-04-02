@@ -16,7 +16,6 @@
   export let waitingForItems = null
   export let itemsByEditions: ItemsByEditions = {}
 
-  const { loggedIn } = mainUser
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -50,7 +49,7 @@
       {I18n('no editions found')}
     </div>
   {/if}
-  {#if loggedIn}
+  {#if mainUser}
     <EditionCreation
       work={parentEntity}
       bind:editions={initialEditions}

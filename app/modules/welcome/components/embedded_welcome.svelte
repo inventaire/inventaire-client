@@ -6,10 +6,9 @@
 
   const { instanceName, orgName, orgUrl } = config
 
-  const { loggedIn } = mainUser
 </script>
 
-{#if !loggedIn}
+{#if !mainUser}
   <section class="embedded-welcome">
     <div>
       <h2>{i18n('Welcome to %{instanceName}', { instanceName })}</h2>

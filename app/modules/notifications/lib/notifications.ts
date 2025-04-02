@@ -11,7 +11,7 @@ export let notifications: Notification[] = []
 export const notificationsStore = writable(notifications)
 
 async function _getNotificationsData () {
-  if (!mainUser.loggedIn) return
+  if (!mainUser) return
   const { notifications: userNotifications } = await preq.get(API.notifications)
   notifications = userNotifications
   notificationsStore.set(notifications)
