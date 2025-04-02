@@ -13,7 +13,7 @@ const feedEndpoint = `${window.location?.origin}${feedEndpointBase}` as Absolute
 export default function (key, id) {
   const query: { requester?: UserId, token?: string } = {}
   query[key] = id
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     query.requester = mainUser._id
     query.token = mainUser.readToken
   }

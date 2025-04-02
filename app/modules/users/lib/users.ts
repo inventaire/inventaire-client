@@ -11,9 +11,14 @@ import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
 import type { AnonymizableUserId, SnapshotVisibilitySection, Username } from '#server/types/user'
 import { countShelves } from '#shelves/lib/shelves'
-import { mainUser } from '#user/lib/main_user'
 import { relations } from './relations'
 import type { OverrideProperties } from 'type-fest'
+
+let mainUser
+async function importCircularDependencies () {
+  ;({ mainUser } = await import('#user/lib/main_user'))
+}
+setTimeout(importCircularDependencies, 0)
 
 const { publicHost } = config
 const { defaultAvatar } = images
@@ -64,7 +69,7 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
 
 export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
   if ('pathname' in user) return user as SerializedUser
-  user.isMainUser = user._id === mainUser._id
+  user.isMainUser = user._id === mainUser?._id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
   }
@@ -76,7 +81,7 @@ export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | Se
 }
 
 export function serializeContributor (user: InstanceAgnosticContributor & Partial<SerializedContributor>) {
-  user.isMainUser = user.acct === mainUser.acct
+  user.isMainUser = user.acct === mainUser?.acct
   const host = user.acct.split('@')[1]
   if (host === publicHost) {
     user.handle = user.username
@@ -97,7 +102,7 @@ export function getPicture (user: Partial<SerializedUser>) {
 
 export function setDistance (user) {
   if (user.distanceFromMainUser != null) return
-  if (!(mainUser.position && user.position)) return
+  if (!(mainUser?.position && user.position)) return
   const a = getCoords(mainUser)
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
@@ -122,7 +127,7 @@ function getCoords (user) {
 }
 
 export function setItemsCategory (user) {
-  if (user._id === mainUser._id) {
+  if (user._id === mainUser?._id) {
     user.itemsCategory = 'personal'
   } else if (relations.network.includes(user._id)) {
     user.itemsCategory = 'network'
