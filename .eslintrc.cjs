@@ -58,7 +58,8 @@ module.exports = {
       },
     ],
     'no-ex-assign': [ 'off' ],
-    'no-new': [ 'off' ], // TODO: remove once Backbone.Marionette router is replaced
+    // Leave that job to @typescript-eslint/no-restricted-imports
+    "no-restricted-imports": "off",
     'no-var': [ 'error' ],
     'nonblock-statement-body-position': [ 'error', 'beside' ],
     'object-shorthand': [ 'error', 'properties' ],
@@ -86,6 +87,16 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' } ],
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        patterns: [{
+          group: [ '*server/' ],
+          message: "Only types can be imported from the server",
+          allowTypeImports: true,
+        }],
+      }
+    ],
 
     'svelte/no-at-html-tags': 'off',
     'svelte/no-reactive-functions': 'error',
