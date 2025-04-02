@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
@@ -16,6 +15,7 @@
   import { createItem as _createItem } from '#inventory/lib/item_actions'
   import { showShelf } from '#shelves/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { getItemsByUserIdAndEntities } from '../lib/queries'
 
   export let entity: SerializedEntity
@@ -25,7 +25,7 @@
   let flash
 
   let existingEntityItems
-  const waitForExistingInstances = getItemsByUserIdAndEntities(app.user._id, uri)
+  const waitForExistingInstances = getItemsByUserIdAndEntities(mainUser._id, uri)
     .then(items => existingEntityItems = items)
     .catch(err => flash = err)
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
@@ -11,7 +10,7 @@
   import { unreadNotificationsCount } from '#notifications/lib/notifications'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUserStore } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import { friendshipRequestsCount } from '#users/lib/relations'
 
   $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
@@ -88,7 +87,7 @@
               stopClickPropagation={false}
             />
           </li>
-          {#if app.user.hasDataadminAccess}
+          {#if mainUser.hasDataadminAccess}
             <Link
               icon="server"
               url="/tasks"

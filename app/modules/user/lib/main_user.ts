@@ -2,7 +2,6 @@ import cookie_ from 'js-cookie'
 import { writable } from 'svelte/store'
 import { API } from '#app/api/api'
 import { getEndpointBase } from '#app/api/endpoint'
-import app from '#app/app'
 import type { UserLang } from '#app/lib/active_languages'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -33,6 +32,7 @@ export type SerializedNotLoggedInMainUser = {
   loggedIn: false
   hasAdminAccess: false
   hasDataadminAccess: false
+  isMainUser: true
   lang: UserLang
   _id: undefined
   username: undefined
@@ -40,39 +40,42 @@ export type SerializedNotLoggedInMainUser = {
   acct: undefined
 }
 
-export let mainUser = {
-  loggedIn,
-  hasAdminAccess: false,
-  hasDataadminAccess: false,
-  lang: solveLang(),
-} as (SerializedNotLoggedInMainUser | SerializedLoggedInMainUser)
+export let mainUser: (SerializedNotLoggedInMainUser | SerializedLoggedInMainUser)
+
+if (loggedIn) {
+  try {
+    const user = (await preq.get(apiUser)) as (OwnerSafeUser | DeletedUser)
+    if (user.type === 'deleted') {
+      commands.execute('logout')
+    } else {
+      // @ts-expect-error
+      mainUser = serializeMainUser(serializeUser(user)) as SerializedLoggedInMainUser
+      // Manually set isMainUser as serializeUser will not have been able to access mainUser._id on the call above
+      mainUser.isMainUser = true
+    }
+  } catch (err) {
+    // Known cases of session errors:
+    // - when the server secret is changed
+    // - when the current session user was deleted but the cookies weren't removed
+    //   (possibly because the deletion was done from another browser or even another device)
+    console.error('resetSession', err)
+    commands.execute('logout', '/login')
+  }
+} else {
+  mainUser = {
+    loggedIn,
+    isMainUser: true,
+    hasAdminAccess: false,
+    hasDataadminAccess: false,
+    lang: solveLang(),
+  } as SerializedNotLoggedInMainUser
+}
+
+// Do not wait for i18n initialization to call 'waiter:resolve', 'user'
+initI18n(mainUser.lang).catch(log_.Error('i18n initialize error'))
+commands.execute('waiter:resolve', 'user')
 
 export const mainUserStore = writable(mainUser)
-
-export async function initMainUser () {
-  if (loggedIn) {
-    try {
-      const user = (await preq.get(apiUser)) as (OwnerSafeUser | DeletedUser)
-      if (user.type === 'deleted') return commands.execute('logout')
-      // Initialize app.user so serializeUser can use it
-      // @ts-expect-error
-      app.user = user
-      // @ts-expect-error
-      app.user = mainUser = serializeMainUser(serializeUser(user))
-      mainUserStore.set(mainUser)
-    } catch (err) {
-      // Known cases of session errors:
-      // - when the server secret is changed
-      // - when the current session user was deleted but the cookies weren't removed
-      //   (possibly because the deletion was done from another browser or even another device)
-      console.error('resetSession', err)
-      commands.execute('logout', '/login')
-    }
-  }
-  // Do not wait for i18n initialization to call 'waiter:resolve', 'user'
-  initI18n(mainUser.lang).catch(log_.Error('i18n initialize error'))
-  commands.execute('waiter:resolve', 'user')
-}
 
 function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<SerializedMainUserExtras>) {
   user.loggedIn = loggedIn

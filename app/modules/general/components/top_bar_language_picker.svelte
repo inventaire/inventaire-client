@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import { languages } from '#app/lib/active_languages'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
@@ -7,12 +6,12 @@
   import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { updateUser } from '#user/lib/main_user'
+  import { mainUser, updateUser } from '#user/lib/main_user'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion
   const languagesList = Object.values(languages).sort(mostCompleteFirst)
-  const currentLanguage = languages[app.user.lang].native
-  const currentLanguageShortName = languages[app.user.lang].lang.toUpperCase()
+  const currentLanguage = languages[mainUser.lang].native
+  const currentLanguageShortName = languages[mainUser.lang].lang.toUpperCase()
 
   function selectLang (lang) {
     // Remove the querystring lang parameter to be sure that the picked language

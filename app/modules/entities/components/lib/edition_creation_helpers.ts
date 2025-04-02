@@ -1,6 +1,5 @@
 import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { newError, type ContextualizedError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import { buildPath } from '#app/lib/location'
@@ -11,6 +10,7 @@ import { createEntity } from '#entities/lib/create_entity'
 import type { SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 
 export async function createEditionFromWork (params) {
   const { workEntity, userInput } = params
@@ -76,7 +76,7 @@ function workEditionCreationData (work: SerializedEntity) {
       'wdt:P629': [ work.uri ],
     },
   }
-  const { lang } = app.user
+  const { lang } = mainUser
   const langWdId = wdLang.byCode[lang]?.wd
   const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
   // Suggest user's language as edition language

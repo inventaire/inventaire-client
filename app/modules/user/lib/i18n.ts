@@ -16,7 +16,7 @@ import translate from './translate.ts'
 // This is less efficient than re-rendering everything once the new language
 // strings were fetched, but it's so much simpler to handle, and less verbose as
 // we don't need to clutter every layout with events listeners like
-// @listenTo app.user, 'change:language', @render
+// @listenTo mainUser, 'change:language', @render
 
 let currentLangI18n = (key: string, context?: unknown) => {
   console.trace(`i18n function was called before we received language strings: ${key}`, context)

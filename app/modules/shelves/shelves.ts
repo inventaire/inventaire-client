@@ -6,6 +6,7 @@ import { newError } from '#app/lib/error'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import type { Shelf, ShelfId } from '#server/types/shelf'
+import { mainUser } from '#user/lib/main_user'
 import { resolveToUser } from '../users/users_data.ts'
 import { getShelfById, getShelfMetadata } from './lib/shelves.ts'
 
@@ -45,7 +46,7 @@ const controller = {
       // Passing shelf to display items and passing owner for user profile info
       appLayout.showChildComponent('main', UsersHomeLayout, {
         props: {
-          user: app.user,
+          user: mainUser,
           shelf: 'without-shelf',
         },
       })

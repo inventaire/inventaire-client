@@ -4,6 +4,7 @@ import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import type { Group, GroupSlug } from '#server/types/group'
+import { mainUser } from '#user/lib/main_user'
 import { showUsersHome } from '#users/users'
 import { getUserGroups } from './lib/groups_data.ts'
 
@@ -25,7 +26,7 @@ export default {
       'show:group:board': showGroupBoardFrom,
     })
 
-    if (app.user.loggedIn) getUserGroups()
+    if (mainUser.loggedIn) getUserGroups()
   },
 }
 

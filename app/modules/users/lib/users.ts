@@ -1,4 +1,3 @@
-import app from '#app/app'
 import { config } from '#app/config'
 import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
@@ -12,6 +11,7 @@ import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
 import type { AnonymizableUserId, SnapshotVisibilitySection, Username } from '#server/types/user'
 import { countShelves } from '#shelves/lib/shelves'
+import { mainUser } from '#user/lib/main_user'
 import { relations } from './relations'
 import type { OverrideProperties } from 'type-fest'
 
@@ -64,7 +64,7 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
 
 export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
   if ('pathname' in user) return user as SerializedUser
-  user.isMainUser = user._id === app.user._id
+  user.isMainUser = user._id === mainUser._id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
   }
@@ -76,7 +76,7 @@ export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | Se
 }
 
 export function serializeContributor (user: InstanceAgnosticContributor & Partial<SerializedContributor>) {
-  user.isMainUser = user.acct === app.user.acct
+  user.isMainUser = user.acct === mainUser.acct
   const host = user.acct.split('@')[1]
   if (host === publicHost) {
     user.handle = user.username
@@ -97,8 +97,8 @@ export function getPicture (user: Partial<SerializedUser>) {
 
 export function setDistance (user) {
   if (user.distanceFromMainUser != null) return
-  if (!(app.user.position && user.position)) return
-  const a = getCoords(app.user)
+  if (!(mainUser.position && user.position)) return
+  const a = getCoords(mainUser)
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
   user.kmDistanceFormMainUser = distance
@@ -106,7 +106,7 @@ export function setDistance (user) {
   // aren't precise to the meter or anything close to it
   // Above, return a ~1km precision
   const precision = distance > 20 ? 0 : 1
-  user.distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString(app.user.lang)
+  user.distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString(mainUser.lang)
 }
 
 function getCoords (user) {
@@ -122,7 +122,7 @@ function getCoords (user) {
 }
 
 export function setItemsCategory (user) {
-  if (user._id === app.user._id) {
+  if (user._id === mainUser._id) {
     user.itemsCategory = 'personal'
   } else if (relations.network.includes(user._id)) {
     user.itemsCategory = 'network'

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { debounce, uniq, indexBy } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { onScrollToBottom } from '#app/lib/screen'
@@ -14,6 +13,7 @@
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import type { PropertyUri } from '#server/types/entity'
   import { i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let entity: SerializedEntity
   export let property: PropertyUri
@@ -46,7 +46,7 @@
       uris,
       // TODO: also request 'popularity' to be able to use it to sort the entities
       attributes: [ 'info', 'labels', 'image' ],
-      lang: app.user.lang,
+      lang: mainUser.lang,
     })
       .then(async res => {
         const entities = Object.values(res.entities).map(serializeEntity)

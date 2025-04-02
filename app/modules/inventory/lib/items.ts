@@ -1,5 +1,4 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq from '#app/lib/preq'
 import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
@@ -10,6 +9,7 @@ import type { EntityType } from '#server/types/entity'
 import type { Item, ItemId, ItemSnapshot, SerializedItem as ServerSerializedItem } from '#server/types/item'
 import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import type { ItemCategory, SerializedUser } from '#users/lib/users'
 
 export interface SerializedItem extends ServerSerializedItem {
@@ -37,7 +37,7 @@ export interface SerializedItem extends ServerSerializedItem {
 }
 
 export function serializeItem (item: Item & Partial<SerializedItem>) {
-  item.authorized = item.owner === app.user._id
+  item.authorized = item.owner === mainUser._id
   item.mainUserIsOwner = item.authorized
   item.restricted = !item.authorized
 
@@ -99,7 +99,7 @@ function findBestTitle (item) {
 }
 
 function hasActiveTransaction (itemId) {
-  if (!app.user.loggedIn) return false
+  if (!mainUser.loggedIn) return false
   return hasOngoingTransactionsByItemIdSync(itemId)
 }
 
