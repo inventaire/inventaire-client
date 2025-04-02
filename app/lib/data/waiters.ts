@@ -6,7 +6,6 @@ import { commands, reqres } from '#app/radio'
 // to those global data elements being ready
 
 const waitersNames = [
-  'user',
   'relations',
   'groups',
   'transactions',

@@ -9,7 +9,6 @@
   import { I18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
 
-  const { loggedIn } = mainUser
   const { instanceName } = config
   const shortName = instanceName.slice(0, 3)
 
@@ -36,7 +35,7 @@
 
   <TopBarLanguagePicker />
 
-  {#if loggedIn}
+  {#if mainUser}
     <TopBarButtons />
   {:else if displayConnectionButtons}
     <a

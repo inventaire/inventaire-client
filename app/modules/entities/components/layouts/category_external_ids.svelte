@@ -17,7 +17,6 @@
   let showAllAvailableExternalIds = false
   let showCategorySettings = false
   const linksId = `${category}Links`
-  const { loggedIn } = mainUser
 
   let categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds, displayedCategoryExternalIds
   $: {
@@ -58,7 +57,7 @@
         {/if}
       </button>
     {/if}
-    {#if showAllAvailableExternalIds && loggedIn}
+    {#if showAllAvailableExternalIds && mainUser}
       <button title={i18n('Customize which links should be displayed')} class="customize" on:click={() => showCategorySettings = true}>
         {@html icon('cog')}
       </button>

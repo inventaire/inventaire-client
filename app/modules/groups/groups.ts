@@ -26,7 +26,7 @@ export default {
       'show:group:board': showGroupBoardFrom,
     })
 
-    if (mainUser.loggedIn) getUserGroups()
+    if (mainUser) getUserGroups()
   },
 }
 

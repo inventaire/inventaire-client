@@ -99,7 +99,7 @@ function findBestTitle (item) {
 }
 
 function hasActiveTransaction (itemId) {
-  if (!mainUser.loggedIn) return false
+  if (!mainUser) return false
   return hasOngoingTransactionsByItemIdSync(itemId)
 }
 

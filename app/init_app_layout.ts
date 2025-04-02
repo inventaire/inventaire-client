@@ -1,4 +1,5 @@
 import AppLayout from '#components/app_layout.svelte'
+import { commands } from './radio'
 import type { SvelteComponent, ComponentProps, ComponentType } from 'svelte'
 
 export let appLayout
@@ -10,6 +11,7 @@ export function initAppLayout () {
   appLayout = new AppLayout({ target })
   appLayout.showChildComponent = showChildComponent
   appLayout.removeCurrentComponent = removeCurrentComponent
+  commands.execute('waiter:resolve', 'layout')
   return appLayout
 }
 

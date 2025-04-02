@@ -12,7 +12,7 @@
   const { _id: itemId, restricted, transaction, busy } = item
 
   let hasActiveTransaction = false
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     hasActiveTransaction = hasOngoingTransactionsByItemIdSync(itemId)
   }
   let showRequestItemModal

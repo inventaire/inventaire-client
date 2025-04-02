@@ -15,7 +15,6 @@
   export let uris: EntityUri[] = null
   export let standalone = true
 
-  const { loggedIn } = mainUser
   let unknownUser, flash
   let message = ''
   let sending = false
@@ -56,7 +55,7 @@
     <p>{i18n('feedback_intro')}</p>
     <form>
       <div class="from">
-        {#if loggedIn}
+        {#if mainUser}
           <span class="label">{i18n('from:')}</span>
           <span class="username">{$mainUserStore.username}</span>
         {:else}

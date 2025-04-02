@@ -46,7 +46,7 @@ export default {
 
 const controller = {
   showHome () {
-    if (mainUser.loggedIn) {
+    if (mainUser) {
       showMainUserProfile()
     } else {
       commands.execute('show:welcome')
@@ -98,7 +98,7 @@ const controller = {
 function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)
   assertString(route)
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     return true
   } else {
     const redirect = getRedirectedRoute(route)

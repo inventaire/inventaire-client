@@ -73,7 +73,7 @@ async function showElement (listingId, elementId) {
 }
 
 export async function showMainUserListings () {
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     return showUserListings(mainUser.username)
   } else {
     reqres.request('require:loggedIn', 'lists')

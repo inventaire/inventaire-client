@@ -13,7 +13,7 @@
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import UsersHomeNav from '#users/components/users_home_nav.svelte'
-  import { type SerializedUser } from '#users/lib/users'
+  import type { SerializedUser } from '#users/lib/users'
 
   export let user: SerializedUser = null
   export let group: SerializedGroup = null
@@ -22,8 +22,6 @@
   export let profileSection: 'inventory' | 'listings' = null
   export let showShelfFollowers = null
   export let showUserFollowers = null
-
-  const { loggedIn } = mainUser
 
   // The focus store is used to determine which component should claim the focus
   // It plays the role of an event bus between the layout children component
@@ -84,7 +82,7 @@
     bind:this={innerEl}
     use:resizeObserver={{ onElementResize }}
   >
-    {#if loggedIn}
+    {#if mainUser}
       <UsersHomeNav bind:section />
     {/if}
 

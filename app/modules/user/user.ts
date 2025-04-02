@@ -38,7 +38,7 @@ function showAuth (name: string, label: string, Component, options: string | obj
     return commands.execute('show:error:cookieRequired', `show:${name}`)
   }
 
-  if (mainUser.loggedIn) return commands.execute('show:home')
+  if (mainUser) return commands.execute('show:home')
 
   if (typeof options === 'string') options = parseQuery(options)
   appLayout.showChildComponent('main', Component, { props: options })
@@ -74,7 +74,7 @@ const controller = {
 
   async showResetPassword () {
     const { default: ResetPassword } = await import('./components/reset_password.svelte')
-    if (mainUser.loggedIn) {
+    if (mainUser) {
       appLayout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {

@@ -130,7 +130,7 @@
     <div class="two">
       <ItemShowData bind:item {user} bind:flash />
       <ItemShelves bind:serializedItem={item} bind:flash />
-      {#if mainUser.loggedIn}
+      {#if mainUser}
         <ItemActiveTransactions {item} bind:flash />
       {/if}
       <Flash bind:state={flash} />
