@@ -11,7 +11,7 @@
   import { serializeListing } from '#modules/listings/lib/listings'
   import type { Listing } from '#server/types/listing'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { updateMainUserListingsCount } from '#user/lib/main_user'
 
   const dispatch = createEventDispatcher()
 
@@ -66,7 +66,7 @@
       type,
     })
     listing = serializeListing(res.listing)
-    mainUser.trigger('listings:change', 'createListing')
+    updateMainUserListingsCount(1)
   }
 
   async function askListDeletionConfirmation () {
@@ -80,7 +80,7 @@
   async function _deleteListing () {
     try {
       await deleteListing({ ids: _id })
-      mainUser.trigger('listings:change', 'removeListing')
+      updateMainUserListingsCount(-1)
       await showMainUserListings()
     } catch (err) {
       flash = err
