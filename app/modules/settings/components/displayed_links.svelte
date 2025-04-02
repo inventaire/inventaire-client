@@ -1,11 +1,10 @@
 <script lang="ts">
   import { debounce, difference, intersection, keys, uniq } from 'underscore'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
   import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
   import { I18n } from '#user/lib/i18n'
-  import { updateUser } from '#user/lib/main_user'
+  import { mainUser, updateUser } from '#user/lib/main_user'
 
   export let category = null
 
@@ -17,7 +16,7 @@
   let selectedBibliographicDatabasesCount = 0
   let selectedSocialNetworksCount = 0
 
-  let customProperties = app.user.customProperties || []
+  let customProperties = mainUser.customProperties || []
   let stringifiedSavedCustomProperties = JSON.stringify(customProperties)
 
   let selectedWebsites = getWebsitesNamesFromProperties(customProperties)

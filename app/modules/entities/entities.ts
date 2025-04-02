@@ -15,6 +15,7 @@ import { showItemCreationForm } from '#inventory/lib/show_item_creation_form'
 import type { AccessLevel } from '#server/lib/user_access_levels'
 import type { WdEntityUri, EntityUri, SimplifiedClaims } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
 import { getEntityLayoutComponentByType } from './lib/get_entity_layout_component_by_type.ts'
 import type { ComponentType, ComponentProps, SvelteComponent } from 'svelte'
@@ -288,7 +289,7 @@ function handleMissingEntity (uri: EntityUri, err: ContextualizedError) {
   } else if (err.code === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
     const pathname = `/entity/${uri}`
-    if (app.user.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
+    if (mainUser.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
     else commands.execute('show:error:missing', { pathname })
   } else {
     commands.execute('show:error:other', err, 'handleMissingEntity')

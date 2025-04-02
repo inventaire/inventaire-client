@@ -11,6 +11,7 @@ import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import { resolveToGroup } from '../groups/lib/groups.ts'
 import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount, type SerializedUser } from './lib/users.ts'
@@ -55,7 +56,7 @@ export async function showUserProfile (user) {
 
 export async function showMainUserProfile () {
   await reqres.request('wait:for', 'user')
-  return showUsersHome({ user: app.user as SerializedLoggedInMainUser })
+  return showUsersHome({ user: mainUser as SerializedLoggedInMainUser })
 }
 
 export async function showUserInventory (user) {

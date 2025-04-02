@@ -15,6 +15,7 @@
   import { getItemEntityData } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { serializeUser } from '#users/lib/users'
   import { deleteItems } from '../lib/item_actions'
 
@@ -129,7 +130,7 @@
     <div class="two">
       <ItemShowData bind:item {user} bind:flash />
       <ItemShelves bind:serializedItem={item} bind:flash />
-      {#if app.user.loggedIn}
+      {#if mainUser.loggedIn}
         <ItemActiveTransactions {item} bind:flash />
       {/if}
       <Flash bind:state={flash} />

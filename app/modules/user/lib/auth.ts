@@ -1,8 +1,8 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { commands } from '#app/radio'
+import { mainUser } from '#user/lib/main_user'
 import requestLogout from './request_logout.ts'
 
 export default function () {
@@ -14,7 +14,7 @@ export async function requestSignup ({ username, email, password }) {
 }
 
 export function passwordConfirmation (currentPassword) {
-  const { username } = app.user
+  const { username } = mainUser
   // Using the login route to verify the password validity
   return login(username, currentPassword)
 }

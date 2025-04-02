@@ -1,12 +1,12 @@
 import { groupBy, property, compact } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isNonEmptyString, isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import type { ExternalEntry, Candidate } from '#app/types/importer'
 import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import type { IsbnEntityUri, PropertyUri } from '#server/types/entity'
+import { mainUser } from '#user/lib/main_user'
 import type { getIsbnData } from './extract_isbns'
 
 export const createCandidate = (externalEntry, entitiesRes) => {
@@ -63,7 +63,7 @@ export const guessUriFromIsbn = ({ externalEntry, isbnData }: { externalEntry?: 
 
 const serializeEntity = entity => {
   entity.originalLang = getOriginalLang(entity.claims)
-  entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
+  entity.label = getBestLangValue(mainUser.lang, entity.originalLang, entity.labels).value
   entity.pathname = `/entity/${entity.uri}`
   return entity
 }
@@ -150,7 +150,7 @@ const serializeResolverEntry = data => {
     resolvedWork = resolvedWorks[0]
   }
   let { editionTitle, isbn, authors = [] } = data
-  const labelLang = lang || app.user.lang
+  const labelLang = lang || mainUser.lang
 
   if (resolvedWork && !editionTitle) {
     editionTitle = resolvedWork.label

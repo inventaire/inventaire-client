@@ -1,5 +1,4 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
@@ -15,6 +14,7 @@ import type { UserId } from '#server/types/user'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
 import { i18n } from '#user/lib/i18n'
 import { serializeUser, type SerializedUser, type ServerUser } from '#users/lib/users'
+import { mainUser } from '#user/lib/main_user'
 import { getUsersByIds } from '#users/users_data'
 import type { OverrideProperties } from 'type-fest'
 
@@ -87,6 +87,7 @@ export async function getActiveTransactionsByItemId (itemId) {
   return transactions.filter(isOngoing)
 }
 
+<<<<<<< HEAD
 interface SerializedTransactionOverrides {
   snapshot: Transaction['snapshot'] & { other: SerializedUser }
 }
@@ -115,6 +116,11 @@ export type SerializedTransaction = OverrideProperties<Transaction, SerializedTr
 export function serializeTransaction (transaction: Transaction) {
   const { _id: id, owner, snapshot, actions } = transaction
   const mainUserIsOwner = owner === app.user._id
+=======
+export function serializeTransaction (transaction) {
+  const { _id: id, owner, snapshot } = transaction
+  const mainUserIsOwner = owner === mainUser._id
+>>>>>>> dd0354237 (app: remove mainUser from app.user)
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
   // @ts-expect-error
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
@@ -133,9 +139,9 @@ export function serializeTransaction (transaction: Transaction) {
 
 export async function grabUsers (transaction) {
   if (transaction.mainUserIsOwner) {
-    transaction.owner = app.user
+    transaction.owner = mainUser
   } else {
-    transaction.requester = app.user
+    transaction.requester = mainUser
   }
 }
 

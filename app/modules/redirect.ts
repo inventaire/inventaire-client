@@ -9,6 +9,7 @@ import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import { showMainUserProfile } from '#users/users'
 
 export default {
@@ -45,7 +46,7 @@ export default {
 
 const controller = {
   showHome () {
-    if (app.user.loggedIn) {
+    if (mainUser.loggedIn) {
       showMainUserProfile()
     } else {
       commands.execute('show:welcome')
@@ -97,7 +98,7 @@ const controller = {
 function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)
   assertString(route)
-  if (app.user.loggedIn) {
+  if (mainUser.loggedIn) {
     return true
   } else {
     const redirect = getRedirectedRoute(route)
@@ -108,7 +109,7 @@ function requireLoggedIn (route: string) {
 
 function requireAdminAccess () {
   setPrerenderStatusCode(401)
-  if (app.user.hasAdminAccess) {
+  if (mainUser.hasAdminAccess) {
     return true
   } else {
     showErrorNotAdmin()
@@ -118,7 +119,7 @@ function requireAdminAccess () {
 
 function requireDataadminAccess () {
   setPrerenderStatusCode(401)
-  if (app.user.hasDataadminAccess) {
+  if (mainUser.hasDataadminAccess) {
     return true
   } else {
     showErrorNotAdmin()

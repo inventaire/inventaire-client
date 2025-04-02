@@ -8,7 +8,7 @@
   import { commands } from '#app/radio'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import type { SerializedGroup } from '#groups/lib/groups'
-  import { mainUserStore } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import NetworkUsersNav from '#users/components/network_users_nav.svelte'
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
@@ -23,7 +23,7 @@
   export let showShelfFollowers = null
   export let showUserFollowers = null
 
-  const { loggedIn } = app.user
+  const { loggedIn } = mainUser
 
   // The focus store is used to determine which component should claim the focus
   // It plays the role of an event bus between the layout children component
@@ -42,7 +42,7 @@
     if ('deleted' in user && user.deleted) commands.execute('show:error:missing')
   }
 
-  if (user && user._id === app.user._id) section = 'user'
+  if (user && user._id === mainUser._id) section = 'user'
 
   function onSectionChange () {
     if (section) {
