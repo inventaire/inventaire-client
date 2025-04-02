@@ -1,6 +1,6 @@
 <script lang="ts">
   import { imgSrc } from '#app/lib/image_source'
-  import { getColorSquareDataUri, getColorHexCodeFromCouchUuId } from '#app/lib/images'
+  import { getColorSquareDataUri, getColorHexCodeFromCouchUuId } from '#app/lib/images/images'
 
   export let shelf
   const shelfColorDataUrl = getColorSquareDataUri(shelf.color || getColorHexCodeFromCouchUuId(shelf._id))
