@@ -1,6 +1,5 @@
 import { findWhere, pluck, without } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isGroupId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getColorSquareDataUriFromCouchUuId } from '#app/lib/images'
@@ -10,6 +9,7 @@ import type { RelativeUrl } from '#server/types/common'
 import type { Group, GroupId, GroupMembershipCategory, GroupSlug } from '#server/types/group'
 import type { GroupImagePath, ImageDataUrl } from '#server/types/image'
 import type { UserId } from '#server/types/user'
+import { mainUser } from '#user/lib/main_user'
 import { getCachedSerializedUsers } from '#users/helpers'
 import { serializeUser } from '#users/lib/users'
 import { getUserById } from '#users/users_data'
@@ -53,7 +53,7 @@ export function getGroupPathname (group) {
   return `/groups/${group.slug}`
 }
 
-const memberIsMainUser = ({ user }) => user === app.user._id
+const memberIsMainUser = ({ user }) => user === mainUser._id
 
 export function mainUserIsGroupAdmin (group) {
   return group.admins.find(memberIsMainUser) != null
@@ -74,7 +74,7 @@ export function getUserGroupStatus (userId: UserId, group: Group | SerializedGro
   return 'none'
 }
 
-export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(app.user._id, group)
+export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(mainUser._id, group)
 
 export async function getCachedSerializedGroupMembers (group) {
   const allMembersIds = getAllGroupMembersIds(group)
@@ -120,7 +120,7 @@ export function findInvitation (group, userId) {
 }
 
 export async function findMainUserInvitor (group) {
-  const invitation = findInvitation(group, app.user._id)
+  const invitation = findInvitation(group, mainUser._id)
   if (invitation) return getUserById(invitation.invitor)
 }
 

@@ -9,8 +9,8 @@ import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import { I18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import auth from './lib/auth.ts'
-import { initMainUser } from './lib/main_user.ts'
 
 export default {
   initialize () {
@@ -23,7 +23,6 @@ export default {
       '/authorize(/)': 'showAuthorizeMenu',
     }, controller)
 
-    initMainUser()
     auth()
 
     commands.setHandlers({
@@ -39,7 +38,7 @@ function showAuth (name: string, label: string, Component, options: string | obj
     return commands.execute('show:error:cookieRequired', `show:${name}`)
   }
 
-  if (app.user.loggedIn) return commands.execute('show:home')
+  if (mainUser.loggedIn) return commands.execute('show:home')
 
   if (typeof options === 'string') options = parseQuery(options)
   appLayout.showChildComponent('main', Component, { props: options })
@@ -75,7 +74,7 @@ const controller = {
 
   async showResetPassword () {
     const { default: ResetPassword } = await import('./components/reset_password.svelte')
-    if (app.user.loggedIn) {
+    if (mainUser.loggedIn) {
       appLayout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {

@@ -3,7 +3,6 @@ import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/li
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
 import { commands, vent } from '#app/radio'
-import { mainUser } from '#modules/user/lib/main_user'
 import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
 import { loadUrl, startRouter } from './lib/router.ts'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
@@ -93,8 +92,6 @@ function navigateReplace (route: ProjectRootRelativeUrl, options: NavigateOption
 }
 
 const app = {
-  user: mainUser,
-
   navigate,
   navigateAndLoad,
   clearMetadataNavigateAndLoad,

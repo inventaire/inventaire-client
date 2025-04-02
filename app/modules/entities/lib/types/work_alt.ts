@@ -1,5 +1,5 @@
 import { pick, uniq, flatten, compact, pluck } from 'underscore'
-import app from '#app/app'
+import { mainUser } from '#user/lib/main_user'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.ts'
 import { getBestLangValue } from '../get_best_lang_value.ts'
 
@@ -47,7 +47,7 @@ export async function addEntityImages (entity) {
 const setEntityImages = (entity, entityImages) => {
   entity.images = []
   if (entityImages) {
-    const { lang } = getBestLangValue(app.user.lang, entity.originalLang, entityImages)
+    const { lang } = getBestLangValue(mainUser.lang, entity.originalLang, entityImages)
     const preferredLangImages = entityImages[lang]
     if (preferredLangImages) {
       entity.images = preferredLangImages.map(getEntityImagePath)

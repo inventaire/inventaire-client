@@ -1,6 +1,5 @@
 <script lang="ts">
   import { pluck, uniq, pick } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { onChange } from '#app/lib/svelte/svelte'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
@@ -12,7 +11,7 @@
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { mainUserStore } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import { getDocsBounds } from './lib/map.ts'
 
   export let docsToDisplay = []
@@ -30,7 +29,7 @@
       const nearbyDocs = docsToDisplay.filter(item => isNearby(item.distanceFromMainUser))
       const nearbyBounds = pluck(nearbyDocs, 'position')
       initialBounds = nearbyBounds.length > 0 ? nearbyBounds : bounds
-      const mainUserPosition = app.user.position
+      const mainUserPosition = mainUser.position
       if (mainUserPosition) initialBounds = initialBounds.concat([ mainUserPosition ])
       updateFilters(docsToDisplay)
     }

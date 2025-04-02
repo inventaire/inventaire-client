@@ -1,9 +1,9 @@
 <script lang="ts">
-  import app from '#app/app'
   import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
   import type { ListingElement } from '#server/types/element'
   import type { ListingWithElements } from '#server/types/listing'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import type { SerializedUser } from '#users/lib/users'
   import ListingElements from './listing_elements.svelte'
 
@@ -13,7 +13,7 @@
 
   let { _id, elements } = listing
 
-  const isEditable = creator._id === app.user._id
+  const isEditable = creator._id === mainUser._id
 </script>
 <div class="listing-layout">
   <ListingInfoBox

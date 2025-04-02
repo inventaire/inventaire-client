@@ -1,8 +1,8 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { config } from '#app/config'
 import { dropLeadingSlash } from '#app/lib/utils'
 import type { AbsoluteUrl, Url } from '#server/types/common'
+import { mainUser } from '#user/lib/main_user'
 import { getQuerystringParameter } from '../querystring_helpers'
 
 const { instanceName } = config
@@ -34,7 +34,7 @@ export const transformers = {
 
     // Preserve parameters that make a resource different enough,
     // that the prerendered version returned should be different
-    const lang = getQuerystringParameter('lang') || app.user?.lang || 'en'
+    const lang = getQuerystringParameter('lang') || mainUser?.lang || 'en'
     url += `?lang=${lang}`
 
     return url as AbsoluteUrl
