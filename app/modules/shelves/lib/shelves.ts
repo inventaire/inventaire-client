@@ -1,7 +1,7 @@
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import { assertString } from '#app/lib/assert_types'
-import { getColorHexCodeFromCouchUuId, getColorSquareDataUri } from '#app/lib/images'
+import { getColorHexCodeFromCouchUuId, getColorSquareDataUri } from '#app/lib/images/images'
 import preq, { treq } from '#app/lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import type { ShelvesByIdsResponse } from '#server/controllers/shelves/by_ids'
