@@ -1,4 +1,4 @@
-import { routeSection, currentRouteWithQueryString, parseQuery, type ProjectRootRelativeUrl } from '#app/lib/location'
+import { currentRouteWithQueryString, parseQuery, type ProjectRootRelativeUrl } from '#app/lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
@@ -34,7 +34,7 @@ function navigate (route: string, options: NavigateOptions = {}) {
   if (route === currentRouteWithQueryString()) {
     // Trigger a route event for the first URL, so that event listeners can update accordingly
     if (!initialUrlNavigateAlreadyCalled) {
-      vent.trigger('route:change', routeSection(route), route)
+      vent.trigger('route:change')
       initialUrlNavigateAlreadyCalled = true
     }
     return
@@ -44,7 +44,7 @@ function navigate (route: string, options: NavigateOptions = {}) {
   // It can't just thrown an error as pathnames commonly require to start
   // by a slash to avoid being interpreted as relative pathnames
   route = dropLeadingSlash(route)
-  vent.trigger('route:change', routeSection(route), route)
+  vent.trigger('route:change')
   route = keepQuerystringParameter(route)
 
   const routeWithLeadingSlash = `/${route}`

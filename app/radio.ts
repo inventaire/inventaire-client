@@ -1,12 +1,47 @@
-import { publish, subscribe, unsubscribe } from '@jgarber/radioradio'
-import { serverReportError } from './lib/error'
+import { without } from 'underscore'
+import { newError, serverReportError, type ErrorContext } from './lib/error'
+import log_ from './lib/loggers'
 
-// Mapping radioradio API to the formerly used backbone-wreqr concepts
+type Subscriber = (...args: unknown[]) => unknown
+
+const events: Record<string, Subscriber[]> = {}
+
+export async function trigger (eventName: string, data?: unknown) {
+  if (!(eventName in events)) return logError('event not found', { eventName, data })
+  for (const subscriber of events[eventName]) {
+    try {
+      await subscriber(data)
+    } catch (err) {
+      err.context ??= {}
+      err.context.eventName = eventName
+      log_.error(err, 'event subscriber failed')
+    }
+  }
+}
+
+export function subscribe (eventName: string, subscriber: Subscriber) {
+  events[eventName] ??= []
+  events[eventName].push(subscriber)
+}
+
+export function unsubscribe (eventName: string, subscriber: Subscriber) {
+  if (!events[eventName].includes(subscriber)) {
+    return logError('subscriber not found', { eventName, subscriber, subscribers: events[eventName] })
+  }
+  events[eventName] = without(events[eventName], subscriber)
+}
+
+function logError (message: string, context: ErrorContext) {
+  const err = newError(message, 500, context)
+  log_.error(err)
+}
+
+// Mapping API to the formerly used backbone-wreqr concepts
 export const vent = {
   on: subscribe,
   off: unsubscribe,
-  trigger: publish,
-  Trigger: (eventName: string) => publish.bind(null, eventName),
+  trigger,
+  Trigger: (eventName: string) => trigger.bind(null, eventName),
 }
 
 type ReqResHandlers = Record<string, (...args) => unknown>
