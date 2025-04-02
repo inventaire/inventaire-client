@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { getDevicesInfo } from '#app/lib/has_video_input'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
@@ -37,7 +38,7 @@ const controller = {
         app.navigate('add/scan/embedded')
         const { default: EmbeddedScanner } = await import('./components/add/embedded_scanner.svelte')
         // showing in main so that requesting another layout destroy this view
-        app.layout.showChildComponent('main', EmbeddedScanner)
+        appLayout.showChildComponent('main', EmbeddedScanner)
       } else {
         controller.showScan()
       }
@@ -51,7 +52,7 @@ interface AddLayoutOptions {
 async function showAddLayout (tab = 'search', options: AddLayoutOptions = {}) {
   if (reqres.request('require:loggedIn', `add/${tab}`)) {
     const { default: AddLayout } = await import('./components/add/add_layout.svelte')
-    app.layout.showChildComponent('main', AddLayout, {
+    appLayout.showChildComponent('main', AddLayout, {
       props: {
         tab,
         ...options,

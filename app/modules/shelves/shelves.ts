@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertString } from '#app/lib/assert_types'
 import { isShelfId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
@@ -42,7 +43,7 @@ const controller = {
     if (reqres.request('require:loggedIn', pathname)) {
       const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
       // Passing shelf to display items and passing owner for user profile info
-      app.layout.showChildComponent('main', UsersHomeLayout, {
+      appLayout.showChildComponent('main', UsersHomeLayout, {
         props: {
           user: app.user,
           shelf: 'without-shelf',
@@ -64,7 +65,7 @@ export async function showShelf (shelf: ShelfId | Shelf) {
     resolveToUser(owner),
   ])
   // Passing shelf to display items and passing owner for user profile info
-  app.layout.showChildComponent('main', UsersHomeLayout, {
+  appLayout.showChildComponent('main', UsersHomeLayout, {
     props: {
       shelf,
       user,
@@ -85,7 +86,7 @@ async function showShelfFollowers (shelfId) {
       getShelfById(shelfId),
     ])
     const user = await resolveToUser(shelf.owner)
-    app.layout.showChildComponent('main', UsersHomeLayout, {
+    appLayout.showChildComponent('main', UsersHomeLayout, {
       props: {
         shelf,
         user,

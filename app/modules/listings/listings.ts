@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { newError } from '#app/lib/error'
 import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
@@ -38,7 +39,7 @@ async function showListing (listingId) {
     const { creator: creatorId } = listing
     const creator = await getSerializedUser(creatorId)
     const props: ListingProps = { listing, creator }
-    app.layout.showChildComponent('main', ListingLayout, { props })
+    appLayout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {
     commands.execute('show:error', err)
@@ -61,7 +62,7 @@ async function showElement (listingId, elementId) {
     await assignEntitiesToElements([ element ])
     props.initialElement = element
 
-    app.layout.showChildComponent('main', ListingLayout, { props })
+    appLayout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getElementPathname(listing._id, elementId), {
       metadata: getElementMetadata(listing, element),
     })
