@@ -26,21 +26,9 @@ interface SerializedMainUserExtras {
   hasDataadminAccess: boolean
 }
 
-export type SerializedLoggedInMainUser = OwnerSafeUser & SerializedUser & SerializedMainUserExtras
+export type SerializedMainUser = (OwnerSafeUser & SerializedUser & SerializedMainUserExtras)
 
-export type SerializedNotLoggedInMainUser = {
-  loggedIn: false
-  hasAdminAccess: false
-  hasDataadminAccess: false
-  isMainUser: true
-  lang: UserLang
-  _id: undefined
-  username: undefined
-  position: undefined
-  acct: undefined
-}
-
-export let mainUser: (SerializedNotLoggedInMainUser | SerializedLoggedInMainUser)
+export let mainUser: SerializedMainUser
 
 if (loggedIn) {
   try {
@@ -49,9 +37,12 @@ if (loggedIn) {
       commands.execute('logout')
     } else {
       // @ts-expect-error
-      mainUser = serializeMainUser(serializeUser(user)) as SerializedLoggedInMainUser
-      // Manually set isMainUser as serializeUser will not have been able to access mainUser._id on the call above
-      mainUser.isMainUser = true
+      mainUser = serializeMainUser(serializeUser(user)) as SerializedMainUser
+      setTimeout(() => {
+        // Reserialize as serializeUser will not have been able to access mainUser._id on the call above
+        // @ts-expect-error
+        mainUser = serializeMainUser(serializeUser(user)) as SerializedMainUser
+      }, 0)
     }
   } catch (err) {
     // Known cases of session errors:
@@ -61,24 +52,13 @@ if (loggedIn) {
     console.error('resetSession', err)
     commands.execute('logout', '/login')
   }
-} else {
-  mainUser = {
-    loggedIn,
-    isMainUser: true,
-    hasAdminAccess: false,
-    hasDataadminAccess: false,
-    lang: solveLang(),
-  } as SerializedNotLoggedInMainUser
 }
 
-// Do not wait for i18n initialization to call 'waiter:resolve', 'user'
-initI18n(mainUser.lang).catch(log_.Error('i18n initialize error'))
-commands.execute('waiter:resolve', 'user')
+initI18n(mainUser?.lang || solveLang()).catch(log_.Error('i18n initialize error'))
 
 export const mainUserStore = writable(mainUser)
 
 function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<SerializedMainUserExtras>) {
-  user.loggedIn = loggedIn
   user.settings = setDefaultSettings(user)
   user.summaryPeriodicity = user.summaryPeriodicity || 20
   user.customProperties = user.customProperties || []
@@ -86,7 +66,7 @@ function serializeMainUser (user: OwnerSafeUser & SerializedUser & Partial<Seria
   const { accessLevels } = user
   user.hasAdminAccess = accessLevels.includes('admin')
   user.hasDataadminAccess = accessLevels.includes('dataadmin')
-  return user as SerializedLoggedInMainUser
+  return user
 }
 
 function setDefaultSettings (user: OwnerSafeUser & SerializedUser) {
@@ -109,7 +89,7 @@ export async function updateUser (attribute: string, value: unknown) {
   try {
     mainUser[attribute] = value
     mainUserStore.set(mainUser)
-    if (loggedIn) await preq.put(API.user, { attribute, value })
+    if (mainUser) await preq.put(API.user, { attribute, value })
     if (attribute in afterUserUpdateHooks) {
       afterUserUpdateHooks[attribute]()
       mainUserStore.set(mainUser)
@@ -131,7 +111,7 @@ const afterUserUpdateHooks = {
 function onLanguageChange () {
   if (polyglot == null) return
 
-  const lang = 'language' in mainUser ? mainUser.language : null
+  const lang = (mainUser && 'language' in mainUser) ? mainUser.language : null
   // @ts-expect-error `currentLocale` is missing in @types/node-polyglot
   if (lang === polyglot.currentLocale) return
 
@@ -146,7 +126,7 @@ function onLanguageChange () {
   }
 
   // The language setting is persisted as a cookie instead
-  if (!loggedIn) cookie_.set('lang', lang)
+  if (!mainUser) cookie_.set('lang', lang)
 
   location.href = reloadHref
 }
@@ -155,7 +135,7 @@ function reserialize () {
   // Coupled to serializeUser implementation, which skips serialization when 'pathname' already exists
   if ('pathname' in mainUser) delete mainUser.pathname
   // @ts-expect-error
-  mainUser = serializeUser(mainUser)
+  mainUser = serializeMainUser(serializeUser(mainUser))
 }
 
 export async function deleteMainUserAccount () {
@@ -164,7 +144,7 @@ export async function deleteMainUserAccount () {
 }
 
 export function mainUserHasWikidataOauthTokens () {
-  if (!('enabledOAuth' in mainUser)) return false
+  if (!(mainUser && 'enabledOAuth' in mainUser)) return false
   const { enabledOAuth } = mainUser
   return (enabledOAuth != null) && enabledOAuth.includes('wikidata')
 }

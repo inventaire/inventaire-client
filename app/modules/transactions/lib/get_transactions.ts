@@ -2,13 +2,12 @@ import { readable } from 'svelte/store'
 import transactionsApi from '#app/api/transactions'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
-import { reqres, vent } from '#app/radio'
+import { vent } from '#app/radio'
 import { serializeTransaction } from '#transactions/lib/transactions'
 import { mainUser } from '#user/lib/main_user'
 
 async function fetchTransaction () {
-  await reqres.request('wait:for', 'user')
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     const { transactions } = await preq.get(transactionsApi.base)
     return transactions
     .map(serializeTransaction)

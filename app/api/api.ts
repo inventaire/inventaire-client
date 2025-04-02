@@ -1,5 +1,3 @@
-import { config } from '#app/config'
-import { i18nContentHash } from '#assets/js/build_metadata'
 import type { RelativeUrl } from '#server/types/common'
 import activitypub from './activitypub.ts'
 import auth from './auth.ts'
@@ -8,6 +6,7 @@ import { getEndpointBase } from './endpoint.ts'
 import entities from './entities.ts'
 import feeds from './feeds.ts'
 import groups from './groups.ts'
+import { getBuster } from './helpers.ts'
 import images from './images.ts'
 import img from './img.ts'
 import invitations from './invitations.ts'
@@ -47,15 +46,9 @@ export const API = {
   users,
 
   // /public endpoints
-  i18nStrings: lang => `/public/i18n/${lang}.json${getBuster()}` as RelativeUrl,
   json: filename => `/public/json/${filename}.json${getBuster()}` as RelativeUrl,
 
   // /img: endpoint serving images, handled by Nginx in production
   // thus not behing the /api root
   img,
-}
-
-function getBuster () {
-  if (config.env === 'production') return `?${i18nContentHash}`
-  else return `?${Date.now()}`
 }
