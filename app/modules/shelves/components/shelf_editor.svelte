@@ -11,7 +11,7 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { updateMainUserShelvesCount } from '#user/lib/main_user'
   import { showShelf } from '../shelves'
 
   export let shelf
@@ -35,7 +35,7 @@
       if (isNewShelf) {
         waiting = createShelf({ name, description, visibility, color })
         const newShelf = await waiting
-        mainUser.trigger('shelves:change', 'createShelf')
+        updateMainUserShelvesCount(1)
         showShelf(newShelf)
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
@@ -61,7 +61,7 @@
   async function _deleteShelf () {
     // TODO: catch and display error
     await deleteShelf({ ids: shelf._id })
-    mainUser.trigger('shelves:change', 'removeShelf')
+    updateMainUserShelvesCount(-1)
     commands.execute('show:inventory:main:user')
     if (inGlobalModal) commands.execute('modal:close')
   }

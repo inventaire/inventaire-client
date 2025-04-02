@@ -148,3 +148,13 @@ export function mainUserHasWikidataOauthTokens () {
   const { enabledOAuth } = mainUser
   return (enabledOAuth != null) && enabledOAuth.includes('wikidata')
 }
+
+export function updateMainUserListingsCount (num: number) {
+  mainUser.listingsCount += num
+  mainUserStore.set(mainUser)
+}
+
+export function updateMainUserShelvesCount (num: number) {
+  mainUser.shelvesCount += num
+  mainUserStore.set(mainUser)
+}
