@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { commands, reqres } from '#app/radio'
+import { commands } from '#app/radio'
 import type { RelationAction } from '#server/controllers/relations/actions'
 import type { GetRelationsResponse } from '#server/controllers/relations/get'
 import type { UserId } from '#server/types/user'
@@ -19,8 +19,7 @@ export let relations: GetRelationsResponse = {
 export const relationsStore = writable(relations)
 
 export async function fetchRelations () {
-  await reqres.request('wait:for', 'user')
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     relations = await preq.get(API.relations)
   }
   commands.execute('waiter:resolve', 'relations')

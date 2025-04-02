@@ -10,7 +10,6 @@
 
   export let entity: SerializedEntity
 
-  const { loggedIn } = mainUser
   const { label, editPathname, isWikidataEntity } = entity
   let wikidataOauth, wikiUrl
   const { wdId } = entity
@@ -44,7 +43,7 @@
         rel="noreferrer"
         class="button grey">{@html icon('pencil')}{I18n('edit on Wikidata')}</a>
     {/if}
-    {#if loggedIn}
+    {#if mainUser}
       <a href={wikidataOauth} class="button success">{@html icon('plug')}{i18n('Connect Wikidata account')}</a>
     {:else}
       <!-- TODO: check that the modal is correctly closed when clicking on this button -->

@@ -11,7 +11,7 @@ function start (setStoreValue) {
 }
 
 async function refresh (setStoreValue) {
-  if (mainUser.loggedIn) {
+  if (mainUser) {
     const { listings } = await getListingsByCreators({ usersIds: [ mainUser._id ] })
     setStoreValue(listings)
   } else {

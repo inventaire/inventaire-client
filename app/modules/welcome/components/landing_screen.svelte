@@ -8,7 +8,6 @@
 
   const isCanonicalName = instanceName === 'inventaire'
   const needNameExplanation = isCanonicalName && mainUser.lang !== 'fr'
-  const { loggedIn } = mainUser
 </script>
 
 <section id="landingScreen" class="text-center">
@@ -49,7 +48,7 @@
       </li>
     </ul>
     <div id="loginButtons">
-      {#if loggedIn}
+      {#if mainUser}
         <a class="showHome button dark-grey" href="/inventory">{i18n('back to your inventory')}</a>
       {:else}
         <a class="signupRequest button secondary bold" href="/signup">{i18n('sign up')}</a>
