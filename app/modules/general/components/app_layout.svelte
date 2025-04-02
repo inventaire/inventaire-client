@@ -60,10 +60,7 @@
 
 <GlobalFlashMessage />
 
-<svelte:body
-  on:click={vent.Trigger('body:click')}
-  on:submit={preventFormSubmit}
-/>
+<svelte:body on:submit={preventFormSubmit} />
 
 <style lang="scss">
   @import '#general/scss/utils';
