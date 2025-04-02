@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { addRoutes } from '#app/lib/router'
 import { reqres } from '#app/radio'
 
@@ -26,12 +26,12 @@ const controller = {
   },
   async showNoTask () {
     const { default: NoTask } = await import('./components/no_task.svelte')
-    app.layout.showChildComponent('main', NoTask)
+    appLayout.showChildComponent('main', NoTask)
   },
   async showTasksDashboard () {
     if (reqres.request('require:dataadmin:access', 'tasks')) {
       const { default: TasksDashboard } = await import('./components/dashboard/tasks_dashboard.svelte')
-      app.layout.showChildComponent('main', TasksDashboard, {})
+      appLayout.showChildComponent('main', TasksDashboard, {})
     }
   },
 } as const
@@ -42,7 +42,7 @@ const showLayout = async params => {
     params.entitiesType = entitiesType.slice(0, -1)
   }
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
-  app.layout.showChildComponent('main', TaskLayout, {
+  appLayout.showChildComponent('main', TaskLayout, {
     props: params,
   })
 }

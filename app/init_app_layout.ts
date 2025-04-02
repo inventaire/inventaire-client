@@ -1,16 +1,16 @@
 import AppLayout from '#components/app_layout.svelte'
 import type { SvelteComponent, ComponentProps, ComponentType } from 'svelte'
 
-let layout
+export let appLayout
 
 export function initAppLayout () {
   const target = document.getElementById('app')
   // Remove spinner
   target.innerHTML = ''
-  layout = new AppLayout({ target })
-  layout.showChildComponent = showChildComponent
-  layout.removeCurrentComponent = removeCurrentComponent
-  return layout
+  appLayout = new AppLayout({ target })
+  appLayout.showChildComponent = showChildComponent
+  appLayout.removeCurrentComponent = removeCurrentComponent
+  return appLayout
 }
 
 export interface RegionComponent {
@@ -23,12 +23,12 @@ type RegionName = 'main' | 'modal' | 'svelteModal'
 function showChildComponent (regionName: RegionName, component: ComponentType, options: { props?: ComponentProps<SvelteComponent> } = {}) {
   const props = 'props' in options ? options.props : {}
   if (component != null) {
-    layout.$set({ [regionName]: { component, props } })
+    appLayout.$set({ [regionName]: { component, props } })
   } else {
-    layout.$set({ [regionName]: null })
+    appLayout.$set({ [regionName]: null })
   }
 }
 
 function removeCurrentComponent (regionName: RegionName) {
-  layout.$set({ [regionName]: null })
+  appLayout.$set({ [regionName]: null })
 }
