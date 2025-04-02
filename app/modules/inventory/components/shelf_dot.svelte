@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { getColorHexCodeFromCouchUuId } from '#app/lib/images'
+  import { getColorHexCodeFromCouchUuId } from '#app/lib/images/images'
   import { viewportIsSmallerThan } from '#app/lib/screen'
   import { isOpenedOutside } from '#app/lib/utils'
 
