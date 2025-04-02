@@ -4,7 +4,8 @@
   import { isUrl } from '#app/lib/boolean_tests'
   import { getFirstFileDataUrl, resetFileInput } from '#app/lib/files'
   import { icon } from '#app/lib/icons'
-  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#app/lib/images'
+  import { getCropper, getUrlDataUrl } from '#app/lib/images/images'
+  import { getImageHashFromDataUrl } from '#app/lib/images/upload'
   import Spinner from '#components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
