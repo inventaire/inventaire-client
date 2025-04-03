@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { truncateText } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { getISOTime, getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'

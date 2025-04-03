@@ -2,7 +2,7 @@
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { getISOTime, getSimpleTime } from '#app/lib/time'

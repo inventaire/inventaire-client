@@ -4,10 +4,10 @@
   import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
   import { groupAction } from '#groups/lib/group_actions_alt'
-  import { getGroup, serializeGroup } from '#groups/lib/groups'
+  import { serializeGroup, type SerializedGroup } from '#groups/lib/groups'
   import { I18n } from '#user/lib/i18n'
 
-  export let group
+  export let group: SerializedGroup
 
   const { _id: groupId, pathname, open } = group
 
@@ -15,21 +15,16 @@
 
   $: ({ mainUserIsMember, mainUserStatus } = serializeGroup(group))
 
-  const Action = actionName => async () => {
+  async function action (actionName) {
     try {
       if (app.request('require:loggedIn', pathname)) {
-        waitForAction = _action(actionName)
+        waitForAction = groupAction({ action: actionName, groupId })
         const updatedGroup = await waitForAction
         group = serializeGroup(updatedGroup)
       }
     } catch (err) {
       flash = err
     }
-  }
-
-  async function _action (actionName) {
-    await groupAction({ action: actionName, groupId })
-    return getGroup(groupId)
   }
 </script>
 
@@ -38,10 +33,10 @@
     <Spinner center={true} />
   {:then}
     {#if mainUserStatus === 'invited'}
-      <button class="tiny-button success" on:click={Action('accept')}>
+      <button class="tiny-button success" on:click={() => action('accept')}>
         {I18n('accept invitation')}
       </button>
-      <button class="tiny-button grey" on:click={Action('decline')}>
+      <button class="tiny-button grey" on:click={() => action('decline')}>
         {I18n('decline')}
       </button>
     {/if}
@@ -50,14 +45,14 @@
         <p class="requested">
           {I18n('your request to join is waiting for approval')}
         </p>
-        <button class="tiny-button grey" on:click={Action('cancel-request')}>
+        <button class="tiny-button grey" on:click={() => action('cancel-request')}>
           {I18n('cancel request')}
         </button>
         <span class="check" />
       </div>
     {/if}
     {#if mainUserStatus === 'none'}
-      <button class="tiny-button light-blue" on:click={Action('request')}>
+      <button class="tiny-button light-blue" on:click={() => action('request')}>
         {#if open}
           {I18n('join group')}
         {:else}

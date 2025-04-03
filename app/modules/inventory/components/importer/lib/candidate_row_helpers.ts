@@ -3,7 +3,7 @@ import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
 
 export const getUserExistingItemsPathname = isbnData => {
   const uri = guessUriFromIsbn({ isbnData })
-  const username = app.user.get('username')
+  const username = app.user.username
   return `/users/${username}/inventory/${uri}`
 }
 

@@ -4,12 +4,12 @@
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import preq from '#app/lib/preq'
   import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { getISODay, getISOTime } from '#app/lib/time'
+  import { userContent } from '#app/lib/user_content'
   import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import Modal from '#components/modal.svelte'
   import UserInventory from '#inventory/components/user_inventory.svelte'
@@ -17,8 +17,9 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import ProfileNav from '#users/components/profile_nav.svelte'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
+  import { setInventoryStats, type SerializedUser } from '../lib/users'
 
-  export let user
+  export let user: SerializedUser
   export let shelf = null
   export let profileSection = null
   export let groupId = null
@@ -32,8 +33,6 @@
     username,
     bio,
     picture,
-    inventoryLength,
-    shelvesCount,
     created,
     fediversable,
   } = user
@@ -41,6 +40,14 @@
   const { hasAdminAccess: mainUserHasAdminAccess } = app.user
 
   let flash, userProfileEl, followersCount, waitingForFollowersCount
+
+  let itemsCount, shelvesCount
+
+  setInventoryStats(user)
+    .then(() => {
+      ;({ itemsCount, shelvesCount } = user)
+    })
+    .catch(err => flash = err)
 
   async function onFocus () {
     if (!userProfileEl) await tick()
@@ -126,10 +133,10 @@
           {/if}
         </h2>
         <ul class="data">
-          {#if inventoryLength != null}
+          {#if itemsCount != null}
             <li class="inventory-length">
               <span>{@html icon('book')}{i18n('books')}</span>
-              <span class="count">{inventoryLength}</span>
+              <span class="count">{itemsCount}</span>
             </li>
           {/if}
           {#if shelvesCount != null}

@@ -3,10 +3,10 @@
   import { API } from '#app/api/api'
   import preq from '#app/lib/preq'
   import { isOpenedOutside } from '#app/lib/utils'
-  import { showUserContributionsFromAcct } from '#app/modules/users/users'
-  import { getUsersByAccts } from '#app/modules/users/users_data'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { showUserContributionsFromAcct } from '#users/users'
+  import { getUsersByAccts } from '#users/users_data'
 
   export let title: string
   export let period: number = null

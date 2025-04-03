@@ -5,8 +5,8 @@
   import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
   import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
+  import { mergeEntities } from '#entities/lib/editor/merge_entities'
   import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
-  import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
   import type { EntityType, EntityUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 

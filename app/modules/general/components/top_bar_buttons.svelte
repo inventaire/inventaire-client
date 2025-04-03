@@ -2,33 +2,21 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { screen } from '#app/lib/components/stores/screen'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
   import Dropdown from '#components/dropdown.svelte'
   import IconWithCounter from '#components/icon_with_counter.svelte'
+  import { userGroupsInvitationsCount } from '#groups/lib/groups_data'
+  import { unreadNotificationsCount } from '#notifications/lib/notifications'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
+  import { friendshipRequestsCount } from '#users/lib/relations'
 
-  // TODO: replace by global stores
-  let notificationsUpdates = 0
+  $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
 
   const unreadTransactionsCountStore = getUnreadTransactionsCountStore()
-
-  Promise.all([
-    app.request('wait:for', 'relations'),
-    app.request('wait:for', 'groups'),
-  ])
-    .then(() => {
-      notificationsUpdates = getNotificationsCount()
-    })
-
-  function getNotificationsCount () {
-    const unreadNotifications = app.request('notifications:unread:count')
-    const networkRequestsCount = app.request('get:network:invitations:count')
-    return unreadNotifications + networkRequestsCount
-  }
 </script>
 
 <div class="inner-top-bar-buttons">
@@ -60,16 +48,16 @@
         {#if $screen.isSmallerThan('$small-screen')}
           {@html icon('bars')}
         {:else}
-          <img src={imgSrc($user.picture, 32)} alt={i18n('profile pic')} />
+          <img src={imgSrc($mainUser.picture, 32)} alt={i18n('profile pic')} />
           {@html icon('caret-down')}
         {/if}
       </div>
       <div slot="dropdown-content">
         <ul>
           <li>
-            <a href={$user.pathname} on:click={loadInternalLink}>
-              <img src={imgSrc($user.picture, 32)} alt="" />
-              <span class="label">{$user.username}</span>
+            <a href={$mainUser.pathname} on:click={loadInternalLink}>
+              <img src={imgSrc($mainUser.picture, 32)} alt="" />
+              <span class="label">{$mainUser.username}</span>
             </a>
           </li>
           {#if $screen.isSmallerThan('$small-screen')}

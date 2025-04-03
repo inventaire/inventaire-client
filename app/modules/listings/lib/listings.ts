@@ -3,14 +3,15 @@ import { API } from '#app/api/api'
 import type { ListingByCreatorsParams } from '#app/api/listings'
 import app from '#app/app'
 import preq from '#app/lib/preq'
-import { getUserById } from '#app/modules/users/users_data'
 import { getEntitiesAttributesByUris, getEntitiesImagesUrls, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { addEntitiesImages } from '#entities/lib/types/work_alt'
+import { askConfirmation } from '#general/lib/confirmation_modal'
 import type { ListingElement, ListingElementId } from '#server/types/element'
 import type { EntityUri } from '#server/types/entity'
 import type { Listing, ListingId } from '#server/types/listing'
 import type { UserId } from '#server/types/user'
-import { i18n } from '#user/lib/i18n'
+import { I18n, i18n } from '#user/lib/i18n'
+import { getUserById } from '#users/users_data'
 
 export interface ListingElementWithEntity extends ListingElement {
   entity: SerializedEntity
@@ -137,9 +138,9 @@ async function getElementTitle (listing: Listing, element: ListingElementWithEnt
 
 export async function askUserConfirmationAndRemove (removeElementPromise, deletingData) {
   if (deletingData) {
-    app.execute('ask:confirmation', {
+    askConfirmation({
       confirmationText: i18n('Are you sure you want to **delete this element**? That will also delete the following text: %{deletingData}…', { deletingData: deletingData.slice(0, 50) }),
-      warningText: i18n('cant_undo_warning'),
+      warningText: I18n('cant_undo_warning'),
       action: removeElementPromise,
     })
   } else {

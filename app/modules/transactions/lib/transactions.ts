@@ -83,7 +83,7 @@ export async function getActiveTransactionsByItemId (itemId) {
 
 export function serializeTransaction (transaction) {
   const { _id: id, owner, snapshot } = transaction
-  const mainUserIsOwner = owner === app.user.id
+  const mainUserIsOwner = owner === app.user._id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
   const mainUserRead = transaction.read[mainUserRole]
@@ -100,9 +100,9 @@ export function serializeTransaction (transaction) {
 
 export async function grabUsers (transaction) {
   if (transaction.mainUserIsOwner) {
-    transaction.owner = app.user.toJSON()
+    transaction.owner = app.user
   } else {
-    transaction.requester = app.user.toJSON()
+    transaction.requester = app.user
   }
 }
 

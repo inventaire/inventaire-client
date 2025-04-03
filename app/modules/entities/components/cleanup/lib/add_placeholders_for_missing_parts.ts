@@ -1,6 +1,6 @@
 import { pluck } from 'underscore'
 import { arrayIncludes } from '#app/lib/utils'
-import type { SerializedEntity } from '#app/modules/entities/lib/entities'
+import type { SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri, EntityValue, SimplifiedClaims } from '#server/types/entity'
 
 export interface SeriePartPlaceholder {

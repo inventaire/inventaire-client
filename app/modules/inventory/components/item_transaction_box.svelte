@@ -1,15 +1,16 @@
 <script lang="ts">
   import { uniqueId } from 'underscore'
-  import app from '#app/app'
+  import type { FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
   import Dropdown from '#components/dropdown.svelte'
-  import { serializeItem } from '#inventory/lib/items'
+  import { updateItems } from '#inventory/lib/item_actions'
+  import { serializeItem, type SerializedItem } from '#inventory/lib/items'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import { I18n, i18n } from '#user/lib/i18n'
 
-  export let item
-  export let flash
+  export let item: SerializedItem
+  export let flash: FlashState = null
   export let large = false
   export let dropdownWidthReferenceEl = null
 
@@ -29,7 +30,7 @@
     try {
       if (savedTransactionName === newTransactionData.id) return
       transactionName = newTransactionData.id
-      await app.request('items:update', {
+      await updateItems({
         items: [ item ],
         attribute: 'transaction',
         value: newTransactionData.id,

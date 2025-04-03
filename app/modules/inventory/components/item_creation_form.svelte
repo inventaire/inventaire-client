@@ -1,26 +1,30 @@
 <script lang="ts">
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import ItemRow from '#inventory/components/item_row.svelte'
   import { addNext, cancel } from '#inventory/components/lib/item_creation_helpers'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { createItem as _createItem } from '#inventory/lib/item_actions'
+  import { showShelf } from '#shelves/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { getItemsByUserIdAndEntities } from '../lib/queries'
 
-  export let entity
+  export let entity: SerializedEntity
 
   const { uri, label, pathname, image } = entity
 
   let flash
 
   let existingEntityItems
-  const waitForExistingInstances = app.request('item:main:user:entity:items', uri)
-    .then(itemsModels => existingEntityItems = itemsModels.map(model => model.toJSON()))
+  const waitForExistingInstances = getItemsByUserIdAndEntities(app.user._id, uri)
+    .then(items => existingEntityItems = items)
     .catch(err => flash = err)
 
   let transaction, visibility, shelvesIds, details, notes
@@ -31,7 +35,7 @@
     app.execute('last:shelves:set', shelvesIds)
     app.request('last:transaction:set', transaction)
     app.execute('last:visibility:set', visibility)
-    await app.request('item:create', {
+    await _createItem({
       entity: uri,
       transaction,
       visibility,
@@ -47,7 +51,7 @@
       validating = createItem()
       await validating
       if (shelvesIds.length > 0) {
-        app.execute('show:shelf', shelvesIds[0])
+        showShelf(shelvesIds[0])
       } else {
         app.execute('show:inventory:main:user')
       }
@@ -81,7 +85,6 @@
     <div class="data">
       <h2><a href={pathname} on:click|stopPropagation={loadInternalLink} class="link">{label}</a></h2>
       <p class="uri">{uri}</p>
-      <!-- {PARTIAL 'entities:clamped_extract' this} -->
     </div>
   </div>
 
@@ -172,6 +175,7 @@
   }
 
   .panel{
+    @include panel;
     :global(fieldset){
       margin-block-end: 1em;
     }

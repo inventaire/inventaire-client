@@ -31,7 +31,6 @@ module.exports = mode => ({
       require('./rules/ts.cjs')(mode),
       require('./rules/css.cjs')(mode),
       require('./rules/scss.cjs')(mode),
-      require('./rules/handlebars.cjs'),
       ...require('./rules/svelte.cjs')(mode),
       require('./rules/images.cjs'),
       require('./rules/fonts.cjs'),

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'

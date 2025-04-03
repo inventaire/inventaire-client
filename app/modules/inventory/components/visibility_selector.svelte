@@ -3,9 +3,9 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import InfoTip from '#components/info_tip.svelte'
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
+  import { userGroupsStore } from '#groups/lib/groups_data'
   import { guessInitialVisibility } from '#inventory/components/lib/item_creation_helpers'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { userGroups } from '#user/user_groups_store'
 
   export let visibility
   export let maxHeight = '25em'
@@ -15,11 +15,11 @@
   visibility = guessInitialVisibility(visibility)
 
   // Needs to be above reactive call to initCheckedGroupKeys
-  $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
+  $: allGroupsVisibilityKeys = $userGroupsStore.map(getGroupVisibilityKey)
 
-  // Group keys will be added to 'checked' once $userGroups will have been populated
+  // Group keys will be added to 'checked' once $userGroupsStore will have been populated
   let checked = visibility[0] === 'public' ? commonVisibilityKeys : visibility
-  $: onChange($userGroups, initCheckedGroupKeys)
+  $: onChange($userGroupsStore, initCheckedGroupKeys)
 
   function initCheckedGroupKeys () {
     if (visibility.includes('public') || visibility.includes('groups')) checkAllGroups()
@@ -122,7 +122,7 @@
       {/if}
     </label>
 
-    {#each $userGroups as group}
+    {#each $userGroupsStore as group}
       <label
         class="indent"
         class:inferred={visibility.includes('public') || visibility.includes('groups')}

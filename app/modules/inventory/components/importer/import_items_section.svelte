@@ -102,7 +102,7 @@
 
   let mainUserShelves
   const getExistingShelfOrCreateShelf = async ({ name, itemsIds }) => {
-    mainUserShelves = mainUserShelves || await getShelvesByOwner(app.user.id)
+    mainUserShelves = mainUserShelves || await getShelvesByOwner(app.user._id)
     const matchingShelf = mainUserShelves.find(shelf => shelf.name === name)
     if (matchingShelf) {
       await addItemsByIdsToShelf({ shelfId: matchingShelf._id, itemsIds })

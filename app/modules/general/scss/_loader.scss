@@ -22,37 +22,6 @@
   }
 }
 
-.small-loader{
-  @include loader-commons;
-  &:after{
-    border: 2px solid;
-    // Let other borders color inherit the text color value
-    // cf https://www.w3.org/TR/css-color-3/#currentcolor
-    border-left-color: transparent;
-  }
-}
-
-.centered-loader{
-  width: 100%;
-  height: 100%;
-  @include display-flex(row, center, center);
-  &.align-start{
-    justify-content: flex-start;
-  }
-}
-
-// /!\ .loading shouldn't be added to non-empty elements
-// as it would make them flex
-.loading:not(:empty){
-  @include display-inline-flex(row, center, center);
-  padding: 0.2em;
-  .small-loader.adjust-vertical-alignment{
-    &:after{
-      margin-block-end: -0.2em;
-    }
-  }
-}
-
 .full-screen-loader{
   @include position(fixed, 0, 0, 0, 0);
   @include display-flex(row, center, center);

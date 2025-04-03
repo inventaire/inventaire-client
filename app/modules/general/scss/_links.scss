@@ -16,9 +16,6 @@ a{
 .link{
   @include link-underline-on-hover($dark-grey, $link-hover-grey);
 }
-.link-white{
-  @include link-underline-on-hover(white, white);
-}
 
 .content-link{
   @include link-underline-on-hover($grey, lighten($grey, 5%));

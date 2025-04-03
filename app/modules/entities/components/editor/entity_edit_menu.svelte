@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { escapeExpression } from 'handlebars/runtime'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
@@ -7,15 +6,17 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { wait } from '#app/lib/promises'
+  import { escapeHtml } from '#app/lib/user_content'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
-  import { showFeedbackModal } from '#app/modules/general/lib/feedback'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getEntityLabel, getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
+  import { showFeedbackModal } from '#general/lib/feedback'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
 
   export let entity: SerializedEntity
 
@@ -36,8 +37,8 @@
   async function _moveToWikidata () {
     flash = null
     try {
-      if (!app.user.hasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit', invUri)
+      if (!mainUserHasWikidataOauthTokens()) {
+        return app.execute('show:wikidata:edit:intro', invUri)
       }
       await moveToWikidata(invUri)
       // This should now redirect us to the new Wikidata edit page
@@ -222,7 +223,7 @@
 {#if showDeletionConfirmationModal}
   <Modal on:closeModal={() => showDeletionConfirmationModal = false}>
     <div class="delete-confirmation">
-      <p>{@html I18n('delete_entity_confirmation', { label: escapeExpression(label) })}</p>
+      <p>{@html I18n('delete_entity_confirmation', { label: escapeHtml(label) })}</p>
       <button
         class="button grey radius bold"
         on:click={() => showDeletionConfirmationModal = false}

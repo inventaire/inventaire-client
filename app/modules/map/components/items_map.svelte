@@ -12,7 +12,7 @@
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
   import { getDocsBounds } from './lib/map.ts'
 
   export let docsToDisplay = []
@@ -30,7 +30,7 @@
       const nearbyDocs = docsToDisplay.filter(item => isNearby(item.distanceFromMainUser))
       const nearbyBounds = pluck(nearbyDocs, 'position')
       initialBounds = nearbyBounds.length > 0 ? nearbyBounds : bounds
-      const mainUserPosition = app.user.get('position')
+      const mainUserPosition = app.user.position
       if (mainUserPosition) initialBounds = initialBounds.concat([ mainUserPosition ])
       updateFilters(docsToDisplay)
     }
@@ -64,7 +64,7 @@
   }
 
   function findMainUserItems (displayedItems) {
-    return displayedItems.find(item => item.owner === $user._id)
+    return displayedItems.find(item => item.owner === $mainUser._id)
   }
 
   $: onChange(docsToDisplay, onDocsToDisplayChange)
@@ -77,7 +77,7 @@
 <div class="items-map">
   {#if bounds.length > 0}
     <LeafletMap
-      bounds={$user.position ? bounds.concat([ $user.position ]) : bounds}
+      bounds={$mainUser.position ? bounds.concat([ $mainUser.position ]) : bounds}
       cluster={true}
     >
       {#each displayedItems as item (item._id)}
@@ -85,9 +85,9 @@
           <ItemMarker {item} on:showItem={() => modalItem = item} />
         </Marker>
       {/each}
-      {#if $user?.position && !isMainUserItemsDisplayed}
-        <Marker latLng={$user.position} standalone={true}>
-          <UserMarker doc={$user} />
+      {#if $mainUser?.position && !isMainUserItemsDisplayed}
+        <Marker latLng={$mainUser.position} standalone={true}>
+          <UserMarker doc={$mainUser} />
         </Marker>
       {/if}
     </LeafletMap>

@@ -1,8 +1,8 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
+  import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside } from '#app/lib/utils'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
@@ -164,7 +164,7 @@
     margin: 0.2em auto;
     max-width: 1em;
   }
-  img:not(.profilePic){
+  img{
     max-height: 20em;
     border-block-end: 1px solid #ccc;
     padding-block-end: 15px;

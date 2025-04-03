@@ -1,7 +1,7 @@
 <script lang="ts">
   import { isEntityUri, isImageHash } from '#app/lib/boolean_tests'
   import typeOf from '#app/lib/type_of'
-  import { i18n } from '#app/modules/user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import EntityClaimValue from './entity_claim_value.svelte'
   import ImagePreview from './image_preview.svelte'
   import OperationValueReference from './operation_value_reference.svelte'

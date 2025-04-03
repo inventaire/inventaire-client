@@ -5,8 +5,7 @@ import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
-import initMainUser from './lib/init_main_user.ts'
-import userUpdate from './lib/user_update.ts'
+import { initMainUser } from './lib/main_user.ts'
 
 export default {
   initialize () {
@@ -23,9 +22,8 @@ export default {
 
     new Router({ controller })
 
-    initMainUser(app)
+    initMainUser()
     auth()
-    userUpdate(app)
 
     app.commands.setHandlers({
       'show:signup': controller.showSignup,

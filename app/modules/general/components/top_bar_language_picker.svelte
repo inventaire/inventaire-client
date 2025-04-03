@@ -6,6 +6,7 @@
   import { translate } from '#app/lib/urls'
   import Dropdown from '#components/dropdown.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { updateUser } from '#user/lib/main_user'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion
   const languagesList = Object.values(languages).sort(mostCompleteFirst)
@@ -16,15 +17,7 @@
     // Remove the querystring lang parameter to be sure that the picked language
     // is the next language taken in account
     app.execute('querystring:set', 'lang', null)
-
-    if (app.user.loggedIn) {
-      return app.request('user:update', {
-        attribute: 'language',
-        value: lang,
-      })
-    } else {
-      return app.user.set('language', lang)
-    }
+    return updateUser('language', lang)
   }
 </script>
 

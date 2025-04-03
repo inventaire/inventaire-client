@@ -3,9 +3,8 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { serializeGroup } from '#app/modules/groups/lib/groups'
-  import { serializeUser } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
+  import { serializeGroup } from '#groups/lib/groups'
   import InventoryBrowserModal from '#inventory/components/inventory_browser_modal.svelte'
   import { getItemsByBbox } from '#inventory/lib/queries'
   import GroupMarker from '#map/components/group_marker.svelte'
@@ -17,6 +16,7 @@
   import { i18n } from '#user/lib/i18n'
   import { getBrowserLocalLang } from '#user/lib/solve_lang'
   import { getDocsByPosition } from '#users/components/lib/public_users_nav_helpers'
+  import { serializeUser } from '#users/lib/users'
 
   export let items = []
   export let waitingForItems = wait(500)

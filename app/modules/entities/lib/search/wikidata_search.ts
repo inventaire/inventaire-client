@@ -26,7 +26,7 @@ const filterOutSpecialPages = result => {
   return !result.description.match(specialPagesDescriptionPattern)
 }
 
-// make the result match the needs of app/modules/entities/models/search_result
+// make the result match the needs of #search/components/search_result.svelte
 const formatAsSearchResult = result => {
   const { lang } = app.user
   const { id, label, description, aliases } = result

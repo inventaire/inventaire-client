@@ -1,7 +1,7 @@
 import { uniq, property, pluck, flatten } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { getEntities, type SerializedEntity } from '#app/modules/entities/lib/entities'
+import { getEntities, type SerializedEntity } from '#entities/lib/entities'
 import { searchWorks } from '#entities/lib/search/search_by_types'
 import type { GetAuthorWorksResponse } from '#server/controllers/entities/get_entity_relatives'
 import type { EntityUri } from '#server/types/entity'
