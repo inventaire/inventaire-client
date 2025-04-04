@@ -7,7 +7,7 @@ import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts
 import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { UserAccountUri } from '#server/types/server'
 import type { User, UserId, Username } from '#server/types/user'
-import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
+import { serializeContributor, serializeUser, type SerializedContributor, type SerializedUser } from './lib/users'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -54,7 +54,7 @@ export async function getUserByAcct (userAcct: UserAccountUri) {
   return user
 }
 
-export async function resolveToUser (user: User | UserId | Username) {
+export async function resolveToUser (user: User | UserId | Username | SerializedUser) {
   let resolvedUser
   if (typeof user === 'object' && '_id' in user) {
     resolvedUser = user

@@ -1,9 +1,9 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { getTransactions } from '#transactions/lib/get_transactions'
 import { getActiveTransactionsByItemId, serializeTransaction } from '#transactions/lib/transactions'
+import { mainUser } from '#user/lib/main_user'
 
 let transactions
 export default async function () {
@@ -18,7 +18,7 @@ export async function postTransactionMessage ({ transaction, message }) {
   }
   await preq.post(API.transactions.base, messageData)
   Object.assign(messageData, {
-    user: app.user._id,
+    user: mainUser._id,
     created: Date.now(),
   })
   transaction.messages = transaction.messages.concat([ messageData ])

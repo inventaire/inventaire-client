@@ -4,10 +4,10 @@
   import { passwordResetRequest } from '#user/lib/auth'
   import { testEmail } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
 
   export let resetPasswordFail = false
-  export let email = $mainUser.email
+  export let email = $mainUserStore.email
 
   let flash, resetPasswordFailFlash
   let sending = false

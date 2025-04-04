@@ -1,5 +1,5 @@
 import type { UserLang } from '#app/lib/active_languages'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { isWikidataPropertyId } from '#app/lib/boolean_tests'
 import type Polyglot from 'node-polyglot'
 
@@ -12,7 +12,7 @@ export default function (lang: UserLang, polyglot: Polyglot) {
     // This function might be called before the tempates data arrived
     // returning '' early prevents to display undefined and make polyglot worry
     if (key == null) return ''
-    assert_.string(key)
+    assertString(key)
     // easying the transition to a property system with prefixes
     // TODO: format i18n wikidata source files to include prefixes
     // and get rid of this hack

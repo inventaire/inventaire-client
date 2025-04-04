@@ -1,6 +1,5 @@
 import { pick, pluck } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
@@ -12,6 +11,7 @@ import { addEntitiesImages } from '#entities/lib/types/work_alt'
 import type { SortFunction } from '#server/types/common'
 import type { ExtendedEntityType, PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
@@ -188,7 +188,7 @@ export const fetchSectionEntities = ({ sortFn, parentEntityType }: { sortFn?: an
       'claims',
       'image',
     ],
-    lang: app.user.lang,
+    lang: mainUser.lang,
   })
 
   // This prevents displaying several entities with the same canonical uri
@@ -212,7 +212,7 @@ export async function getSubEntities (type, uri) {
 }
 
 export const bestImage = function (a, b) {
-  const { lang: userLang } = app.user
+  const { lang: userLang } = mainUser
   if (a.isCompositeEdition !== b.isCompositeEdition) {
     if (a.isCompositeEdition) return 1
     else return -1

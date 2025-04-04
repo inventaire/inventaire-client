@@ -1,7 +1,7 @@
-import app from '#app/app'
 import { buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { fixedEncodeURIComponent } from '#app/lib/utils'
+import { mainUser } from '#user/lib/main_user'
 
 const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search'
 
@@ -9,7 +9,7 @@ export async function searchLocationByText (searchText) {
   const url = buildPath(nominatimEndpoint, {
     q: fixedEncodeURIComponent(searchText),
     format: 'json',
-    'accept-language': app.user.lang,
+    'accept-language': mainUser.lang,
   })
   const results = await preq.get(url)
   return results.map(serializeNominatimResults)

@@ -1,37 +1,34 @@
-import app from '#app/app'
 import { parseQuery } from '#app/lib/location'
 import { setPrerenderStatusCode } from '#app/lib/metadata/update'
+import { addRoutes } from '#app/lib/router'
 import { parseBooleanString } from '#app/lib/utils'
+import { commands, reqres, vent } from '#app/radio'
 import findUri from './lib/find_uri.ts'
 import type { SearchSection } from './lib/search_sections.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'search(/)': 'searchFromQueryString',
-      },
-    })
+    addRoutes({
+      '/search(/)': 'searchFromQueryString',
+    }, controller)
 
-    new Router({ controller })
-
-    app.commands.setHandlers({
-      'search:global': controller.search,
-      'show:users:search' () { return controller.search('', 'user') },
-      'show:groups:search' () { return controller.search('', 'group') },
+    commands.setHandlers({
+      'search:global': search,
+      'show:users:search' () { return search('', 'user') },
+      'show:groups:search' () { return search('', 'group') },
     })
   },
 }
 
-const controller = {
-  async search (search: string, section: SearchSection, showFallbackLayout?: () => void) {
-  // Prevent indexation of search pages, by making them appear as duplicates of the home
-    setPrerenderStatusCode(302, '')
-    // Wait for the global search bar to have been initialized
-    await app.request('wait:for', 'layout')
-    app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
-  },
+async function search (search: string, section: SearchSection, showFallbackLayout?: () => void) {
+// Prevent indexation of search pages, by making them appear as duplicates of the home
+  setPrerenderStatusCode(302, '')
+  // Wait for the global search bar to have been initialized
+  await reqres.request('wait:for', 'layout')
+  vent.trigger('live:search:query', { search, section, showFallbackLayout })
+}
 
+const controller = {
   searchFromQueryString (querystring) {
     let section
     let { q, type, refresh } = parseQuery(querystring)
@@ -52,17 +49,17 @@ const controller = {
 
     // Show the add layout at its search tab in the background, so that clicking
     // out of the live search doesn't result in a blank page
-    const showFallbackLayout = app.Execute('show:add:layout:search') as (() => void)
-    return controller.search(searchString, section, showFallbackLayout)
+    const showFallbackLayout = commands.Execute('show:add:layout:search') as (() => void)
+    return search(searchString, section, showFallbackLayout)
   },
-}
+} as const
 
 const showEntityPageIfUri = function (query, refresh) {
   // If the query text is a URI, show the associated entity page
   // as it doesn't make sense to search for an entity we have already found
   const uri = findUri(query)
   if (uri != null) {
-    app.execute('show:entity', uri, { refresh })
+    commands.execute('show:entity', uri, { refresh })
     return true
   } else {
     return false
@@ -78,7 +75,6 @@ function findSearchSection (searchString: string) {
   searchString = searchString.replace(sectionSearchPattern, '').trim()
 
   const section: string | undefined = sections[sectionMatch] || 'all'
-  console.log('section', section)
   return [ searchString, section ]
 }
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import app from '#app/app'
   import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let entity, claimValue, hasManyClaimValues
 
@@ -16,7 +16,7 @@
     }
     if (uri) {
       url = `/entity/${uri}`
-      label = getBestLangValue(app.user.lang, null, labels).value
+      label = getBestLangValue(mainUser.lang, null, labels).value
     } else {
       label = claimValue
       url = `/search?q=!a ${label}`

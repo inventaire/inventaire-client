@@ -1,7 +1,7 @@
 <script lang="ts">
   import Modal from '#components/modal.svelte'
   import PositionPicker from '#map/components/position_picker.svelte'
-  import { mainUser, updateUser } from '#user/lib/main_user'
+  import { mainUserStore, updateUser } from '#user/lib/main_user'
 
   export let showPositionPicker
 
@@ -14,7 +14,7 @@
   <Modal size="large" on:closeModal={() => showPositionPicker = false}>
     <PositionPicker
       type="user"
-      position={$mainUser.position}
+      position={$mainUserStore.position}
       {savePosition}
       on:positionPickerDone={() => showPositionPicker = false}
     />

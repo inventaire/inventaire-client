@@ -8,6 +8,7 @@
   import { imgSrc } from '#app/lib/image_source'
   import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { commands } from '#app/radio'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -107,7 +108,7 @@
         await leaveGroup({ groupId })
         // Change page as staying on the same page would just display
         // the group as empty but accepting a join request
-        app.execute('show:inventory:network')
+        commands.execute('show:inventory:network')
       },
     })
   }

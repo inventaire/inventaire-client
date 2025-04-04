@@ -1,9 +1,9 @@
-import app from '#app/app'
 import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
+import { mainUser } from '#user/lib/main_user'
 
 export const getUserExistingItemsPathname = isbnData => {
   const uri = guessUriFromIsbn({ isbnData })
-  const username = app.user.username
+  const username = mainUser.username
   return `/users/${username}/inventory/${uri}`
 }
 

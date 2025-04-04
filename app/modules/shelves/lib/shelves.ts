@@ -1,7 +1,6 @@
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { getColorHexCodeFromCouchUuId, getColorSquareDataUri } from '#app/lib/images'
 import preq, { treq } from '#app/lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -9,6 +8,7 @@ import type { ShelvesByIdsResponse } from '#server/controllers/shelves/by_ids'
 import type { ShelvesByOwnersResponse } from '#server/controllers/shelves/by_owners'
 import type { Shelf, ShelfId } from '#server/types/shelf'
 import type { UserId } from '#server/types/user'
+import { mainUser } from '#user/lib/main_user'
 
 export function getShelfById (id: ShelfId) {
   return preq.get(API.shelves.byIds(id))
@@ -56,7 +56,7 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
 }
 
 export async function getShelvesByOwner (userId: UserId) {
-  assert_.string(userId)
+  assertString(userId)
   const { shelves } = await treq.get<ShelvesByOwnersResponse>(API.shelves.byOwners(userId))
   return Object.values(shelves).sort(byName)
 }
@@ -80,7 +80,7 @@ export function serializeShelf (shelf) {
   Object.assign(shelf, {
     pathname: `/shelves/${_id}`,
     picture: getColorSquareDataUri(color),
-    isEditable: shelf.owner === app.user._id,
+    isEditable: shelf.owner === mainUser._id,
   })
   if (visibility) {
     const visibilitySummary = getVisibilitySummary(visibility)

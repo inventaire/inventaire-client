@@ -1,4 +1,4 @@
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import barcodeScanner from '#assets/images/barcode-scanner-64.png'
 import gutenberg from '#assets/images/gutenberg.png'
 import wikidataColored from '#assets/images/wikidata.svg'
@@ -11,8 +11,8 @@ const iconAliases = {
   inventorying: 'cube',
 }
 
-export function icon (name, classes = '') {
-  assert_.string(name)
+export function icon (name: string, classes = '') {
+  assertString(name)
   name = iconAliases[name] || name
   if (iconPaths[name] != null) {
     const src = iconPaths[name]

@@ -2,6 +2,7 @@
   import type { GroupId } from '#server/types/group'
   import type { ShelfId } from '#server/types/shelf'
   import type { UserId } from '#server/types/user'
+  import { mainUser } from '#user/lib/main_user'
 
   export interface ItemsSearchFilters {
     ownerId?: UserId
@@ -12,7 +13,6 @@
 <script lang="ts">
   import { createEventDispatcher, setContext } from 'svelte'
   import { debounce } from 'underscore'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
@@ -43,7 +43,7 @@
   const waitForInventoryData = itemsDataPromise
     .then(async res => {
       ;({ worksTree, workUriItemsMap, itemsByDate } = res)
-      if (itemsByDate.length === 0 && ownerId === app.user._id) {
+      if (itemsByDate.length === 0 && ownerId === mainUser._id) {
         showInventoryWelcome = true
       } else {
         await showEntitySelectors()

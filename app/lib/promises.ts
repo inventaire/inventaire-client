@@ -1,6 +1,7 @@
-import assert_ from '#app/lib/assert_types'
+import { assertObject, assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { reportError } from '#app/lib/reports'
+import { detectedEnv } from './env_config'
 
 export async function props (obj: Record<string, unknown>) {
   const keys = []
@@ -38,7 +39,7 @@ if (window.addEventListener != null) {
   window.addEventListener('unhandledrejection', event => {
     const err = event.reason
     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)
-    if (window.env === 'dev' && err.name === 'ChunkLoadError') window.location.reload()
+    if (detectedEnv === 'dev' && err.name === 'ChunkLoadError') window.location.reload()
     else reportError(err)
   })
 }
@@ -46,9 +47,9 @@ if (window.addEventListener != null) {
 // Returns a promise that resolves when the target object
 // has the desired attribute set, and that the associated value has resolved
 export async function waitForAttribute (obj, attribute, options: { attemptTimeout?: number, maxAttempts?: number } = {}) {
-  assert_.object(obj)
-  assert_.string(attribute)
-  assert_.object(options)
+  assertObject(obj)
+  assertString(attribute)
+  assertObject(options)
   const { attemptTimeout = 100, maxAttempts = 100 } = options
   return new Promise((resolve, reject) => {
     let attempts = 0

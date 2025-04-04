@@ -1,4 +1,4 @@
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
 import type { EntityUri } from '#server/types/entity'
@@ -56,7 +56,7 @@ export default {
 
   search ({ user, group, shelf, search, limit, offset }: { user?: UserId, group?: GroupId, shelf?: ShelfId, search: string, limit?: number, offset?: number }) {
     search = encodeURIComponent(search)
-    assert_.string(user || group || shelf)
+    assertString(user || group || shelf)
     return action('search', { user, group, shelf, search, limit, offset })
   },
 

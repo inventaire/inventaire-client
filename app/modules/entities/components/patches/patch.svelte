@@ -1,10 +1,10 @@
 <script lang="ts">
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Operation from '#entities/components/patches/operation.svelte'
   import type { SerializedPatch } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -18,7 +18,7 @@
   async function revert () {
     try {
       await preq.put(API.entities.revertEdit, { patch: patchId })
-      app.execute('show:entity:history', invEntityUri)
+      commands.execute('show:entity:history', invEntityUri)
     } catch (err) {
       flash = err
     }

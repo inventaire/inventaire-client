@@ -1,9 +1,9 @@
 import { indexBy } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq from '#app/lib/preq'
 import { serializeItem, setItemUserData, type SerializedItemWithUserData } from '#inventory/lib/items'
 import type { EntityUri } from '#server/types/entity'
+import { mainUser } from '#user/lib/main_user'
 import { serializeUser } from '#users/lib/users'
 
 export async function getItemsData (editionsUris: EntityUri[]) {
@@ -37,7 +37,7 @@ export function sortItemsByCategoryAndDistance (items: SerializedItemWithUserDat
 function getItemCategory (item: SerializedItemWithUserData) {
   let category = item.category
   if (category === 'public') category = isNearby(item.distanceFromMainUser) ? 'nearbyPublic' : 'otherPublic'
-  if (item.owner === app.user._id) category = 'personal'
+  if (item.owner === mainUser._id) category = 'personal'
   return category
 }
 

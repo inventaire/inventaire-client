@@ -1,14 +1,15 @@
 import { isArray, debounce } from 'underscore'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertFunction, assertObject } from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
 import { currentRoute, type ProjectRootRelativeUrl } from '#app/lib/location'
+import { commands, reqres } from '#app/radio'
 import type { RelativeUrl } from '#server/types/common'
 import type { ObjectEntries } from 'type-fest/source/entries'
 
 export function deepClone (obj: unknown) {
-  assert_.object(obj)
+  assertObject(obj)
   return JSON.parse(JSON.stringify(obj))
 }
 
@@ -24,7 +25,7 @@ export function capitalize (str: string) {
 }
 
 export const clickCommand = (command: string) => e => {
-  if (!isOpenedOutside(e)) app.execute(command)
+  if (!isOpenedOutside(e)) commands.execute(command)
 }
 
 export function isOpenedOutside (e, ignoreMissingHref = false) {
@@ -86,7 +87,7 @@ export function loadLink (e) {
 }
 
 export function showLoginPageAndRedirectHere () {
-  app.request('require:loggedIn', currentRoute())
+  reqres.request('require:loggedIn', currentRoute())
 }
 
 const isModalPathname = pathname => modalPathnamesPattern.test(pathname)
@@ -216,15 +217,15 @@ export function convertEmToPx (em: number) {
 }
 
 export function flatMapKeyValues (object, fn) {
-  assert_.object(object)
-  assert_.function(fn)
+  assertObject(object)
+  assertFunction(fn)
   // @ts-expect-error
   return Object.fromEntries(objectEntries(object).flatMap(fn))
 }
 
 export function sortObjectKeys (object, fn) {
-  assert_.object(object)
-  assert_.function(fn)
+  assertObject(object)
+  assertFunction(fn)
   return Object.fromEntries(objectEntries(object).sort(([ keyA ], [ keyB ]) => {
     return fn(keyA, keyB)
   }))

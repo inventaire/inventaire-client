@@ -1,18 +1,18 @@
 <script lang="ts">
   import { intersection, some, without } from 'underscore'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { propertiesCategories } from '#entities/lib/editor/properties_per_type'
   import { reorderProperties } from '#entities/lib/properties'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
 
   export let entity, category, categoryProperties
   export let requiredProperties = null
 
-  const { customProperties } = app.user
+  const { customProperties } = mainUser
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 

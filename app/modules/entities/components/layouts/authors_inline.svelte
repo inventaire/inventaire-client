@@ -1,9 +1,9 @@
 <script lang="ts">
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import Spinner from '#general/components/spinner.svelte'
+  import { mainUser } from '#user/lib/main_user'
 
   export let entitiesUris = []
 
@@ -20,7 +20,7 @@
   }
 
   function getBestLabel (claimValue) {
-    return getBestLangValue(app.user.lang, null, entitiesByUris[claimValue].labels).value
+    return getBestLangValue(mainUser.lang, null, entitiesByUris[claimValue].labels).value
   }
 
 </script>

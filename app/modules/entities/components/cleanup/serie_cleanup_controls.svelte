@@ -1,7 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { range } from 'underscore'
-  import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import { loadInternalLink } from '#app/lib/utils'
@@ -9,6 +8,7 @@
   import Spinner from '#components/spinner.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import Checkbox from './checkbox.svelte'
 
   export let serie: SerializedEntity
@@ -25,7 +25,7 @@
 
   let wikipedia
   if ('sitelinks' in serie) {
-    wikipedia = getWikipediaData(serie.sitelinks, app.user.lang, serie.originalLang)
+    wikipedia = getWikipediaData(serie.sitelinks, mainUser.lang, serie.originalLang)
   }
 
   const dispatch = createEventDispatcher()

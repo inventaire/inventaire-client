@@ -9,7 +9,6 @@
   //   or dead (wdt:P20) nearby
   import { onDestroy } from 'svelte'
   import { debounce } from 'underscore'
-  import app from '#app/app'
   import viewport from '#app/lib/components/actions/viewport'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
@@ -17,6 +16,7 @@
   import { getActionKey } from '#app/lib/key_events'
   import { currentRoute } from '#app/lib/location'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { vent } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { getEntityByUri } from '#entities/lib/entities'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
@@ -250,9 +250,9 @@
     setTimeout(showLiveSearch, 10)
   }
 
-  app.vent.on('live:search:query', onSearchQuery)
+  vent.on('live:search:query', onSearchQuery)
   onDestroy(() => {
-    app.vent.off('live:search:query', onSearchQuery)
+    vent.off('live:search:query', onSearchQuery)
   })
 </script>
 

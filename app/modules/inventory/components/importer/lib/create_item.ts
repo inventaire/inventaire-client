@@ -1,8 +1,8 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import type { SerializedEntity } from '#entities/lib/entities'
+import { setLastTransaction, setLastVisbility } from '#inventory/lib/add_helpers'
 import type { ItemTransactionMode } from '#server/types/item'
 import type { ShelfId } from '#server/types/shelf'
 import type { VisibilityKey } from '#server/types/visibility'
@@ -30,8 +30,8 @@ interface CreateItemParams {
 
 export async function createItem ({ edition, details, notes, transaction, visibility, shelves }: CreateItemParams) {
   const { uri: editionUri } = edition
-  app.request('last:transaction:set', transaction)
-  app.execute('last:visibility:set', visibility)
+  setLastTransaction(transaction)
+  setLastVisbility(visibility)
   const itemData = {
     transaction,
     visibility,

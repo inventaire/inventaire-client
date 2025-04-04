@@ -17,7 +17,7 @@ module.exports = {
   splitChunks: {
     cacheGroups: {
       vendor: {
-        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|css-loader|js-cookie|p-|leven)/,
+        test: /[\\/](node_modules|vendor)[\\/](underscore|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|css-loader|js-cookie|p-|leven)/,
         name: 'vendor',
         chunks: 'all',
       },

@@ -30,7 +30,7 @@ export type ProjectRootRelativeUrl = string
 export const routeSection = (route: ProjectRootRelativeUrl) => route.split(/[^\w]/)[0]
 
 type QueryObj = Record<string, unknown>
-export function buildPath (pathname: Url, queryObj?: QueryObj) {
+export function buildPath <T extends (Url | ProjectRootRelativeUrl)> (pathname: T, queryObj?: QueryObj) {
   queryObj = removeUndefined(queryObj)
   if ((queryObj == null) || isEmpty(queryObj)) return pathname
 
@@ -44,7 +44,7 @@ export function buildPath (pathname: Url, queryObj?: QueryObj) {
     queryString += `&${key}=${value}`
   }
 
-  return (pathname + '?' + queryString.slice(1)) as typeof pathname
+  return (pathname + '?' + queryString.slice(1)) as T
 }
 
 export const currentRoute = () => location.pathname.slice(1) as ProjectRootRelativeUrl

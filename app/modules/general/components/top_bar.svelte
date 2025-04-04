@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import { config } from '#app/config'
   import { screen } from '#app/lib/components/stores/screen'
   import { locationStore } from '#app/lib/location_store'
@@ -8,8 +7,8 @@
   import TopBarLanguagePicker from '#components/top_bar_language_picker.svelte'
   import GlobalSearchBar from '#search/components/global_search_bar.svelte'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
-  const { loggedIn } = app.user
   const { instanceName } = config
   const shortName = instanceName.slice(0, 3)
 
@@ -36,7 +35,7 @@
 
   <TopBarLanguagePicker />
 
-  {#if loggedIn}
+  {#if mainUser}
     <TopBarButtons />
   {:else if displayConnectionButtons}
     <a

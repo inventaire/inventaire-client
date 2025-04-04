@@ -1,65 +1,68 @@
-import app from '#app/app'
+import type { ContextualizedError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import type { Item } from '#server/types/item'
+import type { ItemsPageRequestFn } from './queries'
 
 interface Pagination {
   items: Item[]
   limit: number
+  offset?: number
   allowMore: boolean
-  moreData?: { status: boolean }
+  moreData?: { status: boolean, total?: number, continue?: number }
   hasMore?: () => boolean
-  fetchMore?: () => any
+  fetchMore?: () => Promise<void>
 }
 
-export function getPaginationParameters (params) {
-  const { allowMore, requestName, limit, requestParams } = params
+interface GetPaginationParametersParams {
+  allowMore: boolean
+  request: ItemsPageRequestFn
+  limit: number
+}
+export function getPaginationParameters (params: GetPaginationParametersParams) {
+  const { allowMore, request, limit } = params
   const pagination: Pagination = {
-    items: [],
+    items: [] as Item[],
     limit,
     allowMore,
   }
   pagination.moreData = { status: true }
   pagination.hasMore = () => pagination.moreData.status
-  pagination.fetchMore = FetchMore({ requestName, requestParams, pagination })
+  pagination.fetchMore = FetchMore(request, pagination)
   return pagination
 }
 
-const FetchMore = function ({ requestName, requestParams, pagination }) {
-  const { items, moreData, fallback } = pagination
+function FetchMore (request: ItemsPageRequestFn, pagination: Pagination) {
+  const { items, moreData } = pagination
   // Avoiding fetching more items several times at a time
   // as it will just return the same items, given that it will pass
   // the same arguments.
   // Known case: when the view is locked on the infiniteScroll trigger
   let busy = false
-  const fetchMore = async () => {
+  async function fetchMore () {
     const done = (moreData.total != null) && (items.length >= moreData.total)
     if (busy || done) return
 
     busy = true
     pagination.offset = items.length
     try {
-      const res = await app.request(requestName, {
+      const res = await request({
         items: pagination.items,
         limit: pagination.limit,
         offset: pagination.offset,
-        ...requestParams,
       })
       moreData.total = res.total
       moreData.continue = res.continue
-      // Display the inventory welcome screen when appropriate
-      if (res.total === 0 && fallback != null) return fallback()
     } catch (err) {
-      catch404(err, fallback)
+      catch404(err)
     } finally {
       busy = false
     }
   }
 
-  const catch404 = (err, fallback) => {
+  function catch404 (err: ContextualizedError) {
     if (err.statusCode === 404) {
       moreData.status = false
       log_.warn('no more items to show')
-      if (fallback != null) return fallback()
     } else {
       throw err
     }

@@ -99,6 +99,7 @@ let endPrerenderSession
 function resetPagePrerender () {
   if (!isPrerenderSession) return
   const currentSessionId = ++sessionId
+  // Setting window.prerenderReady is required by firefox-headless-prerender
   window.prerenderReady = false
   endPrerenderSession = () => {
     // Stop waiting once the session is idle: addresses cases

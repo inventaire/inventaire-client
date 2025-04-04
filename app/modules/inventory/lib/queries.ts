@@ -2,7 +2,9 @@ import { indexBy } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { getRelations } from '#modules/users/lib/relations'
+import type { ItemsPage } from '#server/controllers/items/lib/queries_commons'
 import type { EntityUri } from '#server/types/entity'
+import type { Item } from '#server/types/item'
 import type { UserId } from '#server/types/user'
 import { serializeUser } from '#users/lib/users'
 import { serializeItem, setItemUserData, type SerializedItemWithUserData } from './items'
@@ -18,38 +20,38 @@ export async function getItemsByUserIdAndEntities (userId: UserId, uris: EntityU
 }
 
 async function makeRequestAlt (params, endpoint, ids, filter?) {
-  if (ids.length === 0) return { items: [], total: 0 }
+  if (ids.length === 0) return { items: [] as Item[], total: 0 } as ItemsPage
   const { limit, offset } = params
   const res = await preq.get(API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))
   updateItemsParams(res, params)
-  return res
+  return res as ItemsPage
 }
 
 export async function getItemsByIds ({ ids, items }) {
   const res = await preq.get(API.items.byIds({ ids, includeUsers: true }))
   updateItemsParams(res, { items })
-  return res
+  return res as ItemsPage
 }
 
 export async function getNearbyItems (params) {
   const { limit, offset } = params
   const res = await preq.get(API.items.nearby(limit, offset))
   updateItemsParams(res, params)
-  return res
+  return res as ItemsPage
 }
 
 export async function getRecentPublicItems (params) {
   const { limit, lang, assertImage } = params
   const res = await preq.get(API.items.recentPublic(limit, lang, assertImage))
   updateItemsParams(res, params)
-  return res
+  return res as ItemsPage
 }
 
 export async function getItemsByBbox (params) {
   const { bbox, limit, lang } = params
   const res = await preq.get(API.items.byBbox(bbox, limit, lang))
   updateItemsParams(res, params)
-  return res
+  return res as ItemsPage
 }
 
 export async function getUserItems (params) {
@@ -68,7 +70,7 @@ function updateItemsParams (res, params) {
   params.total = total
   addItemsUsers(res)
   params.items.push(...newItems)
-  return res
+  return res as ItemsPage
 }
 
 export function addItemsUsers ({ items, users }) {
@@ -77,3 +79,5 @@ export function addItemsUsers ({ items, users }) {
     item.user = usersById[item.owner]
   })
 }
+
+export type ItemsPageRequestFn = typeof getNetworkItems | typeof getNearbyItems
