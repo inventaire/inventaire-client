@@ -3,6 +3,8 @@ import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/li
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
 import { commands, vent } from '#app/radio'
+import { newError } from './lib/error.ts'
+import log_ from './lib/loggers.ts'
 import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
 import { loadUrl, startRouter } from './lib/router.ts'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
@@ -114,6 +116,13 @@ function navigateBack (event: PopStateEvent) {
     const index = historyLast.indexOf(decodeURIComponent(route))
     if (index > 0) historyLast.splice(0, index)
     loadUrl(event.state.route)
+  } else if (event.target && 'location' in event.target) {
+    // Case when we are going back to the first page
+    const { pathname, search } = event.target.location as Location
+    const route = search ? `${pathname}${search}` : pathname
+    loadUrl(route)
+  } else {
+    log_.error(newError('can not navigate back', 500, { event }))
   }
 }
 
