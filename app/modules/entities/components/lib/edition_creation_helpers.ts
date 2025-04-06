@@ -9,8 +9,7 @@ import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import { createEntity } from '#entities/lib/create_entity'
 import type { SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri } from '#server/types/entity'
-import { i18n } from '#user/lib/i18n'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang, i18n } from '#user/lib/i18n'
 
 export async function createEditionFromWork (params) {
   const { workEntity, userInput } = params
@@ -76,7 +75,7 @@ function workEditionCreationData (work: SerializedEntity) {
       'wdt:P629': [ work.uri ],
     },
   }
-  const { lang } = mainUser
+  const lang = getCurrentLang()
   const langWdId = wdLang.byCode[lang]?.wd
   const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
   // Suggest user's language as edition language

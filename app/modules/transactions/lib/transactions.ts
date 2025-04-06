@@ -84,7 +84,7 @@ export async function getActiveTransactionsByItemId (itemId) {
 
 export function serializeTransaction (transaction) {
   const { _id: id, owner, snapshot } = transaction
-  const mainUserIsOwner = owner === mainUser._id
+  const mainUserIsOwner = owner === mainUser?._id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
   const mainUserRead = transaction.read[mainUserRole]

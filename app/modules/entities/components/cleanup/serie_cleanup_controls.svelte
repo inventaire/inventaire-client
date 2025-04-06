@@ -7,8 +7,7 @@
   import { getWikipediaData } from '#app/lib/wikimedia/sitelinks'
   import Spinner from '#components/spinner.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import Checkbox from './checkbox.svelte'
 
   export let serie: SerializedEntity
@@ -25,7 +24,7 @@
 
   let wikipedia
   if ('sitelinks' in serie) {
-    wikipedia = getWikipediaData(serie.sitelinks, mainUser.lang, serie.originalLang)
+    wikipedia = getWikipediaData(serie.sitelinks, getCurrentLang(), serie.originalLang)
   }
 
   const dispatch = createEventDispatcher()

@@ -5,8 +5,8 @@
   import { getWikidataHistoryUrl, getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
+  import { mainUserHasDataadminAccess } from '#modules/user/lib/main_user'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
 
   export let entity: SerializedEntity
   export let showEntityEditButtons = true
@@ -96,7 +96,7 @@
   </li>
 {/if}
 
-{#if mainUser.hasDataadminAccess && showEntityEditButtons}
+{#if mainUserHasDataadminAccess() && showEntityEditButtons}
   {#if type === 'human'}
     <li>
       <Link

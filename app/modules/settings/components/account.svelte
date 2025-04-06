@@ -13,9 +13,6 @@
   import { deleteMainUserAccount, mainUserStore, updateUser } from '#user/lib/main_user'
   import EmailValidation from './email_validation.svelte'
 
-  // Narrow down $mainUserStore type
-  if ($mainUserStore.loggedIn !== true) throw new Error('invalid logged in user')
-
   let flashLang, flashEmail, flashDiscoverability
   let fediversable = $mainUserStore.fediversable
   let poolActivities = $mainUserStore.poolActivities

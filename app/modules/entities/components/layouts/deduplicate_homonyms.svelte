@@ -5,8 +5,8 @@
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
   import { findExactMatches, getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
+  import { mainUserHasDataadminAccess } from '#modules/user/lib/main_user'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
   import EntityListRow from './entity_list_row.svelte'
 
   export let entity
@@ -16,8 +16,6 @@
   let invHomonyms = []
   let selectedHomonymsUris = []
   let wdExactMatches, invExactMatches
-
-  const { hasDataadminAccess } = mainUser
 
   const getHomonymsPromise = async () => {
     homonyms = await getHomonymsEntities(entity)
@@ -66,7 +64,7 @@
   </div>
 {/if}
 
-{#if hasDataadminAccess}
+{#if mainUserHasDataadminAccess()}
   {#await getHomonymsPromise()}
     <div class="loading-wrapper">
       <p class="loading">{i18n('Looking for duplicates…')}
