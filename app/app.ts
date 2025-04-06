@@ -60,11 +60,10 @@ function navigate (route: string, options: NavigateOptions = {}) {
   if (now < lastNavigateTimestamp + 200) options.replace = true
   lastNavigateTimestamp = now
 
-  const state = { route: encodeURIComponent(routeWithLeadingSlash) }
   if (options.replace) {
-    history.replaceState(state, null, routeWithLeadingSlash)
+    history.replaceState(null, null, routeWithLeadingSlash)
   } else {
-    history.pushState(state, null, routeWithLeadingSlash)
+    history.pushState(null, null, routeWithLeadingSlash)
   }
   if (options.trigger) loadUrl(routeWithLeadingSlash)
   const { pageSectionElement, preventScrollTop } = options
@@ -111,13 +110,7 @@ async function start () {
 }
 
 function navigateBack (event: PopStateEvent) {
-  if (event.state?.route) {
-    const { route } = event.state
-    const index = historyLast.indexOf(decodeURIComponent(route))
-    if (index > 0) historyLast.splice(0, index)
-    loadUrl(event.state.route)
-  } else if (event.target && 'location' in event.target) {
-    // Case when we are going back to the first page
+  if (event.target && 'location' in event.target) {
     const { pathname, search } = event.target.location as Location
     const route = search ? `${pathname}${search}` : pathname
     loadUrl(route)
