@@ -12,8 +12,7 @@
   import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import type { PropertyUri } from '#server/types/entity'
-  import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let entity: SerializedEntity
   export let property: PropertyUri
@@ -46,7 +45,7 @@
       uris,
       // TODO: also request 'popularity' to be able to use it to sort the entities
       attributes: [ 'info', 'labels', 'image' ],
-      lang: mainUser.lang,
+      lang: getCurrentLang(),
     })
       .then(async res => {
         const entities = Object.values(res.entities).map(serializeEntity)

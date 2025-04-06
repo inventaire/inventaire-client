@@ -41,7 +41,7 @@
 
   $: onChange($userListings, listingsIdsMatchingUri, refreshListings)
 
-  const waitingForListingsStates = getUserListingsByEntityUri({ userId: mainUser._id, uri })
+  const waitingForListingsStates = getUserListingsByEntityUri({ userId: mainUser?._id, uri })
     .then(listingsMatchingUri => {
       listingsIdsMatchingUri = pluck(listingsMatchingUri, '_id')
     })

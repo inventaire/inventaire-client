@@ -8,8 +8,7 @@ import {
 } from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import type { EntityUri } from '#server/types/entity'
-import { I18n } from '#user/lib/i18n'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang, I18n } from '#user/lib/i18n'
 
 export function isSubEntitiesType (type) {
   return [ 'serie', 'collection' ].includes(type)
@@ -98,7 +97,7 @@ async function getBasicInfo (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
   })
   Object.values(entities).forEach(entity => {
     const { labels } = entity

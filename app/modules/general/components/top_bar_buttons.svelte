@@ -10,7 +10,7 @@
   import { unreadNotificationsCount } from '#notifications/lib/notifications'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser, mainUserStore } from '#user/lib/main_user'
+  import { mainUserHasDataadminAccess, mainUserStore } from '#user/lib/main_user'
   import { friendshipRequestsCount } from '#users/lib/relations'
 
   $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
@@ -87,7 +87,7 @@
               stopClickPropagation={false}
             />
           </li>
-          {#if mainUser.hasDataadminAccess}
+          {#if mainUserHasDataadminAccess()}
             <Link
               icon="server"
               url="/tasks"

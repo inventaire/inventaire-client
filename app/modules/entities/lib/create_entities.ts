@@ -5,8 +5,8 @@ import { objectEntries } from '#app/lib/utils'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import getOriginalLang from '#entities/lib/get_original_lang'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { PropertyUri, SimplifiedClaims } from '#server/types/entity'
-import { mainUser } from '#user/lib/main_user'
 import { createEntity, type EntityDraftWithCreationParams } from './create_entity.ts'
 import { getPluralType } from './entities.ts'
 import { propertiesEditorsConfigs } from './properties.ts'
@@ -15,7 +15,7 @@ function getTitleFromWork ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
   if (inEditionLang != null) return inEditionLang
 
-  const inUserLang = workLabels[mainUser.lang]
+  const inUserLang = workLabels[getCurrentLang()]
   if (inUserLang != null) return inUserLang
 
   const originalLang = getOriginalLang(workClaims)
@@ -67,7 +67,7 @@ export async function createWorkEditionDraft ({ workEntity, isbn }) {
 
 export async function createByProperty (options) {
   let { property, name, relationSubjectEntity, createOnWikidata, lang } = options
-  if (!lang) lang = mainUser.lang
+  if (!lang) lang = getCurrentLang()
 
   const wdtP31 = getPropertyDefaultSubjectEntityP31(property)
   if (wdtP31 == null) {
