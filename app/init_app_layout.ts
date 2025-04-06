@@ -1,6 +1,6 @@
+import { type SvelteComponent, type ComponentProps, type Component, mount } from 'svelte'
 import AppLayout from '#components/app_layout.svelte'
 import { commands } from './radio'
-import type { SvelteComponent, ComponentProps, ComponentType } from 'svelte'
 
 export let appLayout
 
@@ -8,7 +8,7 @@ export function initAppLayout () {
   const target = document.getElementById('app')
   // Remove spinner
   target.innerHTML = ''
-  appLayout = new AppLayout({ target })
+  appLayout = mount(AppLayout, { target })
   appLayout.showChildComponent = showChildComponent
   appLayout.removeCurrentComponent = removeCurrentComponent
   commands.execute('waiter:resolve', 'layout')
@@ -16,13 +16,13 @@ export function initAppLayout () {
 }
 
 export interface RegionComponent {
-  component: ComponentType
+  component: Component
   props?: ComponentProps<SvelteComponent>
 }
 
 type RegionName = 'main' | 'modal' | 'svelteModal'
 
-function showChildComponent (regionName: RegionName, component: ComponentType, options: { props?: ComponentProps<SvelteComponent> } = {}) {
+function showChildComponent (regionName: RegionName, component: Component, options: { props?: ComponentProps<SvelteComponent> } = {}) {
   const props = 'props' in options ? options.props : {}
   if (component != null) {
     appLayout.$set({ [regionName]: { component, props } })

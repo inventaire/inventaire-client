@@ -38,7 +38,7 @@
       placeholder={i18n('emails separated by a comma')}
       use:autosize
       bind:value={rawEmails}
-    />
+    ></textarea>
   </label>
 
   <label>
@@ -48,7 +48,7 @@
       placeholder="({i18n('optional')})"
       use:autosize
       bind:value={message}
-    />
+    ></textarea>
   </label>
 
   <button on:click={sendInvitations} class="button light-blue bold radius send">

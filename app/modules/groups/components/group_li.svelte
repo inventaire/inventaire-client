@@ -53,7 +53,7 @@
 
 <div class="group">
   <a href={pathname} class="show-group" on:click={loadInternalLink}>
-    <div class="group-cover-picture" style:background-image="url('{pictureUrl}')" />
+    <div class="group-cover-picture" style:background-image="url('{pictureUrl}')"></div>
     <div class="info">
       <p class="name">{name}</p>
       <p class="description">{description}</p>

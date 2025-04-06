@@ -41,7 +41,7 @@
     <div
       class="image"
       style:background-image={image ? `url(${imgSrc(image.url, 64, 64)})` : 'none'}
-    />
+    ></div>
     <div>
       {#if label}<span class="label">{label}</span>{/if}
       <div class="bottom">

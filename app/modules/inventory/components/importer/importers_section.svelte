@@ -103,7 +103,7 @@
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess} />
-<div bind:this={bottomSectionElement} />
+<div bind:this={bottomSectionElement} ></div>
 {#if processing && !cancelled}
   <div class="processing-menu">
     <Counter count={processedExternalEntriesCount} total={totalExternalEntries} />

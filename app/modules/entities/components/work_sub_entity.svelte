@@ -32,7 +32,7 @@
     on:keyup={toggleZoomOnEnter}
   />
 {:else}
-  <div class="no-image" />
+  <div class="no-image"></div>
 {/if}
 <div class="info">
   <h3>

@@ -27,7 +27,7 @@
   title="{name} - {I18n('group')}"
   class="objectMarker groupMarker"
 >
-  <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
+  <div class="picture" style:background-image="url({imgSrc(picture, 100)})"></div>
   <p class="name label">{name}</p>
   <div class="members-count">{@html icon('group')} {membersCount}</div>
 </a>

@@ -42,7 +42,7 @@
     <div
       class="picture"
       style:background-image="url({imgSrc(picture, 100)})"
-    />
+    ></div>
     <p class="username label">
       {username}
     </p>

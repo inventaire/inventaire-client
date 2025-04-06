@@ -126,7 +126,7 @@
         id="bio"
         aria-label={i18n('presentation')}
         bind:value={bioValue}
-        use:autosize />
+        use:autosize></textarea>
       <Flash bind:state={bioState} />
     </div>
     <p class="note">

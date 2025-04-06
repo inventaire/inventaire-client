@@ -43,7 +43,7 @@
     <div
       class="image"
       style:background-image={image ? `url(${imgSrc(image, 90)})` : ''}
-    />
+    ></div>
     <span class="type">{i18n(typeAlias)}</span>
     <span class="label">{label}</span>
     <span class="description">{description}</span>

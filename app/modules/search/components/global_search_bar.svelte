@@ -350,7 +350,7 @@
       on:keydown={hideOnEsc}
       role="button"
       tabindex="-1"
-    />
+    ></div>
   {:else}
     <div class="search-icon">
       {@html icon('search')}

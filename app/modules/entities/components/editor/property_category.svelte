@@ -71,7 +71,7 @@
   >
     {@html icon('caret-right')}
     <h3>{I18n(categoryLabel)}</h3>
-    <div class="scroll-marker" bind:this={scrollMarkerEl} />
+    <div class="scroll-marker" bind:this={scrollMarkerEl} ></div>
   </button>
 {/if}
 {#if showCategory}

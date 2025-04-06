@@ -38,7 +38,7 @@
   href={pathname}
   on:click={select}
 >
-  <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
+  <div class="picture" style:background-image="url({imgSrc(picture, 100)})"></div>
   {#if type === 'group'}
     <div class="members-count">{@html icon('group')} {membersCount}</div>
   {:else}

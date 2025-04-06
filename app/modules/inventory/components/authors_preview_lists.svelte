@@ -24,7 +24,7 @@
             >
               <!-- using an image larger that what is displayed so that background cover scale up doesn't make the image pixelized -->
               {#if author.image?.url}
-                <div class="image" style:background-image="url({imgSrc(author.image.url, 90)})" />
+                <div class="image" style:background-image="url({imgSrc(author.image.url, 90)})"></div>
               {/if}
               <div class="summary-data">
                 <span class="name" lang={author.labelLang}>{author.label}</span>

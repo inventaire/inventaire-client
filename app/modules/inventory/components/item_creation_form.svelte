@@ -114,13 +114,13 @@
 
     <label class="details">
       {I18n('details')}
-      <textarea bind:value={details} placeholder={I18n('details_placeholder')} />
+      <textarea bind:value={details} placeholder={I18n('details_placeholder')}></textarea>
     </label>
 
     <label class="notes">
       {I18n('notes')}
       <span class="indicator" title={I18n('notes_placeholder')}>{@html icon('lock')}</span>
-      <textarea bind:value={notes} placeholder={I18n('notes_placeholder')} />
+      <textarea bind:value={notes} placeholder={I18n('notes_placeholder')}></textarea>
     </label>
 
     <Flash state={flash} />

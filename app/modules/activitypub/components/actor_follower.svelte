@@ -29,7 +29,7 @@
       {#if icon}
         <img src={imgSrc(icon.url)} alt="" loading="lazy" />
       {:else}
-        <div class="image-placeholder" />
+        <div class="image-placeholder"></div>
       {/if}
     </span>
     <div class="info">

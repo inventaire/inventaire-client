@@ -67,7 +67,7 @@
         use:autosize
         use:autofocus
         bind:value={formContent}
-      />
+      ></textarea>
     </label>
   {/if}
 

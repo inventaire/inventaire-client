@@ -24,17 +24,18 @@
       class="shelf-dot"
       title={name}
       style:background-color={colorHexCode}
-    />
+    ></div>
   {:else}
     <a
       href="/shelves/{_id}"
       on:click={onShelfDotClick}
       title={name}
+      aria-label={name}
     >
       <div
         class="shelf-dot"
         style:background-color={colorHexCode}
-      />
+      ></div>
     </a>
   {/if}
 </li>

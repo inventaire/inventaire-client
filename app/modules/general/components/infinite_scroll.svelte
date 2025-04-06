@@ -44,7 +44,7 @@
     use:viewport
     on:enterViewport={bottomIsInViewport}
     on:leaveViewport={bottomLeftViewport}
-  />
+  ></div>
   {#if showSpinner}
     {#await loadingMore}
       <Spinner center={true} />

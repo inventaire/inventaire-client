@@ -41,7 +41,7 @@
         {:else}
           <ItemsCascade {items} />
         {/if}
-        <div class="fade-out" />
+        <div class="fade-out"></div>
       </section>
     {/await}
   {:else}
@@ -62,7 +62,7 @@
               <ItemsCascade items={params.items} {waiting} />
             {/if}
           {/await}
-          <div class="fade-out" />
+          <div class="fade-out"></div>
         </section>
       {/if}
     {/await}

@@ -40,7 +40,7 @@
   >
     <div class="shelf-left">
       {#if picture}
-        <div class="picture" style:background-image="url({imgSrc(picture, 48)})" />
+        <div class="picture" style:background-image="url({imgSrc(picture, 48)})"></div>
       {:else}
         <div class="without-shelf-picture">...</div>
       {/if}

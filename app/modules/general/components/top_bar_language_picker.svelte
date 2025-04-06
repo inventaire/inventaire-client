@@ -37,7 +37,7 @@
               title="{i18n('switch_to_lang', { language: native })} ({i18n('translation_completion', { completion })})"
               on:click={() => selectLang(lang)}
             >
-              <span class="completion" style:width={`${completion}%`} />
+              <span class="completion" style:width={`${completion}%`}></span>
               <span class="lang" {lang}>{native}</span>
               <span class="completion-text">({completion}%)</span>
             </button>

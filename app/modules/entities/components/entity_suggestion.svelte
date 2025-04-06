@@ -32,7 +32,7 @@
     <div
       class="image"
       style:background-image={imageUrl ? `url(${imgSrc(imageUrl, 90)})` : ''}
-    />
+    ></div>
     <div class="right">
       <div class="top">
         <span class="label">{label}</span>

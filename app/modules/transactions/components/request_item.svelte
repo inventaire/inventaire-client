@@ -61,7 +61,7 @@
     name="request-item"
     bind:value={message}
     use:autosize
-  />
+  ></textarea>
 
   <button class="button success radius bold" on:click={sendItemRequest} disabled={sendingRequest != null}>
     {#await sendingRequest}

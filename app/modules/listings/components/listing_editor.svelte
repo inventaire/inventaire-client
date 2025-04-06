@@ -119,7 +119,7 @@
     type="text"
     bind:value={description}
     use:autosize
-  />
+  ></textarea>
 </label>
 <div class="visibility-selector">
   <VisibilitySelector

@@ -47,7 +47,7 @@
       on:keydown={onKeyDown}
       use:autosize
       bind:value={message}
-    />
+    ></textarea>
   </div>
   <Flash state={flash} />
   <div class="bottom">

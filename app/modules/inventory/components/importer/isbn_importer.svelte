@@ -56,7 +56,7 @@
     placeholder={i18n('Enter a list of ISBNs or any text containing ISBNs here')}
     on:keyup={checkIsbns}
     use:autosize
-  />
+  ></textarea>
   <button
     class="grey-button"
     on:click={clearIsbnText}

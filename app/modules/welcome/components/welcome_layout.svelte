@@ -16,7 +16,7 @@
   <PublicMap bind:items bind:waitingForItems />
   <SomePublicBooks {items} {waitingForItems} />
   <LandingPageFooter />
-  <div class="background-cover" />
+  <div class="background-cover"></div>
 </div>
 
 <style lang="scss">

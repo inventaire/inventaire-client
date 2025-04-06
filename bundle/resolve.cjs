@@ -18,9 +18,6 @@ for (const [ key, value ] of Object.entries(alias)) {
   alias[key] = path.resolve(__dirname, `../${value}`)
 }
 
-// Recommended by https://github.com/sveltejs/svelte-loader#usage
-alias.svelte = path.resolve(__dirname, '../node_modules/svelte/src/runtime')
-
 module.exports = {
   extensions: [ '.js', '.cjs', '.ts', '.svelte' ],
   alias,

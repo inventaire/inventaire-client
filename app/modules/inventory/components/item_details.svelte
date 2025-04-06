@@ -63,7 +63,7 @@
       use:autofocus
       use:autosize
       on:keydown={onKeyDown}
-    />
+    ></textarea>
     <div class="button-group-right">
       <button
         class="tiny-button cancel"

@@ -55,7 +55,7 @@
           <div class="contributions">
             {contributions}
           </div>
-          <div class="bar" style:width="{contributions * 100.0 / highest}px" />
+          <div class="bar" style:width="{contributions * 100.0 / highest}px"></div>
         </div>
       </div>
     {:else}

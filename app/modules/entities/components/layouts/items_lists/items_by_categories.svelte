@@ -31,7 +31,7 @@
   $: hasActiveFilter = $filters?.selectedLangLabel || $filters?.selectedPublisherLabel
 </script>
 
-<div class="filters-top" bind:this={filtersTopEl} />
+<div class="filters-top" bind:this={filtersTopEl} ></div>
 {#if hasActiveFilter}
   <div class="filters-wrapper">
     <div class="filters">

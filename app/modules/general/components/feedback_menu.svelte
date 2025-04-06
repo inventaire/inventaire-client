@@ -91,7 +91,7 @@
         placeholder="{I18n('your message')}..."
         required
         bind:value={message}
-      />
+      ></textarea>
 
       <div>
         <button on:click={sendFeedback} class="button light-blue radius bold" disabled={sending || !subject.trim() || !message.trim()}>

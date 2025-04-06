@@ -28,8 +28,12 @@
     <a id="home" href="/" on:click={loadInternalLink}>{smallScreen ? shortName : instanceName}</a>
   </h1>
 
-  <!-- svelte-ignore a11y-missing-content -->
-  <a id="goToMain" href="#main" title={I18n('skip to main content')} />
+  <a
+    id="goToMain"
+    href="#main"
+    title={I18n('skip to main content')}
+    aria-label={I18n('skip to main content')}
+  ></a>
 
   <GlobalSearchBar />
 

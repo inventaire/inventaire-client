@@ -60,7 +60,7 @@
     bind:value={description}
     maxlength="5000"
     use:autosize
-  />
+  ></textarea>
   <Flash state={descriptionFlash} />
 
   <hr />

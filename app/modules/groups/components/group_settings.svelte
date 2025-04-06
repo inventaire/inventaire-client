@@ -162,7 +162,7 @@
       bind:value={description}
       maxlength="5000"
       use:autosize
-    />
+    ></textarea>
     {#if description !== group.description}
       <div class="textarea-buttons" transition:slide>
         <button

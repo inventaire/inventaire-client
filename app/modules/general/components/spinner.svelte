@@ -7,10 +7,10 @@
 <!-- The "spinner" class is set on the outer elements to let it be style from parent components -->
 {#if center}
   <div class="spinner spinner-centered">
-    <span class="small-spinner" class:light />
+    <span class="small-spinner" class:light></span>
   </div>
 {:else}
-  <span class="spinner small-spinner" class:light />
+  <span class="spinner small-spinner" class:light></span>
 {/if}
 
 <style>

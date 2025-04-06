@@ -60,7 +60,7 @@
         use:autosize
         use:autofocus
         on:keydown={onKeyDown}
-      />
+      ></textarea>
     </label>
     <div class="button-group-right">
       <button

@@ -92,7 +92,7 @@
       {#if withoutShelf}
         <div class="without-shelf-picture">...</div>
       {:else}
-        <div class="picture" style:background-image="url({imgSrc(picture, 160)})" />
+        <div class="picture" style:background-image="url({imgSrc(picture, 160)})"></div>
       {/if}
       <button
         class="close-shelf-small close-button"

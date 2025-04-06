@@ -28,22 +28,23 @@
 </script>
 
 {#if comment}
-  <a
-    href={elementPathname}
-    class="entity-listing-comment-layout"
-    on:click={loadInternalLink}
-  >
-    <div class="comment-row">
-      <div class="element-comment">
-        {comment.slice(0, 150)}
-        {#if comment.length > 150}…{/if}
+  <div class="entity-listing-comment-layout">
+    <a
+      href={elementPathname}
+      on:click={loadInternalLink}
+    >
+      <div class="comment-row">
+        <div class="element-comment">
+          {comment.slice(0, 150)}
+          {#if comment.length > 150}…{/if}
+        </div>
+        <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
+          {#await waitingForUserdata then}
+            <span class="username">{username}</span>
+          {/await}
+        </div>
       </div>
-      <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
-        {#await waitingForUserdata then}
-          <span class="username">{username}</span>
-        {/await}
-      </div>
-    </div>
+    </a>
 
     <a
       href={listingPathname}
@@ -64,7 +65,7 @@
         />
       {/await}
     </a>
-  </a>
+  </div>
 {/if}
 
 <style lang="scss">

@@ -83,7 +83,7 @@
 
   <label>
     {i18n('description')}
-    <textarea type="text" bind:value={description} use:autosize />
+    <textarea type="text" bind:value={description} use:autosize></textarea>
   </label>
 
   <VisibilitySelector bind:visibility showTip={true} />
