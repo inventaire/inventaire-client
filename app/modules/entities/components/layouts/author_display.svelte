@@ -3,8 +3,7 @@
   import { loadInternalLink } from '#app/lib/utils'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
-  import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let entity, claimValue, hasManyClaimValues
 
@@ -16,7 +15,7 @@
     }
     if (uri) {
       url = `/entity/${uri}`
-      label = getBestLangValue(mainUser.lang, null, labels).value
+      label = getBestLangValue(getCurrentLang(), null, labels).value
     } else {
       label = claimValue
       url = `/search?q=!a ${label}`

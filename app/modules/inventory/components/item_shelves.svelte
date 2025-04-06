@@ -20,7 +20,7 @@
 
   let waitForShelves
   if (mainUserIsOwner) {
-    waitForShelves = getShelvesByOwner(mainUser._id)
+    waitForShelves = getShelvesByOwner(mainUser?._id)
       .then(res => userShelves = res)
       .catch(err => flash = err)
   } else {

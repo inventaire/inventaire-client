@@ -28,7 +28,7 @@ export const createExternalEntry = candidateData => {
 
 export const addExistingItemsCounts = async function ({ candidates, externalEntries }: { candidates: Candidate[], externalEntries: ExternalEntry[] }) {
   const uris = compact(externalEntries.map(getExternalEntryUri))
-  const waitingForItemsCounts = getEntitiesItemsCount(mainUser._id, uris)
+  const waitingForItemsCounts = getEntitiesItemsCount(mainUser?._id, uris)
   candidates.forEach(candidate => { candidate.waitingForItemsCount = waitingForItemsCounts })
   const counts = await waitingForItemsCounts
   candidates.forEach(addExistingItemsCountToCandidate(counts))

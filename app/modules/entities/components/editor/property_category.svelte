@@ -12,7 +12,10 @@
   export let entity, category, categoryProperties
   export let requiredProperties = null
 
-  const { customProperties } = mainUser
+  let customProperties
+  if (mainUser) {
+    ;({ customProperties } = mainUser)
+  }
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 

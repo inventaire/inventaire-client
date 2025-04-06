@@ -1,13 +1,13 @@
 <script lang="ts">
   import { config } from '#app/config'
   import { icon } from '#app/lib/icons'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
 
   const { instanceName, orgName, orgUrl } = config
 
   const isCanonicalName = instanceName === 'inventaire'
-  const needNameExplanation = isCanonicalName && mainUser.lang !== 'fr'
+  const needNameExplanation = isCanonicalName && getCurrentLang() !== 'fr'
 </script>
 
 <section id="landingScreen" class="text-center">

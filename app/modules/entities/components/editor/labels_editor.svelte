@@ -13,8 +13,7 @@
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
   import type { EntityUri, Label } from '#server/types/entity'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
   import OtherLanguage from './other_language.svelte'
@@ -30,7 +29,7 @@
 
   const { uri, labels } = entity
   const creationMode = uri == null
-  const userLang = mainUser.lang
+  const userLang = getCurrentLang()
   const languages = getLangsData(userLang, labels)
   const bestLangData = getBestLangValue(userLang, null, labels)
   let currentLang = bestLangData.lang || userLang

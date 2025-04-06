@@ -10,7 +10,7 @@
   export let showDescription = false
   let userShelves = []
 
-  const waitForShelves = getShelvesByOwner(mainUser._id)
+  const waitForShelves = getShelvesByOwner(mainUser?._id)
     .then(res => {
       userShelves = res
       const userShelvesIds = pluck(userShelves, '_id')

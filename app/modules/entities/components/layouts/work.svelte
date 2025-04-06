@@ -13,8 +13,7 @@
   import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
-  import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities.ts'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
@@ -31,7 +30,7 @@
   let editionsUris
   let editions = []
   let initialEditions = []
-  const userLang = mainUser.lang
+  const userLang = getCurrentLang()
   let publishersByUris
   let allItems
   let itemsByEditions = {}

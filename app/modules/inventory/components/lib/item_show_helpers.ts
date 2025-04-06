@@ -2,7 +2,7 @@ import { compact, pick, uniq, values } from 'underscore'
 import { objectEntries, objectKeys } from '#app/lib/utils'
 import { getEntitiesAttributesByUris, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 const authorProperties = objectKeys(extendedAuthorsKeys)
 const relatives = [
@@ -15,7 +15,7 @@ export async function getItemEntityData (uri) {
   const { entities } = await getEntitiesAttributesByUris({
     uris: [ uri ],
     attributes: [ 'info', 'labels', 'claims', 'image' ],
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
     relatives,
   })
   const getAndSerialize = uri => entities[uri] ? serializeEntity(entities[uri]) : null

@@ -1,6 +1,6 @@
 import { buildPath } from '#app/lib/location'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { InvPropertyUri, WdEntityId, WdEntityUri, WdPropertyUri } from '#server/types/entity'
-import { mainUser } from '#user/lib/main_user'
 
 const wdHost = 'https://www.wikidata.org'
 
@@ -9,7 +9,7 @@ export function searchWikidataEntities (params) {
 
   if (search?.length <= 0) throw new Error("search can't be empty")
 
-  const { lang } = mainUser
+  const lang = getCurrentLang()
 
   return buildPath(`${wdHost}/w/api.php`, {
     action: 'wbsearchentities',

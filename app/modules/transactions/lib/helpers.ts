@@ -18,7 +18,7 @@ export async function postTransactionMessage ({ transaction, message }) {
   }
   await preq.post(API.transactions.base, messageData)
   Object.assign(messageData, {
-    user: mainUser._id,
+    user: mainUser?._id,
     created: Date.now(),
   })
   transaction.messages = transaction.messages.concat([ messageData ])

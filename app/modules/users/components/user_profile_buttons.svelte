@@ -23,7 +23,7 @@
   export let displayUnselectButton = true
 
   const { _id, username, distanceFromMainUser } = user
-  const isMainUser = _id === mainUser._id
+  const isMainUser = _id === mainUser?._id
 
   let showShelfCreator, showUserOnMap
 
@@ -166,13 +166,15 @@
 {#if 'position' in user && showUserOnMap}
   <Modal size="large" on:closeModal={() => showUserOnMap = false}>
     <div class="map">
-      <LeafletMap bounds={[ user.position, $mainUserStore.position ]}>
+      <LeafletMap bounds={[ user.position, $mainUserStore?.position ]}>
         <Marker latLng={user.position}>
           <UserMarker doc={user} on:select={() => showUserOnMap = false} />
         </Marker>
-        <Marker latLng={$mainUserStore.position}>
-          <UserMarker doc={$mainUserStore} on:select={() => app.navigateAndLoad($mainUserStore.pathname)} />
-        </Marker>
+        {#if $mainUserStore?.position}
+          <Marker latLng={$mainUserStore.position}>
+            <UserMarker doc={$mainUserStore} on:select={() => app.navigateAndLoad($mainUserStore.pathname)} />
+          </Marker>
+        {/if}
       </LeafletMap>
     </div>
   </Modal>
