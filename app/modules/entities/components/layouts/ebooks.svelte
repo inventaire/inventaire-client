@@ -3,12 +3,11 @@
   import Link from '#app/lib/components/link.svelte'
   import { getWikisourceData } from '#app/lib/wikimedia/sitelinks'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
 
   export let entity
 
-  const userLang = mainUser.lang
+  const userLang = getCurrentLang()
   const { claims } = entity
   let ebooksData = []
 

@@ -25,7 +25,7 @@
   let flash
 
   let existingEntityItems
-  const waitForExistingInstances = getItemsByUserIdAndEntities(mainUser._id, uri)
+  const waitForExistingInstances = getItemsByUserIdAndEntities(mainUser?._id, uri)
     .then(items => existingEntityItems = items)
     .catch(err => flash = err)
 

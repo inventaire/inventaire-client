@@ -9,10 +9,10 @@ import preq from '#app/lib/preq'
 import { forceArray, objectEntries } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri, ClaimValueByProperty } from '#server/types/entity'
-import { mainUser } from '#user/lib/main_user'
 import { getBestLangValue } from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
@@ -123,11 +123,12 @@ export async function getEntityByUri ({ uri, refresh = false, autocreate }: { ur
 }
 
 export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
-  const { value: label, lang: labelLang } = getBestLangValue(mainUser.lang, entity.originalLang, entity.labels)
+  const userLang = getCurrentLang()
+  const { value: label, lang: labelLang } = getBestLangValue(userLang, entity.originalLang, entity.labels)
   entity.label = label
   entity.labelLang = labelLang
   if ('descriptions' in entity) {
-    entity.description = getBestLangValue(mainUser.lang, entity.originalLang, entity.descriptions).value
+    entity.description = getBestLangValue(userLang, entity.originalLang, entity.descriptions).value
   }
   if (entity.claims) {
     entity.publicationYear = getPublicationYear(entity)
@@ -231,7 +232,7 @@ export async function getEntitiesBasicInfoByUris (uris: EntityUri[]) {
   return getEntitiesByUris({
     uris,
     attributes: [ 'info', 'labels', 'descriptions', 'image' ],
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
   })
 }
 
@@ -239,10 +240,10 @@ export async function getEntityLabel (uri: EntityUri) {
   const entities = await getEntitiesByUris({
     uris: [ uri ],
     attributes: [ 'labels' ],
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
   })
   const entity = values(entities)[0]
-  const { value, lang } = getBestLangValue(mainUser.lang, null, entity.labels)
+  const { value, lang } = getBestLangValue(getCurrentLang(), null, entity.labels)
   return { label: value, lang }
 }
 
@@ -283,7 +284,7 @@ export async function getEntitiesAttributesFromClaims (claims: Claims, attribute
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes,
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
   })
   return entities
 }
@@ -367,7 +368,7 @@ export async function getEntityImageUrl (uri: EntityUri) {
 
 export function extractImagesUrls (images) {
   const imageUrls = Object.values(images).map(entityImages => {
-    const firstImage = getBestLangValue(mainUser.lang, null, entityImages).value
+    const firstImage = getBestLangValue(getCurrentLang(), null, entityImages).value
     if (firstImage) return getEntityImagePath(firstImage)
   })
   return compact(imageUrls)

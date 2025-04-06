@@ -20,7 +20,7 @@
 
   let categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds, displayedCategoryExternalIds
   $: {
-    const { customProperties = [] } = $mainUserStore
+    const customProperties = $mainUserStore?.customProperties || []
     ;[ categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds ] = partition(categoryAvailableExternalIds, ({ property }) => customProperties.includes(property))
   }
   $: {

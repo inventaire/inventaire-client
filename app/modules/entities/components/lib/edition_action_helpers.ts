@@ -13,4 +13,4 @@ export const getOwnersCountPerEdition = editionItems => {
   }
 }
 
-const notMainUserOwner = doc => doc.owner !== mainUser._id
+const notMainUserOwner = doc => doc.owner !== mainUser?._id
