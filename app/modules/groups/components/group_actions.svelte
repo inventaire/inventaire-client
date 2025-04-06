@@ -15,15 +15,19 @@
 
   $: ({ mainUserIsMember, mainUserStatus } = serializeGroup(group))
 
-  async function action (actionName) {
+  const processing: Record<string, boolean> = {}
+  async function action (actionName: string) {
     try {
       if (reqres.request('require:loggedIn', pathname)) {
+        processing[actionName] = true
         waitForAction = groupAction({ action: actionName, groupId })
         const updatedGroup = await waitForAction
         group = serializeGroup(updatedGroup)
       }
     } catch (err) {
       flash = err
+    } finally {
+      processing[actionName] = false
     }
   }
 </script>
@@ -33,33 +37,33 @@
     <Spinner center={true} />
   {:then}
     {#if mainUserStatus === 'invited'}
-      <button class="tiny-button success" on:click={() => action('accept')}>
+      <button class="tiny-button success" on:click={() => action('accept')} disabled={processing.accept || processing.decline}>
         {I18n('accept invitation')}
+        {#if processing.accept}<Spinner />{/if}
       </button>
-      <button class="tiny-button grey" on:click={() => action('decline')}>
+      <button class="tiny-button grey" on:click={() => action('decline')} disabled={processing.accept || processing.decline}>
         {I18n('decline')}
+        {#if processing.decline}<Spinner />{/if}
       </button>
-    {/if}
-    {#if mainUserStatus === 'requested'}
+    {:else if mainUserStatus === 'requested'}
       <div>
         <p class="requested">
           {I18n('your request to join is waiting for approval')}
         </p>
-        <button class="tiny-button grey" on:click={() => action('cancel-request')}>
+        <button class="tiny-button grey" on:click={() => action('cancel-request')} disabled={processing['cancel-request']}>
           {I18n('cancel request')}
+          {#if processing['cancel-request']}<Spinner />{/if}
         </button>
-        <span class="check" />
       </div>
-    {/if}
-    {#if mainUserStatus === 'none'}
-      <button class="tiny-button light-blue" on:click={() => action('request')}>
+    {:else if mainUserStatus === 'none'}
+      <button class="tiny-button light-blue" on:click={() => action('request')} disabled={processing.request}>
         {#if open}
           {I18n('join group')}
         {:else}
           {I18n('request to join group')}
         {/if}
+        {#if processing.request}<Spinner />{/if}
       </button>
-      <span class="check" />
     {/if}
   {/await}
 </div>
