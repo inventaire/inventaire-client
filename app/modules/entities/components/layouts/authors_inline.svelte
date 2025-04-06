@@ -3,7 +3,7 @@
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import Spinner from '#general/components/spinner.svelte'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang } from '#modules/user/lib/i18n'
 
   export let entitiesUris = []
 
@@ -20,7 +20,7 @@
   }
 
   function getBestLabel (claimValue) {
-    return getBestLangValue(mainUser.lang, null, entitiesByUris[claimValue].labels).value
+    return getBestLangValue(getCurrentLang(), null, entitiesByUris[claimValue].labels).value
   }
 
 </script>

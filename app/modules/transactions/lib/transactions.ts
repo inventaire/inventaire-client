@@ -114,7 +114,7 @@ export type SerializedTransaction = OverrideProperties<Transaction, SerializedTr
 
 export function serializeTransaction (transaction: Transaction) {
   const { _id: id, owner, snapshot, actions } = transaction
-  const mainUserIsOwner = owner === mainUser._id
+  const mainUserIsOwner = owner === mainUser?._id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
   // @ts-expect-error
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner

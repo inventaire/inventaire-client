@@ -109,7 +109,7 @@ function requireLoggedIn (route: string) {
 
 function requireAdminAccess () {
   setPrerenderStatusCode(401)
-  if (mainUser.hasAdminAccess) {
+  if (mainUser?.hasAdminAccess) {
     return true
   } else {
     showErrorNotAdmin()
@@ -119,7 +119,7 @@ function requireAdminAccess () {
 
 function requireDataadminAccess () {
   setPrerenderStatusCode(401)
-  if (mainUser.hasDataadminAccess) {
+  if (mainUser?.hasDataadminAccess) {
     return true
   } else {
     showErrorNotAdmin()

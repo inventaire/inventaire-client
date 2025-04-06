@@ -39,7 +39,7 @@ if (loggedIn) {
       // @ts-expect-error
       mainUser = serializeMainUser(serializeUser(user)) as SerializedMainUser
       setTimeout(() => {
-        // Reserialize as serializeUser will not have been able to access mainUser._id on the call above
+        // Reserialize as serializeUser will not have been able to access mainUser?._id on the call above
         // @ts-expect-error
         mainUser = serializeMainUser(serializeUser(user)) as SerializedMainUser
       }, 0)
@@ -149,6 +149,14 @@ export function mainUserHasWikidataOauthTokens () {
   if (!(mainUser && 'enabledOAuth' in mainUser)) return false
   const { enabledOAuth } = mainUser
   return (enabledOAuth != null) && enabledOAuth.includes('wikidata')
+}
+
+export function mainUserHasAdminAccess () {
+  return mainUser?.hasAdminAccess === true
+}
+
+export function mainUserHasDataadminAccess () {
+  return mainUser?.hasDataadminAccess === true
 }
 
 export function updateMainUserListingsCount (num: number) {
