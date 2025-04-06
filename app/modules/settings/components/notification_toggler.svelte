@@ -3,8 +3,8 @@
   import { I18n } from '#user/lib/i18n'
   import { updateUser } from '#user/lib/main_user'
 
-  export let name
-  export let value
+  export let name: string
+  export let value: boolean
   let flash
   const description = name + '_notification'
 

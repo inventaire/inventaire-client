@@ -21,6 +21,7 @@ export default {
       '/login/reset-password(/)': 'showResetPassword',
       '/logout(/)': 'logout',
       '/authorize(/)': 'showAuthorizeMenu',
+      '/signed-url-action(/)': 'showSignedUrlAction',
     }, controller)
 
     auth()
@@ -86,6 +87,8 @@ const controller = {
     }
   },
 
+  logout () { commands.execute('logout') },
+
   async showAuthorizeMenu () {
     const query = getAllQuerystringParameters()
 
@@ -102,7 +105,17 @@ const controller = {
     }
   },
 
-  logout () { commands.execute('logout') },
+  async showSignedUrlAction () {
+    const query = getAllQuerystringParameters()
+
+    try {
+      const { data, sig } = query
+      const { default: SignedUrlAction } = await import('./components/signed_url_action.svelte')
+      appLayout.showChildComponent('main', SignedUrlAction, { props: { data, sig } })
+    } catch (err) {
+      commands.execute('show:error', err)
+    }
+  },
 } as const
 
 async function getOAuthClient (clientId: string) {
