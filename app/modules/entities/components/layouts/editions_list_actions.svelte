@@ -8,8 +8,7 @@
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
 
   export let editions: SerializedEntity[]
   export let initialEditions: SerializedEntity[]
@@ -19,7 +18,7 @@
 
   let flash
 
-  $filters.selectedLang = mainUser.lang
+  $filters.selectedLang = getCurrentLang()
   $filters.selectedPublisher = 'all'
 
   let editionsLangs, langEntitiesLabel

@@ -6,7 +6,7 @@ import { someMatch } from '#app/lib/utils'
 import { getEntities } from '#entities/lib/entities'
 import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 export async function getHomonymsEntities (entity) {
   const { labels, aliases, type, isWikidataEntity } = entity
@@ -60,7 +60,7 @@ const getRelationsUris = claims => {
 const getSearchTermsSelection = (labels, aliases) => {
   let terms = getTerms(labels, aliases)
   if (terms.length > 10) {
-    const { lang: bestAvailableLang } = getBestLangValue(mainUser.lang, null, labels)
+    const { lang: bestAvailableLang } = getBestLangValue(getCurrentLang(), null, labels)
     const langsShortlist = uniq([ bestAvailableLang, 'en' ])
     labels = pick(labels, langsShortlist)
     aliases = pick(aliases, langsShortlist)

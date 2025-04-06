@@ -40,7 +40,7 @@
     if ('deleted' in user && user.deleted) commands.execute('show:error:missing')
   }
 
-  if (user && user._id === mainUser._id) section = 'user'
+  if (user && user._id === mainUser?._id) section = 'user'
 
   function onSectionChange () {
     if (section) {

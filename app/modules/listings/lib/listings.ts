@@ -10,8 +10,7 @@ import type { ListingElement, ListingElementId } from '#server/types/element'
 import type { EntityUri } from '#server/types/entity'
 import type { Listing, ListingId } from '#server/types/listing'
 import type { UserId } from '#server/types/user'
-import { I18n, i18n } from '#user/lib/i18n'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang, I18n, i18n } from '#user/lib/i18n'
 import { getUserById } from '#users/users_data'
 
 export interface ListingElementWithEntity extends ListingElement {
@@ -154,7 +153,7 @@ export async function assignEntitiesToElements (elements: ListingElement[]) {
   const res = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'info', 'labels', 'claims', 'image' ],
-    lang: mainUser.lang,
+    lang: getCurrentLang(),
   })
   const entitiesByUris = res.entities
   const entities = Object.values(entitiesByUris).map(serializeEntity)

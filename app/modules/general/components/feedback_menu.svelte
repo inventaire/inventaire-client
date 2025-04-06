@@ -57,7 +57,7 @@
       <div class="from">
         {#if mainUser}
           <span class="label">{i18n('from:')}</span>
-          <span class="username">{$mainUserStore.username}</span>
+          <span class="username">{$mainUserStore?.username}</span>
         {:else}
           <input
             type="email"

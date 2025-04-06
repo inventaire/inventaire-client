@@ -1,11 +1,11 @@
-import app from '#app/app'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 export function localizeDateString (dateString) {
   const datePartsCount = dateString.replace(/^-/, '').split('-').length
   const datePrecision = precisionByDatePartsCount[datePartsCount] || 'year'
   dateString = fillDateString(dateString, datePrecision)
   const date = new Date(dateString)
-  const userLang = app.user.lang
+  const userLang = getCurrentLang()
   const preferredLocale = navigator.languages?.find(locale => locale.startsWith(`${userLang}-`)) || userLang
   // undefined is letting the browser define its own locale
   const resolvableLocale = isResolvableIntlLangageCode(preferredLocale) ? preferredLocale : undefined

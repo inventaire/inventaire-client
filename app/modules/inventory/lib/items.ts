@@ -37,7 +37,7 @@ export interface SerializedItem extends ServerSerializedItem {
 }
 
 export function serializeItem (item: Item & Partial<SerializedItem>) {
-  item.authorized = item.owner === mainUser._id
+  item.authorized = item.owner === mainUser?._id
   item.mainUserIsOwner = item.authorized
   item.restricted = !item.authorized
 

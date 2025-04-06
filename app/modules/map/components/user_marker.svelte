@@ -13,7 +13,7 @@
 
   const { _id, username, picture } = doc
   const pathname = `/users/${username}`
-  const isMainUser = _id === mainUser._id
+  const isMainUser = _id === mainUser?._id
 
   const dispatch = createEventDispatcher()
 

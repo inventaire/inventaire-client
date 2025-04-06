@@ -14,8 +14,8 @@
   import Modal from '#components/modal.svelte'
   import UserInventory from '#inventory/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
+  import { mainUserHasAdminAccess } from '#modules/user/lib/main_user'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
   import ProfileNav from '#users/components/profile_nav.svelte'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
   import { setInventoryStats, type SerializedUser } from '../lib/users'
@@ -37,8 +37,6 @@
     created,
     fediversable,
   } = user
-
-  const { hasAdminAccess: mainUserHasAdminAccess } = mainUser
 
   let flash, userProfileEl, followersCount, waitingForFollowersCount
 
@@ -124,7 +122,7 @@
             {#if !standalone}
               <button class="unselect-profile" on:click={() => dispatch('unselectProfile')}>{@html icon('times')}</button>
             {/if}
-          {:else if mainUserHasAdminAccess}
+          {:else if mainUserHasAdminAccess()}
             <div class="admin-info">
               <span class="identifier">{userId}</span>
               <span class="creation-date" title={`${I18n('created')}: ${getISOTime(created)}`}>

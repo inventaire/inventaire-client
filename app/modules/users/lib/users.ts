@@ -4,6 +4,7 @@ import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
 import { countListings } from '#listings/lib/listings'
 import { distanceBetween } from '#map/lib/geo'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
 import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { Host, RelativeUrl } from '#server/types/common'
@@ -101,8 +102,8 @@ export function getPicture (user: Partial<SerializedUser>) {
 }
 
 export function setDistance (user) {
-  if (user.distanceFromMainUser != null) return
   if (!(mainUser?.position && user.position)) return
+  if (user.distanceFromMainUser != null) return
   const a = getCoords(mainUser)
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
@@ -111,7 +112,7 @@ export function setDistance (user) {
   // aren't precise to the meter or anything close to it
   // Above, return a ~1km precision
   const precision = distance > 20 ? 0 : 1
-  user.distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString(mainUser.lang)
+  user.distanceFromMainUser = Number(distance.toFixed(precision)).toLocaleString(getCurrentLang())
 }
 
 function getCoords (user) {

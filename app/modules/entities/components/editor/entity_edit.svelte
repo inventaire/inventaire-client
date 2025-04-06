@@ -7,8 +7,7 @@
   import type { SerializedEntity } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typesPossessiveForms } from '#entities/lib/types/entities_types'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import EntityEditMenu from './entity_edit_menu.svelte'
   import LabelsEditor from './labels_editor.svelte'
 
@@ -26,7 +25,7 @@
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
     } else {
-      favoriteLabel = getBestLangValue(mainUser.lang, null, labels).value
+      favoriteLabel = getBestLangValue(getCurrentLang(), null, labels).value
     }
   }
 

@@ -29,8 +29,7 @@
       const nearbyDocs = docsToDisplay.filter(item => isNearby(item.distanceFromMainUser))
       const nearbyBounds = pluck(nearbyDocs, 'position')
       initialBounds = nearbyBounds.length > 0 ? nearbyBounds : bounds
-      const mainUserPosition = mainUser.position
-      if (mainUserPosition) initialBounds = initialBounds.concat([ mainUserPosition ])
+      if (mainUser?.position) initialBounds = initialBounds.concat([ mainUser.position ])
       updateFilters(docsToDisplay)
     }
   }
@@ -63,7 +62,7 @@
   }
 
   function findMainUserItems (displayedItems) {
-    return displayedItems.find(item => item.owner === $mainUserStore._id)
+    return displayedItems.find(item => item.owner === $mainUserStore?._id)
   }
 
   $: onChange(docsToDisplay, onDocsToDisplayChange)
@@ -76,7 +75,7 @@
 <div class="items-map">
   {#if bounds.length > 0}
     <LeafletMap
-      bounds={$mainUserStore.position ? bounds.concat([ $mainUserStore.position ]) : bounds}
+      bounds={$mainUserStore?.position ? bounds.concat([ $mainUserStore.position ]) : bounds}
       cluster={true}
     >
       {#each displayedItems as item (item._id)}

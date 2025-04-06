@@ -27,7 +27,7 @@
       if (lastItemsParams.hasMore === false) return
     } else {
       lastItemsParams = {
-        userId: mainUser._id,
+        userId: mainUser?._id,
         items: [],
         limit: batchLength,
         offset: 0,
@@ -62,7 +62,7 @@
 
     const offset = searchOffset
     const res = await preq.get(API.items.search({
-      user: mainUser._id,
+      user: mainUser?._id,
       search: input,
       limit: batchLength,
       offset,

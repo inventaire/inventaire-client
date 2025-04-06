@@ -44,7 +44,7 @@
 
   const waitingForInitialListings = getNextListingsBatch(0, paginationSize)
 
-  const isMainUser = usersIds[0] === mainUser._id
+  const isMainUser = usersIds[0] === mainUser?._id
 
   let showListingCreationModal = false
   async function showNewListing (newListing: Listing) {

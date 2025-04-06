@@ -12,7 +12,7 @@ function start (setStoreValue) {
 
 async function refresh (setStoreValue) {
   if (mainUser) {
-    const { listings } = await getListingsByCreators({ usersIds: [ mainUser._id ] })
+    const { listings } = await getListingsByCreators({ usersIds: [ mainUser?._id ] })
     setStoreValue(listings)
   } else {
     setStoreValue([])

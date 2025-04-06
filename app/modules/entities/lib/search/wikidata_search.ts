@@ -1,7 +1,7 @@
 import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { searchWikidataEntities } from '#app/lib/wikimedia/wikidata'
-import { mainUser } from '#user/lib/main_user'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
@@ -28,7 +28,7 @@ const filterOutSpecialPages = result => {
 
 // make the result match the needs of #search/components/search_result.svelte
 const formatAsSearchResult = result => {
-  const { lang } = mainUser
+  const lang = getCurrentLang()
   const { id, label, description, aliases } = result
   result.uri = `wd:${id}`
   result.labels = {}

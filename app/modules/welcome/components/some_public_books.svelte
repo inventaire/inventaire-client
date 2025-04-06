@@ -8,14 +8,13 @@
   import ItemsTable from '#inventory/components/items_table.svelte'
   import { getRecentPublicItems } from '#inventory/lib/queries'
   import type { SerializedItem } from '#server/types/item'
-  import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let items: SerializedItem[] = []
   export let waitingForItems
 
   const params = {
-    lang: mainUser.lang as UserLang,
+    lang: getCurrentLang() as UserLang,
     assertImage: true,
     items: [],
   }

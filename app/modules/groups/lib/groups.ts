@@ -53,7 +53,7 @@ export function getGroupPathname (group) {
   return `/groups/${group.slug}`
 }
 
-const memberIsMainUser = ({ user }) => user === mainUser._id
+const memberIsMainUser = ({ user }) => user === mainUser?._id
 
 export function mainUserIsGroupAdmin (group) {
   return group.admins.find(memberIsMainUser) != null
@@ -74,7 +74,7 @@ export function getUserGroupStatus (userId: UserId, group: Group | SerializedGro
   return 'none'
 }
 
-export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(mainUser._id, group)
+export const getMainUserGroupStatus = (group: Group | SerializedGroup) => getUserGroupStatus(mainUser?._id, group)
 
 export async function getCachedSerializedGroupMembers (group) {
   const allMembersIds = getAllGroupMembersIds(group)
@@ -120,7 +120,7 @@ export function findInvitation (group, userId) {
 }
 
 export async function findMainUserInvitor (group) {
-  const invitation = findInvitation(group, mainUser._id)
+  const invitation = findInvitation(group, mainUser?._id)
   if (invitation) return getUserById(invitation.invitor)
 }
 

@@ -8,8 +8,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
-  import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let entity
   export let showLabel = false
@@ -19,7 +18,7 @@
   let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
 
-  const { lang: userLang } = mainUser
+  const userLang = getCurrentLang()
   const langLabel = languages[userLang].native
 
   function getSummaries () {
