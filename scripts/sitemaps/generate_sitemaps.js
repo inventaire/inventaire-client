@@ -1,11 +1,9 @@
-import chalk from 'tiny-chalk'
-import wdk from 'wikibase-sdk/wikidata.org'
+import { green } from 'tiny-chalk'
+import { wdk } from 'wikibase-sdk/wikidata.org'
 import { folderPath } from './config.js'
 import queries from './queries.js'
 import wrapUrls from './wrap_urls.js'
 import writeSitemap from './write_sitemap.js'
-
-const { green } = chalk
 
 export function generateSitemaps () {
   const queriesNames = Object.keys(queries)

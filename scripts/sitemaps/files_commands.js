@@ -1,9 +1,8 @@
 import { exec } from 'node:child_process'
 import fs from 'node:fs'
-import chalk from 'tiny-chalk'
+import { grey, green } from 'tiny-chalk'
 import { folderPath } from './config.js'
 
-const { grey, green } = chalk
 const cp = (orignal, copy) => fs.createReadStream(orignal).pipe(fs.createWriteStream(copy))
 
 const { stderr } = process
