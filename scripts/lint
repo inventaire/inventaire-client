@@ -2,7 +2,7 @@
 
 set -e
 
-ESLINT_ARGS="--format codeframe --ext js,ts,svelte --config .eslintrc.cli.cjs"
+ESLINT_ARGS="--format codeframe --ext js,ts,svelte --config eslint.config.cli.js"
 
 if [ "$1" != "" ] ; then
   eslint $ESLINT_ARGS "$@"

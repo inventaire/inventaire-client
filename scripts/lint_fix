@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 if [ "$1" != "" ] ; then
-  eslint --config .eslintrc.cli.cjs --format codeframe --ext js,ts,svelte --fix "$@"
-  stylelint --config .stylelintrc.cjs --quiet-deprecation-warnings --fix "$@"
+  eslint --config eslint.config.cli.js --format codeframe --ext js,ts,svelte --fix "$@"
+  stylelint --config .stylelintrc.cjs --quiet-deprecation-warnings  --allow-empty-input --fix "$@"
 else
-  eslint --config .eslintrc.cli.cjs --format codeframe --ext js,ts,svelte --fix app tests scripts
+  eslint --config eslint.config.cli.js --format codeframe --ext js,ts,svelte --fix app tests scripts
   stylelint --config .stylelintrc.cjs --quiet-deprecation-warnings --fix app
 fi
