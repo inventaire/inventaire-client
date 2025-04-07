@@ -7,7 +7,7 @@ mkdir -p logs
 
 log_file="logs/types_check_results.log"
 
-svelte-check --tsconfig ./tsconfig.client.json |
+svelte-check --tsconfig ./tsconfig.app.json |
   tee "$log_file"
 
 error_count=$(grep -E '^Error:' "$log_file" --count)

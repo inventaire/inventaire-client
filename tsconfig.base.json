@@ -1,8 +1,6 @@
 {
+  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
     // Include the server repo to avoid errors such as
     // `File '/path/to/inventaire/types/common.ts' is not under 'rootDir' '/path/to/inventaire/client'. 'rootDir' is expected to contain all source files.`
     // See https://www.typescriptlang.org/tsconfig#rootDir
@@ -12,14 +10,32 @@
     "allowJs": false,
     "checkJs": false,
     "allowImportingTsExtensions": true,
-    "skipLibCheck": true,
     "incremental": true,
     "preserveSymlinks": true,
-    // Svelte Preprocess cannot figure out whether you have a value or a type, so tell TypeScript
-    // to enforce using `import type` instead of `import` for Types.
-    // Source: https://github.com/tsconfig/bases/blob/ebe629c2857d386a0bc2c5d60cab18b9f1a425d0/bases/svelte.json#L11-L14
-    "verbatimModuleSyntax": true,
-    "sourceMap": true,
+
+    // Override @tsconfig/svelte/tsconfig.json
+    "strict": false,
+    // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248
+    // "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    // "noImplicitAny": true,
+    "noImplicitOverride": true,
+    // "noImplicitReturns": true,
+    // "noImplicitThis": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "noUncheckedIndexedAccess": true,
+    "strictBindCallApply": true,
+    // "strictFunctionTypes": true,
+    // "strictNullChecks": true,
+    // "strictPropertyInitialization": true,
+    // "useUnknownInCatchVariables": true,
+
+    // Flags redundant with ESLint, adding noise to type error reports
+    // "allowUnreachableCode": false,
+    // "allowUnusedLabels": false,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+
     "paths": {
       "#activitypub": [
         "./app/modules/activitypub/*"
@@ -100,25 +116,5 @@
         "./vendor/*"
       ],
     },
-    // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248
-    // "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true,
-    // "noImplicitAny": true,
-    "noImplicitOverride": true,
-    // "noImplicitReturns": true,
-    // "noImplicitThis": true,
-    // "noPropertyAccessFromIndexSignature": true,
-    // "noUncheckedIndexedAccess": true,
-    "strictBindCallApply": true,
-    // "strictFunctionTypes": true,
-    // "strictNullChecks": true,
-    // "strictPropertyInitialization": true,
-    // "useUnknownInCatchVariables": true,
-
-    // Flags redundant with ESLint, adding noise to type error reports
-    // "allowUnreachableCode": false,
-    // "allowUnusedLabels": false,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
   },
 }

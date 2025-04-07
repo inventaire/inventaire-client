@@ -1,6 +1,0 @@
-// Some tools (namely VSCode Eslint plugin) do not look for tsconfig.client.json (declared in eslint.config.js)
-// in the root folder but in app. It's either misconfiguration or a bug, but until this can be fixed,
-// this file does the trick
-{
-  "extends": "../tsconfig.client.json"
-}

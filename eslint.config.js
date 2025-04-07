@@ -10,7 +10,7 @@ import nodeImport from 'eslint-plugin-node-import'
 import svelte from 'eslint-plugin-svelte'
 import globals from 'globals'
 import ts from 'typescript-eslint'
-import svelteConfig from './svelte.config.cjs'
+import svelteConfig from './svelte.config.js'
 
 export default ts.config(
   globalIgnores([
@@ -63,7 +63,7 @@ export default ts.config(
     settings: {
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
-          project: './tsconfig.client.json',
+          project: './tsconfig.app.json',
         }),
       ],
     },

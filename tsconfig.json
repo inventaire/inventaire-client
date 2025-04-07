@@ -1,13 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "noEmit": true,
-  },
-  "include": [
-    "app",
-    "tests",
-  ],
+  "files": [],
   "references": [
-    { "path": "../tsconfig.build.json" },
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
   ]
 }
