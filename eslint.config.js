@@ -141,6 +141,24 @@ export default ts.config(
           allowTypeImports: true,
         } ],
       } ],
+    },
+  },
+  {
+    // See https://sveltejs.github.io/eslint-plugin-svelte/user-guide/
+    files: [ '**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js' ],
+    languageOptions: {
+      parserOptions: {
+        parser: ts.parser,
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+        extraFileExtensions: [ '.svelte' ],
+        svelteConfig,
+      },
+    },
+    rules: {
+      // Overrides
+      'no-return-assign': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
 
       // See https://sveltejs.github.io/eslint-plugin-svelte/rules/
       'svelte/no-at-html-tags': 'off',
@@ -168,23 +186,6 @@ export default ts.config(
       'svelte/spaced-html-comment': 'error',
       'svelte/no-trailing-spaces': 'error',
       'svelte/valid-compile': 'off',
-    },
-  },
-  {
-    // See https://sveltejs.github.io/eslint-plugin-svelte/user-guide/
-    files: [ '**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js' ],
-    languageOptions: {
-      parserOptions: {
-        parser: ts.parser,
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-        extraFileExtensions: [ '.svelte' ],
-        svelteConfig,
-      },
-    },
-    rules: {
-      'no-return-assign': 'off',
-      '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
   {
