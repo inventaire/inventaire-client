@@ -3,6 +3,7 @@
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
   import { sendEmailInvitations } from '#users/invitations'
@@ -24,6 +25,11 @@
       flash = err
     }
   }
+
+  function clearFlash () {
+    flash = null
+  }
+  $: onChange(rawEmails, message, clearFlash)
 </script>
 
 <div class="invite-by-email">
@@ -90,7 +96,7 @@
   {/if}
 </div>
 
-<Flash state={flash} />
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
