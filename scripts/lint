@@ -2,6 +2,8 @@
 
 set -e
 
+export TIMING=1
+
 ESLINT_ARGS="--format codeframe --ext js,ts,svelte --config eslint.config.cli.js"
 
 if [ "$1" != "" ] ; then
