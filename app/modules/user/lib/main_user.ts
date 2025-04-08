@@ -7,7 +7,7 @@ import type { UserLang } from '#app/lib/active_languages'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
-import { parseBooleanString } from '#app/lib/utils'
+import { parseBooleanString, setDeepAttribute } from '#app/lib/utils'
 import type { OwnerSafeUser } from '#server/controllers/user/lib/authorized_user_data_pickers'
 import type { DeletedUser } from '#server/types/user'
 import { notificationsList } from '#settings/lib/notifications_settings_list'
@@ -86,7 +86,7 @@ function setDefaultNotificationsSettings (notifications: OwnerSafeUser['settings
 export async function updateUser (attribute: string, value: unknown) {
   const currentValue = app.user[attribute]
   try {
-    app.user[attribute] = value
+    app.user = setDeepAttribute(app.user, attribute, value)
     mainUser.set(app.user)
     if (loggedIn) await preq.put(API.user, { attribute, value })
     if (attribute in afterUserUpdateHooks) {
@@ -94,10 +94,12 @@ export async function updateUser (attribute: string, value: unknown) {
       mainUser.set(app.user)
     }
   } catch (err) {
-    // Rollback
-    app.user[attribute] = currentValue
-    mainUser.set(app.user)
-    throw err
+    if (err.message !== 'already up-to-date') {
+      // Rollback
+      app.user = setDeepAttribute(app.user, attribute, currentValue)
+      mainUser.set(app.user)
+      throw err
+    }
   }
 }
 

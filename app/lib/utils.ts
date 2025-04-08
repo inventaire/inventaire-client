@@ -286,3 +286,16 @@ export function elementIsInViewport (element: Element) {
     rect.left <= html.clientWidth &&
     rect.top <= html.clientHeight
 }
+
+/** Like https://lodash.com/docs#set but with only dot-notation support (no brackets) */
+export function setDeepAttribute <T extends object> (obj: T, objectPath: string, value: unknown) {
+  const parts = objectPath.split('.')
+  const objectPathParts = parts.slice(0, -1)
+  const attribute = parts.at(-1)
+  let target = obj
+  for (const part of objectPathParts) {
+    target = target[part]
+  }
+  target[attribute] = value
+  return obj
+}

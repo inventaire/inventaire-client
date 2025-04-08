@@ -8,10 +8,10 @@
   let flash
   const description = name + '_notification'
 
-  const updateSetting = () => {
+  async function updateSetting () {
     flash = null
     try {
-      updateUser(`settings.notifications.${name}`, value)
+      await updateUser(`settings.notifications.${name}`, value)
     } catch (err) {
       flash = err
     }
