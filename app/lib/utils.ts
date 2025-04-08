@@ -2,7 +2,7 @@ import { isArray, debounce } from 'underscore'
 import app from '#app/app'
 import { assertFunction, assertObject } from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
-import { serverReportError } from '#app/lib/error'
+import { newError, serverReportError } from '#app/lib/error'
 import { currentRoute, type ProjectRootRelativeUrl } from '#app/lib/location'
 import type { RelativeUrl } from '#server/types/common'
 import type { ObjectEntries } from 'type-fest/source/entries'
@@ -59,9 +59,14 @@ export function isOpenedOutside (e, ignoreMissingHref = false) {
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 export function loadInternalLink (e) {
+  const { href } = e.currentTarget
+  if (!isNonEmptyString(href)) {
+    throw newError('missing internal link', 500, { href })
+  }
   if (!(isOpenedOutside(e))) {
-    const { pathname, search } = new URL(e.currentTarget.href)
-    app.navigateAndLoad(`${pathname}${search}`, {
+    const { pathname, search } = new URL(href)
+    const route = `${pathname}${search}`
+    app.navigateAndLoad(route, {
       preventScrollTop: isModalPathname(pathname),
     })
     e.preventDefault()

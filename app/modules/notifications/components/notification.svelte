@@ -1,10 +1,11 @@
 <script lang="ts">
-  import Flash from '#app/lib/components/flash.svelte'
+  import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
-  import { getGroup } from '#groups/lib/groups'
+  import { getGroup, serializeGroup, type SerializedGroup } from '#groups/lib/groups'
+  import { serializeUser, type SerializedUser } from '#modules/users/lib/users'
   import type { Notification } from '#server/types/notification'
   import { i18n } from '#user/lib/i18n'
   import { getUserById } from '#users/users_data'
@@ -13,19 +14,23 @@
   export let notification: Notification
 
   const { type, time, data, status } = notification
-  let user, group, flash, text, textContext
+  let user: SerializedUser
+  let group: SerializedGroup
+  let flash: FlashState
+  let text: string
+  let textContext
   const unread = status === 'unread'
 
   let waitingForUser, waitingForGroup
   if (data.user) {
     waitingForUser = getUserById(data.user)
-      .then(res => user = res)
+      .then(res => user = serializeUser(res))
       .catch(err => flash = err)
   }
 
   if ('group' in data) {
     waitingForGroup = getGroup(data.group)
-      .then(res => group = res)
+      .then(res => group = serializeGroup(res))
       .catch(err => flash = err)
   }
 
@@ -48,6 +53,9 @@
       }
     })
     .catch(err => flash = err)
+
+  // @ts-expect-error Soemthing doesn't work with imgSrc and ImageDataUrl
+  const groupImage = group?.picture != null ? imgSrc(group.picture, 48) : null
 </script>
 
 {#await waitingForData then}
@@ -63,7 +71,7 @@
       </a>
     {:else if type === 'groupUpdate' || type === 'userMadeAdmin'}
       <a class="notification-link {type}" href={group.pathname}>
-        <img src={imgSrc(group.picture, 48)} alt={group.name} />
+        <img src={groupImage} alt={group.name} />
         <div class="info">
           <span>{@html i18n(text, textContext)}</span><br />
           <span class="time">{timeFromNow(time)}</span>
