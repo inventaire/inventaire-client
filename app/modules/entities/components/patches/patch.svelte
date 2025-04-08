@@ -87,7 +87,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .patch{
     background-color: $darker-grey;
     @include radius;

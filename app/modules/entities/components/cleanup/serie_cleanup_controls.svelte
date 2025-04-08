@@ -91,7 +91,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .controls-section{
     flex: 1 0 auto;
     background-color: $light-grey;

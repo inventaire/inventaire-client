@@ -62,7 +62,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .listings-layout{
     padding: 0.5em;
     background-color: $off-white;

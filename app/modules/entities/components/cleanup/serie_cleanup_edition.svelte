@@ -109,7 +109,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .serie-cleanup-edition{
     padding: 0 0.2em;
     margin: 0.2em 0;

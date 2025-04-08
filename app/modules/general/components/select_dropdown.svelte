@@ -108,7 +108,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/select_dropdown_commons";
+  @use "#general/scss/select_dropdown_commons";
   label{
     overflow: hidden;
     text-overflow: ellipsis;

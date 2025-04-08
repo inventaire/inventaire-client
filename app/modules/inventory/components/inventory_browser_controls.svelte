@@ -87,7 +87,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .wrapper{
     @include display-flex(column, stretch);
     margin-block-start: 0.5em;

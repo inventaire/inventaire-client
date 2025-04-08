@@ -17,7 +17,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   button{
     max-block-size: 2.5em;
     font-weight: normal;

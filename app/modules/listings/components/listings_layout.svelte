@@ -17,7 +17,7 @@
 </ul>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .listings-layout{
     @include display-flex(row, center, center, wrap);
     margin: auto;

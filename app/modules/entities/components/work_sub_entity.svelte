@@ -113,7 +113,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   h3{
     font-size: 1.2em;

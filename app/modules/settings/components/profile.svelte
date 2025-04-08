@@ -182,7 +182,7 @@
 <UserPositionPicker bind:showPositionPicker />
 
 <style lang="scss">
-  @import "#settings/scss/common_settings";
+  @use "#settings/scss/common_settings";
   .position-status{
     padding-block-end: 1em;
   }

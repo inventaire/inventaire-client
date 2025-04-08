@@ -32,7 +32,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   p{
     margin-block-start: 1rem;
   }

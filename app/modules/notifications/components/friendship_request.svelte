@@ -87,7 +87,7 @@
 </UserLi>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .actions{
     :global(.flash){
       padding: 0.2rem 0.6rem;

@@ -7,16 +7,16 @@
 // those can't be split into several non-partial files (despite the fact that
 // it would allow better error reports than just 'base.scss failed'), as global
 // variables need to be accessible to all
-@import 'media_query_thresholds';
-@import 'fonts_and_typo_utils';
-@import 'mixins';
-@import 'colors_utils';
-@import 'links_utils';
-@import 'radius_utils';
-@import 'buttons_utils';
-@import 'panel_utils';
-@import 'shadow_box';
-@import 'background';
+@use 'media_query_thresholds';
+@use 'fonts_and_typo_utils';
+@use 'mixins';
+@use 'colors_utils';
+@use 'links_utils';
+@use 'radius_utils';
+@use 'buttons_utils';
+@use 'panel_utils';
+@use 'shadow_box';
+@use 'background';
 
 $topbar-bg-color: $darker-grey;
 $topbar-height: 46px;

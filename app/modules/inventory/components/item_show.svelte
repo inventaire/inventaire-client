@@ -155,7 +155,7 @@
 <!-- TODO: display edition summary when available -->
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .item-show{
     position: relative;
     min-width: min(90vw, 60em);

@@ -126,7 +126,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .inner-top-bar-buttons{
     align-self: stretch;

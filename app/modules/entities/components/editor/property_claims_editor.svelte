@@ -94,7 +94,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#entities/scss/entity_editors_commons";
+  @use "#entities/scss/entity_editors_commons";
   .editor-section-header{
     inline-size: 9em;
   }

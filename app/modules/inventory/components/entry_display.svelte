@@ -108,7 +108,7 @@
   </div>
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entry-display{
     margin-inline-end: 1em;
     width: 100%;

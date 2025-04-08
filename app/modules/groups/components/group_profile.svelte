@@ -184,7 +184,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .full-group-profile{
     // Make sure it is possible to scroll to put the group profile at the top of the viewport
     min-height: 100vh;

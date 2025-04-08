@@ -205,8 +205,8 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
-  @import "#users/scss/users_home_section_navs";
+  @use "#general/scss/utils";
+  @use "#users/scss/users_home_section_navs";
 
   .list-header{
     @include display-flex(row, center, space-between);

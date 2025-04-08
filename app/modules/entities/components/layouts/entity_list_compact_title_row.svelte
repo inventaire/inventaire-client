@@ -15,8 +15,8 @@
   </div>
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
-  @import "#entities/scss/entity_list_compact";
+  @use "#general/scss/utils";
+  @use "#entities/scss/entity_list_compact";
   .entity-list-compact{
     font-weight: bold;
     border-block-end: 1px solid #ddd;

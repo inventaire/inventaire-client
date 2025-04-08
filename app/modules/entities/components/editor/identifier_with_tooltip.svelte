@@ -31,7 +31,7 @@
 </Tooltip>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .uri{
     font-size: 0.7rem;

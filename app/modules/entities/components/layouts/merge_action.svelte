@@ -55,7 +55,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .merge-action{
     :global(.wikidata){
       background-color: $wikidata-green;

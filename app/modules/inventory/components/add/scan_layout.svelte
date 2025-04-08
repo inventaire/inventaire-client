@@ -40,7 +40,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   $scan-contrast: #f5f5f5;
 
@@ -90,5 +90,5 @@
     text-align: start;
   }
 
-  // @import 'embedded';
+  // @use 'embedded';
 </style>

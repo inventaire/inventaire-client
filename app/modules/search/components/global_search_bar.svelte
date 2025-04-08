@@ -359,7 +359,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   #search-group{
     align-self: center;
     flex: 1 0 0;

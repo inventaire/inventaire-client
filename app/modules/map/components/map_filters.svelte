@@ -80,7 +80,7 @@
   </div>
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   @mixin filter-button($color, $text-color:white){
     color: $dark-grey;
     background-color: white;

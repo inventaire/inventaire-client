@@ -78,7 +78,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .task-entity{
     padding: 0 1em;
     // Leave some room for TaskControls

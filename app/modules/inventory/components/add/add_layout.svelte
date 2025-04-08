@@ -84,7 +84,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   $custom-tab-max-width: 40em;
 

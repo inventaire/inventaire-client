@@ -150,7 +150,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .listing-element-show{
     min-width: 40em;
     /* Very small screens */

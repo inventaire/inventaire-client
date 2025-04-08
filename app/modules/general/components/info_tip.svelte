@@ -30,7 +30,7 @@
 <svelte:body on:click={hideInfoText} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   button{
     padding: 0 0.2rem;
     margin: 0 0.2rem;

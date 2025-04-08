@@ -6,7 +6,7 @@
   {externalShelf.name}
 </label>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   input{
     margin-inline-end: 0.5em;
   }

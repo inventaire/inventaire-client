@@ -48,7 +48,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   #tabs{
     @include display-flex(row, center, center);
     margin-block-end: 0.5em;

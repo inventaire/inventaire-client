@@ -44,7 +44,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .property{
     color: $label-grey;
   }

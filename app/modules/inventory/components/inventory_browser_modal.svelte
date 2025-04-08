@@ -76,7 +76,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .modal-wrapper{
     :global(.modal-inner){
       min-width: 80vw;

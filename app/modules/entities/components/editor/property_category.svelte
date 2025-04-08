@@ -96,7 +96,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   button{
     @include display-flex(row, center, flex-start);

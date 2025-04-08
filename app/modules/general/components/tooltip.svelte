@@ -18,7 +18,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   // Adapted from https://www.cssportal.com/css-tooltip-generator/
   $tooltip-bg-color: $dark-grey;

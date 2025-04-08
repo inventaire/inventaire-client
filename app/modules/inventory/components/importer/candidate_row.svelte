@@ -159,7 +159,7 @@
   <Flash state={flash} />
 </li>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .candidate-row{
     @include radius;
     border: solid 1px #ccc;

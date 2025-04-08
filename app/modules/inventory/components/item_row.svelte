@@ -134,7 +134,7 @@
 <ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   $item-row-height-base: 4em;
 

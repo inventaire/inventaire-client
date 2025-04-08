@@ -95,7 +95,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .item-details{
     background-color: $off-white;
     padding: 0.5em 1em;

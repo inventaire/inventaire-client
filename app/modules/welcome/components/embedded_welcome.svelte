@@ -31,7 +31,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .embedded-welcome{
     padding-block-start: 2em;
     padding-block-end: 2em;

@@ -18,8 +18,8 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#transactions/scss/transactions_commons';
+  @use '#general/scss/utils';
+  @use '#transactions/scss/transactions_commons';
   .action{
     padding: 1em 0 1em 0.2em;
   }

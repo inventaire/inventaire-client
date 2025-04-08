@@ -91,7 +91,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .items-lists{
     margin: auto;
     inline-size: 100%;

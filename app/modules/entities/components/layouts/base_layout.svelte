@@ -47,7 +47,7 @@
 <EmbeddedWelcome />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .layout{
     @include display-flex(column, stretch, center);
     margin: 0 auto;

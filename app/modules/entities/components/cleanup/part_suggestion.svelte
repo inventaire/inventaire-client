@@ -98,7 +98,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .serie-cleanup-part-suggestion{
     @include radius;

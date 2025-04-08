@@ -102,7 +102,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .listing-info{
     align-self: stretch;
     margin: 0.5em;

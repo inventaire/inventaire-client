@@ -181,7 +181,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .profile-buttons{
     @include display-flex(column, stretch, flex-start);
     a, .tiny-button{

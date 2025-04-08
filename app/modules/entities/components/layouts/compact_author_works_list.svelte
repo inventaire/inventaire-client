@@ -67,7 +67,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .compact-author-works-list{
     align-self: stretch;
     &.empty{

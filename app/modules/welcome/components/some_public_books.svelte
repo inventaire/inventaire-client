@@ -71,7 +71,7 @@
 </div>
 
 <style lang="scss">
-  @import "#welcome/scss/welcome_layout_commons";
+  @use "#welcome/scss/welcome_layout_commons";
 
   .some-public-books{
     min-height: 1rem;

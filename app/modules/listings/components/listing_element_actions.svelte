@@ -67,7 +67,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .reorder-section{
     @include display-flex(column, center);
     margin-inline-start: 1em;

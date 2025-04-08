@@ -20,7 +20,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .welcome-layout{
     :global(h3){
       margin-block-start: 0.5em;

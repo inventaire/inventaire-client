@@ -1,4 +1,4 @@
-@import '#general/scss/utils';
+@use '#general/scss/utils';
 
 .auth-menu{
   @include central-column(28em);

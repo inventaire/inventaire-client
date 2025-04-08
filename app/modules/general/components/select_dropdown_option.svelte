@@ -37,7 +37,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $image-size: 2em;
   .inner-select-option{
     flex: 1;

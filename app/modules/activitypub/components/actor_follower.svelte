@@ -46,7 +46,7 @@
   </a>
 </li>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   li{
     @include bg-hover($light-grey, 5%);
     margin: 0.5em;

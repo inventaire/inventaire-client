@@ -32,7 +32,7 @@
 </button>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .confirmation{
     color: $success-color;
     text-decoration: none;

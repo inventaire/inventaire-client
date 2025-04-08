@@ -54,7 +54,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   #importLayout{
     margin: 0 auto;
     max-width: 50em;

@@ -37,7 +37,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .other-work-editions{
     @include display-flex(column, center, flex-end);
     @include radius;

@@ -55,7 +55,7 @@
 </button>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .value-display{
     flex: 1;
     block-size: 100%;

@@ -63,7 +63,7 @@
 <svelte:body on:submit={preventFormSubmit} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .top-bar{
     // Required to set a z-index

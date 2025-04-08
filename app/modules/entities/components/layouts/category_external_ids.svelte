@@ -76,7 +76,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .category-label{
     color: $label-grey;
   }

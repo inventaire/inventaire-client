@@ -24,7 +24,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .icon-button{
     @include display-flex(row, center, center);

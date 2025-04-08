@@ -19,7 +19,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .shelf-picture{
     flex: 0 0 auto;
     width: 48px;

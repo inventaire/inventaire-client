@@ -33,7 +33,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .focused-transaction-layout{
     max-width: 40em;

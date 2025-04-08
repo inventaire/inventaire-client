@@ -72,7 +72,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .works-browser-text-filter{
     align-self: flex-end;
     position: relative;

@@ -125,7 +125,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .shelf-editor{
     padding: 0 0.5em;
     label, :global(fieldset){

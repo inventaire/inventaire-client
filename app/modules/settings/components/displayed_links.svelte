@@ -102,7 +102,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   section{
     margin-block-end: 1em;
     @include shy-border;

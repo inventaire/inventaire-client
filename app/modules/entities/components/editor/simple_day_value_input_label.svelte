@@ -24,7 +24,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   div{
     margin-block-end: 0.1em;
     block-size: 1.5rem;

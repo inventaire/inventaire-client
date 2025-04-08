@@ -32,7 +32,7 @@
   </button>
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .candidates-nav{
     @include display-flex(row, center, center, wrap);
     button{

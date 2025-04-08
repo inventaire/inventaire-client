@@ -41,7 +41,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .description{
     font-size: 0.9rem;
     margin-block-end: 0.5em;

@@ -26,7 +26,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .serie-cleanup-author{
     margin: 0.2em 0;

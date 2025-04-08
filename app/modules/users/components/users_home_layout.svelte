@@ -118,7 +118,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .wrapper{
     transition: min-height 0.5s 5s ease;

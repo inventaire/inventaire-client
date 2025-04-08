@@ -105,7 +105,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-merge-layout{
     max-inline-size: 50em;
     margin: 1em auto;

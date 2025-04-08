@@ -21,7 +21,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .zoom-in-overlay{
     background-color: rgba($dark-grey, 0.5);

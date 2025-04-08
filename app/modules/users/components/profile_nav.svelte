@@ -57,7 +57,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .profile-tabs{
     @include display-flex(row, center, center, wrap);
     margin-block-end: 0.5em;

@@ -93,7 +93,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .invite-by-email{
     padding: 0.5em;
   }

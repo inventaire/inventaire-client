@@ -33,7 +33,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   ul{
     @include display-flex(row, center, flex-start, wrap);
     margin: 0 auto;

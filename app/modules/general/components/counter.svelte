@@ -19,7 +19,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import "#modules/general/scss/utils";
+  @use "#modules/general/scss/utils";
   .count{
     min-width: 3em;
     text-align: end;

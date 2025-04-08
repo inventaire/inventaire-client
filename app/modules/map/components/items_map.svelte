@@ -121,7 +121,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .items-map{
     position: relative;
     height: 30em;

@@ -212,7 +212,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .full-shelf-box{
     // Make sure it is possible to scroll to put the shelf box at the top of the viewport
     min-height: 100vh;

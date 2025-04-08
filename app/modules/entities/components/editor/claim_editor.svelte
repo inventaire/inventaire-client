@@ -217,7 +217,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .wrapper:not(:first-child){
     margin-block-start: 1em;
   }

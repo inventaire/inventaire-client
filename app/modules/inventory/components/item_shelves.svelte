@@ -102,8 +102,8 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
-  @import "#inventory/scss/shelves_selectors";
+  @use "#general/scss/utils";
+  @use "#inventory/scss/shelves_selectors";
   .item-shelves:not(:empty){
     margin-block-start: 1em;
     background: $off-white;

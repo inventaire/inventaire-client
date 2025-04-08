@@ -101,7 +101,7 @@
 <button class="light-blue-button" on:click={updatePassword}>{I18n('change password')}</button>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .forgotPassword .link{
     font-size: 0.9rem;

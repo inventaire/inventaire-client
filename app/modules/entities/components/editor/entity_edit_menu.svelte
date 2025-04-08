@@ -246,7 +246,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .menu-wrapper{
     $entity-edit-max-width: 40em;
     /* Small screens */

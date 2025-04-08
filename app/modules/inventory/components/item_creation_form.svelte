@@ -165,7 +165,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .item-creation{
     max-width: 50em;

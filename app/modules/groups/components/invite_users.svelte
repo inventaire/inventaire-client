@@ -48,7 +48,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $filter-padding-top: 0.5em;
   $filter-icon-margin: 0.6em;
 

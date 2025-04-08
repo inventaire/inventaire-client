@@ -74,7 +74,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'legacy',
+        // api: 'legacy',
       },
     },
     postcss: {

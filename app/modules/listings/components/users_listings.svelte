@@ -108,7 +108,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .user-listings{
     margin: 0 auto;
     padding: 0.5em;

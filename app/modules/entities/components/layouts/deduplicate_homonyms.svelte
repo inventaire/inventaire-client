@@ -151,7 +151,7 @@
   {/await}
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .loading-wrapper, .entity-info-wrapper{
     @include display-flex(row, center, center);
   }

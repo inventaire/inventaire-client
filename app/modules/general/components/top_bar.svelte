@@ -60,7 +60,7 @@
 </nav>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   nav{
     // Screens that have enough vertical space to display the full top bar menu,

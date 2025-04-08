@@ -37,8 +37,8 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#user/scss/auth_menu_commons';
+  @use '#general/scss/utils';
+  @use '#user/scss/auth_menu_commons';
 
   .auth-menu{
     @include central-column(40em);

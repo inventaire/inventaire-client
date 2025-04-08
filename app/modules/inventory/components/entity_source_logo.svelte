@@ -28,7 +28,7 @@
   </span>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-source-logo{
     @include serif;
     vertical-align: super;

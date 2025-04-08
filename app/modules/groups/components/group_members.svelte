@@ -30,7 +30,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   ul{
     background-color: white;
     padding: 0.5rem;

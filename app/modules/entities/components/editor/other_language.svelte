@@ -22,7 +22,7 @@
   </li>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .edit-other-language{
     inline-size: 100%;
     margin: 0.5em 0;

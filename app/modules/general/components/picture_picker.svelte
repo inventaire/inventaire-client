@@ -187,7 +187,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   h4{
     text-align: center;
   }

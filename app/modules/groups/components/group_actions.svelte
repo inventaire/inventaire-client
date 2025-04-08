@@ -76,7 +76,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .actions{
     @include display-flex(row);
     font-weight: normal;

@@ -280,7 +280,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   input, textarea{
     // sections already have padding/margin

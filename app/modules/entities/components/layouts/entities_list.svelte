@@ -25,7 +25,7 @@
   {/each}
 </ul>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   ul{
     inline-size: 100%;
     margin: 1em 0 0.5em;

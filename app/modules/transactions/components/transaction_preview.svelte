@@ -84,7 +84,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .transaction-preview{
     height: $user-box-heigth;
     @include display-flex(row, center, flex-start);

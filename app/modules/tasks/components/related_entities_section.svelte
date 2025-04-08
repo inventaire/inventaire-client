@@ -29,7 +29,7 @@
   </ul>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   ul{
     margin-block-start: 1em;
   }

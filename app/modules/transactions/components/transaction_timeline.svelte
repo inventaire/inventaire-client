@@ -25,7 +25,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   $timeline-bar-color: #bbb;
 
   .timeline{

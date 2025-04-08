@@ -24,7 +24,7 @@
 </li>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $user-height: 3em;
   $user-bg: #ddd;
   li{

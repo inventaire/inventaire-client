@@ -49,7 +49,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .bottom-actions{
     text-align: center;

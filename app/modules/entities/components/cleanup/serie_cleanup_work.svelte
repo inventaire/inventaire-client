@@ -254,7 +254,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .serie-cleanup-work{
     margin: 0.5em;
     padding: 0.5em;

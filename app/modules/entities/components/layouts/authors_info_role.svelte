@@ -30,7 +30,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .authors-role{
     @include display-flex(column, flex-start, flex-start, wrap);
   }

@@ -103,7 +103,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   div{
     background-color: #eee;
     @include radius;

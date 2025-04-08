@@ -53,7 +53,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import "#modules/general/scss/utils";
+  @use "#modules/general/scss/utils";
   .format{
     padding: 0;
     color: #888;

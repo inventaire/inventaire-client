@@ -96,7 +96,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .wrapper{
     margin-inline-end: auto;
     /* Small screens */

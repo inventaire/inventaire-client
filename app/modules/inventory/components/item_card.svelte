@@ -116,7 +116,7 @@
 <ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .item-card{
     width: 100%;
     @include display-flex(column, stretch, center);

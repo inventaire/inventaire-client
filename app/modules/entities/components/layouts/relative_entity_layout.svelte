@@ -26,7 +26,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $card-width: 6rem;
   $card-height: 8rem;
 

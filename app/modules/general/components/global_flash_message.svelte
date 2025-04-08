@@ -36,7 +36,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .global-flash-message{
     background-color: $success-color;
     @include radius(3px);

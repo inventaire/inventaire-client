@@ -92,7 +92,7 @@
 </form>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .create-group{
     @include display-flex(column, stretch, center);

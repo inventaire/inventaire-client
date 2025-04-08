@@ -57,7 +57,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   a:not(.tiny-button){
     &.light{

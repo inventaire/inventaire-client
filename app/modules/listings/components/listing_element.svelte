@@ -137,7 +137,7 @@
   <Flash bind:state={flash} />
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .listing-element-wrapper{
     @include display-flex(column, stretch, flex-start);
     width: 100%;

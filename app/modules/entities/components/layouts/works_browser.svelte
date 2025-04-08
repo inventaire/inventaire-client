@@ -86,7 +86,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .controls{
     margin-block-end: 0.5em;
     @include radius;

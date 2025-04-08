@@ -156,7 +156,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .column{
     @include display-flex(column, stretch, center);
     max-inline-size: 50em;

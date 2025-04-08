@@ -20,7 +20,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .actor-followers-section{
     padding: 0.5em 0;
     background-color: $off-white;

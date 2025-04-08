@@ -33,7 +33,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $card-base-width: 9em;
   $card-margin: 0.5em;
   .work-grid-card{

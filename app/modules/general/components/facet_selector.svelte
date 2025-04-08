@@ -94,7 +94,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/select_dropdown_commons";
+  @use "#general/scss/select_dropdown_commons";
   .facet-selector{
     position: relative;
     min-width: 12em;

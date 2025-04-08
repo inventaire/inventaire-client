@@ -51,7 +51,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   #no-task{
     @include display-flex(column, center, center);
     padding: 3em;

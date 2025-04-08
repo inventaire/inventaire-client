@@ -69,7 +69,7 @@
 </div>
 
 <style lang="scss">
-  @import "#settings/scss/common_settings";
+  @use "#settings/scss/common_settings";
   form{
     margin-block-start: 1em;
     border: 1px solid #ccc;

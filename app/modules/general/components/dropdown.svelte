@@ -178,7 +178,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .has-dropdown{
     position: relative;
     @include display-flex(row, stretch, center);

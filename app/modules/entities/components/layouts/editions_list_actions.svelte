@@ -180,7 +180,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .sort-selector-wrapper{
     width: 100%;
     margin-block-start: 0.5em;

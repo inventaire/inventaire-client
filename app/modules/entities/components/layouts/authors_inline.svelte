@@ -39,7 +39,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .authors-labels{
     color: $grey;
     font-size: 0.9rem;

@@ -25,8 +25,8 @@
 </section>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#groups/scss/group_settings_commons';
+  @use '#general/scss/utils';
+  @use '#groups/scss/group_settings_commons';
   section{
     @include group-settings-checkbox-commons;
   }

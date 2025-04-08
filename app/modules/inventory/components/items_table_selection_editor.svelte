@@ -153,7 +153,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .items-table-selection-editor{
     @include display-flex(column, center, center);
   }

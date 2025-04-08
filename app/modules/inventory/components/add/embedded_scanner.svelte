@@ -226,7 +226,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .embedded-scanner{
     @include position(fixed, 0, 0, 0, 0, 1);
     background-color: rgba(#222, 0.9);

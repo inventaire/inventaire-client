@@ -42,7 +42,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .authors-info{
     @include display-flex(row, flex-end, flex-start, wrap);
   }

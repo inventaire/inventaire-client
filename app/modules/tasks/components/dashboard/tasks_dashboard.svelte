@@ -56,7 +56,7 @@
   {/await}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .dashboard-wrapper{
     max-width: 40em;
     @include display-flex(column, center);

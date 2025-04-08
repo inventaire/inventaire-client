@@ -76,7 +76,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-edit{
     @include display-flex(column, stretch, center);
     max-inline-size: 50em;

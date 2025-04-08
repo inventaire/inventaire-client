@@ -78,7 +78,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .valid-email-confirmation{
     text-align: center;

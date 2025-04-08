@@ -29,7 +29,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .foldable-section{
     @include display-flex(column, stretch);
     :global(.fa-caret-right){

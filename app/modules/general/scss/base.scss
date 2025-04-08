@@ -1,7 +1,7 @@
 // Node modules imports
 // Using sass-loader '~' to refer to node_modules
 // See https://github.com/webpack-contrib/sass-loader#resolving-import-at-rules
-@import '~normalize.css';
+@import '../../../../node_modules/normalize.css/normalize.css';
 
 // Mixins and variables
 @import 'utils';

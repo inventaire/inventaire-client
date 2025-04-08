@@ -59,7 +59,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .wikidata-edit-intro{
     text-align: center;
     margin: 1em auto;

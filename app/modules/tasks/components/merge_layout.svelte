@@ -128,7 +128,7 @@
   {processedTask}
 />
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entities-section{
     @include display-flex(row, flex-start, flex-start);
     background-color: #ddd;

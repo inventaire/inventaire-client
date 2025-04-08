@@ -100,7 +100,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-list-row{
     @include display-flex(row, center);
     background-color: white;

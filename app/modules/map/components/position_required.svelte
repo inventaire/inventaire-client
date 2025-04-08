@@ -25,7 +25,7 @@
 <UserPositionPicker bind:showPositionPicker />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .position-required{
     @include display-flex(column, center, center);
     margin: 2em auto;

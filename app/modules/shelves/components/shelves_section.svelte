@@ -63,7 +63,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .header{
     background-color: $light-grey;
     @include display-flex(row, center, space-between);

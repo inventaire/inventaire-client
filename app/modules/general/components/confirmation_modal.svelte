@@ -78,7 +78,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .confirmation-modal{
     text-align: center;

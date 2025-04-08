@@ -229,7 +229,7 @@
 />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .loading{
     display: flex;

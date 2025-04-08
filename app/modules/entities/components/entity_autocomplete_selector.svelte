@@ -270,7 +270,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .input-group{
     flex: 1;
     font-weight: normal;

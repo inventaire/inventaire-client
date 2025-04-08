@@ -76,7 +76,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   input{
     margin: 0;
     flex: 0 0 auto;

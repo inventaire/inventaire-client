@@ -83,7 +83,7 @@
 <ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .shelf-item-candidate{
     background-color: #f3f3f3;
     padding: 0.5em;

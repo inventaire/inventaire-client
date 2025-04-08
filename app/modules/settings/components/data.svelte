@@ -73,7 +73,7 @@
 </form>
 
 <style lang="scss">
-  @import "#settings/scss/common_settings";
+  @use "#settings/scss/common_settings";
   .link, form :global(.link){
     text-decoration: underline;
   }

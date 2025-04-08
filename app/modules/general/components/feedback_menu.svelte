@@ -122,7 +122,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .feedback-menu{
     text-align: center;

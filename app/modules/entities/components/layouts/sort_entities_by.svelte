@@ -53,7 +53,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .sort-selector{
     align-self: end;
     :global(.select-dropdown){

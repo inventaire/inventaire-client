@@ -79,7 +79,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .notification{
     text-align: start;
     margin: 0.1em;

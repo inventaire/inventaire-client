@@ -41,7 +41,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .ebooks{
     @include display-flex(row, center, flex-start, wrap);
     color: $label-grey;

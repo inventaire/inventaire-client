@@ -86,7 +86,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .item-notes{
     background-color: $dark-grey;
     padding: 0.5em 1em;

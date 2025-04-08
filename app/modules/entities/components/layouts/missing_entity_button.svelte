@@ -31,7 +31,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .tiny-button{
     display: inline-block;
     margin: 0.5em;

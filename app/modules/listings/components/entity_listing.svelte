@@ -40,7 +40,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-listing-layout{
     @include display-flex(column, flex-start);
     padding: 0.5em;

@@ -12,7 +12,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .transactions-welcome{
     @include display-flex(column, center, center);
     text-align: center;

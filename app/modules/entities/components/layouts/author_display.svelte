@@ -49,7 +49,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   a{
     @include display-flex(row, center, flex-start);
     background-color: $off-white;

@@ -140,7 +140,7 @@
 </InfiniteScroll>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .contributions, .contributions-list{
     margin: 0 auto;

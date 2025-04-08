@@ -20,7 +20,7 @@
 </li>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   a{
     color: inherit;
   }

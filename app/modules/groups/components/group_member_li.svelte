@@ -86,7 +86,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   button:not(:first-child){
     margin-inline-start: 0.2em;
   }

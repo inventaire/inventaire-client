@@ -108,7 +108,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   $card-height: 8rem;
   .relative-entities-list{
     padding: 0.5rem;

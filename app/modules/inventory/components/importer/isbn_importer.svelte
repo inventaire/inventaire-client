@@ -74,7 +74,7 @@
   {I18n('find ISBNs')}
 </button>
 <style lang="scss">
-  @import "#modules/general/scss/utils";
+  @use "#modules/general/scss/utils";
   .importer-name, textarea{
     margin: 0 0.7em;
   }

@@ -47,7 +47,7 @@
 {/each}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .author-preview a{
     @include radius;
     @include display-flex(row, center, flex-start);

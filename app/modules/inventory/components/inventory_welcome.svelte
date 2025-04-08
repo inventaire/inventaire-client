@@ -18,7 +18,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .inventory-welcome{
     flex: 1 1 auto;

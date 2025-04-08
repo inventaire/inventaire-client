@@ -136,7 +136,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .summary.has-summary{
     padding: 1em;
     @include radius;

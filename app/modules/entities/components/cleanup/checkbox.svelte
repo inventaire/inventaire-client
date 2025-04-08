@@ -17,7 +17,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .checkbox-wrapper{
     margin: 0 0.5em ;
     @include display-flex(row, center, center);

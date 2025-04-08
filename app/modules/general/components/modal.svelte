@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .modal-overlay{
     background: rgba(black, 0.55);
     overflow: auto;

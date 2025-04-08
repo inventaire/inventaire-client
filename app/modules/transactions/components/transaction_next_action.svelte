@@ -80,8 +80,8 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#transactions/scss/transactions_commons';
+  @use '#general/scss/utils';
+  @use '#transactions/scss/transactions_commons';
   .actions{
     padding: 0.5em 1em;
     text-align: center;

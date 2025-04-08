@@ -166,7 +166,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .map-wrapper{
     position: relative;
     height: 100%;

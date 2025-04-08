@@ -78,7 +78,7 @@
 <ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .mixed-box{
     @include display-flex(row);
   }

@@ -126,7 +126,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .contribution{
     background-color: white;
     padding: 0.2em 0.5em;

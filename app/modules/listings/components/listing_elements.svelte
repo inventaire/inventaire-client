@@ -138,7 +138,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entities-listing-section{
     width: 100%;
     padding: 0 1em;

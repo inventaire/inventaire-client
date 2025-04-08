@@ -201,7 +201,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .wrapper{
     min-block-size: 18em;
     margin-block-end: 0.5em;

@@ -137,7 +137,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .items-table{
     position: relative;
     background-color: $inventory-nav-grey;

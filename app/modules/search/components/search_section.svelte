@@ -29,7 +29,7 @@
 </button>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   button{
     font-weight: normal;
     border-radius: 0;

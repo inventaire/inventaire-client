@@ -58,7 +58,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .breadcrumb{
     @include display-flex(row, center);
     padding-inline-start: 0.5em;

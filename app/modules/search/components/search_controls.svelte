@@ -66,7 +66,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .searchSettingsTogglerWrapper{
     @include display-flex(row, center, flex-end);
     display: none;

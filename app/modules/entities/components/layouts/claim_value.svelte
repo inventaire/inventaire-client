@@ -25,5 +25,5 @@
   dark={true}
 />{:else}{#if !isEntityUri(value)}{formatClaimValue({ prop, value })}{/if}{/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 </style>

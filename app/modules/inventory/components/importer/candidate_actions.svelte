@@ -75,7 +75,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .action-buttons{
     min-width: 6em;
     @include display-flex(column, center);

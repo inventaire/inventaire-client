@@ -36,7 +36,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .label-wrapper{
     @include display-flex(row, center,space-between);
     margin-inline-end: 0.3em;

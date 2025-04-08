@@ -28,7 +28,7 @@
 {/await}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .item-active-transactions{
     margin-block-start: 1em;
     background: $off-white;

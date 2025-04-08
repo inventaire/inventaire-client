@@ -65,7 +65,7 @@
 </section>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   section{
     min-inline-size: 20em;
     max-inline-size: 50em;

@@ -118,7 +118,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .flash{
     @include display-flex(row, center, space-between);
     padding: 0.5em;

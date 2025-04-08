@@ -88,7 +88,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .group{
     @include display-flex(row, center, space-between);

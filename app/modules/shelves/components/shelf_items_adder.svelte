@@ -148,7 +148,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .shelf-items-adder{
     @include display-flex(column, center, center);
   }

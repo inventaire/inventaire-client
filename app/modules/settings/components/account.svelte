@@ -173,7 +173,7 @@
 </form>
 
 <style lang="scss">
-  @import "#settings/scss/common_settings";
+  @use "#settings/scss/common_settings";
   .danger-zone-title{
     color: $darker-danger-color;
     font-weight: bold;

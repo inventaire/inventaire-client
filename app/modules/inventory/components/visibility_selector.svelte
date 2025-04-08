@@ -140,7 +140,7 @@
 </fieldset>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .options{
     overflow-y: auto;
   }

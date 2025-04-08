@@ -16,7 +16,7 @@
 </a>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   a{
     @include display-flex(column, center, center);
     margin-block: 1em;

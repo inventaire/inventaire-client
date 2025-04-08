@@ -56,7 +56,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .language-picker{
     margin-inline-start: 0.2em;
     align-self: stretch;

@@ -129,7 +129,7 @@
 />
 
 <style lang="scss">
-  @import "#welcome/scss/welcome_layout_commons";
+  @use "#welcome/scss/welcome_layout_commons";
 
   section{
     background-color: $off-white;

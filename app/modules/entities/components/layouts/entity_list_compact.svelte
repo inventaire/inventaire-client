@@ -47,6 +47,6 @@
   </div>
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
-  @import "#entities/scss/entity_list_compact";
+  @use "#general/scss/utils";
+  @use "#entities/scss/entity_list_compact";
 </style>

@@ -79,7 +79,7 @@
 <ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .request-item-modal{
     @include display-flex(column, center, center);

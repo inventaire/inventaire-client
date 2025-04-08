@@ -69,7 +69,7 @@
 {/if}
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .entity-listing-comment-layout{
     @include display-flex(column);
     width: 100%;

@@ -5,7 +5,7 @@
 <p class="fixed-value">{value}</p>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .fixed-value{
     flex: 1;
   }

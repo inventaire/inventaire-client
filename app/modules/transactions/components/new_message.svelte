@@ -66,8 +66,8 @@
 </form>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#general/scss/shortcut_tip';
+  @use '#general/scss/utils';
+  @use '#general/scss/shortcut_tip';
   .new-message{
     padding: 1em;
     @include display-flex(column);

@@ -59,8 +59,8 @@
 </section>
 
 <style lang="scss">
-  @import "#general/scss/utils";
-  @import "#welcome/scss/welcome_layout_commons";
+  @use "#general/scss/utils";
+  @use "#welcome/scss/welcome_layout_commons";
 
   $title-color: white;
   $pitch-text-color: rgba(darken($welcome-bg-filter, 15%), 0.9);

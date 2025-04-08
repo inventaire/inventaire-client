@@ -57,7 +57,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
 
   .editions-section{
     @include display-flex(column, center);

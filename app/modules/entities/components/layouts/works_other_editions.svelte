@@ -40,7 +40,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   .other-editions-title{
     @include sans-serif;
   }

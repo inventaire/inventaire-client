@@ -28,7 +28,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .section-wrapper{
     @include display-flex(column, center);
     background-color: $light-grey;

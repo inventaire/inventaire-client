@@ -36,8 +36,8 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#transactions/scss/transactions_commons';
+  @use '#general/scss/utils';
+  @use '#transactions/scss/transactions_commons';
   .message{
     &:not(.sameMessageGroup){
       margin-block-start: 0.5em;

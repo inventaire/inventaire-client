@@ -75,7 +75,7 @@
   {processedTask}
 />
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .error-wrapper{
     background-color: $light-grey;
     max-width: 40em;

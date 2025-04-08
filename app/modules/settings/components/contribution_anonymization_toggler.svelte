@@ -50,7 +50,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   input{
     margin: 0;
   }

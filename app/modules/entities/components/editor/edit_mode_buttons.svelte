@@ -48,7 +48,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .edit-mode-buttons{
     flex: 0 0 auto;
     @include display-flex(row);

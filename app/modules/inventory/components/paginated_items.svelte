@@ -94,7 +94,7 @@
 </InfiniteScroll>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .paginated-items{
     min-height: 20em;
   }

@@ -54,7 +54,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .group-board{
     @include display-flex(column, center, center);
     margin-block-end: 1em;

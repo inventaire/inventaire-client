@@ -97,7 +97,7 @@
   {/await}
 </div>
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .items-list-per-transactions{
     max-block-size: 15em;
     overflow-y: auto;

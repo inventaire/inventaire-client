@@ -53,7 +53,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .infinite-scroll-wrapper{
     position: relative;
   }

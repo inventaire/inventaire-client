@@ -160,7 +160,7 @@
 </div>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .works-browser-section{
     background-color: $off-white;
     padding: 0.5em;

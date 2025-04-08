@@ -51,7 +51,7 @@
 </li>
 
 <style lang="scss">
-  @import "#general/scss/utils";
+  @use "#general/scss/utils";
   .result{
     line-height: 1em;
     position: relative;

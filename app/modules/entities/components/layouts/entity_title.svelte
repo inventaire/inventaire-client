@@ -47,7 +47,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
   h2{
     margin: 0;
     :global(.link-text){

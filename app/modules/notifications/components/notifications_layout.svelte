@@ -79,7 +79,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .notifications-layout{
     @include central-column(50em);

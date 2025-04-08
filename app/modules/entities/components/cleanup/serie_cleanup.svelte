@@ -277,7 +277,7 @@
 {/await}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @use '#general/scss/utils';
 
   .section-label{
     font-size: 1.1em;
