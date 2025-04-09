@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
-  import { partition } from 'underscore'
+  import { partition, without } from 'underscore'
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { wait } from '#app/lib/promises'
@@ -20,20 +20,25 @@
   let showArchivedTransactions = false
 
   let ongoing, archived
-  function displayFirstTransaction () {
-    selectedTransaction = selectedTransaction || ongoing[0]
+  function displaySomeTransaction () {
+    selectedTransaction ??= ongoing[0]
     showArchivedTransactions = showArchivedTransactions || ongoing.length === 0 || (selectedTransaction && isArchived(selectedTransaction)) || getUnreadTransactionsListCount(archived) > 0
   }
   $: {
     ;[ ongoing, archived ] = partition(transactions, isOngoing)
-    displayFirstTransaction()
+    displaySomeTransaction()
   }
+
   async function showSelectedTransaction () {
     if (selectedTransaction) {
       if (!selectedTransaction.mainUserRead) {
         await markAsRead(selectedTransaction)
         selectedTransaction.mainUserRead = true
         transactions = transactions
+      }
+      if (isArchived(selectedTransaction) && ongoing.includes(selectedTransaction)) {
+        ongoing = without(ongoing, selectedTransaction)
+        archived = [ selectedTransaction, ...ongoing ]
       }
       app.navigate(selectedTransaction.pathname)
     } else {
@@ -119,7 +124,7 @@
 <div id="fullview">
   {#if selectedTransaction}
     {#key selectedTransaction._id}
-      <FocusedTransactionLayout transaction={selectedTransaction} />
+      <FocusedTransactionLayout bind:transaction={selectedTransaction} />
     {/key}
   {:else}
     <TransactionsWelcome />

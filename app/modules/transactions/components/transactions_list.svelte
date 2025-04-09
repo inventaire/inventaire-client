@@ -9,7 +9,7 @@
 
 <div class="transaction-list">
   <div class="transactions">
-    {#each transactions as transaction}
+    {#each transactions as transaction (transaction._id)}
       <TransactionPreview
         {transaction}
         bind:selectedTransaction
