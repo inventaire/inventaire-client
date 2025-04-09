@@ -1,8 +1,9 @@
 <script lang="ts">
   import TransactionPreview from '#transactions/components/transaction_preview.svelte'
   import { I18n } from '#user/lib/i18n'
+  import type { SerializedTransaction } from '../lib/transactions'
 
-  export let transactions
+  export let transactions: SerializedTransaction[]
   export let selectedTransaction = null
 </script>
 

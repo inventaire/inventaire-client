@@ -8,8 +8,9 @@
   import { postTransactionMessage } from '#transactions/lib/helpers'
   import { I18n, i18n } from '#user/lib/i18n'
   import { mainUser } from '#user/lib/main_user'
+  import type { SerializedTransaction } from '../lib/transactions'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   let message, flash, sending
 

@@ -3,7 +3,7 @@ import transactionsApi from '#app/api/transactions'
 import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
-import { serializeTransaction } from '#transactions/lib/transactions'
+import { serializeTransaction, type SerializedTransaction } from '#transactions/lib/transactions'
 
 async function fetchTransaction () {
   await app.request('wait:for', 'user')
@@ -11,23 +11,27 @@ async function fetchTransaction () {
     const { transactions } = await preq.get(transactionsApi.base)
     return transactions
     .map(serializeTransaction)
-    .sort(antiChronologically)
+    .sort(antiChronologicallyWithNotReadFirst) as SerializedTransaction[]
   } else {
     return []
   }
 }
 
-const antiChronologically = (a, b) => b.created - a.created
+function antiChronologicallyWithNotReadFirst (a, b) {
+  if (!a.mainUserRead && b.mainUserRead) return -1
+  else if (a.mainUserRead && !b.mainUserRead) return 1
+  else return b.updated - a.updated
+}
 
 let waitForTransactions
 export async function getTransactions () {
   waitForTransactions ??= await fetchTransaction()
-  return waitForTransactions
+  return waitForTransactions as Promise<SerializedTransaction[]>
 }
 
 export async function getRefreshedTransactions () {
   waitForTransactions = await fetchTransaction()
-  return waitForTransactions
+  return waitForTransactions as Promise<SerializedTransaction[]>
 }
 
 export async function getUnreadTransactionsCount () {
