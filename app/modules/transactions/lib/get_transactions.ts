@@ -21,7 +21,12 @@ const antiChronologically = (a, b) => b.created - a.created
 
 let waitForTransactions
 export async function getTransactions () {
-  waitForTransactions = waitForTransactions || await fetchTransaction()
+  waitForTransactions ??= await fetchTransaction()
+  return waitForTransactions
+}
+
+export async function getRefreshedTransactions () {
+  waitForTransactions = await fetchTransaction()
   return waitForTransactions
 }
 
