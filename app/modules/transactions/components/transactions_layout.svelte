@@ -1,17 +1,20 @@
 <script lang="ts">
+  import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
+  import { wait } from '#app/lib/promises'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { elementIsInViewport } from '#app/lib/utils'
   import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
   import TransactionsList from '#transactions/components/transactions_list.svelte'
   import TransactionsWelcome from '#transactions/components/transactions_welcome.svelte'
-  import { getUnreadTransactionsListCount, isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
+  import { getUnreadTransactionsListCount, isArchived, isOngoing, markAsRead, type SerializedTransaction } from '#transactions/lib/transactions'
   import { I18n } from '#user/lib/i18n'
 
-  export let transactions
-  export let selectedTransaction = null
+  export let transactions: SerializedTransaction[]
+  export let selectedTransaction: SerializedTransaction = null
 
   let showOngoingTransactions = true
   let showArchivedTransactions = false

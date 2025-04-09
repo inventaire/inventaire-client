@@ -6,10 +6,10 @@
   import Spinner from '#components/spinner.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { getItemPathname, getItemWithUser } from '#inventory/lib/items'
-  import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
+  import { attachLinkedDocs, getTransactionContext, type SerializedTransaction } from '#transactions/lib/transactions'
   import { getUserBasePathname } from '#users/lib/users'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   const { transactionMode } = transaction
   const { entity, owner } = transaction.snapshot
