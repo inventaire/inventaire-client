@@ -22,7 +22,7 @@
   let ongoing, archived
   function displayFirstTransaction () {
     selectedTransaction = selectedTransaction || ongoing[0]
-    showArchivedTransactions = showArchivedTransactions || ongoing.length === 0 || (selectedTransaction && isArchived(selectedTransaction))
+    showArchivedTransactions = showArchivedTransactions || ongoing.length === 0 || (selectedTransaction && isArchived(selectedTransaction)) || getUnreadTransactionsListCount(archived) > 0
   }
   $: {
     ;[ ongoing, archived ] = partition(transactions, isOngoing)
@@ -40,6 +40,37 @@
       app.navigate('/transactions')
     }
   }
+
+  async function scrollToSection (el: HTMLElement) {
+    await tick()
+    await wait(100)
+    el?.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+  }
+
+  let ongoingTransactionsEl: HTMLElement
+  async function toggleOngoingTransaction () {
+    const wasPreviouslyShown = showOngoingTransactions
+    if (elementIsInViewport(ongoingTransactionsEl)) {
+      showOngoingTransactions = !showOngoingTransactions
+    } else {
+      // As the .list-header is sticky, the header might be visible while the whole section is out of viewport.
+      // Clicking on the header in that case scrolls back to the ongoing transactions list rather than closing it:
+      // it's already out of view, so the desired behavior when clicking is unlikely to be to hide it
+      showOngoingTransactions = true
+    }
+    if (showOngoingTransactions) {
+      // This extra tick await seems required to let the time to properly render the list before trying to scroll
+      if (!wasPreviouslyShown) await tick()
+      scrollToSection(ongoingTransactionsEl)
+    }
+  }
+
+  let archivedTransactionsEl: HTMLElement
+  async function toggleArchivedTransaction () {
+    showArchivedTransactions = !showArchivedTransactions
+    if (showArchivedTransactions) scrollToSection(archivedTransactionsEl)
+  }
+
   $: onChange(selectedTransaction, showSelectedTransaction)
   $: unreadOngoingTransactionsCount = getUnreadTransactionsListCount(ongoing)
   $: unreadArchivedTransactionsCount = getUnreadTransactionsListCount(archived)
@@ -47,9 +78,10 @@
 
 <div id="list">
   <button
+    class="list-header first"
     aria-controls="ongoing-transactions"
     class:wrapped={!showOngoingTransactions}
-    on:click={() => showOngoingTransactions = !showOngoingTransactions}
+    on:click={toggleOngoingTransaction}
   >
     {@html icon('caret-down')}
     {@html icon('exchange')}
@@ -59,15 +91,16 @@
     {/if}
   </button>
   {#if ongoing && showOngoingTransactions}
-    <section id="ongoing-transactions" transition:slide>
+    <section id="ongoing-transactions" transition:slide bind:this={ongoingTransactionsEl}>
       <TransactionsList transactions={ongoing} bind:selectedTransaction />
     </section>
   {/if}
 
   <button
+    class="list-header second"
     aria-controls="archived-transactions"
     class:wrapped={!showArchivedTransactions}
-    on:click={() => showArchivedTransactions = !showArchivedTransactions}
+    on:click={toggleArchivedTransaction}
   >
     {@html icon('caret-down')}
     {@html icon('exchange')}
@@ -77,7 +110,7 @@
     {/if}
   </button>
   {#if archived && showArchivedTransactions}
-    <section id="archived-transactions" transition:slide>
+    <section id="archived-transactions" transition:slide bind:this={archivedTransactionsEl}>
       <TransactionsList transactions={archived} bind:selectedTransaction />
     </section>
   {/if}
@@ -96,16 +129,32 @@
 <style lang="scss">
   @import '#general/scss/utils';
   $transaction-list-width: 20em;
+  $transaction-list-header-height: 2.2rem;
 
   #list{
     background-color: #fefefe;
     overflow-y: auto;
     position: relative;
+    // Required to avoid having transactionPreviewEl.scrollIntoView scroll too far
+    // and get the transactionPreviewEl displayed below the .list-header
+    // Adding *2 for the worst case scenario where the focused transaction is archived,
+    // and thus the 2 .list-header are stacked
+    // And 0.5 more, to give a hint that there is more content above
+    scroll-padding-top: $transaction-list-header-height * 2.5;
   }
-  button{
+  .list-header{
     position: sticky;
-    inset-block-start: 0;
+    // z-index is required with the position=sticky to not have the .unread-flag pass over this button
+    // See https://stackoverflow.com/a/53107499
+    z-index: 1;
     width: 100%;
+    height: $transaction-list-header-height;
+    &.first{
+      inset-block-start: 0;
+    }
+    &.second{
+      inset-block-start: $transaction-list-header-height;
+    }
     @include display-flex(row, center, flex-start);
     color: $grey;
     text-transform: uppercase;
