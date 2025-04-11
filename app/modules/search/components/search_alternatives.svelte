@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { isArray } from 'underscore'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { looksLikeAnIsbn } from '#app/lib/isbn'
+  import { commands } from '#app/radio'
   import { showEntityCreate as _showEntityCreate } from '#entities/entities'
   import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -16,7 +16,7 @@
     if (looksLikeAnIsbn(searchText)) {
       // If the edition entity for this ISBN really doesn't exist
       // it will redirect to the ISBN edition creation form
-      app.execute('show:entity', searchText)
+      commands.execute('show:entity', searchText)
     } else {
       let type = typesBySection.entity[selectedSection]
       // default 'all' section to work type

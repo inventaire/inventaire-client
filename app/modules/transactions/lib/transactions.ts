@@ -1,10 +1,10 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { timeFromNow } from '#app/lib/time'
+import { vent } from '#app/radio'
 import { transactionsData, type TransactionData } from '#inventory/lib/transactions_data'
 import type { GetTransactionsMessagesResponse } from '#server/controllers/transactions/get_messages'
 import type { TransactionComment } from '#server/types/comment'
@@ -13,6 +13,7 @@ import type { Transaction, TransactionAction } from '#server/types/transaction'
 import type { UserId } from '#server/types/user'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
 import { i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import { serializeUser, type SerializedUser, type ServerUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
 import type { OverrideProperties } from 'type-fest'
@@ -113,7 +114,7 @@ export type SerializedTransaction = OverrideProperties<Transaction, SerializedTr
 
 export function serializeTransaction (transaction: Transaction) {
   const { _id: id, owner, snapshot, actions } = transaction
-  const mainUserIsOwner = owner === app.user._id
+  const mainUserIsOwner = owner === mainUser?._id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
   // @ts-expect-error
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
@@ -132,9 +133,9 @@ export function serializeTransaction (transaction: Transaction) {
 
 export async function grabUsers (transaction) {
   if (transaction.mainUserIsOwner) {
-    transaction.owner = app.user
+    transaction.owner = mainUser
   } else {
-    transaction.requester = app.user
+    transaction.requester = mainUser
   }
 }
 
@@ -244,7 +245,7 @@ export async function markAsRead (transaction) {
     })
     transaction.read[transaction.mainUserRole] = true
     transaction.mainUserRead = true
-    app.vent.trigger('transactions:unread:change')
+    vent.trigger('transactions:unread:change')
   } catch (err) {
     log_.error(err, 'markAsRead')
   }

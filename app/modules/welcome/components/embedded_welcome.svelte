@@ -1,15 +1,14 @@
 <script lang="ts">
-  import app from '#app/app'
   import { config } from '#app/config'
   import { loadInternalLink } from '#app/lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   const { instanceName, orgName, orgUrl } = config
 
-  const { loggedIn } = app.user
 </script>
 
-{#if !loggedIn}
+{#if !mainUser}
   <section class="embedded-welcome">
     <div>
       <h2>{i18n('Welcome to %{instanceName}', { instanceName })}</h2>

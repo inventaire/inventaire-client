@@ -1,15 +1,16 @@
 <script lang="ts">
   import { debounce, uniq, values, without } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { getAllQuerystringParameters } from '#app/lib/querystring_helpers'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { reqres } from '#app/radio'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import PartSuggestion from '#entities/components/cleanup/part_suggestion.svelte'
   import { addClaim, getEntitiesBasicInfoByUris, type SerializedEntitiesByUris, type SerializedEntity } from '#entities/lib/entities'
   import { getSerieOrWorkExtendedAuthorsUris, getSerieParts } from '#entities/lib/types/serie_alt'
   import type { EntityValue } from '#server/types/entity'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import { addPlaceholdersForMissingParts, getSeriePlaceholderTitle, type SeriePartPlaceholder } from './lib/add_placeholders_for_missing_parts'
   import { getPartsSuggestions } from './lib/get_parts_suggestions'
   import { getIsolatedEditions, getAvailableOrdinals, sortByLabel, workIsPlaceholder, type WorkWithEditions } from './lib/serie_cleanup_helpers'
@@ -32,9 +33,9 @@
   const titleKey = `{${i18n('title')}}`
   const numberKey = `{${i18n('number')}}`
   let titlePattern = `${titleKey} - ${I18n('volume')} ${numberKey}`
-  let selectedLang = app.user.lang
+  let selectedLang = getCurrentLang()
 
-  const states = app.request('querystring:get:all')
+  const states = getAllQuerystringParameters()
   let showAuthors = states.authors === 'true'
   let showEditions = states.editions === 'true'
   let showDescriptions = states.descriptions === 'true'
@@ -77,8 +78,8 @@
   const lazyUpdatePartsPartitions = debounce(updatePartsPartitions, 100)
 
   function setQueryParameter (name: string, bool: boolean) {
-    if (bool) app.request('querystring:set', name, bool)
-    else app.request('querystring:remove', name)
+    if (bool) reqres.request('querystring:set', name, bool)
+    else reqres.request('querystring:remove', name)
   }
 
   function onWorkMerged (e) {

@@ -1,24 +1,24 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { newError } from '#app/lib/error'
+import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import { getListingMetadata, getListingPathname, getListingWithElementsById, getElementPathname, getElementMetadata, assignEntitiesToElements } from '#listings/lib/listings'
 import { getElementById } from '#modules/listings/lib/listings'
 import type { ListingElement } from '#server/types/element'
 import type { ListingWithElements } from '#server/types/listing'
+import { mainUser } from '#user/lib/main_user'
 import type { SerializedUser } from '#users/lib/users'
 import { showUserListings } from '#users/users'
 import { getSerializedUser } from '#users/users_data'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'lists/:id/element/:elementId(/)': 'showElement',
-        'lists/:id(/)': 'showListing',
-        'lists(/)': 'showMainUserListings',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/lists/:id/element/:elementId(/)': 'showElement',
+      '/lists/:id(/)': 'showListing',
+      '/lists(/)': 'showMainUserListings',
+    }, controller)
   },
 }
 
@@ -40,10 +40,10 @@ async function showListing (listingId) {
     const { creator: creatorId } = listing
     const creator = await getSerializedUser(creatorId)
     const props: ListingProps = { listing, creator }
-    app.layout.showChildComponent('main', ListingLayout, { props })
+    appLayout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -63,17 +63,21 @@ async function showElement (listingId, elementId) {
     await assignEntitiesToElements([ element ])
     props.initialElement = element
 
-    app.layout.showChildComponent('main', ListingLayout, { props })
+    appLayout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getElementPathname(listing._id, elementId), {
       metadata: getElementMetadata(listing, element),
     })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
 export async function showMainUserListings () {
-  return showUserListings(app.user.username)
+  if (mainUser) {
+    return showUserListings(mainUser.username)
+  } else {
+    reqres.request('require:loggedIn', 'lists')
+  }
 }
 
 const controller = {
@@ -81,4 +85,4 @@ const controller = {
   showElement,
   showUserListings,
   showMainUserListings,
-}
+} as const

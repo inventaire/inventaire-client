@@ -1,6 +1,7 @@
 import { assertObject, assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { reportError } from '#app/lib/reports'
+import { detectedEnv } from './env_config'
 
 export async function props (obj: Record<string, unknown>) {
   const keys = []
@@ -38,7 +39,7 @@ if (window.addEventListener != null) {
   window.addEventListener('unhandledrejection', event => {
     const err = event.reason
     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)
-    if (window.env === 'dev' && err.name === 'ChunkLoadError') window.location.reload()
+    if (detectedEnv === 'dev' && err.name === 'ChunkLoadError') window.location.reload()
     else reportError(err)
   })
 }

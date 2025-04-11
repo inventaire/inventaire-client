@@ -1,6 +1,6 @@
 <script lang="ts">
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
+  import { reqres } from '#app/radio'
   import { I18n } from '#user/lib/i18n'
 
   let validationEmailRequested = false
@@ -8,7 +8,7 @@
   async function emailConfirmationRequest () {
     validationEmailRequested = true
     try {
-      await app.request('email:confirmation:request')
+      await reqres.request('email:confirmation:request')
     } catch (err) {
       validationEmailRequested = false
       throw err

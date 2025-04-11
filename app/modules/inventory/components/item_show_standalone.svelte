@@ -1,5 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
+  import { commands } from '#app/radio'
   import Modal from '#components/modal.svelte'
   import ItemShow from '#inventory/components/item_show.svelte'
 
@@ -10,7 +11,7 @@
       app.navigate(pathnameAfterClosingModal, { preventScrollTop: true })
       autodestroyComponent()
     } else {
-      app.execute('show:inventory:user', item.owner)
+      commands.execute('show:inventory:user', item.owner)
     }
   }
 </script>

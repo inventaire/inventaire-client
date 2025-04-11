@@ -11,7 +11,7 @@ const iconAliases = {
   inventorying: 'cube',
 }
 
-export function icon (name, classes = '') {
+export function icon (name: string, classes = '') {
   assertString(name)
   name = iconAliases[name] || name
   if (iconPaths[name] != null) {

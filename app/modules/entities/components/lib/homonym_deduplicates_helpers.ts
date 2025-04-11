@@ -1,12 +1,12 @@
 import { compact, partition, pick, pluck, uniq } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isEntityUri, isWikidataItemUri } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { someMatch } from '#app/lib/utils'
 import { getEntities } from '#entities/lib/entities'
 import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 export async function getHomonymsEntities (entity) {
   const { labels, aliases, type, isWikidataEntity } = entity
@@ -60,7 +60,7 @@ const getRelationsUris = claims => {
 const getSearchTermsSelection = (labels, aliases) => {
   let terms = getTerms(labels, aliases)
   if (terms.length > 10) {
-    const { lang: bestAvailableLang } = getBestLangValue(app.user.lang, null, labels)
+    const { lang: bestAvailableLang } = getBestLangValue(getCurrentLang(), null, labels)
     const langsShortlist = uniq([ bestAvailableLang, 'en' ])
     labels = pick(labels, langsShortlist)
     aliases = pick(aliases, langsShortlist)

@@ -6,9 +6,9 @@
   import isMobile from '#app/lib/mobile_check'
   import Spinner from '#components/spinner.svelte'
   import { postTransactionMessage } from '#transactions/lib/helpers'
+  import type { SerializedTransaction } from '#transactions/lib/transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
-  import type { SerializedTransaction } from '../lib/transactions'
+  import { mainUserStore } from '#user/lib/main_user'
 
   export let transaction: SerializedTransaction
 
@@ -39,7 +39,7 @@
 <form class="new-message">
   <div class="main">
     <div class="avatar">
-      <img src={imgSrc($mainUser.picture, 50)} alt={$mainUser.username} />
+      <img src={imgSrc($mainUserStore.picture, 50)} alt={$mainUserStore.username} />
     </div>
     <textarea
       class="message"

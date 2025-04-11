@@ -1,6 +1,5 @@
-import app from '#app/app'
 import { assertNumber } from '#app/lib/assert_types'
-import { i18n } from '#user/lib/i18n'
+import { getCurrentLang, i18n } from '#user/lib/i18n'
 
 const oneSecond = 1000
 const oneMinute = 60 * oneSecond
@@ -34,7 +33,7 @@ export function timeFromNow (date: EpochTimeStamp) {
   return i18n(key, { smart_count: amount })
 }
 
-export const getLocalTimeString = (date: EpochTimeStamp) => new Date(date).toLocaleString(app.user.lang)
+export const getLocalTimeString = (date: EpochTimeStamp) => new Date(date).toLocaleString(getCurrentLang())
 export const getISOTime = (date: EpochTimeStamp) => new Date(date).toISOString()
 
 export function getISODay (date?: EpochTimeStamp) {

@@ -1,13 +1,13 @@
 import { readable } from 'svelte/store'
 import transactionsApi from '#app/api/transactions'
-import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { vent } from '#app/radio'
 import { serializeTransaction, type SerializedTransaction } from '#transactions/lib/transactions'
+import { mainUser } from '#user/lib/main_user'
 
 async function fetchTransaction () {
-  await app.request('wait:for', 'user')
-  if (app.user.loggedIn) {
+  if (mainUser) {
     const { transactions } = await preq.get(transactionsApi.base)
     return transactions
     .map(serializeTransaction)
@@ -59,4 +59,4 @@ export function getUnreadTransactionsCountStore () {
   return unreadTransactionsCountStore
 }
 
-app.vent.on('transactions:unread:change', updateUnreadTransactionsCount)
+vent.on('transactions:unread:change', updateUnreadTransactionsCount)

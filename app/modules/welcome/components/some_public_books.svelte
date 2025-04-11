@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import type { UserLang } from '#app/lib/active_languages'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
@@ -9,13 +8,13 @@
   import ItemsTable from '#inventory/components/items_table.svelte'
   import { getRecentPublicItems } from '#inventory/lib/queries'
   import type { SerializedItem } from '#server/types/item'
-  import { i18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let items: SerializedItem[] = []
   export let waitingForItems
 
   const params = {
-    lang: app.user.lang as UserLang,
+    lang: getCurrentLang() as UserLang,
     assertImage: true,
     items: [],
   }

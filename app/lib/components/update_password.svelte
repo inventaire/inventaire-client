@@ -1,11 +1,11 @@
 <script lang="ts">
-  import app from '#app/app'
   import PasswordInput from '#app/lib/components/password_input.svelte'
   import { currentRoute } from '#app/lib/location'
   import log_ from '#app/lib/loggers'
+  import { commands } from '#app/radio'
   import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -69,7 +69,7 @@
   <input
     type="text"
     name="username"
-    value={$mainUser.username}
+    value={$mainUserStore.username}
     class="hidden"
   />
   <PasswordInput
@@ -80,14 +80,14 @@
   />
 </form>
 <div class="forgotPassword">
-  <a href="/login/forgot-password" class="link" on:click={() => app.execute('show:forgot:password')}>{I18n('forgot your password?')}</a>
+  <a href="/login/forgot-password" class="link" on:click={() => commands.execute('show:forgot:password')}>{I18n('forgot your password?')}</a>
 </div>
 
 <form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
   <input
     type="text"
     name="username"
-    value={$mainUser.username}
+    value={$mainUserStore.username}
     class="hidden"
   />
   <PasswordInput

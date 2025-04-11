@@ -1,7 +1,7 @@
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import type { ListingByCreatorsParams } from '#app/api/listings'
-import app from '#app/app'
+import type { MetadataUpdate } from '#app/lib/metadata/update'
 import preq from '#app/lib/preq'
 import { getEntitiesAttributesByUris, getEntitiesImagesUrls, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import { addEntitiesImages } from '#entities/lib/types/work_alt'
@@ -10,7 +10,7 @@ import type { ListingElement, ListingElementId } from '#server/types/element'
 import type { EntityUri } from '#server/types/entity'
 import type { Listing, ListingId } from '#server/types/listing'
 import type { UserId } from '#server/types/user'
-import { I18n, i18n } from '#user/lib/i18n'
+import { getCurrentLang, I18n, i18n } from '#user/lib/i18n'
 import { getUserById } from '#users/users_data'
 
 export interface ListingElementWithEntity extends ListingElement {
@@ -120,7 +120,7 @@ export async function getElementMetadata (listing: Listing, element: ListingElem
     title: await getElementTitle(listing, element),
     url: getElementPathname(listing._id, element._id),
     smallCardType: true,
-  }
+  } as MetadataUpdate
 }
 
 async function getListingLongTitle (listing: Listing) {
@@ -153,7 +153,7 @@ export async function assignEntitiesToElements (elements: ListingElement[]) {
   const res = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'info', 'labels', 'claims', 'image' ],
-    lang: app.user.lang,
+    lang: getCurrentLang(),
   })
   const entitiesByUris = res.entities
   const entities = Object.values(entitiesByUris).map(serializeEntity)

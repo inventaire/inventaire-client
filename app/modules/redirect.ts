@@ -1,36 +1,36 @@
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { assertObject, assertString } from '#app/lib/assert_types'
 import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#app/lib/metadata/update'
+import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
+import { mainUser } from '#user/lib/main_user'
 import { showMainUserProfile } from '#users/users'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        '(home)': 'showHome',
-        'welcome(/)': 'showWelcome',
-        'about(/)': 'showWelcome',
-        'donate(/)': 'showDonate',
-        'feedback(/)': 'showFeedback',
-        'me(/)': 'showMainUser',
-        '*route': 'notFound',
-      },
-    })
+    addRoutes({
+      '/(home)': 'showHome',
+      '/welcome(/)': 'showWelcome',
+      '/about(/)': 'showWelcome',
+      '/donate(/)': 'showDonate',
+      '/feedback(/)': 'showFeedback',
+      '/me(/)': 'showMainUser',
+      '/*route': 'notFound',
+    }, controller)
 
-    new Router({ controller })
-
-    app.reqres.setHandlers({
+    reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
       'require:admin:access': requireAdminAccess,
       'require:dataadmin:access': requireDataadminAccess,
     })
 
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:home': controller.showHome,
       'show:welcome': controller.showWelcome,
       'show:error': showErrorByStatus,
@@ -46,10 +46,10 @@ export default {
 
 const controller = {
   showHome () {
-    if (app.user.loggedIn) {
+    if (mainUser) {
       showMainUserProfile()
     } else {
-      app.execute('show:welcome')
+      commands.execute('show:welcome')
     }
   },
 
@@ -63,13 +63,13 @@ const controller = {
       app.navigateReplace(cleanedRoute, { trigger: true })
     } else {
       log_.info(route, 'route:notFound')
-      app.execute('show:error:missing')
+      commands.execute('show:error:missing')
     }
   },
 
   async showWelcome () {
     const { default: WelcomeLayout } = await import('#welcome/components/welcome_layout.svelte')
-    app.layout.showChildComponent('main', WelcomeLayout)
+    appLayout.showChildComponent('main', WelcomeLayout)
     app.navigate('welcome', {
       metadata: {
         title: i18n('Inventaire - your friends and communities are your best library'),
@@ -84,7 +84,7 @@ const controller = {
 
   async showFeedback () {
     const { default: FeedbackMenu } = await import('#general/components/feedback_menu.svelte')
-    app.layout.showChildComponent('main', FeedbackMenu, {
+    appLayout.showChildComponent('main', FeedbackMenu, {
       props: {
         standalone: true,
       },
@@ -92,24 +92,24 @@ const controller = {
     app.navigate('feedback', { metadata: { title: I18n('feedback') } })
   },
 
-  showMainUser () { app.execute('show:inventory:main:user') },
-}
+  showMainUser () { commands.execute('show:inventory:main:user') },
+} as const
 
 function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)
   assertString(route)
-  if (app.user.loggedIn) {
+  if (mainUser) {
     return true
   } else {
     const redirect = getRedirectedRoute(route)
-    app.execute('show:login', { redirect })
+    commands.execute('show:login', { redirect })
     return false
   }
 }
 
 function requireAdminAccess () {
   setPrerenderStatusCode(401)
-  if (app.user.hasAdminAccess) {
+  if (mainUser?.hasAdminAccess) {
     return true
   } else {
     showErrorNotAdmin()
@@ -119,7 +119,7 @@ function requireAdminAccess () {
 
 function requireDataadminAccess () {
   setPrerenderStatusCode(401)
-  if (app.user.hasDataadminAccess) {
+  if (mainUser?.hasDataadminAccess) {
     return true
   } else {
     showErrorNotAdmin()
@@ -129,7 +129,7 @@ function requireDataadminAccess () {
 
 function showAuthRedirect (action: string, route: string) {
   const redirect = getRedirectedRoute(route)
-  app.execute(`show:${action}`, { redirect })
+  commands.execute(`show:${action}`, { redirect })
 }
 
 function getRedirectedRoute (route: string) {
@@ -203,7 +203,7 @@ const showErrorCookieRequired = (command: string) => showError({
     text: I18n('retry'),
     classes: 'dark-grey',
     buttonAction () {
-      if (command != null) app.execute(command)
+      if (command != null) commands.execute(command)
     },
   },
 })
@@ -226,8 +226,8 @@ export interface ShowErrorOptions {
 
 async function showError (options: ShowErrorOptions) {
   const { default: ErrorLayout } = await import('#general/components/error_layout.svelte')
-  app.execute('modal:close')
-  app.layout.showChildComponent('main', ErrorLayout, {
+  commands.execute('modal:close')
+  appLayout.showChildComponent('main', ErrorLayout, {
     props: options,
   })
   setPrerenderStatusCode(options.statusCode)

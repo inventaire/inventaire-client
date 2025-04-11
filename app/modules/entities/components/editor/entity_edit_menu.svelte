@@ -1,6 +1,5 @@
 <script lang="ts">
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
@@ -8,6 +7,7 @@
   import { wait } from '#app/lib/promises'
   import { escapeHtml } from '#app/lib/user_content'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
+  import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -38,11 +38,11 @@
     flash = null
     try {
       if (!mainUserHasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit:intro', invUri)
+        return commands.execute('show:wikidata:edit:intro', invUri)
       }
       await moveToWikidata(invUri)
       // This should now redirect us to the new Wikidata edit page
-      app.execute('show:entity:edit', uri)
+      commands.execute('show:entity:edit', uri)
     } catch (err) {
       const conflicts = err.responseJSON?.context?.conflicts
       if (err.message.includes('same identifiers') && conflicts.length > 0) {
@@ -71,7 +71,7 @@
   }
 
   function loadSettings () {
-    app.execute('show:settings:display')
+    commands.execute('show:settings:display')
   }
 
   let showDeletionConfirmationModal = false
@@ -89,7 +89,7 @@
       await preq.post(API.entities.delete, { uris: [ invUri ] })
       deleting = false
       await wait(800)
-      app.execute('show:home')
+      commands.execute('show:home')
     } catch (err) {
       deletionConfirmationFlash = err
     } finally {

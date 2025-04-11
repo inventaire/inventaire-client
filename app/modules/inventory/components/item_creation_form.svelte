@@ -1,9 +1,9 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
   import ItemRow from '#inventory/components/item_row.svelte'
@@ -11,9 +11,11 @@
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { getLastShelves, setLastShelves, setLastTransaction, setLastVisbility } from '#inventory/lib/add_helpers'
   import { createItem as _createItem } from '#inventory/lib/item_actions'
   import { showShelf } from '#shelves/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { getItemsByUserIdAndEntities } from '../lib/queries'
 
   export let entity: SerializedEntity
@@ -23,18 +25,18 @@
   let flash
 
   let existingEntityItems
-  const waitForExistingInstances = getItemsByUserIdAndEntities(app.user._id, uri)
+  const waitForExistingInstances = getItemsByUserIdAndEntities(mainUser?._id, uri)
     .then(items => existingEntityItems = items)
     .catch(err => flash = err)
 
   let transaction, visibility, shelvesIds, details, notes
 
-  if (shelvesIds == null) shelvesIds = app.request('last:shelves:get')
+  if (shelvesIds == null) shelvesIds = getLastShelves()
 
   async function createItem () {
-    app.execute('last:shelves:set', shelvesIds)
-    app.request('last:transaction:set', transaction)
-    app.execute('last:visibility:set', visibility)
+    setLastShelves(shelvesIds)
+    setLastTransaction(transaction)
+    setLastVisbility(visibility)
     await _createItem({
       entity: uri,
       transaction,
@@ -53,7 +55,7 @@
       if (shelvesIds.length > 0) {
         showShelf(shelvesIds[0])
       } else {
-        app.execute('show:inventory:main:user')
+        commands.execute('show:inventory:main:user')
       }
     } catch (err) {
       flash = err

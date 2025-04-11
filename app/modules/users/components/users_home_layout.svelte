@@ -5,14 +5,15 @@
   import { resizeObserver } from '#app/lib/components/actions/resize_observer'
   import { getViewportHeight } from '#app/lib/screen'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { commands } from '#app/radio'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import type { SerializedGroup } from '#groups/lib/groups'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import NetworkUsersNav from '#users/components/network_users_nav.svelte'
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import UsersHomeNav from '#users/components/users_home_nav.svelte'
-  import { type SerializedUser } from '#users/lib/users'
+  import type { SerializedUser } from '#users/lib/users'
 
   export let user: SerializedUser = null
   export let group: SerializedGroup = null
@@ -21,8 +22,6 @@
   export let profileSection: 'inventory' | 'listings' = null
   export let showShelfFollowers = null
   export let showUserFollowers = null
-
-  const { loggedIn } = app.user
 
   // The focus store is used to determine which component should claim the focus
   // It plays the role of an event bus between the layout children component
@@ -38,15 +37,15 @@
   }
 
   $: if (user) {
-    if ('deleted' in user && user.deleted) app.execute('show:error:missing')
+    if ('deleted' in user && user.deleted) commands.execute('show:error:missing')
   }
 
-  if (user && user._id === app.user._id) section = 'user'
+  if (user && user._id === mainUser?._id) section = 'user'
 
   function onSectionChange () {
     if (section) {
       if (section === 'user') {
-        user = $mainUser
+        user = $mainUserStore
       } else {
         shelf = null
       }
@@ -83,7 +82,7 @@
     bind:this={innerEl}
     use:resizeObserver={{ onElementResize }}
   >
-    {#if loggedIn}
+    {#if mainUser}
       <UsersHomeNav bind:section />
     {/if}
 

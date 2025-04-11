@@ -1,4 +1,5 @@
 import { newError } from '#app/lib/error'
+import { commands } from '#app/radio'
 import type { Url } from '#server/types/common'
 
 type Method = 'get' | 'post' | 'put' | 'delete'
@@ -92,7 +93,5 @@ export function getOngoingRequestsCount () {
 }
 
 async function showNetworkError () {
-  // Late import to avoid a circular dependency on the '#app/api/api'
-  const { default: app } = await import('#app/app')
-  app.execute('flash:message:show:network:error')
+  commands.execute('flash:message:show:network:error')
 }

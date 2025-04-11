@@ -1,9 +1,9 @@
 import { derived, writable } from 'svelte/store'
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq from '#app/lib/preq'
 import type { Notification } from '#server/types/notification'
+import { mainUser } from '#user/lib/main_user'
 
 let waitForNotifications
 export let notifications: Notification[] = []
@@ -11,7 +11,7 @@ export let notifications: Notification[] = []
 export const notificationsStore = writable(notifications)
 
 async function _getNotificationsData () {
-  if (!app.user.loggedIn) return
+  if (!mainUser) return
   const { notifications: userNotifications } = await preq.get(API.notifications)
   notifications = userNotifications
   notificationsStore.set(notifications)

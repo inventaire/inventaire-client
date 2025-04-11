@@ -1,9 +1,12 @@
+import { detectedEnv } from './env_config'
+
 // Duplicated from './metadata/update' to keep the maximum priority in import order
 const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
 
 export async function reportError (err) {
   // Do not try to report errors in tests
-  if (window.env == null) return
+
+  if (detectedEnv == null) return
 
   if (err.hasBeenReported) return
   err.hasBeenReported = true

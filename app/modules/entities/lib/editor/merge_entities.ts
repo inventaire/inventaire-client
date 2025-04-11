@@ -1,5 +1,5 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { isWikidataItemUri } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
@@ -42,7 +42,7 @@ async function importEntityDataToWikidata (fromUri: EntityUri, toUri: WdEntityUr
 async function showWikidataDataImporter (importData: InvEntityImportableData) {
   const { default: WikidataDataImporter } = await import('#entities/components/wikidata_data_importer.svelte')
   return new Promise(resolve => {
-    app.layout.showChildComponent('modal', WikidataDataImporter, {
+    appLayout.showChildComponent('modal', WikidataDataImporter, {
       props: {
         resolve,
         importData,

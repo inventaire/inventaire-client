@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { isOpenedOutside } from '#app/lib/utils'
+  import { setLastAddMode } from '#inventory/lib/add_helpers'
   import { i18n, I18n } from '#user/lib/i18n'
   import ImportLayout from '../importer/import_layout.svelte'
   import ScanLayout from './scan_layout.svelte'
@@ -26,7 +27,7 @@
         title: I18n(`title_add_layout_${tab}`),
       },
     })
-    app.execute('last:add:mode:set', tab)
+    setLastAddMode(tab)
   }
 
   $: onChange(tab, onTabChange)

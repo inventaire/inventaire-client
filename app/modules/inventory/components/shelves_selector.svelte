@@ -1,21 +1,21 @@
 <script lang="ts">
   import { pluck } from 'underscore'
-  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let shelvesIds
   export let showDescription = false
   let userShelves = []
 
-  const waitForShelves = getShelvesByOwner(app.user._id)
+  const waitForShelves = getShelvesByOwner(mainUser?._id)
     .then(res => {
       userShelves = res
       const userShelvesIds = pluck(userShelves, '_id')
       // Filter-out any shelf that might have been deleted
-      // but passed as it was saved by `app.execute('last:shelves:set')`
+      // but passed as it was saved by `getLastShelves`
       shelvesIds = shelvesIds.filter(id => userShelvesIds.includes(id))
     })
 </script>

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { debounce, isEqual } from 'underscore'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
@@ -9,6 +8,7 @@
   import { updateItems } from '#inventory/lib/item_actions'
   import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let serializedItem
   export let flash
@@ -20,7 +20,7 @@
 
   let waitForShelves
   if (mainUserIsOwner) {
-    waitForShelves = getShelvesByOwner(app.user._id)
+    waitForShelves = getShelvesByOwner(mainUser?._id)
       .then(res => userShelves = res)
       .catch(err => flash = err)
   } else {

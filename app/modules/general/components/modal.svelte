@@ -5,10 +5,10 @@
 
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import app from '#app/app'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
+  import { vent } from '#app/radio'
   import { I18n } from '#user/lib/i18n'
 
   export let size = 'medium'
@@ -23,12 +23,12 @@
   }
 
   onMount(() => {
-    if (openModalsCount === 0) app.vent.trigger('overlay:shown')
+    if (openModalsCount === 0) vent.trigger('overlay:shown')
     openModalsCount++
   })
   onDestroy(() => {
     openModalsCount--
-    if (openModalsCount === 0) app.vent.trigger('overlay:hidden')
+    if (openModalsCount === 0) vent.trigger('overlay:hidden')
   })
   function onModalClick () {
     if (closeOnClick) { close() }

@@ -1,38 +1,79 @@
-import Radio from 'backbone.radio'
-import { newError, serverReportError } from '#app/lib/error'
-import { assertFunction, assertString } from './lib/assert_types'
-import { objectEntries } from './lib/utils'
+import { without } from 'underscore'
+import { newError, serverReportError, type ErrorContext } from './lib/error'
+import log_ from './lib/loggers'
 
-export const channel = Radio.channel('global')
+type Subscriber = (...args: unknown[]) => unknown
 
-export const reqres = {
-  setHandlers (obj) {
-    for (const [ key, callback ] of objectEntries(obj)) {
-      assertString(key)
-      assertFunction(callback)
-      channel.reply(key, callback)
+const events: Record<string, Subscriber[]> = {}
+
+export async function trigger (eventName: string, data?: unknown) {
+  if (!(eventName in events)) return logError('event not found', { eventName, data })
+  for (const subscriber of events[eventName]) {
+    try {
+      await subscriber(data)
+    } catch (err) {
+      err.context ??= {}
+      err.context.eventName = eventName
+      log_.error(err, 'event subscriber failed')
     }
-  },
+  }
 }
 
-export function request (handlerKey, ...args) {
-  // @ts-expect-error
-  if (channel._requests == null) {
-    throw newError('radio request called before before handlers were set', 500, { handlerKey, args })
+export function subscribe (eventName: string, subscriber: Subscriber) {
+  events[eventName] ??= []
+  events[eventName].push(subscriber)
+}
+
+export function unsubscribe (eventName: string, subscriber: Subscriber) {
+  if (!events[eventName].includes(subscriber)) {
+    return logError('subscriber not found', { eventName, subscriber, subscribers: events[eventName] })
   }
+  events[eventName] = without(events[eventName], subscriber)
+}
+
+function logError (message: string, context: ErrorContext) {
+  const err = newError(message, 500, context)
+  log_.error(err)
+}
+
+// Mapping API to the formerly used backbone-wreqr concepts
+export const vent = {
+  on: subscribe,
+  off: unsubscribe,
+  trigger,
+  Trigger: (eventName: string) => trigger.bind(null, eventName),
+}
+
+type ReqResHandlers = Record<string, (...args) => unknown>
+const reqresHandlers: ReqResHandlers = {}
+
+function setHandlers (handlers: ReqResHandlers) {
+  Object.assign(reqresHandlers, handlers)
+}
+
+export function request (handlerKey: string, ...args: unknown[]) {
   // Prevent silent errors when a handler is called but hasn't been defined yet
-  // @ts-expect-error "Property '_requests' does not exist on type 'Channel'": _requests is a pseudo-private attribute
-  if (channel._requests[handlerKey] == null) {
+  if (reqresHandlers[handlerKey] == null) {
     // Not throwing to let a chance to the client to do without it
     // In case of a 'request', the absence of returned value is likely to make it crash later though
     serverReportError(`radio request "${handlerKey}" isn't defined`)
   } else {
-    return channel.request(handlerKey, ...args)
+    return reqresHandlers[handlerKey](...args)
   }
 }
 
-export function execute (...args) {
+export function execute (handlerKey: string, ...args: unknown[]) {
   // Like request but not returning anyting
-  // @ts-expect-error Silencing the type error until we can find a better solution
-  request(...args)
+  request(handlerKey, ...args)
+}
+
+export const reqres = {
+  setHandlers,
+  request,
+}
+
+export const commands = {
+  setHandlers,
+  execute,
+  Execute: key => request.bind(null, key),
 }

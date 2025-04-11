@@ -1,10 +1,10 @@
 import { derived, writable } from 'svelte/store'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import preq from '#app/lib/preq'
 import type { RelationAction } from '#server/controllers/relations/actions'
 import type { GetRelationsResponse } from '#server/controllers/relations/get'
 import type { UserId } from '#server/types/user'
+import { mainUser } from '#user/lib/main_user'
 import { getCachedSerializedUsers } from '../helpers'
 import type { SerializedUser } from './users'
 
@@ -18,13 +18,9 @@ export let relations: GetRelationsResponse = {
 export const relationsStore = writable(relations)
 
 export async function fetchRelations () {
-  await app.request('wait:for', 'user')
-  if (app.user.loggedIn) {
+  if (mainUser) {
     relations = await preq.get(API.relations)
   }
-  app.execute('waiter:resolve', 'relations')
-  // Legacy
-  app.relations = relations
   relationsStore.set(relations)
   return relations
 }

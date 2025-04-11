@@ -1,11 +1,11 @@
 <script lang="ts">
   import { pick } from 'underscore'
-  import app from '#app/app'
   import { isEntityUri } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { someMatch } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import type { EntityDraft } from '#app/types/entity'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
@@ -58,7 +58,7 @@
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
-    app.execute('querystring:set', 'type', type)
+    commands.execute('querystring:set', 'type', type)
   }
 
   $: if (type) onChange(type, onTypeChange)
@@ -89,7 +89,7 @@
       const propertiesToKeep = [ 'wdt:P31', ...Object.keys(typeProperties) ]
       entity.claims = pick(entity.claims, propertiesToKeep)
       const { uri } = await createAndGetEntity(entity)
-      app.execute('show:entity', uri)
+      commands.execute('show:entity', uri)
     } catch (err) {
       if (err.message.includes('invalid claim value') && err.responseJSON.context) {
         const { value, property } = err.responseJSON.context

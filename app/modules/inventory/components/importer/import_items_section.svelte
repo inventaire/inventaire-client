@@ -1,6 +1,5 @@
 <script lang="ts">
   import { property } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { scrollToElement } from '#app/lib/screen'
@@ -11,6 +10,7 @@
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { addItemsByIdsToShelf, createShelf, getShelvesByOwner } from '#shelves/lib/shelves'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let candidates
   export let transaction
@@ -102,7 +102,7 @@
 
   let mainUserShelves
   const getExistingShelfOrCreateShelf = async ({ name, itemsIds }) => {
-    mainUserShelves = mainUserShelves || await getShelvesByOwner(app.user._id)
+    mainUserShelves = mainUserShelves || await getShelvesByOwner(mainUser?._id)
     const matchingShelf = mainUserShelves.find(shelf => shelf.name === name)
     if (matchingShelf) {
       await addItemsByIdsToShelf({ shelfId: matchingShelf._id, itemsIds })

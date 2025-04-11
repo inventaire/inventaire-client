@@ -1,10 +1,10 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { createItem } from '#inventory/components/importer/lib/create_item'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let candidate
   export let visibility
@@ -37,7 +37,7 @@
     if (candidate.item) {
       itemPath = `/items/${candidate.item._id}`
     } else {
-      const username = app.user.username
+      const username = mainUser.username
       if (edition) itemPath = `/users/${username}/inventory/${edition.uri}`
     }
   }

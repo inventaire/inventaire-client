@@ -1,6 +1,5 @@
 <script lang="ts">
   import { pluck, uniq, pick } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { onChange } from '#app/lib/svelte/svelte'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
@@ -12,7 +11,7 @@
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import { getDocsBounds } from './lib/map.ts'
 
   export let docsToDisplay = []
@@ -30,8 +29,7 @@
       const nearbyDocs = docsToDisplay.filter(item => isNearby(item.distanceFromMainUser))
       const nearbyBounds = pluck(nearbyDocs, 'position')
       initialBounds = nearbyBounds.length > 0 ? nearbyBounds : bounds
-      const mainUserPosition = app.user.position
-      if (mainUserPosition) initialBounds = initialBounds.concat([ mainUserPosition ])
+      if (mainUser?.position) initialBounds = initialBounds.concat([ mainUser.position ])
       updateFilters(docsToDisplay)
     }
   }
@@ -64,7 +62,7 @@
   }
 
   function findMainUserItems (displayedItems) {
-    return displayedItems.find(item => item.owner === $mainUser._id)
+    return displayedItems.find(item => item.owner === $mainUserStore?._id)
   }
 
   $: onChange(docsToDisplay, onDocsToDisplayChange)
@@ -77,7 +75,7 @@
 <div class="items-map">
   {#if bounds.length > 0}
     <LeafletMap
-      bounds={$mainUser.position ? bounds.concat([ $mainUser.position ]) : bounds}
+      bounds={$mainUserStore?.position ? bounds.concat([ $mainUserStore.position ]) : bounds}
       cluster={true}
     >
       {#each displayedItems as item (item._id)}
@@ -85,9 +83,9 @@
           <ItemMarker {item} on:showItem={() => modalItem = item} />
         </Marker>
       {/each}
-      {#if $mainUser?.position && !isMainUserItemsDisplayed}
-        <Marker latLng={$mainUser.position} standalone={true}>
-          <UserMarker doc={$mainUser} />
+      {#if $mainUserStore?.position && !isMainUserItemsDisplayed}
+        <Marker latLng={$mainUserStore.position} standalone={true}>
+          <UserMarker doc={$mainUserStore} />
         </Marker>
       {/if}
     </LeafletMap>

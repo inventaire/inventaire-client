@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
-import app from '#app/app'
 import { getListingsByCreators } from '#listings/lib/listings'
+import { mainUser } from '#user/lib/main_user'
 
 const noop = () => {}
 
@@ -11,8 +11,8 @@ function start (setStoreValue) {
 }
 
 async function refresh (setStoreValue) {
-  if (app.user.loggedIn) {
-    const { listings } = await getListingsByCreators({ usersIds: app.user._id })
+  if (mainUser) {
+    const { listings } = await getListingsByCreators({ usersIds: [ mainUser?._id ] })
     setStoreValue(listings)
   } else {
     setStoreValue([])

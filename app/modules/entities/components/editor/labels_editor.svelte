@@ -1,7 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { isString } from 'underscore'
-  import app from '#app/app'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -14,7 +13,7 @@
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
   import type { EntityUri, Label } from '#server/types/entity'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
   import OtherLanguage from './other_language.svelte'
@@ -30,7 +29,7 @@
 
   const { uri, labels } = entity
   const creationMode = uri == null
-  const userLang = app.user.lang
+  const userLang = getCurrentLang()
   const languages = getLangsData(userLang, labels)
   const bestLangData = getBestLangValue(userLang, null, labels)
   let currentLang = bestLangData.lang || userLang

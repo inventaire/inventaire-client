@@ -1,9 +1,9 @@
 <script lang="ts">
-  import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { wait } from '#app/lib/promises'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import GroupOpenness from '#groups/components/group_openness.svelte'
   import GroupSearchability from '#groups/components/group_searchability.svelte'
@@ -11,7 +11,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { createGroup as _createGroup } from '../lib/groups_data'
 
-  app.execute('modal:open', 'medium')
+  commands.execute('modal:open', 'medium')
 
   let name, nameFlash, description, descriptionFlash, searchable = true, open = false, position, creationFlash
 
@@ -30,8 +30,8 @@
       created = true
       creationFlash = { type: 'success', message: I18n('done') }
       await wait(500)
-      app.execute('show:group:board', group)
-      app.execute('modal:close')
+      commands.execute('show:group:board', group)
+      commands.execute('modal:close')
     } catch (err) {
       creationFlash = err
       creating = false

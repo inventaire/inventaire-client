@@ -1,6 +1,5 @@
 <script lang="ts">
   import { pluck } from 'underscore'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { showLoginPageAndRedirectHere } from '#app/lib/utils'
@@ -15,6 +14,7 @@
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { getSubEntities } from '../lib/entities.ts'
 
   export let entity
@@ -23,7 +23,6 @@
   export let align: Align = null
 
   const { uri, type } = entity
-  const { loggedIn } = app.user
 
   let listings, listingsIdsMatchingUri
 
@@ -42,7 +41,7 @@
 
   $: onChange($userListings, listingsIdsMatchingUri, refreshListings)
 
-  const waitingForListingsStates = getUserListingsByEntityUri({ userId: app.user._id, uri })
+  const waitingForListingsStates = getUserListingsByEntityUri({ userId: mainUser?._id, uri })
     .then(listingsMatchingUri => {
       listingsIdsMatchingUri = pluck(listingsMatchingUri, '_id')
     })
@@ -88,7 +87,7 @@
 </script>
 
 <div class="add-to-dot-dot-dot-menu">
-  {#if loggedIn}
+  {#if mainUser}
     <Dropdown
       {align}
       buttonTitle={i18n('Add this work to your inventory or to a list')}

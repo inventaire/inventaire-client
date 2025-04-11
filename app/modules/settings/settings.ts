@@ -1,21 +1,19 @@
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
+import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'settings(/profile)(/)': 'showProfileSettings',
-        'settings/account(/)': 'showAccountSettings',
-        'settings/display(/)': 'showDisplaySettings',
-        'settings/notifications(/)': 'showNotificationsSettings',
-        'settings/data(/)': 'showDataSettings',
-        // Legacy
-        'settings/labs(/)': 'showDataSettings',
-        'menu(/)': 'showProfileSettings',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/settings(/profile)(/)': 'showProfileSettings',
+      '/settings/account(/)': 'showAccountSettings',
+      '/settings/display(/)': 'showDisplaySettings',
+      '/settings/notifications(/)': 'showNotificationsSettings',
+      '/settings/data(/)': 'showDataSettings',
+      // Legacy
+      '/settings/labs(/)': 'showDataSettings',
+      '/menu(/)': 'showProfileSettings',
+    }, controller)
 
     setHandlers()
   },
@@ -27,12 +25,12 @@ const controller = {
   showDisplaySettings () { showSettings('display') },
   showNotificationsSettings () { showSettings('notifications') },
   showDataSettings () { showSettings('data') },
-}
+} as const
 
 const showSettings = async section => {
-  if (app.request('require:loggedIn', `settings/${section}`)) {
+  if (reqres.request('require:loggedIn', `settings/${section}`)) {
     const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
-    return app.layout.showChildComponent('main', SettingsLayout, {
+    appLayout.showChildComponent('main', SettingsLayout, {
       props: {
         section,
       },
@@ -40,7 +38,7 @@ const showSettings = async section => {
   }
 }
 
-const setHandlers = () => app.commands.setHandlers({
+const setHandlers = () => commands.setHandlers({
   'show:settings': controller.showProfileSettings,
   'show:settings:profile': controller.showProfileSettings,
   'show:settings:account': controller.showAccountSettings,
