@@ -1,15 +1,16 @@
 <script lang="ts">
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { getActionKey } from '#app/lib/key_events'
   import isMobile from '#app/lib/mobile_check'
   import Spinner from '#components/spinner.svelte'
   import { postTransactionMessage } from '#transactions/lib/helpers'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { user } from '#user/user_store'
+  import { mainUser } from '#user/lib/main_user'
+  import type { SerializedTransaction } from '../lib/transactions'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   let message, flash, sending
 
@@ -38,7 +39,7 @@
 <form class="new-message">
   <div class="main">
     <div class="avatar">
-      <img src={imgSrc($user.picture, 50)} alt={$user.username} />
+      <img src={imgSrc($mainUser.picture, 50)} alt={$mainUser.username} />
     </div>
     <textarea
       class="message"

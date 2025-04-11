@@ -6,11 +6,11 @@
   import preq from '#app/lib/preq'
   import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadLink } from '#app/lib/utils'
-  import type { SerializedContributor } from '#app/modules/users/lib/users'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
   import { i18n, I18n } from '#user/lib/i18n'
+  import type { SerializedContributor } from '#users/lib/users'
 
   export let contributor: SerializedContributor = null
   export let filter = null

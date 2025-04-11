@@ -1,6 +1,5 @@
 import type { SerializedEntity } from '#entities/lib/entities'
 import { getEditionsWorks } from '#entities/lib/entities'
-import { defaultClaimPropertyByType } from '../models/entity'
 
 export async function getEntityLayoutComponentByType (entity: SerializedEntity) {
   const { type } = entity
@@ -31,4 +30,10 @@ export async function getEntityLayoutComponentByType (entity: SerializedEntity) 
     return { Component, props: { entity, property } }
   }
   return { Component, props: { entity } }
+}
+
+const defaultClaimPropertyByType = {
+  movement: 'wdt:P135',
+  genre: 'wdt:P136',
+  subject: 'wdt:P921',
 }

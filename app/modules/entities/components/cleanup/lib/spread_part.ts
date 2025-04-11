@@ -1,6 +1,6 @@
 import { compact } from 'underscore'
 import { isPositiveIntegerString } from '#app/lib/boolean_tests'
-import type { SerializedEntity } from '#app/modules/entities/lib/entities'
+import type { SerializedEntity } from '#entities/lib/entities'
 
 export function spreadParts (parts: SerializedEntity[]) {
   const worksWithoutOrdinal = []

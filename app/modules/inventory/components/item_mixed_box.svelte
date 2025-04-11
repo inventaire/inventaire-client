@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { currentRoute } from '#app/lib/location'
   import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'

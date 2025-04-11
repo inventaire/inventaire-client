@@ -2,9 +2,8 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside } from '#app/lib/utils'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
@@ -15,6 +14,7 @@
   import type { ListingElement } from '#server/types/element'
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
+  import type { SerializedUser } from '#users/lib/users'
   import ListingElementActions from './listing_element_actions.svelte'
 
   export let element: ListingElementWithEntity

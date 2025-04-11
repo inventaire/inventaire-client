@@ -1,7 +1,5 @@
+import { assertStrings, assertType, assertTypes } from '#app/lib/assert_types'
 import 'should'
-import assert_ from '#app/lib/assert_types'
-
-const { type: assertType, types: assertTypes } = assert_
 
 describe('assert types', () => {
   describe('type', () => {
@@ -99,18 +97,8 @@ describe('assert types', () => {
       )).should.throw())
     })
 
-    it('should not throw when less arguments than types but more or as many as minArgsLength', () => {
-      ((() => assertTypes([ 'i am a string' ], [ 'string', 'string' ]))).should.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string', 'string' ], 0))).should.not.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string', 'string' ], 1))).should.not.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string', 'boolean|undefined' ], 1))).should.not.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string', 'boolean|undefined' ], 1))).should.not.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string' ], 0))).should.not.throw();
-      ((() => assertTypes([ 'i am a string' ], [ 'string' ], 1))).should.not.throw()
-    })
-
-    it('should throw when less arguments than types and not more or as many as minArgsLength', () => {
-      ((() => assertTypes([ 'im am a string' ], [ 'string', 'string' ], 2))).should.throw()
+    it('should throw when less arguments than types', () => {
+      ((() => assertTypes([ 'im am a string' ], [ 'string', 'string' ]))).should.throw()
     })
 
     it('accepts a common type for all the args as a string', () => {
@@ -138,11 +126,11 @@ describe('assert types', () => {
 
   describe('strings', () => {
     it("should throw if one of the passed values isn't a string", () => {
-      assert_.strings.bind(null, [ 'abc', 123 ]).should.throw()
+      assertStrings.bind(null, [ 'abc', 123 ]).should.throw()
     })
 
     it("should throw if one of the passed values isn't a string", () => {
-      assert_.strings([ 'abc', 'def' ])
+      assertStrings([ 'abc', 'def' ])
     })
   })
 })

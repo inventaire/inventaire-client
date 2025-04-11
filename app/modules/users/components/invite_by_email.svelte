@@ -3,26 +3,33 @@
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
   import { sendEmailInvitations } from '#users/invitations'
+  import { serializeUser, type SerializedUser } from '../lib/users'
 
   export let message = ''
   export let group = null
 
   let flash, rawEmails
   let emailsInvited = []
-  let usersAlreadyThere = []
+  let usersAlreadyThere: SerializedUser[] = []
 
   async function sendInvitations () {
     try {
       const res = await sendEmailInvitations({ emails: rawEmails, message, group: group?._id })
-      usersAlreadyThere = usersAlreadyThere.concat(res.users)
+      usersAlreadyThere = usersAlreadyThere.concat(res.users.map(serializeUser))
       emailsInvited = uniq(emailsInvited.concat(res.emails))
     } catch (err) {
       flash = err
     }
   }
+
+  function clearFlash () {
+    flash = null
+  }
+  $: onChange(rawEmails, message, clearFlash)
 </script>
 
 <div class="invite-by-email">
@@ -89,7 +96,7 @@
   {/if}
 </div>
 
-<Flash state={flash} />
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";

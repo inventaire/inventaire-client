@@ -17,7 +17,7 @@
     ;({ inventoryPathname, listingsPathname } = group)
   }
 
-  const showSection = (e, value) => {
+  function showSection (e, value) {
     if (isOpenedOutside(e)) return
     profileSection = value
     if (user) {
@@ -30,6 +30,7 @@
     } else if (profileSection === 'listings') {
       app.navigate(listingsPathname, { pageSectionElement: navEl })
     }
+    e.preventDefault()
   }
 </script>
 

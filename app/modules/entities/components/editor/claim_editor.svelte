@@ -1,7 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { isComponentEvent } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { newError } from '#app/lib/error'
@@ -66,7 +65,6 @@
       dispatch('set', inputValue)
       if (savedValue === inputValue) return
       if (!creationMode) {
-        app.execute('invalidate:entities:cache', uri)
         await preq.put(API.entities.claims.update, {
           uri,
           property,

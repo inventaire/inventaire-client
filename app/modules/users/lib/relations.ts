@@ -1,28 +1,79 @@
+import { derived, writable } from 'svelte/store'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import type { RelationAction } from '#server/controllers/relations/actions'
+import type { GetRelationsResponse } from '#server/controllers/relations/get'
+import type { UserId } from '#server/types/user'
+import { getCachedSerializedUsers } from '../helpers'
+import type { SerializedUser } from './users'
 
-export async function updateRelationStatus ({ user, action }) {
-  const { _id: userId } = user
-  return preq.post(API.relations, { action, user: userId })
+export let relations: GetRelationsResponse = {
+  friends: [],
+  userRequested: [],
+  otherRequested: [],
+  network: [],
 }
 
-export const initRelations = function () {
+export const relationsStore = writable(relations)
+
+export async function fetchRelations () {
+  await app.request('wait:for', 'user')
   if (app.user.loggedIn) {
-    return preq.get(API.relations)
-    .then(relations => {
-      app.relations = relations
-      app.execute('waiter:resolve', 'relations')
-    })
-    .catch(log_.Error('relations init err'))
+    relations = await preq.get(API.relations)
+  }
+  app.execute('waiter:resolve', 'relations')
+  // Legacy
+  app.relations = relations
+  relationsStore.set(relations)
+  return relations
+}
+
+let waitingForRelations
+export function getRelations () {
+  waitingForRelations ??= fetchRelations()
+  return waitingForRelations
+}
+
+export const initRelations = getRelations
+
+export async function refreshRelations () {
+  waitingForRelations = null
+  await getRelations()
+}
+
+export async function getFriendshipRequests () {
+  const relations = await getRelations()
+  const userIds = relations.otherRequested as UserId[]
+  return getCachedSerializedUsers(userIds)
+}
+
+export async function getFriends () {
+  const relations = await getRelations()
+  const userIds = relations.friends as UserId[]
+  return getCachedSerializedUsers(userIds)
+}
+
+export function getUserRelationStatus (userId: UserId) {
+  if (relations.friends.includes(userId)) {
+    return 'friends'
+  } else if (relations.userRequested.includes(userId)) {
+    return 'userRequested'
+  } else if (relations.otherRequested.includes(userId)) {
+    return 'otherRequested'
+  } else if (relations.network.includes(userId)) {
+    return 'nonRelationGroupUser'
   } else {
-    app.relations = {
-      friends: [],
-      userRequested: [],
-      otherRequested: [],
-      network: [],
-    }
-    app.execute('waiter:resolve', 'relations')
+    return 'public'
   }
 }
+
+export async function updateRelationStatus (user: SerializedUser, action: RelationAction) {
+  const { _id: userId } = user
+  await preq.post(API.relations, { action, user: userId })
+  await refreshRelations()
+}
+
+export const friendshipRequestsCount = derived(relationsStore, $relationsStore => {
+  return $relationsStore.otherRequested.length
+})

@@ -1,7 +1,7 @@
 import { difference, uniq } from 'underscore'
-import { getEntities } from '#app/modules/entities/lib/entities'
-import type { AuthorProperty } from '#app/modules/entities/lib/properties'
-import { getSerieOrWorkExtendedAuthorsUris } from '#app/modules/entities/lib/types/serie_alt'
+import { getEntities } from '#entities/lib/entities'
+import type { AuthorProperty } from '#entities/lib/properties'
+import { getSerieOrWorkExtendedAuthorsUris } from '#entities/lib/types/serie_alt'
 import type { SerializedEntity } from '#server/types/entity'
 
 export async function authorProperty ({ entity, property }: { entity: SerializedEntity, property: AuthorProperty }) {

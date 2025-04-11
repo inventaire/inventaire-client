@@ -1,20 +1,28 @@
 import app from '#app/app'
 import { config } from '#app/config'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import { images } from '#app/lib/urls'
+import { countListings } from '#listings/lib/listings'
 import { distanceBetween } from '#map/lib/geo'
 import type { InstanceAgnosticContributor } from '#server/controllers/user/lib/anonymizable_user'
+import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { Host, RelativeUrl } from '#server/types/common'
+import type { AssetImagePath, UserImagePath } from '#server/types/image'
 import type { UserAccountUri } from '#server/types/server'
-import type { AnonymizableUserId, User, Username } from '#server/types/user'
+import type { AnonymizableUserId, SnapshotVisibilitySection, Username } from '#server/types/user'
+import { countShelves } from '#shelves/lib/shelves'
+import { relations } from './relations'
+import type { OverrideProperties } from 'type-fest'
 
 const { publicHost } = config
 const { defaultAvatar } = images
 
 export type ItemCategory = 'personal' | 'network' | 'public' | 'nearbyPublic' | 'otherPublic'
 
-export interface SerializedUser extends User {
+export type ServerUser = GetUsersByIdsResponse['users'][number]
+
+export interface SerializedUserExtra {
   isMainUser: boolean
   kmDistanceFormMainUser: number
   distanceFromMainUser: number
@@ -24,8 +32,23 @@ export interface SerializedUser extends User {
   listingsPathname: RelativeUrl
   contributionsPathname: RelativeUrl
   acct?: UserAccountUri
+  itemsCount?: number
+  itemsLastAdded?: EpochTimeStamp
+  shelvesCount?: number
+  listingsCount?: number
 }
 
+export interface SerializedUserOverrides {
+  picture: UserImagePath | AssetImagePath
+  bio: string | undefined
+  created: EpochTimeStamp | undefined
+  fediversable: boolean | undefined
+}
+
+// @ts-expect-error picture override conflicts with `picture: never` from DeletedUser and such
+export type SerializedUser = OverrideProperties<ServerUser, SerializedUserOverrides> & SerializedUserExtra
+
+// @ts-expect-error
 export interface SerializedContributor extends InstanceAgnosticContributor {
   isMainUser: boolean
   handle: Username | `${Username}@${Host}`
@@ -35,10 +58,13 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
   contributionsPathname: RelativeUrl
   special: boolean
   deleted: boolean
+  picture: UserImagePath | AssetImagePath
+  distanceFromMainUser?: number
 }
 
-export function serializeUser (user: User & Partial<SerializedUser>) {
-  user.isMainUser = user._id === app.user.id
+export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
+  if ('pathname' in user) return user as SerializedUser
+  user.isMainUser = user._id === app.user._id
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
   }
@@ -57,6 +83,7 @@ export function serializeContributor (user: InstanceAgnosticContributor & Partia
   } else {
     user.handle = `${user.username}@${host}`
   }
+  // @ts-expect-error
   user.picture = getPicture(user)
   Object.assign(user, getUserPathnames(user))
   user.special ??= false
@@ -64,14 +91,14 @@ export function serializeContributor (user: InstanceAgnosticContributor & Partia
   return user as SerializedContributor
 }
 
-export function getPicture (user) {
+export function getPicture (user: Partial<SerializedUser>) {
   return user.picture || defaultAvatar
 }
 
 export function setDistance (user) {
   if (user.distanceFromMainUser != null) return
-  if (!(app.user.has('position') && user.position)) return
-  const a = app.user.getCoords()
+  if (!(app.user.position && user.position)) return
+  const a = getCoords(app.user)
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
   user.kmDistanceFormMainUser = distance
@@ -95,9 +122,9 @@ function getCoords (user) {
 }
 
 export function setItemsCategory (user) {
-  if (user._id === app.user.id) {
+  if (user._id === app.user._id) {
     user.itemsCategory = 'personal'
-  } else if (app.relations.network.includes(user._id)) {
+  } else if (relations.network.includes(user._id)) {
     user.itemsCategory = 'network'
   } else {
     user.itemsCategory = 'public'
@@ -144,6 +171,37 @@ export function getPositionUrl (user) {
 }
 
 export function getLocalUserAccount (anonymizableId: AnonymizableUserId) {
-  assert_.string(anonymizableId)
+  assertString(anonymizableId)
   return `${anonymizableId}@${publicHost}` as UserAccountUri
+}
+
+export async function setInventoryStats (user: SerializedUser) {
+  const created = user.created || 0
+  // Make lastAdd default to the user creation date
+  let data = { itemsCount: 0, lastAdd: created }
+
+  // Known case of missing snapshot data: deleted users, user documents return from search
+  const snapshot = 'snapshot' in user ? user.snapshot : null
+  if (snapshot != null) {
+    // @ts-ignore
+    data = Object.values(snapshot).reduce(aggregateScoreData, data)
+  }
+
+  const { itemsCount, lastAdd } = data
+  user.itemsCount = itemsCount
+  user.itemsLastAdded = lastAdd
+
+  const [ shelvesCount, listingsCount ] = await Promise.all([
+    countShelves(user._id),
+    countListings(user._id),
+  ])
+  user.shelvesCount = shelvesCount
+  user.listingsCount = listingsCount
+}
+
+function aggregateScoreData (data: { itemsCount: number, lastAdd: EpochTimeStamp }, snapshotSection: SnapshotVisibilitySection) {
+  const { 'items:count': count, 'items:last-add': lastAdd } = snapshotSection
+  data.itemsCount += count
+  if (lastAdd > data.lastAdd) data.lastAdd = lastAdd
+  return data
 }

@@ -1,7 +1,8 @@
-import app from '#app/app'
 import { reportError } from '#app/lib/reports'
-import { authorProperties } from '#app/modules/entities/lib/properties'
 import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+import { getEntitiesList, type SerializedEntity } from '#entities/lib/entities'
+import { authorProperties } from '#entities/lib/properties'
+import type { PropertyUri } from '#server/types/entity'
 import { authorProperty } from './author_properties.ts'
 import wdtP123 from './wdt_P123.ts'
 import wdtP195 from './wdt_P195.ts'
@@ -20,14 +21,13 @@ const suggestionsPerProperties = {
   'wdt:P7937': ({ entity }) => getPropertyValuesShortlist({ property: 'wdt:P7937', type: entity.type }),
 }
 
-export async function getDefaultSuggestions ({ entity, property }) {
+export async function getDefaultSuggestions ({ entity, property }: { entity: SerializedEntity, property: PropertyUri }) {
   const getSuggestions = suggestionsPerProperties[property]
   if (getSuggestions == null) return
   try {
     const uris = await getSuggestions({ entity })
     if (uris == null || uris.length === 0) return
-    const entities = await app.request('get:entities:models', { uris })
-    return entities.map(model => model.toJSON())
+    return getEntitiesList(uris)
   } catch (err) {
     reportError(err)
   }

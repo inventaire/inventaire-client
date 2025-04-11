@@ -4,6 +4,7 @@
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import { looksLikeAnIsbn } from '#app/lib/isbn'
+  import { showEntityCreate as _showEntityCreate } from '#entities/entities'
   import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -20,7 +21,7 @@
       let type = typesBySection.entity[selectedSection]
       // default 'all' section to work type
       if (isArray(type)) type = 'works'
-      app.execute('show:entity:create', { label: searchText, type })
+      _showEntityCreate({ label: searchText, type })
     }
     dispatch('closeLiveSearch')
   }

@@ -1,7 +1,7 @@
 import leven from 'leven'
 import { min, flatten, intersection, values } from 'underscore'
-import type { SerializedEntity } from '#app/modules/entities/lib/entities'
-import { getSerieOrWorkExtendedAuthorsUris } from '#app/modules/entities/lib/types/serie_alt'
+import type { SerializedEntity } from '#entities/lib/entities'
+import { getSerieOrWorkExtendedAuthorsUris } from '#entities/lib/types/serie_alt'
 
 interface WorkSuggestionExtras {
   pertinanceScore: number

@@ -1,4 +1,4 @@
-export default [
+export const notificationsList = [
   // GLOBAL
   'global',
 
@@ -17,4 +17,4 @@ export default [
   'your_item_was_requested',
   'update_on_your_item',
   'update_on_item_you_requested',
-]
+] as const

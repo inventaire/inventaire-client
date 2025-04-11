@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Could not find out why path "#activitypub" throw TS error
+  // Could not find out why path "#app/modules/activitypub" throw TS error
   import ActorFollowers from '#app/modules/activitypub/components/actor_followers.svelte'
   import { i18n } from '#user/lib/i18n'
 

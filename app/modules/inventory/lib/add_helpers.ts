@@ -1,10 +1,10 @@
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertStrings } from '#app/lib/assert_types'
 import { localStorageProxy } from '#app/lib/local_storage'
 
 const set = localStorageProxy.setItem.bind(localStorageProxy)
 const SetArray = key => array => {
-  assert_.strings(array)
+  assertStrings(array)
   return set(key, JSON.stringify(array))
 }
 

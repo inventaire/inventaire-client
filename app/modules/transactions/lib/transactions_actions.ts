@@ -1,11 +1,11 @@
-import assert_ from '#app/lib/assert_types'
+import { assertBoolean } from '#app/lib/assert_types'
 import { cancellableStates } from '#transactions/lib/cancellable_states'
 
 export function getActionUserKey (action, transaction) {
   const actionName = action.action
   const { mainUserIsOwner } = transaction
   // The transaction object should have been enriched before
-  assert_.boolean(mainUserIsOwner)
+  assertBoolean(mainUserIsOwner)
   let actorRole
   if (action.actor) {
     actorRole = action.actor

@@ -1,4 +1,4 @@
-import assert_ from '#app/lib/assert_types'
+import { assertObjects } from '#app/lib/assert_types'
 import leafletLite from './leaflet_lite.ts'
 
 // Coordinates are returned in decimal degrees
@@ -10,7 +10,7 @@ export function truncateDecimals (degree) {
 
 // a, b MUST be { lat, lng } coords objects
 export function distanceBetween (a, b) {
-  assert_.objects(arguments)
+  assertObjects([ a, b ])
   // return the distance in kilometers
   return leafletLite.distance(a, b) / 1000
 }

@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
+  import { userContent } from '#app/lib/user_content'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -11,6 +10,7 @@
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
   import UserInfobox from '#users/components/user_infobox.svelte'
+  import type { SerializedUser } from '#users/lib/users'
 
   export let listing: Listing
   export let isEditable: boolean

@@ -15,25 +15,7 @@
   <!-- Instruct Nginx to send the prerendered version. In case there is no Nginx to catch that request, the page will be reloaded in loop, thus the 1 second delay, to give a chance to close the page before saturating a small CPU -->
   <noscript><meta http-equiv="refresh" content="1;?__nojs" /></noscript>
 
-  <link rel="canonical" href="https://inventaire.io/" />
   <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />
-  <link rel="alternate" type="application/rss+xml" href="https://mamot.fr/users/inventaire.rss">
-
-  <meta name="twitter:title" content="Inventaire - your friends and communities are your best library">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@inventaire_io">
-  <meta name="twitter:description" content="Make the inventory of your books, share it with your friends and communities into an infinite library!">
-  <meta name="twitter:image" content="/public/images/inventaire-books.jpg">
-
-  <meta property="fb:app_id" content="1383915125249576"/>
-  <meta property="og:site_name" content="Inventaire">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://inventaire.io/">
-  <meta property="og:title" content="Inventaire - your friends and communities are your best library">
-  <meta name="description" property="og:description" content="Make the inventory of your books, share it with your friends and communities into an infinite library!" />
-  <!-- limiting to one og:image to be sure it's the one selected. cf https://stackoverflow.com/questions/13424780/facebook-multiple-ogimage-tags-which-is-default -->
-  <meta property="og:image" content="/public/images/inventaire-books.jpg">
-  <!-- og:locale and og:locale:alternate will be added by general/lib/document_lang -->
 
   <link rel="apple-touch-icon" sizes="57x57" href="/public/icon/57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/public/icon/60.png">
@@ -51,11 +33,13 @@
   <link rel="icon" sizes="192x192" type="image/png" href="/public/icon/192.png">
 
   <meta name="msapplication-config" content="/public/browserconfig.xml" />
+
+  <!-- TODO: generate opensearch by instance -->
   <link rel="search" type="application/opensearchdescription+xml" href="/public/opensearch.xml" title="Inventaire Search" />
 
   <script type="application/ld+json" src="https://inventaire.io/public/actions.jsonld"></script>
 
-  <!-- alternate langs will be appended by general/lib/document_lang at first page load -->
+  <!-- For other <head> tags, see #general/components/document_headers.svelte -->
 
 </head>
 <body>

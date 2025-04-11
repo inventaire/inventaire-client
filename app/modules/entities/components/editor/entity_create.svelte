@@ -16,12 +16,15 @@
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import type { EntityType, SimplifiedClaims } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
   import { getEntityLabel } from '../../lib/entities'
   import LabelsEditor from './labels_editor.svelte'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
 
-  export let type, claims, label
+  export let label: string
+  export let type: EntityType = null
+  export let claims: SimplifiedClaims = null
 
   const canChangeType = !(type && claims)
 

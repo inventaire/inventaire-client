@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { icon } from '#app/lib/handlebars_helpers/icons'
+  import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'

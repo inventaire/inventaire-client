@@ -1,66 +1,65 @@
 import { pluck, intersection, compact, uniq, without, difference } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isPositiveIntegerString } from '#app/lib/boolean_tests'
 import { treq } from '#app/lib/preq'
 import { uniqSortedByCount } from '#app/lib/utils'
-import { getEntitiesList, getEntityByUri, getReverseClaims, type SerializedEntity } from '#app/modules/entities/lib/entities'
-import { getWorkAuthorsUris, getWorkSeriesUris } from '#app/modules/inventory/components/lib/item_show_helpers'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+import { getEntitiesList, getEntityByUri, getReverseClaims, type SerializedEntity } from '#entities/lib/entities'
+import { getAuthorWorksUris } from '#entities/lib/types/author_alt'
+import { getWorkAuthorsUris, getWorkSeriesUris } from '#inventory/components/lib/item_show_helpers'
 import type { GetSeriePartsResponse } from '#server/controllers/entities/get_entity_relatives'
 import type { SeriePart } from '#server/controllers/entities/lib/get_serie_parts'
 import type { EntityUri } from '#server/types/entity'
 
-export default async function ({ entity }) {
+export default async function ({ entity }: { entity: SerializedEntity }) {
   const { uri } = entity
-  let worksUris = entity.claims['wdt:P629']
-  if (worksUris == null) return
-  worksUris = worksUris.filter(isNonEmptyClaimValue)
+  let editionWorksUris = entity.claims['wdt:P629']
+  if (editionWorksUris == null) return
+  editionWorksUris = editionWorksUris.filter(isNonEmptyClaimValue)
   const suggestionsUris = await Promise.all([
-    getSuggestionsFromMultiWorksEditions(uri, worksUris),
-    getSuggestionsFromWorks(worksUris),
+    getSuggestionsFromMultiWorksEditions(uri, editionWorksUris),
+    getSuggestionsFromWorks(editionWorksUris),
   ])
   return uniq(suggestionsUris.flat())
 }
 
-async function getSuggestionsFromMultiWorksEditions (editionUri: EntityUri, worksUris: EntityUri[]) {
-  const worksEditionsUris = await Promise.all(worksUris.map(workUri => getReverseClaims('wdt:P629', workUri)))
+async function getSuggestionsFromMultiWorksEditions (editionUri: EntityUri, editionWorksUris: EntityUri[]) {
+  const worksEditionsUris = await Promise.all(editionWorksUris.map(workUri => getReverseClaims('wdt:P629', workUri)))
   const otherEditionsUris = without(uniq(worksEditionsUris.flat()), editionUri)
-  const editions = await getEntitiesList({ uris: otherEditionsUris, attributes: [ 'claims' ] })
-  const editionsWorksUris = editions.flatMap(edition => edition.claims['wdt:P629'])
-  const editionsOtherWorksUris = difference(editionsWorksUris, worksUris)
+  const otherEditions = await getEntitiesList({ uris: otherEditionsUris, attributes: [ 'claims' ] })
+  const otherEditionsWorksUris = otherEditions.flatMap(edition => edition.claims['wdt:P629'])
+  const editionsOtherWorksUris = difference(otherEditionsWorksUris, editionWorksUris)
   return uniqSortedByCount(editionsOtherWorksUris)
 }
 
-async function getSuggestionsFromWorks (worksUris: EntityUri[]) {
-  const works = await getEntitiesList({ uris: worksUris, attributes: [ 'claims' ] })
+async function getSuggestionsFromWorks (editionWorksUris: EntityUri[]) {
+  const works = await getEntitiesList({ uris: editionWorksUris, attributes: [ 'claims' ] })
   const worksAuthors = works.map(getWorkAuthorsUris)
   const worksSeries = compact(works.map(getWorkSeriesUris))
   const commonAuthors = intersection(...worksAuthors)
   const commonSeries = intersection(...worksSeries)
   if (commonSeries.length === 1) {
-    const otherSerieWorks = await getSuggestionsFromSerie(commonSeries[0], works, worksUris)
+    const otherSerieWorks = await getSuggestionsFromSerie(commonSeries[0], works, editionWorksUris)
     if (otherSerieWorks) return otherSerieWorks
   }
   if (commonAuthors.length === 1) {
-    return getSuggestionsFromAuthor(commonAuthors[0], worksUris)
+    return getSuggestionsFromAuthor(commonAuthors[0], editionWorksUris)
   }
 }
 
-async function getSuggestionsFromSerie (serieUri: EntityUri, works: SerializedEntity[], worksUris: EntityUri[]) {
+async function getSuggestionsFromSerie (serieUri: EntityUri, works: SerializedEntity[], editionWorksUris: EntityUri[]) {
   const worksSeriesData = getSeriesData(works)
   const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
   const serie = await getEntityByUri({ uri: serieUri })
   if (serie.type !== 'serie') return
-  return getOtherSerieWorks(serie, worksUris, lastOrdinal)
+  return getOtherSerieWorks(serie, editionWorksUris, lastOrdinal)
 }
 
-async function getSuggestionsFromAuthor (authorUri: EntityUri, worksUris: EntityUri[]) {
-  const author = await app.request('get:entity:model', authorUri)
-  if (author.get('type') !== 'human') return
-  const { works: authorWorksData } = await author.fetchWorksData()
-  return pluck(authorWorksData, 'uri')
-  .filter(uri => !worksUris.includes(uri))
+async function getSuggestionsFromAuthor (authorUri: EntityUri, editionWorksUris: EntityUri[]) {
+  const author = await getEntityByUri({ uri: authorUri })
+  if (author.type !== 'human') return
+  const { seriesUris, worksUris } = await getAuthorWorksUris({ uri: author.uri })
+  return difference(seriesUris.concat(worksUris), editionWorksUris)
 }
 
 function getSeriesData (works: SerializedEntity[]) {

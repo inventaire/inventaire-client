@@ -1,10 +1,10 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
-  import type { SerializedContributor } from '#app/modules/users/lib/users'
   import Spinner from '#components/spinner.svelte'
   import type { Task } from '#server/types/task'
   import { I18n } from '#user/lib/i18n'
   import UserInfobox from '#users/components/user_infobox.svelte'
+  import type { SerializedContributor } from '#users/lib/users'
   import { getUsersByAccts } from '#users/users_data'
 
   export let task: Task

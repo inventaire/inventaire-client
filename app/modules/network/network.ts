@@ -20,20 +20,10 @@ export default {
     })
 
     new Router({ controller })
-
-    app.reqres.setHandlers({ 'get:network:invitations:count': getNetworkNotificationsCount })
   },
 }
 
 const controller = {
   redirectToInventoryNetwork () { app.execute('show:inventory:network') },
   redirectToInventoryPublic () { app.execute('show:inventory:public') },
-}
-
-const getNetworkNotificationsCount = function () {
-  // TODO: introduce a 'read' flag on the relation document to stop counting
-  // requests that were already seen.
-  const friendsRequestsCount = app.relations?.otherRequested.length || 0
-  const mainUserInvitationsCount = app.groups?.mainUserInvited.length || 0
-  return friendsRequestsCount + mainUserInvitationsCount
 }

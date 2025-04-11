@@ -1,7 +1,7 @@
 import { newError } from '#app/lib/error'
 import typeOf from '#app/lib/type_of'
 
-function assertType (obj, type) {
+export function assertType (obj, type) {
   const trueType = typeOf(obj)
   if (type.split('|').includes(trueType)) {
     return obj
@@ -12,7 +12,7 @@ function assertType (obj, type) {
   }
 }
 
-function assertTypes (args, types, minArgsLength?) {
+export function assertTypes (args, types) {
   // In case it's an 'arguments' object
   args = Array.from(args)
 
@@ -28,26 +28,11 @@ function assertTypes (args, types, minArgsLength?) {
   // testing arguments types once polymorphic interfaces are normalized
   assertType(args, 'array')
   assertType(types, 'array')
-  if (minArgsLength != null) assertType(minArgsLength, 'number')
 
-  let test
-  if (minArgsLength != null) {
-    test = types.length >= args.length && args.length >= minArgsLength
-  } else {
-    test = args.length === types.length
-  }
+  const test = args.length === types.length
 
   if (!test) {
-    let err
-    if (minArgsLength != null) {
-      err = `expected between ${minArgsLength} and ${types.length} arguments ,` +
-        `got ${args.length}: ${args}`
-    } else {
-      err = `expected ${types.length} arguments, got ${args.length}: ${args}`
-    }
-    err = new Error(err)
-    err.context = arguments
-    throw err
+    throw newError(`expected ${types.length} arguments, got ${args.length}: ${args}`, { arguments })
   }
 
   let i = 0
@@ -57,27 +42,55 @@ function assertTypes (args, types, minArgsLength?) {
       i += 1
     }
   } catch (err) {
-    err.context = arguments
+    err.context = { arguments }
     throw err
   }
 }
 
 const duplicatesArray = (str, length) => new Array(length).fill(str)
 
-export default {
-  type: assertType,
-  types: assertTypes,
+// Same functions with proper type assertion
+export function assertString (str: unknown): asserts str is string {
+  assertType(str, 'string')
+}
 
-  array: array => assertType(array, 'array'),
-  function: fn => assertType(fn, 'function'),
-  number: num => assertType(num, 'number'),
-  object: obj => assertType(obj, 'object'),
-  string: str => assertType(str, 'string'),
-  boolean: str => assertType(str, 'boolean'),
+export function assertNumber (num: unknown): asserts num is number {
+  assertType(num, 'number')
+}
 
-  arrays: args => assertTypes(args, 'arrays...'),
-  functions: args => assertTypes(args, 'functions...'),
-  numbers: args => assertTypes(args, 'numbers...'),
-  objects: args => assertTypes(args, 'objects...'),
-  strings: args => assertTypes(args, 'strings...'),
+export function assertBoolean (bool: unknown): asserts bool is boolean {
+  assertType(bool, 'boolean')
+}
+
+export function assertArray (arr: unknown): asserts arr is unknown[] {
+  assertType(arr, 'array')
+}
+
+export function assertObject (obj: unknown): asserts obj is object {
+  assertType(obj, 'object')
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+export function assertFunction (fn: unknown): asserts fn is Function {
+  assertType(fn, 'function')
+}
+
+export function assertPromise (promise: unknown): asserts promise is Promise<unknown> {
+  assertType(promise, 'promise')
+}
+
+export function assertStrings (strings: unknown[]): asserts strings is string[] {
+  assertTypes(strings, 'strings...')
+}
+
+export function assertNumbers (numbers: unknown[]): asserts numbers is number[] {
+  assertTypes(numbers, 'numbers...')
+}
+
+export function assertArrays (arrays: unknown[]): asserts arrays is unknown[][] {
+  assertTypes(arrays, 'arrays...')
+}
+
+export function assertObjects (objects: unknown[]): asserts objects is object[] {
+  assertTypes(objects, 'objects...')
 }

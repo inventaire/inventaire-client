@@ -4,8 +4,8 @@
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
-  import { getWikidataItemMergeUrl } from '#entities/lib/wikidata/init_entity'
-  import { mergeEntities } from '#entities/views/editor/lib/merge_entities'
+  import { getWikidataItemMergeUrl } from '#app/lib/wikimedia/wikidata'
+  import { mergeEntities } from '#entities/lib/editor/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
 

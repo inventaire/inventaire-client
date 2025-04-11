@@ -6,9 +6,9 @@
   import TransactionHeader from '#transactions/components/transaction_header.svelte'
   import TransactionNextAction from '#transactions/components/transaction_next_action.svelte'
   import TransactionTimeline from '#transactions/components/transaction_timeline.svelte'
-  import { attachLinkedDocs } from '#transactions/lib/transactions'
+  import { attachLinkedDocs, type SerializedTransaction } from '#transactions/lib/transactions'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   let flash
   const waiting = attachLinkedDocs(transaction)

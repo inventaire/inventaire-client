@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getTransactions } from '#transactions/lib/get_transactions'
+import { getRefreshedTransactions } from '#transactions/lib/get_transactions'
 import initHelpers from './lib/helpers.ts'
 
 export default {
@@ -37,7 +37,7 @@ const controller = {
 }
 
 async function showTransactionsLayout (selectedTransactionId?) {
-  const transactions = await getTransactions()
+  const transactions = await getRefreshedTransactions()
   const { default: TransactionsLayout } = await import('./components/transactions_layout.svelte')
   let selectedTransaction
   if (selectedTransactionId) {

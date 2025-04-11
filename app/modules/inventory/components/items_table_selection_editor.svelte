@@ -5,6 +5,7 @@
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { updateItems, deleteItems as _deleteItems } from '#inventory/lib/item_actions'
   import type { ItemId } from '#server/types/item'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -17,7 +18,7 @@
 
   async function saveAttribute (attribute, value) {
     if (value != null) {
-      await app.request('items:update', {
+      await updateItems({
         items: selectedItemsIds,
         attribute,
         value,
@@ -38,8 +39,8 @@
     await saveAttribute('shelves', shelves)
   }
 
-  function deleteItems () {
-    app.request('items:delete', {
+  async function deleteItems () {
+    await _deleteItems({
       items: selectedItemsIds,
       next: () => {
         onDelete()

@@ -2,13 +2,13 @@ import { all, property, last, compact, pluck, uniq } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
-import type { SerializedContributor } from '#app/modules/users/lib/users'
-import { getUsersByAccts } from '#app/modules/users/users_data'
 import { getEntitiesBasicInfoByUris, type SerializedEntity } from '#entities/lib/entities'
 import type { RelativeUrl } from '#server/types/common'
 import type { EntityUri, InvEntityId, InvEntityUri } from '#server/types/entity'
 import type { Patch, PatchId } from '#server/types/patch'
 import { i18n } from '#user/lib/i18n'
+import type { SerializedContributor } from '#users/lib/users'
+import { getUsersByAccts } from '#users/users_data'
 
 export async function getEntityPatches (uri: EntityUri) {
   const { patches } = await preq.get(API.entities.history(uri))
