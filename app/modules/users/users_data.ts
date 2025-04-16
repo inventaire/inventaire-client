@@ -1,10 +1,10 @@
 import { uniq } from 'underscore'
 import { API } from '#app/api/api'
+import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import log_ from '#app/lib/loggers'
 import preq, { treq } from '#app/lib/preq'
-import { forceArray } from '#app/lib/utils'
 import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
+import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { UserAccountUri } from '#server/types/server'
 import type { User, UserId, Username } from '#server/types/user'
 import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
@@ -16,34 +16,10 @@ export async function searchUsers (text) {
   return users
 }
 
-export default {
-  get (ids, format = 'index') {
-    let promise
-    ids = forceArray(ids)
-
-    if (ids.length === 0) {
-      promise = Promise.resolve({})
-    } else {
-      promise = getUsersByIds(ids)
-    }
-
-    return promise
-    .then(formatData.bind(null, format))
-    .catch(log_.ErrorRethrow('users_data get err'))
-  },
-
-  search: searchUsers,
-}
-
 export async function getUsersByIds (ids: UserId[]) {
   if (ids.length === 0) return {}
-  const { users } = await preq.get(API.users.byIds(ids))
+  const { users } = await treq.get<GetUsersByIdsResponse>(API.users.byIds(ids))
   return users
-}
-
-const formatData = (format, data) => {
-  if (format === 'collection') return Object.values(data)
-  else return data
 }
 
 export async function getUserById (id: UserId) {
@@ -76,4 +52,20 @@ export async function getUserByAcct (userAcct: UserAccountUri) {
   const user = users[userAcct]
   if (!user) throw newError('user not found', 404, { userAcct })
   return user
+}
+
+export async function resolveToUser (user: User | UserId | Username) {
+  let resolvedUser
+  if (typeof user === 'object' && '_id' in user) {
+    resolvedUser = user
+  } else if (isUserId(user)) {
+    resolvedUser = await getUserById(user)
+  } else if (isUserAcct(user)) {
+    const contributor = await getUserByAcct(user)
+    if (contributor._id) resolvedUser = await getUserById(user)
+  } else if (typeof user === 'string') {
+    resolvedUser = await getUserByUsername(user)
+  }
+  if (resolvedUser) return serializeUser(resolvedUser)
+  else throw newError('can not resolve user', 500, { user })
 }

@@ -1,5 +1,4 @@
-import app from '#app/app'
-import { newError, type ContextualizedError } from '#app/lib/error'
+import { newError } from '#app/lib/error'
 import type { Url } from '#server/types/common'
 
 type Method = 'get' | 'post' | 'put' | 'delete'
@@ -47,7 +46,7 @@ function ajaxFactory (method, hasBody) {
         // We need a clean message in case this is to be displayed as an alert
         message = responseJSON?.status_verbose || messageWithContext
       } else if (statusCode === 0) {
-        app.execute('flash:message:show:network:error')
+        showNetworkError()
         message = 'network error'
       } else {
         // cf https://stackoverflow.com/a/6186905
@@ -72,46 +71,28 @@ const preq = {
 
 /** Typed HTTP requests */
 export const treq = {
-  get: async function <Response> (url): Promise<Response> {
+  get: async function <Response> (url: Url): Promise<Response> {
     return preq.get(url)
+  },
+  post: async function <Response> (url: Url, body?: unknown): Promise<Response> {
+    return preq.post(url, body)
+  },
+  put: async function <Response> (url: Url, body?: unknown): Promise<Response> {
+    return preq.put(url, body)
+  },
+  delete: async function <Response> (url: Url): Promise<Response> {
+    return preq.delete(url)
   },
 }
 
-// TODO: delete once Backbone models and collections are fully removed
-// @ts-expect-error
-preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
-  jqPromise
-  .then(resolve)
-  .fail(err => reject(rewriteJqueryError(err, context)))
-})
-
 export default preq
-
-function rewriteJqueryError (err: ContextualizedError, context: Record<string, unknown>) {
-  let message
-  // @ts-expect-error
-  const { status: statusCode, statusText, responseText, responseJSON } = err
-  const { url, type: verb } = context
-  if (statusCode >= 400) {
-    const messageWithContext = `${statusCode}: ${statusText} - ${responseText} - ${url}`
-    // We need a clean message in case this is to be displayed as an alert
-    message = responseJSON?.status_verbose || messageWithContext
-  } else if (statusCode === 0) {
-    app.execute('flash:message:show:network:error')
-    message = 'network error'
-  } else {
-    // cf https://stackoverflow.com/a/6186905
-    // Known case: request blocked by CORS headers
-    message = `parsing error: ${verb} ${url}
-got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}`
-  }
-
-  const error = new Error(message)
-  // @ts-expect-error
-  error.serverError = true
-  return Object.assign(error, { statusCode, statusText, responseText, responseJSON, context })
-}
 
 export function getOngoingRequestsCount () {
   return ongoingRequestsCount
+}
+
+async function showNetworkError () {
+  // Late import to avoid a circular dependency on the '#app/api/api'
+  const { default: app } = await import('#app/app')
+  app.execute('flash:message:show:network:error')
 }

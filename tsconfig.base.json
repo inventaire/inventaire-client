@@ -24,9 +24,6 @@
       "#activitypub": [
         "./app/modules/activitypub/*"
       ],
-      "#behaviors/*": [
-        "./app/modules/general/behaviors/*"
-      ],
       "#client/tests/*": [
         "./tests/*",
       ],
@@ -69,11 +66,14 @@
       "#tasks/*": [
         "./app/modules/tasks/*"
       ],
-      "#server/types/*": [
-        "../server/types/*",
-      ],
       "#server/controllers/*": [
         "../server/controllers/*",
+      ],
+      "#server/lib/*": [
+        "../server/lib/*",
+      ],
+      "#server/types/*": [
+        "../server/types/*",
       ],
       "#transactions/*": [
         "./app/modules/transactions/*"
@@ -95,7 +95,10 @@
       ],
       "#app/*": [
         "./app/*"
-      ]
+      ],
+      "#vendor/*": [
+        "./vendor/*"
+      ],
     },
     // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248
     // "exactOptionalPropertyTypes": true,

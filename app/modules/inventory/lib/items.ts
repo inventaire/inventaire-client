@@ -1,15 +1,16 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
-import type { ItemCategory, SerializedUser } from '#app/modules/users/lib/users'
 import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
+import type { iconByVisibilitySummary } from '#general/lib/visibility'
 import { transactionsDataFactory, type TransactionData } from '#inventory/lib/transactions_data'
 import type { LatLng, Url } from '#server/types/common'
 import type { EntityType } from '#server/types/entity'
 import type { Item, ItemId, ItemSnapshot, SerializedItem as ServerSerializedItem } from '#server/types/item'
 import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
+import type { ItemCategory, SerializedUser } from '#users/lib/users'
 
 export interface SerializedItem extends ServerSerializedItem {
   authorized: boolean
@@ -30,10 +31,13 @@ export interface SerializedItem extends ServerSerializedItem {
   authors: ItemSnapshot['entity:authors']
   series: ItemSnapshot['entity:series']
   ordinal: ItemSnapshot['entity:ordinal']
+  visibilitySummary?: keyof typeof iconByVisibilitySummary
+  visibilitySummaryIconName?: typeof iconByVisibilitySummary[keyof typeof iconByVisibilitySummary]
+  hasBeenDeleted?: boolean
 }
 
 export function serializeItem (item: Item & Partial<SerializedItem>) {
-  item.authorized = item.owner === app.user.id
+  item.authorized = item.owner === app.user._id
   item.mainUserIsOwner = item.authorized
   item.restricted = !item.authorized
 
@@ -79,7 +83,7 @@ export function setItemUserData (item: SerializedItemWithUserData, user: Seriali
   item.user = user
   item.category = user.itemsCategory
   item.distanceFromMainUser = user.distanceFromMainUser
-  item.position = user.position
+  if ('position' in user) item.position = user.position
   return item
 }
 

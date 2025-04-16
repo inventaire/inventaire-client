@@ -1,11 +1,13 @@
 <script lang="ts">
   import app from '#app/app'
+  import type { UserLang } from '#app/lib/active_languages'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
+  import { getRecentPublicItems } from '#inventory/lib/queries'
   import type { SerializedItem } from '#server/types/item'
   import { i18n } from '#user/lib/i18n'
 
@@ -13,14 +15,14 @@
   export let waitingForItems
 
   const params = {
-    lang: app.user.lang,
+    lang: app.user.lang as UserLang,
     assertImage: true,
     items: [],
   }
 
   let flash
 
-  const waiting = app.request('items:getRecentPublic', params)
+  const waiting = getRecentPublicItems(params)
     .catch(err => {
       if (err.message !== 'no item found') flash = err
     })

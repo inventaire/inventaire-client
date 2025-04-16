@@ -1,16 +1,21 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { timeFromNow } from '#app/lib/time'
-import { transactionsData } from '#inventory/lib/transactions_data'
+import { transactionsData, type TransactionData } from '#inventory/lib/transactions_data'
+import type { GetTransactionsMessagesResponse } from '#server/controllers/transactions/get_messages'
+import type { TransactionComment } from '#server/types/comment'
+import type { RelativeUrl } from '#server/types/common'
 import type { Transaction, TransactionAction } from '#server/types/transaction'
+import type { UserId } from '#server/types/user'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
 import { i18n } from '#user/lib/i18n'
-import { serializeUser } from '#users/lib/users'
+import { serializeUser, type SerializedUser, type ServerUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
+import type { OverrideProperties } from 'type-fest'
 
 // Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
@@ -53,7 +58,7 @@ const nextActionsWithReturn = Object.assign({}, basicNextActions, {
 })
 
 function getNextActionsList (transactionName) {
-  assert_.string(transactionName)
+  assertString(transactionName)
   if (transactionName === 'lending') {
     return nextActionsWithReturn
   } else {
@@ -81,28 +86,55 @@ export async function getActiveTransactionsByItemId (itemId) {
   return transactions.filter(isOngoing)
 }
 
-export function serializeTransaction (transaction) {
-  const { _id: id, owner, snapshot } = transaction
-  const mainUserIsOwner = owner === app.user.id
+interface SerializedTransactionOverrides {
+  snapshot: Transaction['snapshot'] & { other: SerializedUser }
+}
+
+interface SerializedTransactionExtra {
+  pathname: RelativeUrl
+  updated: EpochTimeStamp
+  mainUserRole: 'owner' | 'requester'
+  mainUserIsOwner: boolean
+  mainUserRead: boolean
+  transactionMode: TransactionData
+  archived: boolean
+}
+
+interface TransactionLinkedDocs {
+  docs: {
+    requester: SerializedUser
+    owner: SerializedUser
+    usersByIds: Record<UserId, ServerUser>
+  }
+  messages: TransactionComment[]
+}
+
+export type SerializedTransaction = OverrideProperties<Transaction, SerializedTransactionOverrides> & SerializedTransactionExtra & TransactionLinkedDocs
+
+export function serializeTransaction (transaction: Transaction) {
+  const { _id: id, owner, snapshot, actions } = transaction
+  const mainUserIsOwner = owner === app.user._id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
+  // @ts-expect-error
   snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
   const mainUserRead = transaction.read[mainUserRole]
   const transactionMode = transactionsData[transaction.transaction]
   return Object.assign(transaction, {
     pathname: `/transactions/${id}`,
+    updated: actions.at(-1).timestamp,
     mainUserRole,
     mainUserIsOwner,
     mainUserRead,
     transactionMode,
     archived: isArchived(transaction),
-  })
+  }) as SerializedTransaction
 }
 
 export async function grabUsers (transaction) {
   if (transaction.mainUserIsOwner) {
-    transaction.owner = app.user.toJSON()
+    transaction.owner = app.user
   } else {
-    transaction.requester = app.user.toJSON()
+    transaction.requester = app.user
   }
 }
 
@@ -117,18 +149,19 @@ export function getTransactionStateText ({ transaction, action }: { transaction:
   return i18n(`${userKey}_user_${actionName}`, { username: otherUsername })
 }
 
-const getOtherUserRole = transaction => {
+function getOtherUserRole (transaction) {
   if (transaction.mainUserIsOwner) return 'requester'
   else return 'owner'
 }
 
-const getOtherUsername = transaction => {
+function getOtherUsername (transaction) {
   const otherUserRole = getOtherUserRole(transaction)
   return transaction.snapshot[otherUserRole].username
 }
 
-export async function attachLinkedDocs (transaction) {
+export async function attachLinkedDocs (transaction: SerializedTransaction) {
   if (transaction.docs) return
+  // @ts-expect-error
   transaction.docs = {}
   await Promise.all([
     attachUsers(transaction),
@@ -136,7 +169,7 @@ export async function attachLinkedDocs (transaction) {
   ])
 }
 
-async function attachUsers (transaction) {
+async function attachUsers (transaction: SerializedTransaction) {
   const { requester, owner } = transaction
   const usersByIds = await getUsersByIds([ requester, owner ])
   transaction.docs.requester = serializeUser(usersByIds[requester])
@@ -144,7 +177,7 @@ async function attachUsers (transaction) {
   transaction.docs.usersByIds = usersByIds
 }
 
-export function getTransactionContext (transaction) {
+export function getTransactionContext (transaction: SerializedTransaction) {
   const { owner } = transaction.docs
   if (owner != null) {
     const { name: transactionName } = transaction.transactionMode
@@ -167,11 +200,11 @@ export const actionsIcons = {
   returned: 'check',
 }
 
-async function attachMessages (transaction) {
-  const { messages } = await preq.get(buildPath(API.transactions.base, {
+async function attachMessages (transaction: SerializedTransaction) {
+  const { messages } = (await preq.get(buildPath(API.transactions.base, {
     action: 'get-messages',
     transaction: transaction._id,
-  }))
+  }))) as GetTransactionsMessagesResponse
   transaction.messages = messages
 }
 

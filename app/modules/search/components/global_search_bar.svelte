@@ -17,8 +17,8 @@
   import { getActionKey } from '#app/lib/key_events'
   import { currentRoute } from '#app/lib/location'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { getEntityByUri } from '#app/modules/entities/lib/entities'
   import Spinner from '#components/spinner.svelte'
+  import { getEntityByUri } from '#entities/lib/entities'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
   import { wikidataSearch } from '#entities/lib/search/wikidata_search'
   import SearchAlternatives from '#search/components/search_alternatives.svelte'
@@ -409,7 +409,7 @@
   #overlay{
     background: rgba(black, 0.55);
     @include position(fixed, 0, 0, 0, 0);
-    // The #topBar gives it a positive z-index, and it sould be displayed just below
+    // The .top-bar gives it a positive z-index, and it sould be displayed just below
     z-index: -1;
   }
   .loader, .search-results, .no-result{

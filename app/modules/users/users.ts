@@ -1,16 +1,16 @@
+import { isString } from 'underscore'
 import app from '#app/app'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import type { Group } from '#server/types/group'
+import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
-import { initRelations } from '#users/lib/relations'
-import initHelpers from './helpers.ts'
+import { resolveToGroup } from '../groups/lib/groups.ts'
+import { initRelations } from './lib/relations.ts'
 import { getLocalUserAccount } from './lib/users.ts'
-import initRequests from './requests.ts'
-import initUsersCollections from './users_collections.ts'
-import { getUserByAcct, getUserByUsername } from './users_data.ts'
+import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
 
 export default {
   initialize () {
@@ -31,29 +31,20 @@ export default {
 
     new Router({ controller })
 
-    app.users = initUsersCollections(app)
-    initHelpers(app)
-    initRequests(app)
     initRelations()
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
       'show:user:contributions': showUserContributions,
     })
-
-    app.reqres.setHandlers({
-      // Refreshing relations can be useful
-      // to refresh notifications counters that depend on app.relations
-      'refresh:relations': initRelations,
-    })
   },
 }
 
 export async function showHome () {
-  if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
+  if (app.request('require:loggedIn', app.user.inventoryPathname)) {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
-    $('#home').focus()
+    ;(document.querySelector('#home') as HTMLElement).focus()
     return showMainUserProfile()
   }
 }
@@ -105,32 +96,28 @@ const controller = {
     app.execute('show:user:items:by:entity', username, uri)
   },
   showUserContributionsFromRoute (idOrUsername) {
-    const filter = app.request('querystring:get', 'filter')
-    showUserContributions(idOrUsername, filter)
+    const filter = getQuerystringParameter('filter')
+    showUserContributions(idOrUsername, isString(filter) ? filter : undefined)
   },
   showLatestUsers,
 }
 
 interface ShowUsersHome {
-  user?: UserId
-  group?: string
+  user?: User | UserId | Username | UserAccountUri
+  group?: Group | GroupId | GroupSlug
   section?: 'public' | 'network'
   profileSection?: 'inventory' | 'listings'
-}
-
-interface UsersHomeLayoutProps{
-  user?: User
-  group?: Group
-  section: 'public' | 'network'
-  profileSection: 'inventory' | 'listings'
 }
 
 export async function showUsersHome ({ user, group, section, profileSection }: ShowUsersHome) {
   try {
     const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-    const props: UsersHomeLayoutProps = { section, profileSection }
-    if (user) props.user = await app.request('resolve:to:user', user)
-    if (group) props.group = await app.request('resolve:to:group', group)
+    const props = {
+      section,
+      profileSection,
+      user: user ? await resolveToUser(user) : undefined,
+      group: group ? await resolveToGroup(group) : undefined,
+    }
     app.layout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
     app.execute('show:error', err)
@@ -161,14 +148,14 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
   }
 }
 
-async function showUserFollowers (idOrUsernameOrModel) {
+async function showUserFollowers (idOrUsername: UserId | Username) {
   try {
     const [
       { default: UsersHomeLayout },
       user,
     ] = await Promise.all([
       import('#users/components/users_home_layout.svelte'),
-      app.request('resolve:to:user', idOrUsernameOrModel),
+      resolveToUser(idOrUsername),
     ])
     app.layout.showChildComponent('main', UsersHomeLayout, {
       props: {

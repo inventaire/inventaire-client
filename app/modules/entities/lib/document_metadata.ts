@@ -1,15 +1,15 @@
 import app from '#app/app'
-import { getEntityImageUrl } from '#entities/lib/entities'
-import { typesString } from '#entities/models/entity'
+import { getEntityImageUrl, type SerializedEntity } from '#entities/lib/entities'
 import { I18n } from '#user/lib/i18n'
+import { typesString } from './types/entities_types'
 
-export async function runEntityNavigate (entity, options: { uriPrefix?: string } = {}) {
-  entity._gettingMetadata = entity._gettingMetadata || getEntityMetadata({ entity, uriPrefix: options.uriPrefix })
+export async function runEntityNavigate (entity: SerializedEntity, options: { uriPrefix?: string } = {}) {
+  entity._gettingMetadata ??= getEntityMetadata(entity, options.uriPrefix)
   const metadata = await entity._gettingMetadata
   app.navigate(`/${metadata.url}`, { metadata })
 }
 
-async function getEntityMetadata ({ entity, uriPrefix }) {
+async function getEntityMetadata (entity: SerializedEntity, uriPrefix?: string) {
   const { uri, type } = entity
   let url = 'entity/'
   url += uriPrefix ? `${uriPrefix}${entity.uri}` : entity.uri
@@ -19,28 +19,16 @@ async function getEntityMetadata ({ entity, uriPrefix }) {
   }
   return {
     title: buildTitle(entity),
-    description: findBestDescription(entity)?.slice(0, 501),
+    description: entity.description?.slice(0, 501),
     image,
     url,
     smallCardType: true,
   }
 }
 
-const buildTitle = entity => {
+function buildTitle (entity: SerializedEntity) {
   const { type, label, claims } = entity
   const P31 = claims['wdt:P31']?.[0]
   const typeLabel = I18n(typesString[P31] || type)
   return `${label} - ${typeLabel}`
-}
-
-const findBestDescription = entity => {
-  // So far, only Wikidata entities get extracts
-  const { extract, description } = entity
-  // Dont use an extract too short as it will be
-  // more of it's wikipedia source url than a description
-  if (extract?.length > 300) {
-    return extract
-  } else {
-    return description || extract
-  }
 }

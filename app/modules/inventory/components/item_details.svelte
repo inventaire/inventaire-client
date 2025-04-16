@@ -1,13 +1,16 @@
 <script lang="ts">
-  import app from '#app/app'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import { autosize } from '#app/lib/components/actions/autosize'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import type { FlashState } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
+  import { userContent } from '#app/lib/user_content'
+  import { updateItems } from '#inventory/lib/item_actions'
+  import type { SerializedItem } from '#inventory/lib/items'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let item, flash
+  export let item: SerializedItem
+  export let flash: FlashState = null
 
   const { restricted, visibilitySummaryIconName } = item
   let { details = '' } = item
@@ -17,7 +20,7 @@
   async function save () {
     editMode = false
     try {
-      await app.request('items:update', {
+      await updateItems({
         items: [ item ],
         attribute: 'details',
         value: details,

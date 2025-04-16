@@ -111,56 +111,19 @@ button{
 .validateButton{
   @include tiny-button($success-color);
 }
-.saveButton{
+.save-button{
   @include tiny-button($success-color);
 }
-.cancelButton{
+.cancel-button{
   @include tiny-button($grey);
 }
-.cancelButton + .saveButton{
+.cancel-button + .save-button{
   margin-inline-start: 0.2em;
 }
 
-// icon buttons
-.editButton{
-  @include shy(0.8);
-  &:hover{
-    span{
-      @include transition(display);
-      display: inherit;
-    }
-  }
-}
-.deleteButton{
-  @include shy;
-  &:hover{
-    color: $soft-red;
-    span{
-      @include transition(display);
-      display: inherit;
-    }
-  }
-}
 .indicator{
   opacity: 0.8;
   cursor: default;
-}
-
-// a div with a label and icon buttons floating at right
-// this is a hack to avoid using float:right
-// as it messes with click event listeners
-// closest clue found on this: https://stackoverflow.com/questions/6146568/floatleft-stops-click-event-on-android
-div.icon-buttons-header{
-  width: 100%;
-  height: 1.2em;
-  margin-block-end: 0.5em;
-  label{
-    height: 0;
-    cursor: default;
-  }
-  .right{
-    text-align: end;
-  }
 }
 
 .button-group{
@@ -173,22 +136,8 @@ div.icon-buttons-header{
   @include display-flex(row, center, flex-end);
 }
 
-.shy-label{
-  @include shy-button-label;
-  &.tiny-button{
-    .fa{
-      // centering
-      padding: 0;
-    }
-  }
-}
-
 .soft-grey-button{
   @include big-button($soft-grey);
-}
-
-.dark-grey-button{
-  @include big-button($dark-grey);
 }
 
 .grey-button{

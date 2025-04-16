@@ -1,10 +1,8 @@
 import app from '#app/app'
-import { isModel } from '#app/lib/boolean_tests'
-import fetchData from '#app/lib/data/fetch'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
+import type { Group, GroupSlug } from '#server/types/group'
 import { showUsersHome } from '#users/users'
-import Groups from './collections/groups.ts'
-import initGroupHelpers from './lib/group_helpers.ts'
+import { getUserGroups } from './lib/groups_data.ts'
 
 export default {
   initialize () {
@@ -25,42 +23,26 @@ export default {
     new Router({ controller })
 
     app.commands.setHandlers({
-      'show:group:board': showGroupBoardFromDocOrModel,
-      'create:group': controller.showCreateGroupLayout,
+      'show:group:board': showGroupBoardFrom,
     })
 
-    fetchData({
-      name: 'groups',
-      Collection: Groups,
-      condition: app.user.loggedIn,
-    })
-
-    return app.request('wait:for', 'user')
-    .then(initGroupHelpers)
-    .then(initRequestsCollectionsEvent.bind(this))
+    if (app.user.loggedIn) getUserGroups()
   },
-}
-
-const initRequestsCollectionsEvent = function () {
-  if (app.user.loggedIn) {
-    return app.request('waitForNetwork')
-    .then(() => app.vent.trigger('network:requests:update'))
-  }
 }
 
 const controller = {
-  showGroupProfile (slug) {
+  showGroupProfile (slug: GroupSlug) {
     return showUsersHome({ group: slug })
   },
-  showGroupInventory (slug) {
+  showGroupInventory (slug: GroupSlug) {
     return showUsersHome({ group: slug, profileSection: 'inventory' })
   },
-  showGroupListings (slug) {
+  showGroupListings (slug: GroupSlug) {
     return showUsersHome({ group: slug, profileSection: 'listings' })
   },
   // Named showGroupBoard and not showGroupSettings
-  // as GroupSettings are a child view of GroupBoard
-  showGroupBoard (slug) {
+  // as GroupSettings are a child component of GroupBoard
+  showGroupBoard (slug: GroupSlug) {
     const pathname = `groups/${slug}/settings`
     if (app.request('require:loggedIn', pathname)) {
       return showGroupBoard(slug)
@@ -77,7 +59,7 @@ const controller = {
   },
 }
 
-async function showGroupBoard (slug) {
+async function showGroupBoard (slug: GroupSlug) {
   try {
     let group = await getGroupBySlug(slug)
     if (mainUserIsGroupMember(group)) {
@@ -93,7 +75,6 @@ async function showGroupBoard (slug) {
   }
 }
 
-async function showGroupBoardFromDocOrModel (docOrModel) {
-  const slug = isModel(docOrModel) ? docOrModel.get('slug') : docOrModel.slug
-  return showGroupBoard(slug)
+async function showGroupBoardFrom (doc: Group) {
+  return showGroupBoard(doc.slug)
 }

@@ -37,7 +37,7 @@
     if (candidate.item) {
       itemPath = `/items/${candidate.item._id}`
     } else {
-      const username = app.user.get('username')
+      const username = app.user.username
       if (edition) itemPath = `/users/${username}/inventory/${edition.uri}`
     }
   }

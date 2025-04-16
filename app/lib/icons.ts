@@ -1,5 +1,8 @@
-import assert_ from '#app/lib/assert_types'
-import { iconPaths } from '#app/lib/handlebars_helpers/icon_paths'
+import { assertString } from '#app/lib/assert_types'
+import barcodeScanner from '#assets/images/barcode-scanner-64.png'
+import gutenberg from '#assets/images/gutenberg.png'
+import wikidataColored from '#assets/images/wikidata.svg'
+import wikisource from '#assets/images/wikisource-64.png'
 
 const iconAliases = {
   giving: 'heart',
@@ -9,7 +12,7 @@ const iconAliases = {
 }
 
 export function icon (name, classes = '') {
-  assert_.string(name)
+  assertString(name)
   name = iconAliases[name] || name
   if (iconPaths[name] != null) {
     const src = iconPaths[name]
@@ -17,4 +20,11 @@ export function icon (name, classes = '') {
   } else {
     return `<i class="fa fa-${name} ${classes}"></i>`
   }
+}
+
+const iconPaths = {
+  'barcode-scanner': barcodeScanner,
+  gutenberg,
+  'wikidata-colored': wikidataColored,
+  wikisource,
 }

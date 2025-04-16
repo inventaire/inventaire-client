@@ -2,8 +2,8 @@
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -15,6 +15,7 @@
   import { serializeItem } from '#inventory/lib/items'
   import { I18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
+  import { deleteItems } from '../lib/item_actions'
 
   export let item, user
 
@@ -35,15 +36,11 @@
   const { snapshot } = item
 
   function destroyItem () {
-    return app.request('items:delete', {
+    return deleteItems({
       items: [ item ],
       next: () => {
         // Force a refresh of the inventory, so that the deleted item doesn't appear
         app.execute('show:inventory:main:user')
-      },
-      back: () => {
-        if (item.hasBeenDeleted) app.execute('modal:close')
-        else app.execute('show:item', { itemId: item._id })
       },
     })
   }

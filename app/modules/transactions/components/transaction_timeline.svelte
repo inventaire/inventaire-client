@@ -2,9 +2,9 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Action from '#transactions/components/action.svelte'
   import Message from '#transactions/components/message.svelte'
-  import { buildTimeline } from '#transactions/lib/transactions'
+  import { buildTimeline, type SerializedTransaction } from '#transactions/lib/transactions'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   let timeline = []
   function updateTimeline () {

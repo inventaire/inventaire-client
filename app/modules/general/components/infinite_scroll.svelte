@@ -2,7 +2,7 @@
   type KeepScrolling = () => Promise<boolean>
 </script>
 <script lang="ts">
-  import assert_ from '#app/lib/assert_types'
+  import { assertBoolean } from '#app/lib/assert_types'
   import viewport from '#app/lib/components/actions/viewport'
   import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
@@ -22,7 +22,7 @@
     // Error handling should be done within keepScrolling
     const canLoadMore = await loadingMore
     fetching = false
-    assert_.boolean(canLoadMore)
+    assertBoolean(canLoadMore)
     if (canLoadMore) {
       // Let the time to fetched content to render
       await wait(500)

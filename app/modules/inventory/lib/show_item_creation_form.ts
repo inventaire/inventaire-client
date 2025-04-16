@@ -1,14 +1,19 @@
 import app from '#app/app'
+import type { SerializedEntity } from '#entities/lib/entities'
 
-export default async params => {
+interface ShowItemCreationFormParams {
+  entity: SerializedEntity
+}
+
+export async function showItemCreationForm (params: ShowItemCreationFormParams) {
   const { entity } = params
   if (entity == null) throw new Error('missing entity')
 
   const { type } = entity
-  const uri = entity.get('uri')
+  const { uri } = entity
   if (type == null) throw new Error('missing entity type')
 
-  const pathname = entity.get('pathname') + '/add'
+  const pathname = entity.pathname + '/add'
   if (!app.request('require:loggedIn', pathname)) return
 
   // It is not possible anymore to create items from works
@@ -22,7 +27,7 @@ export default async params => {
   const { default: ItemCreationForm } = await import('#inventory/components/item_creation_form.svelte')
   app.layout.showChildComponent('main', ItemCreationForm, {
     props: {
-      entity: entity.toJSON(),
+      entity,
     },
   })
   app.navigate(pathname)

@@ -37,7 +37,7 @@ export function sortItemsByCategoryAndDistance (items: SerializedItemWithUserDat
 function getItemCategory (item: SerializedItemWithUserData) {
   let category = item.category
   if (category === 'public') category = isNearby(item.distanceFromMainUser) ? 'nearbyPublic' : 'otherPublic'
-  if (item.owner === app.user.id) category = 'personal'
+  if (item.owner === app.user._id) category = 'personal'
   return category
 }
 

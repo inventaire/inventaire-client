@@ -2,7 +2,7 @@ import wdLang from 'wikidata-lang'
 import languagesData from '#assets/js/languages_data'
 import { objectEntries, objectKeys } from './utils.ts'
 
-export const regionify = {}
+export const regionify: Record<string, string> = {}
 
 interface LanguageInfo {
   lang: string

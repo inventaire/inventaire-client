@@ -1,12 +1,12 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { assertString } from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { I18n } from '#user/lib/i18n'
 import auth from './lib/auth.ts'
-import initMainUser from './lib/init_main_user.ts'
-import userUpdate from './lib/user_update.ts'
+import { initMainUser } from './lib/main_user.ts'
 
 export default {
   initialize () {
@@ -23,9 +23,8 @@ export default {
 
     new Router({ controller })
 
-    initMainUser(app)
+    initMainUser()
     auth()
-    userUpdate(app)
 
     app.commands.setHandlers({
       'show:signup': controller.showSignup,
@@ -95,6 +94,7 @@ const controller = {
       validateAuthorizationRequest(query)
       const postLoginRedirection = window.location.pathname + window.location.search
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
+      assertString(query.client_id)
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
       app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })

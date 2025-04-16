@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
-  import assert_ from '#app/lib/assert_types'
-  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { icon as iconFn } from '#app/lib/icons'
   import { isOpenedOutside } from '#app/lib/utils'
+  import { assertString } from '../assert_types'
 
   export let url
   export let text = null
@@ -16,7 +16,7 @@
   export let tinyButton = false
   export let stopClickPropagation = true
 
-  assert_.string(url)
+  assertString(url)
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel

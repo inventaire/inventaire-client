@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
   import ContributionAnonymizationToggler from './contribution_anonymization_toggler.svelte'
 
   export let user
@@ -36,7 +37,7 @@
 
     <p>
       <Link
-        url={app.user.get('contributionsPathname')}
+        url={app.user.contributionsPathname}
         text={i18n('See your contributions to the local bibliographic database')}
         classNames="link"
       />
@@ -45,7 +46,7 @@
     <ContributionAnonymizationToggler />
 
     <div class="wikidata-oauth">
-      {#if app.user.hasWikidataOauthTokens()}
+      {#if mainUserHasWikidataOauthTokens()}
         {@html icon('check')}
         {@html icon('wikidata-colored')}
         {i18n('Your Wikidata account is connected')}

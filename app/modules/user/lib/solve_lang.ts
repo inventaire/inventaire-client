@@ -1,11 +1,11 @@
 import cookie_ from 'js-cookie'
-import app from '#app/app'
 import { langs as activeLangs, type UserLang } from '#app/lib/active_languages'
+import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { arrayIncludes, shortLang } from '#app/lib/utils'
 
-export function solveLang (userLanguage) {
+export function solveLang (userLanguage?: string) {
   // querystring parameters > other settings sources
-  const qsLang = app.request('querystring:get', 'lang')
+  const qsLang = getQuerystringParameter('lang')
   let lang: string = qsLang || userLanguage || cookie_.get('lang') || getBrowserLocalLang()
   lang = shortLang(lang)
   if ((lang != null) && arrayIncludes(activeLangs, lang)) {

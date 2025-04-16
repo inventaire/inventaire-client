@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
-  import { i18n } from '#app/modules/user/lib/i18n'
+  import { imgSrc } from '#app/lib/image_source'
   import type { EntityImagePath, ImageHash } from '#server/types/image'
+  import { i18n } from '#user/lib/i18n'
 
   export let imageHash: ImageHash
   const fullResolutionUrl: EntityImagePath = `/img/entities/${imageHash}`

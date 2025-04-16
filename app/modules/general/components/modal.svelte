@@ -11,7 +11,8 @@
   import { getActionKey } from '#app/lib/key_events'
   import { I18n } from '#user/lib/i18n'
 
-  export let size = 'medium', closeOnClick = false
+  export let size = 'medium'
+  export let closeOnClick = false
 
   const dispatch = createEventDispatcher()
   const close = () => dispatch('closeModal')

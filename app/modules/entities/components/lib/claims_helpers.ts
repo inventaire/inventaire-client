@@ -1,19 +1,12 @@
-import Handlebars from 'handlebars/runtime.js'
 import { union, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { isEntityUri, isImageHash, isNonEmptyArray } from '#app/lib/boolean_tests'
-import { imagePreview } from '#app/lib/handlebars_helpers/claims'
-import { entity as entityHelper } from '#app/lib/handlebars_helpers/claims_helpers'
-import * as icons_ from '#app/lib/handlebars_helpers/icons'
-import platforms_ from '#app/lib/handlebars_helpers/platforms'
-import typeOf from '#app/lib/type_of'
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import { icon as iconFn } from '#app/lib/icons'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
-import type { AuthorProperty } from '#app/modules/entities/lib/properties'
 import type { SerializedEntity } from '#entities/lib/entities'
+import { platforms } from '#entities/lib/platforms'
+import type { AuthorProperty } from '#entities/lib/properties'
 import { isStandaloneEntityType, typeDefaultP31 } from '#entities/lib/types/entities_types'
-
-// @ts-expect-error
-const { escapeExpression } = Handlebars
 
 export const formatClaimValue = params => {
   const { value, prop } = params
@@ -123,8 +116,8 @@ export function urlClaim (params) {
 
 export function platformClaim (params) {
   const { prop, value } = params
-  const platform = platforms_[prop]
-  const icon = icons_.icon(platform.icon)
+  const platform = platforms[prop]
+  const icon = iconFn(platform.icon)
   const text = icon + '<span>' + platform.text(value) + '</span>'
   const url = platform.url(value)
   return { icon, text, url }
@@ -134,26 +127,6 @@ const claimFormats = {
   timeClaim,
   urlClaim,
   platformClaim,
-}
-
-// TODO: reimplement without handlebars
-export function multiTypeValue (value) {
-  const valueType = typeOf(value)
-  if (valueType === 'string') {
-    if (isEntityUri(value)) {
-      return entityHelper(value, true)
-    } else if (isImageHash(value)) {
-      return imagePreview(value)
-    } else {
-      return escapeExpression(value)
-    }
-  } else if (valueType === 'number') {
-    return value
-  } else if (valueType === 'array') {
-    return value.map(multiTypeValue).join('')
-  } else if (valueType === 'object') {
-    return escapeExpression(JSON.stringify(value))
-  }
 }
 
 const aggregateClaims = (worksClaims, work) => {

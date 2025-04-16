@@ -1,6 +1,5 @@
 import { isObject, isNumber, isEmpty } from 'underscore'
 import type { Url } from '#server/types/common'
-import { objectEntries } from './utils'
 
 export function parseQuery (queryString?: string) {
   if (queryString == null) return {}
@@ -22,10 +21,13 @@ export function setQuerystring (url: Url, key: string, value?: string | number) 
   return buildPath(href, qsObj)
 }
 
+/** Like RelativeUrl but without the leading slash */
+export type ProjectRootRelativeUrl = string
+
 // Calling a section the first part of the route matching to a module
 // ex: for '/inventory/bla/bla', the section is 'inventory'
 // Split on the first non-alphabetical character
-export const routeSection = route => route.split(/[^\w]/)[0]
+export const routeSection = (route: ProjectRootRelativeUrl) => route.split(/[^\w]/)[0]
 
 type QueryObj = Record<string, unknown>
 export function buildPath (pathname: Url, queryObj?: QueryObj) {
@@ -34,7 +36,8 @@ export function buildPath (pathname: Url, queryObj?: QueryObj) {
 
   let queryString = ''
 
-  for (let [ key, value ] of objectEntries(queryObj)) {
+  // Not using the utils objectEntries function to avoid a circular dependency
+  for (let [ key, value ] of Object.entries(queryObj)) {
     if (isObject(value)) {
       value = encodeURIComponent(JSON.stringify(value))
     }
@@ -44,7 +47,7 @@ export function buildPath (pathname: Url, queryObj?: QueryObj) {
   return (pathname + '?' + queryString.slice(1)) as typeof pathname
 }
 
-export const currentRoute = () => location.pathname.slice(1)
+export const currentRoute = () => location.pathname.slice(1) as ProjectRootRelativeUrl
 
 export const currentRouteWithQueryString = () => location.pathname.slice(1) + location.search
 

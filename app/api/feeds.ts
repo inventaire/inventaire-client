@@ -14,8 +14,8 @@ export default function (key, id) {
   const query: { requester?: UserId, token?: string } = {}
   query[key] = id
   if (app.user.loggedIn) {
-    query.requester = app.user.id
-    query.token = app.user.get('readToken')
+    query.requester = app.user._id
+    query.token = app.user.readToken
   }
 
   return buildPath(feedEndpoint, query)

@@ -5,24 +5,24 @@
   import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
+  import { getUserGroups } from '#groups/lib/groups_data'
   import { i18n, I18n } from '#user/lib/i18n'
   import InviteByEmail from '#users/components/invite_by_email.svelte'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
+  import { getFriends } from '../lib/relations'
 
   export let focusedSection
 
   let flash, users, groups
 
-  app.request('fetch:friends')
-    .then(() => {
-      users = app.users.filtered.friends().toJSON()
-    })
+  getFriends()
+    .then(friends => users = friends)
     .catch(err => flash = err)
 
-  app.request('wait:for', 'groups')
-    .then(() => groups = app.groups.toJSON())
+  getUserGroups()
+    .then(userGroups => groups = userGroups)
     .catch(err => flash = err)
 
   let showUsersMenu, showGroupsMenu, showInviteFriendByEmail
@@ -32,6 +32,7 @@
     selectedUser = e.detail.doc
     selectedGroup = null
     $focusedSection = { type: 'user' }
+    e.preventDefault()
   }
   function unselect () {
     selectedUser = null
@@ -42,6 +43,7 @@
     selectedUser = null
     selectedGroup = e.detail.doc
     $focusedSection = { type: 'group' }
+    e.preventDefault()
   }
 </script>
 

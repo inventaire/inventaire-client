@@ -1,14 +1,14 @@
 import { isArray, debounce } from 'underscore'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertFunction, assertObject } from '#app/lib/assert_types'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
-import { serverReportError } from '#app/lib/error'
-import { currentRoute } from '#app/lib/location'
-import log_ from '#app/lib/loggers'
+import { newError, serverReportError } from '#app/lib/error'
+import { currentRoute, type ProjectRootRelativeUrl } from '#app/lib/location'
+import type { RelativeUrl } from '#server/types/common'
 import type { ObjectEntries } from 'type-fest/source/entries'
 
 export function deepClone (obj: unknown) {
-  assert_.object(obj)
+  assertObject(obj)
   return JSON.parse(JSON.stringify(obj))
 }
 
@@ -59,9 +59,14 @@ export function isOpenedOutside (e, ignoreMissingHref = false) {
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 export function loadInternalLink (e) {
+  const { href } = e.currentTarget
+  if (!isNonEmptyString(href)) {
+    throw newError('missing internal link', 500, { href })
+  }
   if (!(isOpenedOutside(e))) {
-    const { pathname, search } = new URL(e.currentTarget.href)
-    app.navigateAndLoad(`${pathname}${search}`, {
+    const { pathname, search } = new URL(href)
+    const route = `${pathname}${search}`
+    app.navigateAndLoad(route, {
       preventScrollTop: isModalPathname(pathname),
     })
     e.preventDefault()
@@ -115,25 +120,10 @@ export function lazyMethod (methodName: string, delay: number = 200) {
   }
 }
 
-// Returns a .catch function that execute the reverse action
-// then passes the error to the next .catch
-export const Rollback = (reverseAction, label) => err => {
-  if (label != null) log_.info(`rollback: ${label}`)
-  reverseAction()
-  throw err
-}
-
 const add = (a: number, b: number) => a + b
 export const sum = (array: number[]) => array.reduce(add, 0)
 
 export const trim = (str: string) => str.trim()
-
-export const focusInput = $el => {
-  $el.focus()
-  const value = $el[0]?.value
-  if (value == null) return
-  return $el[0].setSelectionRange(0, value.length)
-}
 
 // Adapted from https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 export function hashCode (string: string) {
@@ -210,7 +200,7 @@ export function bubbleUpChildViewEvent (eventName: string) {
   }
 }
 
-export const dropLeadingSlash = (str: string) => str.replace(/^\//, '')
+export const dropLeadingSlash = (str: RelativeUrl | ProjectRootRelativeUrl) => str.replace(/^\//, '') as ProjectRootRelativeUrl
 
 export function setIntersection <T> (a: Set<T>, b: Set<T> | T[]) {
   let set, arrayOrSet
@@ -231,15 +221,15 @@ export function convertEmToPx (em: number) {
 }
 
 export function flatMapKeyValues (object, fn) {
-  assert_.object(object)
-  assert_.function(fn)
+  assertObject(object)
+  assertFunction(fn)
   // @ts-expect-error
   return Object.fromEntries(objectEntries(object).flatMap(fn))
 }
 
 export function sortObjectKeys (object, fn) {
-  assert_.object(object)
-  assert_.function(fn)
+  assertObject(object)
+  assertFunction(fn)
   return Object.fromEntries(objectEntries(object).sort(([ keyA ], [ keyB ]) => {
     return fn(keyA, keyB)
   }))
@@ -258,8 +248,12 @@ export function arrayIncludes <T extends (string | number)> (array: readonly T[]
   return arrayT.includes(value)
 }
 
-export function objectEntries <Obj extends Record<string, unknown>> (obj: Obj) {
+export function objectEntries <Obj extends object> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
+}
+
+export function objectValues <Obj> (obj: Obj) {
+  return Object.values(obj) as Obj[keyof Obj][]
 }
 
 export function moveArrayElement (array, oldIndex, newIndex) {
@@ -276,4 +270,32 @@ export function uniqSortedByCount <T extends string> (values: T[]) {
     valuesSet.add(value)
   }
   return Array.from(valuesSet).sort((a: T, b: T) => counts[b] - counts[a])
+}
+
+// Source: https://stackoverflow.com/a/12418814
+export function elementIsInViewport (element: Element) {
+  if (!element) return false
+  if (element.nodeType !== 1) return false
+
+  const html = document.documentElement
+  const rect = element.getBoundingClientRect()
+
+  return rect != null &&
+    rect.bottom >= 0 &&
+    rect.right >= 0 &&
+    rect.left <= html.clientWidth &&
+    rect.top <= html.clientHeight
+}
+
+/** Like https://lodash.com/docs#set but with only dot-notation support (no brackets) */
+export function setDeepAttribute <T extends object> (obj: T, objectPath: string, value: unknown) {
+  const parts = objectPath.split('.')
+  const objectPathParts = parts.slice(0, -1)
+  const attribute = parts.at(-1)
+  let target = obj
+  for (const part of objectPathParts) {
+    target = target[part]
+  }
+  target[attribute] = value
+  return obj
 }

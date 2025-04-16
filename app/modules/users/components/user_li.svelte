@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
-  import { serializeUser } from '#users/lib/users'
+  import { type SerializedUser } from '#users/lib/users'
 
-  export let user
+  export let user: SerializedUser
   export let showEmail = false
 
-  const { picture, username, pathname, email } = serializeUser(user)
-
+  const { picture, username, pathname } = user
+  const email = 'email' in user ? user.email : null
 </script>
 
 <li>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { findWhere } from 'underscore'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/image_source'
   import { forceArray, isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
   import { i18n } from '#user/lib/i18n'

@@ -6,8 +6,8 @@
   import Spinner from '#components/spinner.svelte'
   import { passwordUpdate } from '#user/lib/auth'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { testPassword } from '#user/lib/password_tests'
-  import { user } from '#user/user_store'
 
   let password, flash, successFlash
 
@@ -39,7 +39,7 @@
     {:else}
       <!-- Use a <form> to make the button be clicked on Enter and trigger to please password managers -->
       <form method="post">
-        <input type="text" name="username" value={$user.username} />
+        <input type="text" name="username" value={$mainUser.username} />
         <div class="input-box">
           <PasswordInput
             bind:password

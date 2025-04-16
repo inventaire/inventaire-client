@@ -5,6 +5,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
   import { I18n } from '#user/lib/i18n'
+  import { updateUser } from '#user/lib/main_user'
 
   export let category = null
 
@@ -16,7 +17,7 @@
   let selectedBibliographicDatabasesCount = 0
   let selectedSocialNetworksCount = 0
 
-  let customProperties = app.user.get('customProperties') || []
+  let customProperties = app.user.customProperties || []
   let stringifiedSavedCustomProperties = JSON.stringify(customProperties)
 
   let selectedWebsites = getWebsitesNamesFromProperties(customProperties)
@@ -28,10 +29,7 @@
       const stringifiedProperties = JSON.stringify(customProperties)
       if (stringifiedProperties !== stringifiedSavedCustomProperties) {
         stringifiedSavedCustomProperties = stringifiedProperties
-        await app.request('user:update', {
-          attribute: 'customProperties',
-          value: customProperties,
-        })
+        await updateUser('customProperties', customProperties)
       }
     } catch (err) {
       // Ignore duplicated requests errors, as that should most likely

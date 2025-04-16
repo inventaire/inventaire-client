@@ -1,20 +1,17 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
+  import { updateUser } from '#user/lib/main_user'
 
   export let name
   export let value
   let flash
   const description = name + '_notification'
 
-  const updateSetting = () => {
+  async function updateSetting () {
     flash = null
     try {
-      app.request('user:update', {
-        attribute: `settings.notifications.${name}`,
-        value,
-      })
+      await updateUser(`settings.notifications.${name}`, value)
     } catch (err) {
       flash = err
     }

@@ -1,16 +1,16 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { updateTransactionState } from '#transactions/lib/transactions'
+  import { askConfirmation } from '#general/lib/confirmation_modal'
+  import { updateTransactionState, type SerializedTransaction } from '#transactions/lib/transactions'
   import { transactionIsCancellable } from '#transactions/lib/transactions_actions'
   import { i18n } from '#user/lib/i18n'
 
-  export let transaction
+  export let transaction: SerializedTransaction
 
   let cancelling, flash
   async function askConfirmationToCancel () {
-    app.execute('ask:confirmation', {
+    askConfirmation({
       confirmationText: i18n('transaction_cancel_confirmation'),
       action: cancel,
     })

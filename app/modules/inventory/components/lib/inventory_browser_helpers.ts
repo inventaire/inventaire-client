@@ -6,7 +6,11 @@ import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-import type { CouchDoc } from '#server/types/couchdb'
+import type { SerializedGroup } from '#groups/lib/groups'
+import { getItemsByIds } from '#inventory/lib/queries'
+import type { SerializedUser } from '#modules/users/lib/users'
+import type { EntityUri } from '#server/types/entity'
+import type { Shelf } from '#server/types/shelf'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -15,12 +19,12 @@ export async function getSelectorsData ({ worksTree }) {
   const genresUris = Object.keys(worksTree.genre)
   const subjectsUris = Object.keys(worksTree.subject)
 
-  let valuesUris = flatten([ authorsUris, genresUris, subjectsUris ])
+  const rawValuesUris = flatten([ authorsUris, genresUris, subjectsUris ])
   // The 'unknown' attribute is used to list works that have no value
   // for one of those selector properties
-  // Removing the 'unknown' URI is here required as 'get:entities:models'
+  // Removing the 'unknown' uri, here required, as getEntitiesBasicInfo
   // won't know how to resolve it
-  valuesUris = without(valuesUris, 'unknown')
+  const valuesUris = without(rawValuesUris, 'unknown') as EntityUri[]
 
   const facetsEntitiesBasicInfo = await getEntitiesBasicInfo(valuesUris)
 
@@ -34,7 +38,7 @@ export async function getSelectorsData ({ worksTree }) {
   }
 }
 
-async function getEntitiesBasicInfo (uris) {
+async function getEntitiesBasicInfo (uris: EntityUri[]) {
   uris = uniq(uris)
   if (uris.length === 0) return []
   const res = await getEntitiesAttributesByUris({
@@ -102,12 +106,12 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
   }
 }
 
-export async function getInventoryView (type: 'group' | 'shelf' | 'user', doc: CouchDoc)
+export async function getInventoryView (type: 'group' | 'shelf' | 'user', doc: SerializedUser | SerializedGroup | Shelf)
 export async function getInventoryView (type: 'without-shelf')
-export async function getInventoryView (type: string, doc?: CouchDoc) {
+export async function getInventoryView (type: string, doc?: SerializedUser | SerializedGroup | Shelf) {
   let params
   if (type === 'without-shelf') {
-    params = { user: app.user.id, 'without-shelf': true }
+    params = { user: app.user._id, 'without-shelf': true }
   } else {
     params = { [type]: doc._id }
   }
@@ -150,7 +154,7 @@ export function resetPagination (itemsIds) {
       fetching = true
       const batch = remainingItems.splice(0, 20)
       if (batch.length > 0) {
-        await app.request('items:getByIds', { ids: batch, items })
+        await getItemsByIds({ ids: batch, items })
       }
       pagination.items = items
       fetching = false

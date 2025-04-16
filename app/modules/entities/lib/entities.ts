@@ -1,10 +1,11 @@
 import { flatten, chunk, compact, indexBy, pluck, values, without } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
-import assert_ from '#app/lib/assert_types'
+import { assertString } from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
+import type { MetadataUpdate } from '#app/lib/metadata/update'
 import preq from '#app/lib/preq'
 import { forceArray, objectEntries } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
@@ -32,6 +33,8 @@ export interface SerializedEntityCommons {
   prefix: EntityUriPrefix
   // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
+  // Can be set by #entities/lib/document_metadata.ts
+  _gettingMetadata?: Promise<MetadataUpdate>
 }
 
 export type SerializedInvEntity = InvEntity & SerializedEntityCommons & {
@@ -107,7 +110,7 @@ export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: InvEn
 export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: WdEntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedWdEntity>
 export async function getEntityByUri ({ uri, refresh, autocreate }: { uri: EntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedEntity>
 export async function getEntityByUri ({ uri, refresh = false, autocreate }: { uri: EntityUri, refresh?: boolean, autocreate?: boolean }): Promise<SerializedEntity> {
-  assert_.string(uri)
+  assertString(uri)
   const entities = await getEntities([ uri ], { refresh, autocreate })
   const entity = entities[0]
   if (entity) {

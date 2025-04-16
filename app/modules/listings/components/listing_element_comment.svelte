@@ -2,13 +2,13 @@
   import autosize from 'autosize'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import type { FlashState } from '#app/lib/components/flash.svelte'
-  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
-  import type { SerializedUser } from '#app/modules/users/lib/users'
+  import { userContent } from '#app/lib/user_content'
   import Spinner from '#components/spinner.svelte'
   import { updateElement, type ListingElementWithEntity } from '#listings/lib/listings'
   import { I18n, i18n } from '#user/lib/i18n'
+  import type { SerializedUser } from '#users/lib/users'
 
   export let element: ListingElementWithEntity
   export let creator: SerializedUser

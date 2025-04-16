@@ -1,9 +1,9 @@
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
 import app from '#app/app'
-import { currentRoute, routeSection } from '#app/lib/location'
+import { currentRoute, routeSection, type ProjectRootRelativeUrl } from '#app/lib/location'
 
-function getLocationData (section?, route?) {
+function getLocationData (section?: string, route?: ProjectRootRelativeUrl) {
   route = route || currentRoute()
   return {
     route,

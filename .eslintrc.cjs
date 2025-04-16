@@ -189,7 +189,6 @@ module.exports = {
     Marionette: 'writable',
     L: 'writable',
     FilteredCollection: 'writable',
-    Handlebars: 'writable',
     // Browser globals
     alert: 'readonly',
     screen: 'readonly',

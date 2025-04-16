@@ -73,7 +73,7 @@ async function showElement (listingId, elementId) {
 }
 
 export async function showMainUserListings () {
-  return showUserListings(app.user.get('username'))
+  return showUserListings(app.user.username)
 }
 
 const controller = {

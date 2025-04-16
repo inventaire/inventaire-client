@@ -1,5 +1,5 @@
 import { pluck, range } from 'underscore'
-import type { SeriePartPlaceholder } from '#app/modules/entities/components/cleanup/lib/add_placeholders_for_missing_parts'
+import type { SeriePartPlaceholder } from '#entities/components/cleanup/lib/add_placeholders_for_missing_parts'
 import { getEntitiesList, getReverseClaims, type SerializedEntity } from '#entities/lib/entities'
 import type { EntityUri } from '#server/types/entity'
 
