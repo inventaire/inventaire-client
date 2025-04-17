@@ -18,8 +18,10 @@ echo -e '\e[0;30mupdating i18n\e[0m'
 echo -e '\e[0;30mupdating build metadata\e[0m'
 ./scripts/build_build_metadata
 
-echo -e '\e[0;30mchecking types\e[0m'
-./scripts/typescript/check_types.sh
+if [ "$DOCKER" != 1 ]; then
+  echo -e '\e[0;30mchecking types\e[0m'
+  ./scripts/typescript/check_types.sh
+fi
 
 echo -e '\e[0;30mwebpack build\e[0m'
 rm -f ./public/dist/*
