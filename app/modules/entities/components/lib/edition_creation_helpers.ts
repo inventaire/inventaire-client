@@ -1,7 +1,7 @@
-import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
 import { newError, type ContextualizedError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
+import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages'
 import { buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
@@ -76,8 +76,7 @@ function workEditionCreationData (work: SerializedEntity) {
     },
   }
   const lang = getCurrentLang()
-  const langWdId = wdLang.byCode[lang]?.wd
-  const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
+  const langWdUri = getWdUriFromWikimediaLanguageCode(lang)
   // Suggest user's language as edition language
   if (langWdUri) data.claims['wdt:P407'] = [ langWdUri ]
 

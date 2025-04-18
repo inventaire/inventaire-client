@@ -1,16 +1,11 @@
 import { writable } from 'svelte/store'
-import wdLang from 'wikidata-lang'
 import { newError } from '#app/lib/error'
 import { i18n } from '#user/lib/i18n'
-
-const { byCode: langByCode } = wdLang
 
 export function alphabeticallySortedEntries (obj) {
   return Object.entries(obj)
   .sort((a, b) => a[0] > b[0] ? 1 : -1)
 }
-
-export const getNativeLangName = code => langByCode[code]?.native
 
 export function getNonEmptyPropertyClaims (propertyClaims = []) {
   return propertyClaims

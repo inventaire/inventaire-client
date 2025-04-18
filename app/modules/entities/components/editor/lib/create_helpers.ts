@@ -1,15 +1,15 @@
 import { compact, pick, uniq } from 'underscore'
-import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
 import { assertString } from '#app/lib/assert_types'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages'
 import preq from '#app/lib/preq'
 import type { EntityDraft } from '#app/types/entity'
 import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { typeHasName } from '#entities/lib/types/entities_types'
-import type { PropertyUri, SerializedEntity } from '#server/types/entity'
+import type { PropertyUri, SerializedEntity, WdEntityUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
 interface GetMissingRequiredPropertiesParams {
@@ -42,8 +42,8 @@ export function getMissingRequiredProperties ({ entity, requiredProperties, requ
 
 export async function createEditionAndWorkFromEntry ({ edition, work }) {
   const title = edition.claims['wdt:P1476'][0]
-  const titleLang = edition.claims['wdt:P407'][0]
-  const workLabelLangCode = wdLang.byWdId[titleLang]?.code || 'en'
+  const titleLang = edition.claims['wdt:P407'][0] as WdEntityUri
+  const workLabelLangCode = getWikimediaLanguageCodeFromWdUri(titleLang) || 'en'
   work.labels = { [workLabelLangCode]: title }
   const entry = {
     edition,
