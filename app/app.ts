@@ -8,7 +8,7 @@ import log_ from './lib/loggers.ts'
 import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
 import { loadUrl, startRouter } from './lib/router.ts'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
-import type { UserLang } from './lib/active_languages.ts'
+import type { UserLang } from './lib/languages.ts'
 
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0

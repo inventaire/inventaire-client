@@ -1,9 +1,9 @@
 <script lang="ts">
   import { debounce } from 'underscore'
   import { API } from '#app/api/api'
-  import { languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
   import UpdatePassword from '#app/lib/components/update_password.svelte'
+  import { languages } from '#app/lib/languages'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { domain } from '#app/lib/urls'
