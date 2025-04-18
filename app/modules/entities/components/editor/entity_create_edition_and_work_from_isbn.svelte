@@ -1,8 +1,10 @@
 <script lang="ts">
   import { without } from 'underscore'
-  import Flash from '#app/lib/components/flash.svelte'
+  import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
   import { objectEntries } from '#app/lib/utils'
   import { commands } from '#app/radio'
+  import type { EntityDraft } from '#app/types/entity'
+  import Spinner from '#components/spinner.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
@@ -10,12 +12,14 @@
   import type { PropertyUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let edition, isbn13h
+  export let edition: EntityDraft
+  export let isbn13h: string
 
   edition.type = 'edition'
 
-  let work = {
+  let work: EntityDraft = {
     type: 'work',
+    labels: {},
     claims: {},
   }
 
@@ -80,20 +84,24 @@
         type: 'info',
         message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`,
       }
-    } else if (flash?.type === 'info') {
+    } else if (flash && 'type' in flash && flash.type === 'info') {
       flash = null
     }
   }
 
   $: edition && onEditionChange()
 
-  let flash
+  let flash: FlashState
+  let creating = false
   async function create () {
     try {
-      const editionUri = await createEditionAndWorkFromEntry({ edition, work })
+      creating = true
+      const editionUri = await createEditionAndWorkFromEntry(edition, work)
       commands.execute('show:entity', editionUri, { refresh: true })
     } catch (err) {
       flash = err
+    } finally {
+      creating = false
     }
   }
 
@@ -148,9 +156,12 @@
 
   <button
     class="success-button"
-    disabled={missingRequiredProperties?.length > 0}
+    disabled={missingRequiredProperties?.length > 0 || creating}
     on:click={create}
   >
+    {#if creating}
+      <Spinner light={true} />
+    {/if}
     {I18n("create and go to the edition's page")}
   </button>
 </div>

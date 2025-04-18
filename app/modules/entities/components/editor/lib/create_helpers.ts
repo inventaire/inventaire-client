@@ -40,7 +40,7 @@ export function getMissingRequiredProperties ({ entity, requiredProperties, requ
   return missingRequiredProperties
 }
 
-export async function createEditionAndWorkFromEntry ({ edition, work }) {
+export async function createEditionAndWorkFromEntry (edition: EntityDraft, work: EntityDraft) {
   const title = edition.claims['wdt:P1476'][0]
   const titleLang = edition.claims['wdt:P407'][0] as WdEntityUri
   const workLabelLangCode = getWikimediaLanguageCodeFromWdUri(titleLang) || 'en'
