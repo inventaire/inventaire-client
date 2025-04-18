@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getTextDirection } from '#app/lib/active_languages'
+  import { getTextDirection } from '#app/lib/languages'
   import { loadInternalLink } from '#app/lib/utils'
   import { getEntityLabel } from '#entities/lib/entities'
   import type { EntityUri } from '#server/types/entity'

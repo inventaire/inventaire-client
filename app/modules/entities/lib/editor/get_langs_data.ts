@@ -1,7 +1,7 @@
 import { uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { langs as activeLangs } from '#app/lib/active_languages'
 import availableLangList from '#app/lib/available_lang_list'
+import { langs as activeLangs } from '#app/lib/languages'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { WdEntityUri } from '#server/types/entity'
 

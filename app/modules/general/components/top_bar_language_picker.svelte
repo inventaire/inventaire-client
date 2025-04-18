@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { languages } from '#app/lib/active_languages'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
+  import { languages } from '#app/lib/languages'
   import { translate } from '#app/lib/urls'
   import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'

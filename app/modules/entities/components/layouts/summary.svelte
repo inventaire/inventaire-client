@@ -1,9 +1,9 @@
 <script lang="ts">
   import { indexBy, partition } from 'underscore'
   import { API } from '#app/api/api'
-  import { getTextDirection, languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
+  import { getTextDirection, languages } from '#app/lib/languages'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'

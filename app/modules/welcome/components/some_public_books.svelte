@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { UserLang } from '#app/lib/active_languages'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
+  import type { UserLang } from '#app/lib/languages'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
