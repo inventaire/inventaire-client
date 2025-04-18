@@ -1,6 +1,6 @@
 import { buildPath } from '#app/lib/location'
 import { getCurrentLang } from '#modules/user/lib/i18n'
-import type { InvPropertyUri, WdEntityId, WdEntityUri, WdPropertyUri } from '#server/types/entity'
+import type { InvPropertyUri, WdEntityId, WdEntityUri, WdPropertyId, WdPropertyUri } from '#server/types/entity'
 
 const wdHost = 'https://www.wikidata.org'
 
@@ -24,7 +24,11 @@ export function searchWikidataEntities (params) {
 }
 
 // Unprefixify both entities ('item' in Wikidata lexic) and properties
-export const unprefixify = (value: WdPropertyUri) => value?.replace(/^wdt?:/, '')
+export function unprefixify (value: WdEntityUri): WdEntityId
+export function unprefixify (value: WdPropertyUri): WdPropertyId
+export function unprefixify (value: WdEntityUri | WdPropertyUri): WdEntityId | WdPropertyId {
+  return value?.replace(/^wdt?:/, '') as (WdEntityId | WdPropertyId)
+}
 
 export const getUriNumericId = (uri: WdEntityUri | WdPropertyUri | InvPropertyUri) => parseInt(uri.split(':')[1].substring(1))
 

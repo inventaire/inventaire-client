@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
-  import { getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
+  import { getNativeLangName } from '#app/lib/languages'
 
   const dispatch = createEventDispatcher()
 

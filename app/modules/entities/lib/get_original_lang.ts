@@ -1,7 +1,6 @@
 import { pick } from 'underscore'
-import wdLang from 'wikidata-lang'
+import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages'
 import { pickOne, objLength } from '#app/lib/utils'
-import { unprefixify } from '#app/lib/wikimedia/wikidata'
 
 const langProperties = [
   'wdt:P103', // native language
@@ -16,7 +15,6 @@ export default function (claims) {
 
   const originalLangUri = pickOne(langClaims)?.[0]
   if (originalLangUri != null) {
-    const wdId = unprefixify(originalLangUri)
-    return wdLang.byWdId[wdId]?.code
+    return getWikimediaLanguageCodeFromWdUri(originalLangUri)
   }
 }

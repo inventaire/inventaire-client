@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages'
   import EntityLabel from '#entities/components/entity_label.svelte'
-  import { getLangUri } from '#entities/lib/editor/get_langs_data'
 
   export let lang: string
 
-  const uri = getLangUri(lang)
+  const uri = getWdUriFromWikimediaLanguageCode(lang)
 </script>
 
 {#if uri}
