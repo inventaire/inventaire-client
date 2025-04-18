@@ -1,5 +1,6 @@
 import preq from '#app/lib/preq'
 import type { ClientConfig } from '#server/controllers/config'
+import { detectedEnv } from './lib/env_config'
 
 // Do not use API.config or getEndpointBase to avoid a circular dependency
 const configEndpoint = '/api/config'
@@ -13,6 +14,6 @@ try {
 } catch (err) {
   // Known case: if the client was not built
   // Using console directly to avoid circular dependencies
-  console.error('bundle meta fetch error', err)
+  if (detectedEnv === 'prod') console.error('bundle meta fetch error', err)
   bundleMeta = {}
 }
