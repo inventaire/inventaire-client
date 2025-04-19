@@ -156,8 +156,8 @@
 {#await waitForWorks}
   <p class="loading">{i18n('Loading works...')}<Spinner /></p>
 {:then}
-  <div class="deduplicateWorks">
-    <div class="wdWorks">
+  <div class="deduplicate-works">
+    <div class="wd-works">
       <div class="header">
         <h3>Wikidata</h3>
         <span class="count">{wdWorks.length}</span>
@@ -183,7 +183,7 @@
         <p class="more" bind:this={wdBottomEl}>Loading more...</p>
       {/if}
     </div>
-    <div class="invWorks">
+    <div class="inv-works">
       <div class="header">
         <h3>Inventaire</h3>
         <span class="count">{invWorks.length}</span>
@@ -236,7 +236,7 @@
     margin: 4em;
   }
 
-  .deduplicateWorks{
+  .deduplicate-works{
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -245,7 +245,7 @@
     min-block-size: calc(100vh - 7em);
     margin-block-end: 6em;
   }
-  .wdWorks, .invWorks{
+  .wd-works, .inv-works{
     padding: 0.5em;
     flex: 1 0 0;
   }
@@ -268,13 +268,13 @@
     border-radius: 3px;
     opacity: 0.8;
   }
-  .wdWorks{
+  .wd-works{
     background-color: $grey;
     h3{
       color: white;
     }
   }
-  .invWorks{
+  .inv-works{
     background-color: $light-grey;
   }
   .work{
@@ -289,6 +289,7 @@
     flex-wrap: wrap;
     flex: 1 0 0;
     min-inline-size: 15em;
+    margin-block-end: 5rem;
   }
   .more{
     text-align: center;
