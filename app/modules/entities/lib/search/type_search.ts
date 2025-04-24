@@ -3,6 +3,7 @@ import { newError } from '#app/lib/error'
 import { arrayIncludes, forceArray } from '#app/lib/utils'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
+import type { SearchParams } from '#server/controllers/search/search'
 import type { EntityUri, ExtendedEntityType, PluralizedIndexedEntityType, InvEntityUri, WdEntityUri } from '#server/types/entity'
 import { getEntityByUri } from '../entities.ts'
 import { wikidataSearch } from './wikidata_search.ts'
@@ -11,8 +12,14 @@ export type PluralizedSearchableEntityType = PluralizedIndexedEntityType | 'subj
 // TODO: narrow down to exclude entity types that are not searchable: 'edition', 'article'
 export type SearchableType = ExtendedEntityType | PluralizedSearchableEntityType
 
-export default async function (types: SearchableType[], input: string, limit?: number, offset?: number) {
-  const uri = getEntityUri(input)
+interface TypeSearchParams extends Pick<SearchParams, 'search' | 'limit' | 'offset' | 'claim'> {
+  types: SearchableType[]
+}
+
+export async function typeSearch (params: TypeSearchParams) {
+  const { search, limit, offset, claim } = params
+  let { types } = params
+  const uri = getEntityUri(search)
   types = forceArray(types).map(pluralize)
 
   if (uri != null) {
@@ -24,7 +31,7 @@ export default async function (types: SearchableType[], input: string, limit?: n
 
   if (arrayIncludes(types, 'subjects')) {
     return wikidataSearch({
-      search: input,
+      search,
       limit,
       offset,
       formatResults: true,
@@ -35,9 +42,10 @@ export default async function (types: SearchableType[], input: string, limit?: n
     types = without(types, 'edition')
     return searchByTypes({
       types: types as PluralizedIndexedEntityType[],
-      search: input,
+      search,
       limit,
       offset,
+      claim,
     })
   }
 }

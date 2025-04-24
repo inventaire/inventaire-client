@@ -10,7 +10,7 @@
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
   import { createByProperty } from '#entities/lib/create_entities'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import typeSearch, { type SearchableType } from '#entities/lib/search/type_search'
+  import { typeSearch, type SearchableType } from '#entities/lib/search/type_search'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import Spinner from '#general/components/spinner.svelte'
   import type { EntityUri, ExtendedEntityType, PropertyUri } from '#server/types/entity'
@@ -18,6 +18,7 @@
   import EntitySuggestion from './entity_suggestion.svelte'
 
   export let searchTypes: SearchableType[]
+  export let claimFilter: string = null
   export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
   export let placeholder: string = null
@@ -84,7 +85,7 @@
         canFetchMore = true
       }
       lastSearch = searchText
-      waitForSearch = typeSearch(searchTypes, searchText, limit, offset)
+      waitForSearch = typeSearch({ types: searchTypes, search: searchText, limit, offset, claim: claimFilter })
       showSuggestions = true
       fetching = true
       const res = await waitForSearch
@@ -107,7 +108,7 @@
     return newSuggestions.filter(suggestion => !currentSuggestionsUris.has(suggestion.uri))
   }
 
-  function filterExistingSuggestions (searchText) {
+  function filterExistingSuggestions (searchText: string) {
     // Display all suggestions if search text is the initial label value,
     // to avoid filtering on an existing value, and instead dislay all those default suggestions.
     if (searchText === '' || searchText === initialEntityLabel) return suggestions = defaultSuggestions
