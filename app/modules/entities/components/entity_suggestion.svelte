@@ -3,11 +3,18 @@
   import { imgSrc } from '#app/lib/image_source'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+  import type { EntitySearchResult } from '#server/controllers/search/lib/normalize_result'
+  import type { PropertyUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 
-  export let suggestion, highlight, displaySuggestionType = false, scrollableElement
+  export let suggestion: EntitySearchResult
+  export let highlight = false
+  export let displaySuggestionType = false
+  export let scrollableElement: HTMLElement = null
+  export let displayedProperty: PropertyUri = null
+
   let element
-  const { uri, type, label, description, image: images } = suggestion
+  const { uri, type, label, description, image: images, claims } = suggestion
   const dispatch = createEventDispatcher()
   const typeName = entityTypeNameByType[type]
 
@@ -36,6 +43,9 @@
     <div class="right">
       <div class="top">
         <span class="label">{label}</span>
+        {#if displayedProperty && claims[displayedProperty][0]}
+          <span class="claim">{claims[displayedProperty][0]}</span>
+        {/if}
         <a
           class="uri"
           href="/entity/{uri}"
@@ -98,10 +108,12 @@
     color: $grey;
     display: block;
   }
-  .type{
+  .type, .claim{
     color: $grey;
-    text-align: end;
     font-size: 0.9rem;
+  }
+  .type{
+    text-align: end;
   }
   .uri{
     white-space: nowrap;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { isString } from 'underscore'
+  import { assertString } from '#app/lib/assert_types'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -12,10 +13,12 @@
   import { updateLabel, removeLabel } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
+  import type { EntitySearchResult } from '#server/controllers/search/lib/normalize_result'
   import type { EntityUri, Label } from '#server/types/entity'
   import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
+  import EntityAutocompleteSelector from '../entity_autocomplete_selector.svelte'
   import DisplayModeButtons from './display_mode_buttons.svelte'
-  import EditModeButtons from './edit_mode_buttons.svelte'
+  import LabelEditor from './label_editor.svelte'
   import OtherLanguage from './other_language.svelte'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
@@ -25,7 +28,7 @@
   export let inputLabel: string = null
 
   let editMode = false
-  let input, flash, previousValue, previousLang
+  let labelEditorInput, flash, previousValue, previousLang
 
   const { uri, labels } = entity
   const creationMode = uri == null
@@ -61,14 +64,14 @@
   async function showEditMode () {
     editMode = true
     await tick()
-    input?.focus()
+    labelEditorInput?.focus()
   }
 
   function closeEditMode () { editMode = false }
 
   async function saveFromInput () {
     flash = null
-    const value = input.value.trim()
+    const value = labelEditorInput.value.trim()
     if (value === '') return deleteLabel()
     save(value)
   }
@@ -118,7 +121,7 @@
     } else if (e.ctrlKey && key === 'enter') {
       saveFromInput()
     } if (serieLabels) {
-      const { value } = input
+      const { value } = labelEditorInput
       matchingSerieLabel = findMatchingSerieLabel(value, serieLabels)
     }
   }
@@ -139,6 +142,15 @@
         serieLabels = res.labels
       })
       .catch(err => flash = err)
+  }
+
+  let arbitraryLanguageCode, arbitraryLanguageUri, arbitraryLanguageLabel
+
+  async function selectLanguage (entity: EntitySearchResult) {
+    arbitraryLanguageUri = entity.uri
+    arbitraryLanguageLabel = entity.label
+    arbitraryLanguageCode = entity.claims['wdt:P424'][0]
+    assertString(arbitraryLanguageCode)
   }
 </script>
 
@@ -162,27 +174,17 @@
     </select>
     <div class="value">
       {#if editMode}
-        <div class="input-wrapper">
-          <input
-            type="text"
-            value={isString(currentValue) ? currentValue : ''}
-            on:keyup={onInputKeyup}
-            bind:this={input}
-          />
-          {#if matchingSerieLabel}
-            <p class="tip">
-              {@html I18n('title_matches_serie_label_tip', {
-                pathname: `/entity/${serieUri}/edit`,
-              })}
-            </p>
-          {/if}
-        </div>
-        <EditModeButtons
-          on:cancel={closeEditMode}
-          on:save={saveFromInput}
-          on:delete={deleteLabel}
-          showDelete={labels[currentLang] != null}
-          deleteButtonDisableMessage={deleteButtonDisable ? i18n('There should be at least one label') : null}
+        <LabelEditor
+          currentValue={labels[arbitraryLanguageCode]}
+          {matchingSerieLabel}
+          {serieUri}
+          showDelete={labels[arbitraryLanguageCode] != null}
+          {deleteButtonDisable}
+          bind:input={labelEditorInput}
+          {onInputKeyup}
+          {closeEditMode}
+          {saveFromInput}
+          {deleteLabel}
         />
       {:else}
         {#if currentValue === Symbol.for('removed')}
@@ -215,12 +217,44 @@
     {/each}
   </ul>
 
+  <div class="arbitrary-lang">
+    {#if arbitraryLanguageCode}
+      <div class="lang-info">
+        <span class="lang-label">{arbitraryLanguageLabel}</span>
+        <span class="lang-code">{arbitraryLanguageCode}</span>
+      </div>
+      <LabelEditor
+        currentValue={labels[arbitraryLanguageCode]}
+        {matchingSerieLabel}
+        {serieUri}
+        showDelete={labels[arbitraryLanguageCode] != null}
+        {deleteButtonDisable}
+        bind:input={labelEditorInput}
+        {onInputKeyup}
+        {closeEditMode}
+        {saveFromInput}
+        {deleteLabel}
+      />
+    {:else}
+      <div class="arbitrary-lang-selector">
+        <EntityAutocompleteSelector
+          searchTypes={[ 'languages' ]}
+          claimFilter="wdt:P424"
+          placeholder={i18n('Select label language')}
+          bind:currentEntityLabel={arbitraryLanguageLabel}
+          bind:currentEntityUri={arbitraryLanguageUri}
+          on:select={e => selectLanguage(e.detail)}
+        />
+      </div>
+    {/if}
+  </div>
+
   <Flash bind:state={flash} />
 </div>
 
 <style lang="scss">
   @import "#entities/scss/entity_editors_commons";
-  @import "#entities/scss/title_tip";
+
   .editor-section{
     flex-direction: column;
   }
@@ -229,7 +263,7 @@
   }
   .value{
     flex: 1;
-    .input-wrapper, .value-display{
+    :global(.label-editor-input), .value-display{
       flex: 1;
       font-weight: normal;
     }
@@ -240,9 +274,7 @@
       user-select: text;
     }
   }
-  .input-wrapper{
-    position: relative;
-  }
+
   .other-languages{
     max-block-size: 10em;
     overflow: auto;
@@ -255,9 +287,33 @@
     @include bg-hover(#ddd);
   }
 
+  .arbitrary-lang{
+    @include display-flex(row);
+  }
+  .arbitrary-lang-selector{
+    :global(.image), :global(.description), :global(.uri){
+      display: none;
+    }
+    :global(.suggestions .right){
+      padding: 0.4rem 0.2rem;
+    }
+    :global(.suggestions .top){
+      flex-direction: column;
+      line-height: 1.2rem;
+    }
+    :global(.claim){
+      align-self: stretch;
+      text-align: start;
+      color: $grey;
+    }
+  }
+  .lang-info{
+    @include display-flex(column);
+  }
+
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
-    select{
+    select, .lang-info{
       margin-block-end: 0.5em;
     }
     .language-values{
@@ -265,13 +321,10 @@
     }
     .value{
       @include display-flex(column, center, center);
-      .input-wrapper, .value-display{
+      :global(.label-editor-input), .value-display{
         inline-size: 100%;
         margin: 0.5em 0;
         padding: 0.5em;
-      }
-      input{
-        margin: 0;
       }
       .value-display{
         @include bg-hover($light-grey, 5%);
@@ -283,9 +336,13 @@
   }
   /* Large screens */
   @media screen and (width >= $smaller-screen){
-    select{
+    select, .arbitrary-lang-selector, .lang-info{
       inline-size: 10em;
       block-size: 100%;
+    }
+    .lang-info{
+      padding-inline-start: 0.7rem;
+      font-size: 0.9rem;
     }
     .language-values{
       @include display-flex(row, stretch, center);
@@ -293,7 +350,7 @@
     }
     .value{
       @include display-flex(row, stretch);
-      .input-wrapper, .value-display{
+      :global(.label-editor-input), .value-display{
         block-size: 100%;
         margin: 0 1em;
       }

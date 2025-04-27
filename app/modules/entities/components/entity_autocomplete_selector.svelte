@@ -18,7 +18,7 @@
   import EntitySuggestion from './entity_suggestion.svelte'
 
   export let searchTypes: SearchableType[]
-  export let claimFilter: string = null
+  export let claimFilter: PropertyUri = null
   export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
   export let placeholder: string = null
@@ -235,6 +235,7 @@
               {suggestion}
               {displaySuggestionType}
               {scrollableElement}
+              displayedProperty={claimFilter}
               highlight={i === highlightedIndex}
               on:select={() => dispatch('select', suggestion)}
             />
