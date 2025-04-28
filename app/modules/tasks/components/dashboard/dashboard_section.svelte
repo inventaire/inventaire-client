@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Link from '#app/lib/components/link.svelte'
   import { pluralize } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'

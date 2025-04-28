@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import Dropdown from '#components/dropdown.svelte'

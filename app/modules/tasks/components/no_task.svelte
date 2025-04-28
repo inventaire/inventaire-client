@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Link from '#app/lib/components/link.svelte'
   import { pluralize } from '#entities/lib/types/entities_types'
   import { getTasksCounts } from '#tasks/components/lib/tasks_helpers'

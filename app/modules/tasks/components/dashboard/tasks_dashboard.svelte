@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import DashboardSection from '#tasks/components/dashboard/dashboard_section.svelte'
   import { getTasksCounts, entitiesTypesByTypes } from '#tasks/components/lib/tasks_helpers'
   import { i18n, I18n } from '#user/lib/i18n'

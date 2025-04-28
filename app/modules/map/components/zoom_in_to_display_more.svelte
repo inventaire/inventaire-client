@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onChange } from '#app/lib/svelte/svelte'
   import { isMapTooZoomedOut } from '#map/lib/map'
   import { i18n } from '#user/lib/i18n'

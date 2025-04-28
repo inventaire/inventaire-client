@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#app/lib/image_source'
   import { loadInternalLink } from '#app/lib/utils'
 

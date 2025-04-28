@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { clone } from 'underscore'
   import { icon } from '#app/lib/icons'
   import { moveArrayElement } from '#app/lib/utils'

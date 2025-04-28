@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import { hasMatchedLabel } from '#tasks/components/lib/tasks_helpers'
