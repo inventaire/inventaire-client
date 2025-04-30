@@ -1,9 +1,17 @@
 import { writable } from 'svelte/store'
+import { omit } from 'underscore'
 import { newError } from '#app/lib/error'
+import { objectEntries } from '#app/lib/utils'
+import type { SerializedEntity } from '#entities/lib/entities'
 import { i18n } from '#user/lib/i18n'
+import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-export function alphabeticallySortedEntries (obj) {
-  return Object.entries(obj)
+export function getEditableLabels (labels: SerializedEntity['labels']) {
+  return omit(labels, 'fromclaims')
+}
+
+export function alphabeticallySortedEntries (labels: Partial<Record<WikimediaLanguageCode, string>>) {
+  return objectEntries(labels)
   .sort((a, b) => a[0] > b[0] ? 1 : -1)
 }
 

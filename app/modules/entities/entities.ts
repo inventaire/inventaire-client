@@ -4,10 +4,12 @@ import { appLayout } from '#app/init_app_layout'
 import { assertObject, assertString } from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
+import { fetchLanguagesLabels } from '#app/lib/languages_labels'
 import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getAllQuerystringParameters, getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { addRoutes } from '#app/lib/router'
+import { objectKeys } from '#app/lib/utils'
 import { commands, reqres } from '#app/radio'
 import { type SerializedEntity, type SerializedWdEntity, getEntityByUri, normalizeUri } from '#entities/lib/entities'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
@@ -263,7 +265,15 @@ async function showEntityEdit (entity: SerializedEntity) {
   rejectRemovedPlaceholder(entity)
 
   if (type == null) throw newError('invalid entity type', 400, { entity })
-  const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
+
+  const labelsLangs = objectKeys(entity.labels)
+
+  const [
+    { default: EntityEdit },
+  ] = await Promise.all([
+    import('./components/editor/entity_edit.svelte'),
+    fetchLanguagesLabels(labelsLangs),
+  ])
   appLayout.showChildComponent('main', EntityEdit, {
     props: {
       entity,

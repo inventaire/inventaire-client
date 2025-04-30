@@ -3,6 +3,7 @@ import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
 import type { EntityUri, PropertyUri } from '#server/types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
+import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
 const { action } = getEndpointPathBuilders('entities')
 
@@ -51,6 +52,10 @@ export default {
       uris: forceArray(uris).join('|'),
       refresh,
     })
+  },
+
+  languages (langs: WikimediaLanguageCode[], preferredLang: WikimediaLanguageCode) {
+    return action('languages', { langs: langs.join('|'), lang: preferredLang })
   },
 
   usersContributionsCount: period => {

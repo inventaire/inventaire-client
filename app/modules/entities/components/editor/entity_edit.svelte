@@ -54,7 +54,7 @@
   </div>
 
   {#if hasMonolingualTitle === false}
-    <LabelsEditor bind:entity bind:favoriteLabel />
+    <LabelsEditor bind:entity />
   {/if}
 
   {#if typePropertiesPerCategory}

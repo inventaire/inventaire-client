@@ -15,7 +15,9 @@ function bindedTest <T> (regexName) {
   }
 }
 
-export const isNonEmptyString = str => isString(str) && (str.length > 0)
+export function isNonEmptyString (str: unknown): str is string {
+  return isString(str) && (str.length > 0)
+}
 
 export function isUrl (url: string): url is AbsoluteUrl {
   try {

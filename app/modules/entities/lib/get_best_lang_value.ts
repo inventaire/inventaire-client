@@ -15,14 +15,14 @@ export function getBestLangValue (lang: WikimediaLanguageCode, originalLang: Wik
       value = value[0]
     }
     if (isNonEmptyString(value)) {
-      return { value, lang: nextLang }
+      return { value, lang: nextLang as WikimediaLanguageCode }
     }
   }
 
   return {}
 }
 
-function getLangPriorityOrder (lang, originalLang, data) {
+function getLangPriorityOrder (lang: WikimediaLanguageCode, originalLang: WikimediaLanguageCode, data: SingleValueTermsWithInferredValues) {
   const order = [ lang, 'mul' ]
   if (originalLang != null) order.push(originalLang)
   order.push('en')

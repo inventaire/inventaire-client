@@ -263,6 +263,10 @@ export function objectEntries <Obj extends object> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
 
+export function objectFromEntries <K extends string, V> (entries: [ K, V ][]) {
+  return Object.fromEntries(entries) as Record<K, V>
+}
+
 export function objectValues <Obj> (obj: Obj) {
   return Object.values(obj) as Obj[keyof Obj][]
 }

@@ -42,7 +42,7 @@ export function getTextDirection (lang = 'en') {
   return rtlLang.has(languageFamilyCode) ? 'rtl' : 'ltr'
 }
 
-export function getNativeLangName (code: string) {
+function getNativeLangName (code: string) {
   return langByCode[code]?.native
 }
 
