@@ -100,10 +100,10 @@ const controller = {
     try {
       if (reqres.request('require:loggedIn', 'entity/new')) {
         const { label, type, claims } = getAllQuerystringParameters()
-        assertString(label)
+        if (label != null) assertString(label)
         if (type) assertString(type)
         if (claims) assertObject(claims)
-        await showEntityCreate({ type: type as string, label, claims })
+        await showEntityCreate({ type: type as string, label: label as string, claims })
       }
     } catch (err) {
       commands.execute('show:error', err)
@@ -218,7 +218,7 @@ const controller = {
   },
 } as const
 
-export async function showEntityCreate (params: { label: string, type?: string, claims?: SimplifiedClaims }) {
+export async function showEntityCreate (params: { label?: string, type?: string, claims?: SimplifiedClaims }) {
   const path = 'entity/new'
   if (!reqres.request('require:loggedIn', path)) return
   app.navigate(path)

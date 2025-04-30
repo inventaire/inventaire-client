@@ -22,7 +22,7 @@
   import LabelsEditor from './labels_editor.svelte'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
 
-  export let label: string
+  export let label: string = ''
   export let type: EntityType = null
   export let claims: SimplifiedClaims = null
 
