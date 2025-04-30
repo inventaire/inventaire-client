@@ -98,35 +98,6 @@
     {/if}
   </h3>
 
-  <ul class="languages-labels" bind:this={languagesLabelsListEl}>
-    {#each alphabeticallySortedEntries(labels) as [ lang, value ] (lang)}
-      {#if lang === editedLanguageCode}
-        <li class="edited-label">
-          <LanguageLabel {lang} />
-          <LabelEditor
-            {uri}
-            {lang}
-            value={labels[editedLanguageCode]}
-            {serieLabels}
-            {serieUri}
-            showDelete={labels[editedLanguageCode] != null}
-            {deleteButtonDisable}
-            on:done={e => done(lang, e.detail)}
-          />
-        </li>
-      {:else}
-        <LabelDisplay
-          {lang}
-          {value}
-          {lastAddedLang}
-          on:editLanguageValue={e => editLanguageValue(e.detail)}
-        />
-      {/if}
-    {/each}
-  </ul>
-
-  <hr />
-
   <div class="arbitrary-lang">
     {#if arbitraryLanguageCode}
       {#if labels[arbitraryLanguageCode] == null || labels[arbitraryLanguageCode] === Symbol.for('removed')}
@@ -156,6 +127,35 @@
       </div>
     {/if}
   </div>
+
+  <hr />
+
+  <ul class="languages-labels" bind:this={languagesLabelsListEl}>
+    {#each alphabeticallySortedEntries(labels) as [ lang, value ] (lang)}
+      {#if lang === editedLanguageCode}
+        <li class="edited-label">
+          <LanguageLabel {lang} />
+          <LabelEditor
+            {uri}
+            {lang}
+            value={labels[editedLanguageCode]}
+            {serieLabels}
+            {serieUri}
+            showDelete={labels[editedLanguageCode] != null}
+            {deleteButtonDisable}
+            on:done={e => done(lang, e.detail)}
+          />
+        </li>
+      {:else}
+        <LabelDisplay
+          {lang}
+          {value}
+          {lastAddedLang}
+          on:editLanguageValue={e => editLanguageValue(e.detail)}
+        />
+      {/if}
+    {/each}
+  </ul>
 
   <Flash bind:state={flash} />
 </div>
@@ -188,7 +188,7 @@
     }
   }
   hr{
-    margin: 0 0 1rem;
+    margin: 1rem 0 0;
   }
 
   /* Smaller screens */
