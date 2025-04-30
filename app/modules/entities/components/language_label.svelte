@@ -27,7 +27,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .lang-info{
-    width: 10rem;
     line-height: 1.2rem;
   }
   .lang-code{
@@ -35,5 +34,17 @@
     text-align: start;
     color: $grey;
     word-break: keep-all;
+  }
+  /* Large screens */
+  @media screen and (width >= $smaller-screen){
+    .lang-info{
+      width: 10rem;
+    }
+  }
+  /* Small screens */
+  @media screen and (width < $smaller-screen){
+    .lang-info{
+      width: 100%;
+    }
   }
 </style>

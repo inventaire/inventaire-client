@@ -136,5 +136,8 @@
     input{
       margin: 0;
     }
+    .label-editor-input{
+      margin: 0.5rem;
+    }
   }
 </style>

@@ -28,8 +28,6 @@
   @import "#general/scss/utils";
   .edit-language-label{
     inline-size: 100%;
-    height: 3rem;
-    @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
     text-align: start;
   }
@@ -41,9 +39,24 @@
   }
   /* Large screens */
   @media screen and (width >= $smaller-screen){
+    .edit-language-label{
+      height: 3rem;
+      @include display-flex(row, center, flex-start);
+    }
     .value{
       // Align with .edited-label
       margin: 0 0.55em;
+    }
+  }
+  /* Small screens */
+  @media screen and (width < $smaller-screen){
+    .edit-language-label{
+      margin: 0.5rem 0;
+      .value{
+        display: block;
+        padding: 0.2rem;
+        background-color: $light-grey;
+      }
     }
   }
 </style>

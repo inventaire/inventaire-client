@@ -197,7 +197,7 @@
       @include display-flex(column, stretch);
     }
     .languages-labels{
-      display: none;
+      max-height: 8rem;
     }
   }
   /* Large screens */
