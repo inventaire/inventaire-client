@@ -1,8 +1,8 @@
-import { without } from 'underscore'
+import { difference, pick, without } from 'underscore'
 import { API } from '#app/api/api'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { treq } from '#app/lib/preq'
-import { objectEntries, objectFromEntries } from '#app/lib/utils'
+import { capitalize, objectEntries, objectFromEntries, objectKeys } from '#app/lib/utils'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { GetLanguagesInfoResponse } from '#server/controllers/entities/languages'
 import type { TermLanguageCode } from '#server/types/entity'
@@ -11,6 +11,18 @@ import type { WikimediaLanguageCode } from 'wikibase-sdk'
 type LanguagesLabels = Partial<Record<WikimediaLanguageCode, string>>
 
 const cache: Partial<Record<WikimediaLanguageCode, LanguagesLabels>> = {}
+
+export async function getLanguagesLabels (langs: WikimediaLanguageCode[]): Promise<LanguagesLabels> {
+  const preferredLang = getCurrentLang()
+  let missingLangs
+  if (cache[preferredLang]) {
+    missingLangs = difference(langs, objectKeys(cache[preferredLang]))
+  } else {
+    missingLangs = langs
+  }
+  await fetchLanguagesLabels(missingLangs)
+  return pick(cache[preferredLang], langs)
+}
 
 export async function getLanguageLabel (lang: WikimediaLanguageCode) {
   const preferredLang = getCurrentLang()
@@ -23,7 +35,7 @@ export async function fetchLanguagesLabels (langs: TermLanguageCode[]) {
   const preferredLang = getCurrentLang()
   const { languages } = await treq.get<GetLanguagesInfoResponse>(API.entities.languages(wmLangs, preferredLang))
   const simplifiedLanguagesInfo = objectFromEntries(objectEntries(languages).map(([ lang, info ]) => {
-    return [ lang, info.label.value ]
+    return [ lang, capitalize(info.label.value) ]
   }))
   cache[preferredLang] ??= {}
   Object.assign(cache[preferredLang], simplifiedLanguagesInfo)

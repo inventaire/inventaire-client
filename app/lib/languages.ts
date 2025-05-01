@@ -5,6 +5,7 @@ import log_ from '#app/lib/loggers'
 import languagesData from '#assets/js/languages_data'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { Labels, WdEntityUri } from '#server/types/entity'
+import { getLanguagesLabels } from './languages_labels.ts'
 import { objectEntries, objectKeys } from './utils.ts'
 import { unprefixify } from './wikimedia/wikidata.ts'
 
@@ -28,6 +29,20 @@ for (const [ lang, languageData ] of objectEntries(languagesData)) {
     native: getNativeLangName(lang),
     completion,
   }
+}
+
+export async function getTranslatedLanguagesData () {
+  const langs = objectKeys(languagesData)
+  const languagesLabels = await getLanguagesLabels(langs)
+  return objectEntries(languagesLabels)
+  .map(([ lang, label ]) => {
+    return {
+      lang,
+      label,
+      completion: languagesData[lang].completion,
+    }
+  })
+  .sort((a, b) => a.label > b.label ? 1 : -1)
 }
 
 export const langs = objectKeys<typeof languagesData>(languagesData)

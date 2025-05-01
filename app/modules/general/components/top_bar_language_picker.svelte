@@ -1,18 +1,24 @@
 <script lang="ts">
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
-  import { languages } from '#app/lib/languages'
+  import { getTranslatedLanguagesData } from '#app/lib/languages'
+  import log_ from '#app/lib/loggers'
   import { translate } from '#app/lib/urls'
   import { commands } from '#app/radio'
   import Dropdown from '#components/dropdown.svelte'
   import { getCurrentLang, I18n, i18n } from '#user/lib/i18n'
   import { mainUser, updateUser } from '#user/lib/main_user'
+  import Spinner from './spinner.svelte'
 
-  const mostCompleteFirst = (a, b) => b.completion - a.completion
-  const languagesList = Object.values(languages).sort(mostCompleteFirst)
   const currentLang = getCurrentLang()
-  const currentLanguage = languages[currentLang].native
-  const currentLanguageShortName = languages[currentLang].lang.toUpperCase()
+
+  let translatedLanguages, currentLanguage
+  const waitingForTranslatedLanguages = getTranslatedLanguagesData()
+    .then(res => {
+      translatedLanguages = res
+      currentLanguage = translatedLanguages.find(langInfo => langInfo.lang === currentLang)?.label
+    })
+    .catch(log_.error)
 
   function selectLang (lang) {
     // Remove the querystring lang parameter to be sure that the picked language
@@ -23,36 +29,40 @@
 </script>
 
 <div class="language-picker">
-  <Dropdown dropdownWidthBaseInEm={18}>
-    <div slot="button-inner">
-      <span class="current-lang">{currentLanguage}</span>
-      <span class="current-lang-short">{currentLanguageShortName}</span>
-      {@html icon('caret-down')}
-    </div>
-    <div slot="dropdown-content">
-      <ul class="options">
-        {#each languagesList as { lang, native, completion } (lang)}
-          <li class="option">
-            <button
-              title="{i18n('switch_to_lang', { language: native })} ({i18n('translation_completion', { completion })})"
-              on:click={() => selectLang(lang)}
-            >
-              <span class="completion" style:width={`${completion}%`} />
-              <span class="lang" {lang}>{native}</span>
-              <span class="completion-text">({completion}%)</span>
-            </button>
-          </li>
-        {/each}
-      </ul>
-      <div class="help-translate">
-        <Link
-          url={translate}
-          icon="pencil"
-          text={I18n('help translate Inventaire')}
-        />
+  {#await waitingForTranslatedLanguages}
+    <Spinner />
+  {:then}
+    <Dropdown dropdownWidthBaseInEm={18}>
+      <div slot="button-inner">
+        <span class="current-lang">{currentLanguage}</span>
+        <span class="current-lang-short">{currentLang}</span>
+        {@html icon('caret-down')}
       </div>
-    </div>
-  </Dropdown>
+      <div slot="dropdown-content">
+        <ul class="options">
+          {#each translatedLanguages as { lang, label, completion } (lang)}
+            <li class="option">
+              <button
+                title="{i18n('switch_to_lang', { language: label })} ({i18n('translation_completion', { completion })})"
+                on:click={() => selectLang(lang)}
+              >
+                <span class="completion" style:width={`${completion}%`} />
+                <span class="lang" {lang}>{label}</span>
+                <span class="completion-text">({completion}%)</span>
+              </button>
+            </li>
+          {/each}
+        </ul>
+        <div class="help-translate">
+          <Link
+            url={translate}
+            icon="pencil"
+            text={I18n('help translate Inventaire')}
+          />
+        </div>
+      </div>
+    </Dropdown>
+  {/await}
 </div>
 
 <style lang="scss">
