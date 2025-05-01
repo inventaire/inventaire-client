@@ -12,11 +12,12 @@
 
   const currentLang = getCurrentLang()
 
-  let translatedLanguages, currentLanguage
+  let translatedLanguages, currentLanguageLabel
   const waitingForTranslatedLanguages = getTranslatedLanguagesData()
     .then(res => {
       translatedLanguages = res
-      currentLanguage = translatedLanguages.find(langInfo => langInfo.lang === currentLang)?.label
+      currentLanguageLabel = translatedLanguages
+        .find(langInfo => langInfo.lang === currentLang)?.label
     })
     .catch(log_.error)
 
@@ -34,7 +35,7 @@
   {:then}
     <Dropdown dropdownWidthBaseInEm={18}>
       <div slot="button-inner">
-        <span class="current-lang">{currentLanguage}</span>
+        <span class="current-lang">{currentLanguageLabel}</span>
         <span class="current-lang-short">{currentLang}</span>
         {@html icon('caret-down')}
       </div>
