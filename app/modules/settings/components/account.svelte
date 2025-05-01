@@ -3,10 +3,12 @@
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import UpdatePassword from '#app/lib/components/update_password.svelte'
-  import { languages } from '#app/lib/languages'
+  import { getTranslatedLanguagesData } from '#app/lib/languages'
+  import log_ from '#app/lib/loggers'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { domain } from '#app/lib/urls'
+  import Spinner from '#components/spinner.svelte'
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -18,6 +20,13 @@
   let poolActivities = $mainUserStore.poolActivities
   let userLang = $mainUserStore.language
   let emailValue = $mainUserStore.email
+
+  let translatedLanguages
+  const waitingForTranslatedLanguages = getTranslatedLanguagesData()
+    .then(res => {
+      translatedLanguages = res
+    })
+    .catch(log_.error)
 
   const pickLanguage = async () => {
     flashLang = null
@@ -119,11 +128,15 @@
   <fieldset>
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
-    <select name="language" aria-label="language picker" bind:value={userLang}>
-      {#each Object.values(languages) as language}
-        <option value={language.lang}>{language.lang} - {language.native}</option>
-      {/each}
-    </select>
+    {#await waitingForTranslatedLanguages}
+      <Spinner />
+    {:then}
+      <select name="language" aria-label="language picker" bind:value={userLang}>
+        {#each translatedLanguages as { label, lang }}
+          <option value={lang}>{label} ({lang})</option>
+        {/each}
+      </select>
+    {/await}
     <Flash bind:state={flashLang} />
 
     <h3 class="title">{I18n('email')}</h3>

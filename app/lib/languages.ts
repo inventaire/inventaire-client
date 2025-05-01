@@ -13,22 +13,9 @@ const { byCode: langByCode, byWdId: langByWdId } = wdLang
 
 export const regionify: Record<string, string> = {}
 
-interface LanguageInfo {
-  lang: string
-  native: string
-  completion: number
-}
-
-export const languages: Record<string, LanguageInfo> = {}
-
 for (const [ lang, languageData ] of objectEntries(languagesData)) {
-  const { completion, defaultRegion } = languageData
+  const { defaultRegion } = languageData
   regionify[lang] = defaultRegion
-  languages[lang] = {
-    lang,
-    native: getNativeLangName(lang),
-    completion,
-  }
 }
 
 export async function getTranslatedLanguagesData () {
@@ -55,10 +42,6 @@ const rtlLang = new Set([ 'ace', 'ady', 'aeb', 'ar', 'arc', 'arq', 'ary', 'arz',
 export function getTextDirection (lang = 'en') {
   const languageFamilyCode = lang.split('-')[0]
   return rtlLang.has(languageFamilyCode) ? 'rtl' : 'ltr'
-}
-
-function getNativeLangName (code: string) {
-  return langByCode[code]?.native
 }
 
 export function getWikimediaLanguageCodeFromWdUri (uri: WdEntityUri) {
