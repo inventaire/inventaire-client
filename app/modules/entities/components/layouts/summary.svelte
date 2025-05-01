@@ -3,14 +3,17 @@
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
-  import { getTextDirection, languages } from '#app/lib/languages'
+  import { getTextDirection } from '#app/lib/languages'
+  import { getLanguageLabel } from '#app/lib/languages_labels'
+  import log_ from '#app/lib/loggers'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
+  import type { SerializedEntity } from '#server/types/entity'
   import { getCurrentLang, i18n } from '#user/lib/i18n'
 
-  export let entity
+  export let entity: SerializedEntity
   export let showLabel = false
 
   $:({ uri, originalLang } = entity)
@@ -19,7 +22,10 @@
   let waitingForSummariesData, waitingForText
 
   const userLang = getCurrentLang()
-  const langLabel = languages[userLang].native
+  let langLabel
+  getLanguageLabel(userLang)
+    .then(label => langLabel = label)
+    .catch(log_.error)
 
   function getSummaries () {
     const refresh = entityDataShouldBeRefreshed(uri)
