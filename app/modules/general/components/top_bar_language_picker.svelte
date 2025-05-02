@@ -35,8 +35,8 @@
   {:then}
     <Dropdown dropdownWidthBaseInEm={18}>
       <div slot="button-inner">
-        <span class="current-lang">{currentLanguageLabel}</span>
-        <span class="current-lang-short">{currentLang}</span>
+        <span class="current-lang-label">{currentLanguageLabel}</span>
+        <span class="current-lang">{currentLang}</span>
         {@html icon('caret-down')}
       </div>
       <div slot="dropdown-content">
@@ -48,8 +48,9 @@
                 on:click={() => selectLang(lang)}
               >
                 <span class="completion" style:width={`${completion}%`} />
-                <span class="lang" {lang}>{label}</span>
-                <span class="completion-text">({completion}%)</span>
+                <span class="lang-label">{label}</span>
+                <span class="lang">({lang})</span>
+                <span class="completion-text">{completion}%</span>
               </button>
             </li>
           {/each}
@@ -104,8 +105,9 @@
       background-color: $grey;
       border-radius: 0;
       text-align: start;
+      @include display-flex(row);
       &, span{
-        color: white !important;
+        color: white;
       }
       &:focus{
         background-color: $dark-grey;
@@ -122,12 +124,18 @@
       z-index: -1;
       background-color: $light-blue;
     }
-    .lang{
+    .lang-label{
       font-weight: bold;
-      padding: 0 0.5em;
+      margin-inline: 0.5rem 0.2rem;
+    }
+    .lang{
+      color: $light-grey;
+      font-size: 0.9rem;
+      margin-inline-end: 0.5rem;
     }
     .completion-text{
       margin-inline-start: auto;
+      margin-inline-end: 0.5rem;
       font-weight: normal;
       opacity: 0.8;
     }
@@ -161,13 +169,13 @@
   }
   /* Not Too Small screens */
   @media screen and (width >= $very-small-screen){
-    .current-lang-short{
+    .current-lang{
       display: none;
     }
   }
   /* Very small screens */
   @media screen and (width < $very-small-screen){
-    .current-lang{
+    .current-lang-label{
       display: none;
     }
   }
