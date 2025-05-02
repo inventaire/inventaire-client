@@ -1,5 +1,5 @@
 import { pick } from 'underscore'
-import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages'
+import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages/languages'
 import { pickOne, objLength } from '#app/lib/utils'
 
 const langProperties = [

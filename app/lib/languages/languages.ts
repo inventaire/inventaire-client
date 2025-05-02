@@ -1,13 +1,13 @@
 import { uniq, clone } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { langs as activeLangs } from '#app/lib/languages'
+import { langs as activeLangs } from '#app/lib/languages/languages'
+import { getLanguagesLabels } from '#app/lib/languages/languages_labels.ts'
 import log_ from '#app/lib/loggers'
+import { objectEntries, objectKeys } from '#app/lib/utils.ts'
+import { unprefixify } from '#app/lib/wikimedia/wikidata.ts'
 import languagesData from '#assets/js/languages_data'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { Labels, WdEntityUri } from '#server/types/entity'
-import { getLanguagesLabels } from './languages_labels.ts'
-import { objectEntries, objectKeys } from './utils.ts'
-import { unprefixify } from './wikimedia/wikidata.ts'
 
 const { byCode: langByCode, byWdId: langByWdId } = wdLang
 

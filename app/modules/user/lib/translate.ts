@@ -1,6 +1,6 @@
 import { assertString } from '#app/lib/assert_types'
 import { isWikidataPropertyId } from '#app/lib/boolean_tests'
-import type { UserLang } from '#app/lib/languages'
+import type { UserLang } from '#app/lib/languages/languages'
 import type Polyglot from 'node-polyglot'
 
 const wdPropPrefix = 'wdt:'

@@ -1,7 +1,7 @@
 import { API } from '#app/api/api'
 import { newError, type ContextualizedError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
-import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages'
+import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages/languages'
 import { buildPath } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getEntityPropValue } from '#entities/components/lib/claims_helpers'

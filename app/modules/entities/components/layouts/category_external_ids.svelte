@@ -1,7 +1,7 @@
 <script lang="ts">
   import { partition } from 'underscore'
   import { icon } from '#app/lib/icons'
-  import { getTextDirection } from '#app/lib/languages'
+  import { getTextDirection } from '#app/lib/languages/languages'
   import Modal from '#components/modal.svelte'
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
   import { categoryLabels } from '#entities/lib/entity_links'

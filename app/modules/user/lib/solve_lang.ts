@@ -1,5 +1,5 @@
 import cookie_ from 'js-cookie'
-import { langs as activeLangs, type UserLang } from '#app/lib/languages'
+import { langs as activeLangs, type UserLang } from '#app/lib/languages/languages'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
 import { arrayIncludes, shortLang } from '#app/lib/utils'
 

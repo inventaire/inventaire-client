@@ -1,6 +1,6 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
-  import { getLanguageLabel } from '#app/lib/languages_labels'
+  import { getLanguageLabel } from '#app/lib/languages/languages_labels'
   import { capitalize } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'

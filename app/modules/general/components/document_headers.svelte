@@ -1,6 +1,6 @@
 <script lang="ts">
   import { config } from '#app/config'
-  import { getTextDirection, langs, regionify } from '#app/lib/languages'
+  import { getTextDirection, langs, regionify } from '#app/lib/languages/languages'
   import { setQuerystring } from '#app/lib/location'
   import { locationStore } from '#app/lib/location_store'
   import { metadataStore, prerenderStatusStore } from '#app/lib/metadata/update'

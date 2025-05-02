@@ -3,7 +3,7 @@
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import UpdatePassword from '#app/lib/components/update_password.svelte'
-  import { getTranslatedLanguagesData } from '#app/lib/languages'
+  import { getTranslatedLanguagesData } from '#app/lib/languages/languages'
   import log_ from '#app/lib/loggers'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'

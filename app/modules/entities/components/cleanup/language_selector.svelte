@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getLangsData } from '#app/lib/languages'
+  import { getLangsData } from '#app/lib/languages/languages'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
   export let selectedLang: WikimediaLanguageCode

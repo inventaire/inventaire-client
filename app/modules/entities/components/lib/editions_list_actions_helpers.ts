@@ -1,5 +1,5 @@
 import { uniq, compact } from 'underscore'
-import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages'
+import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages/languages'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
 import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
 import { getCurrentLang } from '#modules/user/lib/i18n'

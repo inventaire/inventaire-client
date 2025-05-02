@@ -1,14 +1,14 @@
+import { newError } from '#app/lib/error.ts'
+import type { UserLang } from '#app/lib/languages/languages.ts'
 import { currentRouteWithQueryString, parseQuery, type ProjectRootRelativeUrl } from '#app/lib/location'
+import log_ from '#app/lib/loggers.ts'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
+import { keepQuerystringParameter } from '#app/lib/querystring_helpers.ts'
+import { loadUrl, startRouter } from '#app/lib/router.ts'
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
 import { commands, vent } from '#app/radio'
-import { newError } from './lib/error.ts'
-import log_ from './lib/loggers.ts'
-import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
-import { loadUrl, startRouter } from './lib/router.ts'
-import { updateI18nLang } from './modules/user/lib/i18n.ts'
-import type { UserLang } from './lib/languages.ts'
+import { updateI18nLang } from '#user/lib/i18n.ts'
 
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0

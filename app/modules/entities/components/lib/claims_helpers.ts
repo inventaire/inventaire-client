@@ -1,7 +1,7 @@
 import { union, pick, uniq } from 'underscore'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { icon as iconFn } from '#app/lib/icons'
-import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages'
+import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages/languages'
 import type { SerializedEntity } from '#entities/lib/entities'
 import { platforms } from '#entities/lib/platforms'
 import type { AuthorProperty } from '#entities/lib/properties'
