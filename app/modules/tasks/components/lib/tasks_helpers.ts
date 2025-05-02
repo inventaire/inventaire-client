@@ -4,7 +4,7 @@ import preq from '#app/lib/preq'
 import { getSubEntities, fetchSectionEntities } from '#entities/components/lib/entities'
 import { type SerializedEntity, getEditionsWorks } from '#entities/lib/entities'
 import { getSerieOrWorkExtendedAuthorsUris } from '#entities/lib/types/serie_alt'
-import { I18n } from '#user/lib/i18n'
+import { I18n, i18n } from '#user/lib/i18n'
 
 export const calculateGlobalScore = task => {
   const { externalSourcesOccurrences, lexicalScore, relationScore } = task
@@ -145,4 +145,12 @@ export async function getRelatedEntitiesSections ({ entity }: { entity: Serializ
 export async function getTasksCounts () {
   const { tasksCount } = await preq.get(API.tasks.count)
   return tasksCount
+}
+
+export function getTaskMetadata (task) {
+  if (task) {
+    return { metadata: { title: `${I18n('task')} - ${i18n(task.type)} - ${i18n(task.entitiesType)} - ${task._id}` } }
+  } else {
+    return { metadata: { title: I18n('no task available') } }
+  }
 }

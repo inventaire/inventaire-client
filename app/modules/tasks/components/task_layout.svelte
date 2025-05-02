@@ -4,6 +4,7 @@
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
   import type { TaskId } from '#server/types/task'
+  import { getTaskMetadata } from '#tasks/components/lib/tasks_helpers'
   import { getNextTask } from '#tasks/lib/get_next_task'
   import DeleteLayout from './delete_layout.svelte'
   import MergeLayout from './merge_layout.svelte'
@@ -30,6 +31,7 @@
     const { tasks } = await preq.get(API.tasks.byIds(taskId))
     task = tasks[0];
     ({ type, entitiesType } = task)
+    app.navigate(`/tasks/${task._id}`, getTaskMetadata(task))
   }
 
   async function showNextTask () {
@@ -42,11 +44,11 @@
     }
     task = newTask
     nextTaskOffset++
-    app.navigate(`/tasks/${task._id}`)
+    app.navigate(`/tasks/${task._id}`, getTaskMetadata(task))
   }
 
   function resetTaskLayout () {
-    app.navigate('/tasks/none')
+    app.navigate('/tasks/none', getTaskMetadata())
     nextTaskOffset = 0
     task = null
   }

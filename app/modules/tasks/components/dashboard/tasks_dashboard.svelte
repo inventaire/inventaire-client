@@ -4,7 +4,9 @@
   import { i18n, I18n } from '#user/lib/i18n'
 
   const waitForTasksCounts = getTasksCounts()
-  app.navigate('/tasks')
+  app.navigate('/tasks', {
+    metadata: { title: I18n('tasks dashboard') },
+  })
 </script>
 <div class="dashboard-wrapper">
   <h1>
