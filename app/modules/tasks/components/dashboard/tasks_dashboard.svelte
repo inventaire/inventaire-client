@@ -55,6 +55,11 @@
         {/each}
       </div>
     {/if}
+    {#if Object.keys(tasksCountByTypeAndEntitiesType).length === 0}
+      <p class="grey">
+        {I18n('no task available')}
+      </p>
+    {/if}
   {/await}
 </div>
 <style lang="scss">
@@ -77,5 +82,8 @@
   }
   .sections{
     @include display-flex(row, center, center, wrap);
+  }
+  p{
+    padding: 2em;
   }
 </style>
