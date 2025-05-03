@@ -35,12 +35,11 @@
   }
 </script>
 
-<div
+<svelte:window on:keyup={onKeyUp} />
+<button
   class="modal-overlay"
   on:click={close}
-  on:keyup={onKeyUp}
   use:autofocus={{ refocusOnVisibilityChange: false }}
-  role="button"
   tabindex="-1"
 >
   <!-- stopPropagation so that only clicks on overlay trigger a close -->
@@ -63,7 +62,7 @@
       {@html icon('close')}
     </button>
   </div>
-</div>
+</button>
 
 <style lang="scss">
   @import "#general/scss/utils";
