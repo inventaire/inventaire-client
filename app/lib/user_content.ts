@@ -1,4 +1,5 @@
 import escape from 'escape-html'
+import { formatSpaces } from './utils'
 
 export const escapeHtml = escape
 
@@ -9,7 +10,7 @@ const protocolText = '<a href="$1" class="content-link" target="_blank" rel="nof
 export function userContent (text: string) {
   if (typeof text === 'string') {
     // Escape potential HTML markup to prevent XSS
-    text = escapeHtml(text)
+    text = escapeHtml(formatSpaces(text))
     const html = text
       .replace(/\n/g, '<br>')
     // Display URLs in the provided text as links
