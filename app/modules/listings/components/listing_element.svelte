@@ -53,6 +53,7 @@
     } else {
       navigateToListingPathname()
     }
+    e.preventDefault()
   }
 
   function navigateToListingPathname () {
