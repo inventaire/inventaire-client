@@ -36,7 +36,7 @@
   <p class="category" dir={getTextDirection($mainUser?.language)}>
     <span class="category-label">{I18n(categoryLabels[category])}:</span>
     <span id={linksId}>
-      {#each displayedCategoryExternalIds as { property, name, value }, i (property)}
+      {#each displayedCategoryExternalIds as { property, name, value, linkNum }, i (linkNum)}
         <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
       {/each}
     </span>

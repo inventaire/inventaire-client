@@ -18,10 +18,13 @@
 
   const availableExternalIds = pick(externalIdsDisplayConfigs, keys(claims))
   const _availableExternalIdsByCategory = {}
+  let linkNum = 0
   for (const propertyData of values(availableExternalIds)) {
     const { property, category } = propertyData
     _availableExternalIdsByCategory[category] = _availableExternalIdsByCategory[category] || []
-    _availableExternalIdsByCategory[category].push({ ...propertyData, value: claims[property][0] })
+    for (const value of claims[property]) {
+      _availableExternalIdsByCategory[category].push({ ...propertyData, value, linkNum: linkNum++ })
+    }
   }
   const availableExternalIdsByCategory = _availableExternalIdsByCategory as AvailableExternalIdsByCategory
 </script>
