@@ -221,11 +221,11 @@ export const infoboxPropertiesByType = {
     'wdt:P655', // translator
     'wdt:P577', // publication date
     'wdt:P123', // publisher
+    'wdt:P195', // collection
     'wdt:P1104', // number of pages
     'wdt:P212', // ISBN-13
     'wdt:P957', // ISBN-10
     'wdt:P629', // edition or translation of
-    'wdt:P195', // collection
     'wdt:P2635', // number of volumes
     ...websites,
     'wdt:P407', // edition language
