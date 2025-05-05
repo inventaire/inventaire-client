@@ -111,6 +111,8 @@
     type="text"
     placeholder={i18n('List name')}
     bind:value={name}
+    maxlength="128"
+    required
   />
 </label>
 <label>
@@ -119,6 +121,7 @@
     type="text"
     bind:value={description}
     use:autosize
+    maxlength="5000"
   />
 </label>
 <div class="visibility-selector">
