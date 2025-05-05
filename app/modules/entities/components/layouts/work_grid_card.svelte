@@ -55,6 +55,7 @@
       // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
       position: relative;
       block-size: 4rem;
+      text-wrap: balance;
     }
     :global(.images-collage){
       @include position(absolute, 0, 0, 0, 0);

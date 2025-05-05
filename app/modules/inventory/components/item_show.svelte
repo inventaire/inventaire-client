@@ -161,6 +161,9 @@
   h3{
     @include layout-type-label;
   }
+  .one{
+    text-wrap: balance;
+  }
   .two{
     margin: 0;
     max-width: 36em;

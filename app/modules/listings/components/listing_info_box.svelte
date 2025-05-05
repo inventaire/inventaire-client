@@ -110,6 +110,7 @@
     padding: 0.5em 1em 1em;
     @include radius;
     background-color: $light-grey;
+    text-wrap: balance;
   }
   h2{
     margin-block-start: 0;

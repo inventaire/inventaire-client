@@ -190,6 +190,7 @@
     max-height: 12em;
     overflow: hidden;
     margin-block-end: 0.5em;
+    text-wrap: balance;
   }
   .title{
     @include serif;
