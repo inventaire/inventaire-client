@@ -147,7 +147,7 @@ export async function getTasksCounts () {
   return tasksCount
 }
 
-export function getTaskMetadata (task) {
+export function getTaskMetadata (task?) {
   if (task) {
     return { metadata: { title: `${I18n('task')} - ${i18n(task.type)} - ${i18n(task.entitiesType)} - ${task._id}` } }
   } else {
