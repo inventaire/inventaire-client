@@ -175,6 +175,7 @@ export const infoboxShortlistPropertiesByType = {
     'wdt:P212', // ISBN-13
   ],
   human: [
+    'wdt:P742', // pseudonym
     'wdt:P135', // movement
     'wdt:P27', // country of citizenship
     'wdt:P1412', // language of expression
@@ -233,6 +234,7 @@ export const infoboxPropertiesByType = {
   work: workProperties,
   serie: workProperties,
   human: [
+    'wdt:P742', // pseudonym
     'wdt:P135', // movement
     'wdt:P136', // genre
     'wdt:P27', // country of citizenship
