@@ -44,15 +44,15 @@ export function getTextDirection (lang = 'en') {
   return rtlLang.has(languageFamilyCode) ? 'rtl' : 'ltr'
 }
 
-export function getWikimediaLanguageCodeFromWdUri (uri: WdEntityUri) {
-  const wdId = unprefixify(uri)
-  return langByWdId[wdId]?.code
-}
+// export function getWikimediaLanguageCodeFromWdUri (uri: WdEntityUri) {
+//   const wdId = unprefixify(uri)
+//   return langByWdId[wdId]?.code
+// }
 
-export function getWdUriFromWikimediaLanguageCode (lang: string) {
-  const langWdId = langByCode[lang]?.wd
-  if (langWdId) return `wd:${langWdId}` as WdEntityUri
-}
+// export function getWdUriFromWikimediaLanguageCode (lang: string) {
+//   const langWdId = langByCode[lang]?.wd
+//   if (langWdId) return `wd:${langWdId}` as WdEntityUri
+// }
 
 function availableLangList (availableLangs: string[], selectedLang: string) {
   return availableLangs

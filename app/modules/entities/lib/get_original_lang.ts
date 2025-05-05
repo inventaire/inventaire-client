@@ -1,6 +1,7 @@
 import { pick } from 'underscore'
-import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages/languages'
+import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages/languages_indexes'
 import { pickOne, objLength } from '#app/lib/utils'
+import type { SerializedEntity } from './entities'
 
 const langProperties = [
   'wdt:P103', // native language
@@ -9,7 +10,7 @@ const langProperties = [
   'wdt:P2439', // language (general)
 ]
 
-export default function (claims) {
+export async function getOriginalLang (claims: SerializedEntity['claims']) {
   const langClaims = pick(claims, langProperties)
   if (objLength(langClaims) === 0) return
 

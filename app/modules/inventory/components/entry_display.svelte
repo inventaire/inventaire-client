@@ -2,7 +2,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { imgSrc } from '#app/lib/image_source'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
-  import getOriginalLang from '#entities/lib/get_original_lang'
+  import { getOriginalLang } from '#entities/lib/get_original_lang'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'
   import { I18n } from '#user/lib/i18n'

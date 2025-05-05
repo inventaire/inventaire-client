@@ -6,6 +6,7 @@ import { capitalize, objectEntries, objectFromEntries, objectKeys } from '#app/l
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { GetLanguagesInfoResponse } from '#server/controllers/entities/languages'
 import type { TermLanguageCode } from '#server/types/entity'
+import { updateLanguagesIndexes } from './languages_indexes'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
 type LanguagesLabels = Partial<Record<WikimediaLanguageCode, string>>
@@ -20,16 +21,16 @@ export async function getLanguagesLabels (langs: WikimediaLanguageCode[]): Promi
   } else {
     missingLangs = langs
   }
-  await fetchLanguagesLabels(missingLangs)
+  await fetchLanguagesInfo(missingLangs)
   return pick(cache[preferredLang], langs)
 }
 
 export async function getLanguageLabel (lang: WikimediaLanguageCode) {
   const preferredLang = getCurrentLang()
-  return cache[preferredLang]?.[lang] || fetchLanguageLabel(lang)
+  return cache[preferredLang]?.[lang] || fetchLanguageInfo(lang)
 }
 
-export async function fetchLanguagesLabels (langs: TermLanguageCode[]) {
+export async function fetchLanguagesInfo (langs: TermLanguageCode[]) {
   const wmLangs = without(langs, 'fromclaims') as WikimediaLanguageCode[]
   if (!isNonEmptyArray(wmLangs)) return {} as LanguagesLabels
   const preferredLang = getCurrentLang()
@@ -37,12 +38,13 @@ export async function fetchLanguagesLabels (langs: TermLanguageCode[]) {
   const simplifiedLanguagesInfo = objectFromEntries(objectEntries(languages).map(([ lang, info ]) => {
     return [ lang, capitalize(info.label.value) ]
   }))
+  updateLanguagesIndexes(languages)
   cache[preferredLang] ??= {}
   Object.assign(cache[preferredLang], simplifiedLanguagesInfo)
   return simplifiedLanguagesInfo
 }
 
-async function fetchLanguageLabel (lang: WikimediaLanguageCode) {
-  const languages = await fetchLanguagesLabels([ lang ])
+export async function fetchLanguageInfo (lang: WikimediaLanguageCode) {
+  const languages = await fetchLanguagesInfo([ lang ])
   return languages[lang]
 }

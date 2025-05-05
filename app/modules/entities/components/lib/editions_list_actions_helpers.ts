@@ -1,6 +1,7 @@
-import { uniq, compact } from 'underscore'
+import { uniq, compact, values } from 'underscore'
 import { getWdUriFromWikimediaLanguageCode } from '#app/lib/languages/languages'
-import { getEntityLang } from '#entities/components/lib/claims_helpers'
+import { getCachedWdUriFromWikimediaLanguageCode, getWikimediaLanguageCodesFromWdUris } from '#app/lib/languages/languages_indexes'
+import { getEntityLang, getEntityLangUris } from '#entities/components/lib/claims_helpers'
 import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 
@@ -24,15 +25,17 @@ const prioritizeMainUserLang = langs => {
 }
 
 export async function getLangEntities (editions) {
-  const rawEditionsLangs = compact(uniq(editions.map(getEntityLang)))
+  const editionsLanguagesUris = compact(uniq(editions.flatMap(getEntityLangUris)))
+  const editionsLangsByUris = await getWikimediaLanguageCodesFromWdUris(editionsLanguagesUris)
+  const rawEditionsLangs = values(editionsLangsByUris)
   const editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
-  const langsUris = compact(editionsLangs.map(getWdUriFromWikimediaLanguageCode))
-  const entities = await fetchEntitiesLabels(langsUris)
+  // Not using getLanguagesLabels as it might include languages without a Wikimedia language code
+  const entities = await fetchEntitiesLabels(editionsLanguagesUris)
   const langEntitiesLabel = {}
   editionsLangs.forEach(lang => {
-    const langWdId = getWdUriFromWikimediaLanguageCode(lang)
-    if (langWdId && entities[langWdId]) {
-      langEntitiesLabel[lang] = Object.values(entities[langWdId].labels)[0]
+    const languageUri = getCachedWdUriFromWikimediaLanguageCode(lang)
+    if (languageUri && entities[languageUri]) {
+      langEntitiesLabel[lang] = Object.values(entities[languageUri].labels)[0]
     }
   })
   return { editionsLangs, langEntitiesLabel }

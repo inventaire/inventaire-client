@@ -4,21 +4,21 @@ import log_ from '#app/lib/loggers'
 import { objectEntries } from '#app/lib/utils'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
-import getOriginalLang from '#entities/lib/get_original_lang'
+import { getOriginalLang } from '#entities/lib/get_original_lang'
 import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { PropertyUri, SimplifiedClaims } from '#server/types/entity'
 import { createEntity, type EntityDraftWithCreationParams } from './create_entity.ts'
 import { getPluralType } from './entities.ts'
 import { propertiesEditorsConfigs } from './properties.ts'
 
-function getTitleFromWork ({ workLabels, workClaims, editionLang }) {
+async function getTitleFromWork ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
   if (inEditionLang != null) return inEditionLang
 
   const inUserLang = workLabels[getCurrentLang()]
   if (inUserLang != null) return inUserLang
 
-  const originalLang = getOriginalLang(workClaims)
+  const originalLang = await getOriginalLang(workClaims)
   const inWorkOriginalLang = workLabels[originalLang]
   if (inWorkOriginalLang != null) return inWorkOriginalLang
 
@@ -59,7 +59,7 @@ export async function createWorkEditionDraft ({ workEntity, isbn }) {
   // if workEntity has been formatted already, use the label as title
   // known case: autocomplete editor suggestion (which do not have `labels` key)
   if (label) title = label
-  if (!title) title = getTitleFromWork({ workLabels, workClaims, editionLang })
+  if (!title) title = await getTitleFromWork({ workLabels, workClaims, editionLang })
   if (title == null) throw newError('no title could be found', workEntity)
   claims['wdt:P1476'] = [ title ]
   return { labels: {}, claims }

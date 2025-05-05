@@ -1,12 +1,11 @@
 import { union, pick, uniq } from 'underscore'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { icon as iconFn } from '#app/lib/icons'
-import { getWikimediaLanguageCodeFromWdUri } from '#app/lib/languages/languages'
 import type { SerializedEntity } from '#entities/lib/entities'
 import { platforms } from '#entities/lib/platforms'
 import type { AuthorProperty } from '#entities/lib/properties'
 import { isStandaloneEntityType, typeDefaultP31 } from '#entities/lib/types/entities_types'
-import type { WdEntityUri } from '#server/types/entity'
+import type { EntityUri } from '#server/types/entity'
 
 export const formatClaimValue = params => {
   const { value, prop } = params
@@ -148,9 +147,8 @@ export const getEntityPropValue = (entity, prop) => {
   if (claimValues) return claimValues[0]
 }
 
-export function getEntityLang (entity) {
-  const langUri = getEntityPropValue(entity, 'wdt:P407') as WdEntityUri
-  return langUri ? getWikimediaLanguageCodeFromWdUri(langUri) : undefined
+export function getEntityLangUris (entity: SerializedEntity) {
+  return entity.claims['wdt:P407'] as EntityUri[]
 }
 
 export const hasSelectedLang = selectedLangs => edition => {

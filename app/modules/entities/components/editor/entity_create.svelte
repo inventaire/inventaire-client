@@ -26,6 +26,8 @@
   export let type: EntityType = null
   export let claims: SimplifiedClaims = null
 
+  // TODO: persist label in querystring
+
   const canChangeType = !(type && claims)
 
   let showAllProperties = false, flash

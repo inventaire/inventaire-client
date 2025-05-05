@@ -4,7 +4,7 @@ import { appLayout } from '#app/init_app_layout'
 import { assertObject, assertString } from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError, type ContextualizedError } from '#app/lib/error'
-import { fetchLanguagesLabels } from '#app/lib/languages/languages_labels'
+import { fetchLanguagesInfo } from '#app/lib/languages/languages_labels'
 import type { ProjectRootRelativeUrl } from '#app/lib/location'
 import preq from '#app/lib/preq'
 import { getAllQuerystringParameters, getQuerystringParameter } from '#app/lib/querystring_helpers'
@@ -272,7 +272,7 @@ async function showEntityEdit (entity: SerializedEntity) {
     { default: EntityEdit },
   ] = await Promise.all([
     import('./components/editor/entity_edit.svelte'),
-    fetchLanguagesLabels(labelsLangs),
+    fetchLanguagesInfo(labelsLangs),
   ])
   appLayout.showChildComponent('main', EntityEdit, {
     props: {

@@ -14,7 +14,7 @@ import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get
 import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri, ClaimValueByProperty } from '#server/types/entity'
 import { getBestLangValue } from './get_best_lang_value.ts'
-import getOriginalLang from './get_original_lang.ts'
+import { getOriginalLang } from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
 export interface SerializedEntityCommons {
@@ -132,6 +132,7 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   }
   if (entity.claims) {
     entity.publicationYear = getPublicationYear(entity)
+    // Oops
     entity.originalLang = getOriginalLang(entity.claims)
     entity.serieOrdinal = getSerieOrdinal(entity.claims)
     const title = entity.claims['wdt:P1476']?.[0]
@@ -219,6 +220,11 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
 export async function getEntitiesList ({ uris, attributes, lang, relatives, refresh, autocreate }: GetEntitiesAttributesByUrisParams) {
   const { entities } = await getEntitiesAttributesByUris({ uris, attributes, lang, relatives, refresh, autocreate })
   return values(entities)
+}
+
+export async function getEntityAttributesByUri ({ uri, attributes, lang, relatives, refresh, autocreate }: { uri: EntityUri } & Omit<GetEntitiesAttributesByUrisParams, 'uris'>) {
+  const { entities } = await getEntitiesAttributesByUris({ uris: [ uri ], attributes, lang, relatives, refresh, autocreate })
+  return entities[uri]
 }
 
 function addRedirectionsAliases (entities: SerializedEntitiesByUris, redirects: RedirectionsByUris) {

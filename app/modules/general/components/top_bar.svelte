@@ -32,6 +32,7 @@
   <a id="goToMain" href="#main" title={I18n('skip to main content')} />
 
   <GlobalSearchBar />
+  <!-- BARCODE SCANNER -->
 
   <TopBarLanguagePicker />
 
