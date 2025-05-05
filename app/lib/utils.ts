@@ -24,6 +24,16 @@ export function capitalize (str: string) {
   }
 }
 
+export function formatSpaces (str: string): string
+export function formatSpaces (str: unknown) {
+  if (typeof str !== 'string') return str
+  return str
+    // Add non-breakable space before a punctation
+    // (required for languages with spaces before punctuation such as French)
+    .replace(/ ([»":;!?])/g, ' $1')
+    .replace(/([«"]) /g, '$1 ')
+}
+
 export const clickCommand = (command: string) => e => {
   if (!isOpenedOutside(e)) commands.execute(command)
 }

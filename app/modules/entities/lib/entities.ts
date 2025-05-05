@@ -6,7 +6,7 @@ import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import type { MetadataUpdate } from '#app/lib/metadata/update'
 import preq from '#app/lib/preq'
-import { forceArray, objectEntries } from '#app/lib/utils'
+import { forceArray, formatSpaces, objectEntries } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import { getCurrentLang } from '#modules/user/lib/i18n'
@@ -125,7 +125,7 @@ export async function getEntityByUri ({ uri, refresh = false, autocreate }: { ur
 export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   const userLang = getCurrentLang()
   const { value: label, lang: labelLang } = getBestLangValue(userLang, entity.originalLang, entity.labels)
-  entity.label = label
+  entity.label = formatSpaces(label)
   entity.labelLang = labelLang
   if ('descriptions' in entity) {
     entity.description = getBestLangValue(userLang, entity.originalLang, entity.descriptions).value
@@ -136,8 +136,9 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
     entity.serieOrdinal = getSerieOrdinal(entity.claims)
     const title = entity.claims['wdt:P1476']?.[0]
     if (title) {
-      entity.title = title
-      entity.subtitle = entity.claims['wdt:P1680']?.[0]
+      entity.title = formatSpaces(title)
+      const subtitle = entity.claims['wdt:P1680']?.[0]
+      if (subtitle) entity.subtitle = formatSpaces(subtitle)
     } else {
       entity.title = entity.label
     }

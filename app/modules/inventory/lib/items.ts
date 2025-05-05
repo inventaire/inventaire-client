@@ -1,5 +1,6 @@
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
+import { formatSpaces } from '#app/lib/utils'
 import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
 import type { iconByVisibilitySummary } from '#general/lib/visibility'
@@ -43,11 +44,11 @@ export function serializeItem (item: Item & Partial<SerializedItem>) {
 
   Object.assign(item, {
     pathname: getItemPathname(item._id),
-    title: item.snapshot['entity:title'],
-    subtitle: item.snapshot['entity:subtitle'],
+    title: formatSpaces(item.snapshot['entity:title']),
+    subtitle: formatSpaces(item.snapshot['entity:subtitle']),
     image: item.snapshot['entity:image'],
-    authors: item.snapshot['entity:authors'],
-    series: item.snapshot['entity:series'],
+    authors: formatSpaces(item.snapshot['entity:authors']),
+    series: formatSpaces(item.snapshot['entity:series']),
     ordinal: item.snapshot['entity:ordinal'],
     personalizedTitle: findBestTitle(item),
     entityPathname: getEntityLocalHref(item.entity),

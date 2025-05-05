@@ -3,8 +3,9 @@
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
 
-  export let work
+  export let work: SerializedEntity
 
   const layoutContext = getContext('layout-context')
 

@@ -35,7 +35,8 @@
     })
     .catch(err => flash = err)
 
-  const { snapshot } = item
+  const { title, subtitle, image } = item
+  const titleLang = item.snapshot['entity:lang']
 
   function destroyItem () {
     return deleteItems({
@@ -76,12 +77,12 @@
           href={entity.pathname}
           on:click={loadInternalLinkAndClose}
         >
-          {#if snapshot['entity:image']}
-            <img class="entity-image" src={imgSrc(snapshot['entity:image'], 400)} alt={snapshot['entity:title']} />
+          {#if image}
+            <img class="entity-image" src={imgSrc(image, 400)} alt={title} />
           {/if}
-          <p class="title" lang={snapshot['entity:lang']}>{snapshot['entity:title']}</p>
-          {#if snapshot['entity:subtitle']}
-            <p class="subtitle" lang={snapshot['entity:lang']}>{snapshot['entity:subtitle']}</p>
+          <p class="title" lang={titleLang}>{title}</p>
+          {#if subtitle}
+            <p class="subtitle" lang={titleLang}>{subtitle}</p>
           {/if}
           {#if entityIsEdition}
             {#if entity.claims['wdt:P212']}
