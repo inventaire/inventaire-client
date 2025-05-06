@@ -159,7 +159,6 @@
   #summary-text{
     max-block-size: 10em;
     overflow-y: auto;
-    max-width: min(90vw, 50em);
     overflow-wrap: anywhere;
   }
   .source{
