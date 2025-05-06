@@ -2,6 +2,7 @@
   import app from '#app/app'
   import { scrollToElement } from '#app/lib/screen'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import Account from './account.svelte'
   import Data from './data.svelte'
   import Display from './display.svelte'
@@ -57,7 +58,7 @@
     {:else if section === 'display'}
       <Display />
     {:else if section === 'data'}
-      <Data user={app.user} />
+      <Data user={mainUser} />
     {/if}
   </div>
 </div>

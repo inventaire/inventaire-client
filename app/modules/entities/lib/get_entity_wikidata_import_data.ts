@@ -35,7 +35,7 @@ export async function getInvEntityImportableData (invEntityUri: EntityUri, wdEnt
   }
 
   for (const [ lang, label ] of objectEntries(invEntity.labels)) {
-    if (wdEntity.labels[lang] == null) {
+    if (wdEntity.labels[lang] == null && wdEntity.labels.mul !== label) {
       importData.labels.push({ lang: lang as WikimediaLanguageCode, label, checked: true })
     }
   }

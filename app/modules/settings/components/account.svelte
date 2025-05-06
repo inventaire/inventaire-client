@@ -10,18 +10,18 @@
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { deleteMainUserAccount, mainUser, updateUser } from '#user/lib/main_user'
+  import { deleteMainUserAccount, mainUserStore, updateUser } from '#user/lib/main_user'
   import EmailValidation from './email_validation.svelte'
 
   let flashLang, flashEmail, flashDiscoverability
-  let fediversable = $mainUser.fediversable
-  let poolActivities = $mainUser.poolActivities
-  let userLang = $mainUser.language
-  let emailValue = $mainUser.email
+  let fediversable = $mainUserStore.fediversable
+  let poolActivities = $mainUserStore.poolActivities
+  let userLang = $mainUserStore.language
+  let emailValue = $mainUserStore.email
 
   const pickLanguage = async () => {
     flashLang = null
-    if (userLang === $mainUser.language) return
+    if (userLang === $mainUserStore.language) return
     try {
       flashLang = { type: 'loading' }
       await updateUser('language', userLang)
@@ -35,7 +35,7 @@
     if (emailValue.trim() === '') return
     // email has been modified back to its original state
     // nothing to update and nothing to flash notify either
-    if ($mainUser.email === emailValue) return
+    if ($mainUserStore.email === emailValue) return
     try {
       const res = await verifyEmailAvailability(emailValue)
       if (!(res.status === 'available')) {
@@ -53,7 +53,7 @@
 
   const updateEmail = async () => {
     flashEmail = null
-    if ($mainUser.email === emailValue) {
+    if ($mainUserStore.email === emailValue) {
       return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
@@ -96,7 +96,7 @@
   })
 
   const deleteAccount = () => {
-    const args = { username: $mainUser.username }
+    const args = { username: $mainUserStore.username }
     askConfirmation({
       confirmationText: I18n('delete_account_confirmation', args),
       warningText: I18n('cant_undo_warning'),
@@ -132,7 +132,7 @@
     <p class="note">{I18n('email will not be publicly displayed.')}</p>
     <button class="light-blue-button" on:click={updateEmail}>{I18n('update email')}</button>
 
-    {#if !$mainUser.validEmail}
+    {#if !$mainUserStore.validEmail}
       <EmailValidation />
     {/if}
 
@@ -144,7 +144,7 @@
 
   <fieldset>
     <h2 class="title">{I18n('discoverability')}</h2>
-    <p class="note">{@html I18n('fediversable_description', { username: $mainUser.stableUsername, host: domain })}</p>
+    <p class="note">{@html I18n('fediversable_description', { username: $mainUserStore.stableUsername, host: domain })}</p>
     <label class="inline">
       <input
         type="checkbox"

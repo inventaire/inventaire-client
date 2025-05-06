@@ -1,8 +1,8 @@
 <script lang="ts">
-  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import EditionCreation from './edition_creation.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
@@ -16,7 +16,6 @@
   export let waitingForItems = null
   export let itemsByEditions: ItemsByEditions = {}
 
-  const { loggedIn } = app.user
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -50,7 +49,7 @@
       {I18n('no editions found')}
     </div>
   {/if}
-  {#if loggedIn}
+  {#if mainUser}
     <EditionCreation
       work={parentEntity}
       bind:editions={initialEditions}

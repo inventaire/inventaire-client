@@ -1,12 +1,12 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import PasswordInput from '#app/lib/components/password_input.svelte'
   import { loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { passwordUpdate } from '#user/lib/auth'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserStore } from '#user/lib/main_user'
   import { testPassword } from '#user/lib/password_tests'
 
   let password, flash, successFlash
@@ -22,7 +22,7 @@
       await passwordUpdate({ newPassword: password })
       done = true
       successFlash = { type: 'success', message: I18n('done'), role: 'alert' }
-      app.execute('show:home')
+      commands.execute('show:home')
     } catch (err) {
       flash = err
     } finally {
@@ -39,7 +39,7 @@
     {:else}
       <!-- Use a <form> to make the button be clicked on Enter and trigger to please password managers -->
       <form method="post">
-        <input type="text" name="username" value={$mainUser.username} />
+        <input type="text" name="username" value={$mainUserStore.username} />
         <div class="input-box">
           <PasswordInput
             bind:password

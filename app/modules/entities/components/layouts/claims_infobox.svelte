@@ -1,7 +1,7 @@
 <script lang="ts">
-  import app from '#app/app'
   import { isEntityUri, isNonEmptyArray } from '#app/lib/boolean_tests'
   import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
+  import { getCurrentLang } from '#modules/user/lib/i18n'
   import type { ExtendedEntityType, PropertyUri, SimplifiedClaims } from '#server/types/entity'
   import ClaimInfobox from './claim_infobox.svelte'
 
@@ -26,7 +26,7 @@
       const { entities } = await getEntitiesAttributesByUris({
         uris: missingUris,
         attributes: [ 'info', 'labels' ],
-        lang: app.user.lang,
+        lang: getCurrentLang(),
       })
       relatedEntities = { ...relatedEntities, ...entities }
     }

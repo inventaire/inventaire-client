@@ -1,13 +1,15 @@
 import { uniq } from 'underscore'
 import { API } from '#app/api/api'
+import { assertObject } from '#app/lib/assert_types'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import preq, { treq } from '#app/lib/preq'
+import { mainUser } from '#modules/user/lib/main_user'
 import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
 import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { UserAccountUri } from '#server/types/server'
 import type { User, UserId, Username } from '#server/types/user'
-import { serializeContributor, serializeUser, type SerializedContributor } from './lib/users'
+import { serializeContributor, serializeUser, type SerializedContributor, type SerializedUser } from './lib/users'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -54,7 +56,7 @@ export async function getUserByAcct (userAcct: UserAccountUri) {
   return user
 }
 
-export async function resolveToUser (user: User | UserId | Username) {
+export async function resolveToUser (user: User | UserId | Username | SerializedUser) {
   let resolvedUser
   if (typeof user === 'object' && '_id' in user) {
     resolvedUser = user
@@ -66,6 +68,8 @@ export async function resolveToUser (user: User | UserId | Username) {
   } else if (typeof user === 'string') {
     resolvedUser = await getUserByUsername(user)
   }
+  // Make sure the main user was initialized so that flags such as isMainUser can be properly set
+  assertObject(mainUser)
   if (resolvedUser) return serializeUser(resolvedUser)
   else throw newError('can not resolve user', 500, { user })
 }

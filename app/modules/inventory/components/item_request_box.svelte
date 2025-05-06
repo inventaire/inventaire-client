@@ -1,10 +1,10 @@
 <script lang="ts">
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
   import RequestItem from '#transactions/components/request_item.svelte'
   import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let item
   export let user
@@ -12,7 +12,7 @@
   const { _id: itemId, restricted, transaction, busy } = item
 
   let hasActiveTransaction = false
-  if (app.user.loggedIn) {
+  if (mainUser) {
     hasActiveTransaction = hasOngoingTransactionsByItemIdSync(itemId)
   }
   let showRequestItemModal

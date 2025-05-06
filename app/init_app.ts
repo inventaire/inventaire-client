@@ -2,8 +2,8 @@ import app from '#app/app'
 import initDataWaiters from '#app/lib/data/waiters'
 import initQuerystringHelpers from '#app/lib/querystring_helpers'
 import reloadOnceADay from '#app/lib/reload_once_a_day'
+import { reqres } from '#app/radio'
 import Entities from '#entities/entities'
-import AppLayout from '#general/components/app_layout.svelte'
 import { initQuerystringActions } from '#general/lib/querystring_actions'
 import Groups from '#groups/groups'
 import Add from '#inventory/add'
@@ -19,7 +19,6 @@ import Tasks from '#tasks/tasks'
 import Transactions from '#transactions/transactions'
 import User from '#user/user'
 import Users from '#users/users'
-import type { SvelteComponent, ComponentProps, ComponentType } from 'svelte'
 
 export default async function () {
   initDataWaiters()
@@ -28,7 +27,7 @@ export default async function () {
   // The first routes initialized have the lowest priority
   // /!\ routes defined before Redirect will be overriden by the glob
   Redirect.initialize()
-  // other modules might need to access app.user so it should be initialized early on
+  // other modules might need to access mainUser so it should be initialized early on
   User.initialize()
   // Users and Entities need to be initialize for the Welcome item panel to work
   Users.initialize()
@@ -48,38 +47,7 @@ export default async function () {
   // Should be run before app start to access the unmodifed url
   initQuerystringActions()
 
-  await app.request('wait:for', 'i18n')
-  initAppLayout()
+  await reqres.request('wait:for', 'i18n')
   app.start()
-  app.execute('waiter:resolve', 'layout')
   reloadOnceADay()
-}
-
-function initAppLayout () {
-  const target = document.getElementById('app')
-  // Remove spinner
-  target.innerHTML = ''
-  app.layout = new AppLayout({ target })
-  app.layout.showChildComponent = showChildComponent
-  app.layout.removeCurrentComponent = removeCurrentComponent
-}
-
-export interface RegionComponent {
-  component: ComponentType
-  props?: ComponentProps<SvelteComponent>
-}
-
-type RegionName = 'main' | 'modal' | 'svelteModal'
-
-function showChildComponent (regionName: RegionName, component: ComponentType, options: { props?: ComponentProps<SvelteComponent> } = {}) {
-  const props = 'props' in options ? options.props : {}
-  if (component != null) {
-    app.layout.$set({ [regionName]: { component, props } })
-  } else {
-    app.layout.$set({ [regionName]: null })
-  }
-}
-
-function removeCurrentComponent (regionName: RegionName) {
-  app.layout.$set({ [regionName]: null })
 }

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import log_ from '#app/lib/loggers'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import EntityLabel from '#entities/components/entity_label.svelte'
   import LanguageLabel from '#entities/components/language_label.svelte'
@@ -17,8 +17,6 @@
   const { labels, claims, wdEntity } = importData
 
   const wdUrl = getWikidataUrl(wdEntity.uri)
-
-  app.execute('modal:open', 'medium')
 
   let flash
   let importing = false
@@ -51,7 +49,7 @@
   }
 
   function done () {
-    app.execute('modal:close')
+    commands.execute('modal:close')
     resolve()
   }
 

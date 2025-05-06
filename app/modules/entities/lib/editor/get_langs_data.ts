@@ -1,13 +1,13 @@
 import { uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
-import app from '#app/app'
 import { langs as activeLangs } from '#app/lib/active_languages'
 import availableLangList from '#app/lib/available_lang_list'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { WdEntityUri } from '#server/types/entity'
 
 export function getLangsData (selectedLang, labels) {
   const availableLangs = Object.keys(labels)
-  const highPriorityLangs = [ app.user.lang, 'en' ]
+  const highPriorityLangs = [ getCurrentLang(), 'en' ]
   const allLangs = uniq(availableLangs.concat(highPriorityLangs, activeLangs))
   // No distinction is made between available langs and others
   // as we can't style the <option> element anyway

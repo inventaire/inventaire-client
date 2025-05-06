@@ -1,7 +1,6 @@
 <script lang="ts">
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
-  import { mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
+  import { mainUserHasDataadminAccess, mainUserHasWikidataOauthTokens } from '#user/lib/main_user'
 
   export let entity
   const { uri } = entity
@@ -9,7 +8,7 @@
   const wdIdPattern = /Q\d+/
   const invPrefixPattern = /[inv:][isbn:]/
 
-  const hasUserAccess = app.user.hasDataadminAccess || mainUserHasWikidataOauthTokens()
+  const hasUserAccess = mainUserHasDataadminAccess() || mainUserHasWikidataOauthTokens()
 
   if (!pathname && uri) pathname = `/entity/${uri}`
 </script>

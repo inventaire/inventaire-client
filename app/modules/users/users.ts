@@ -1,47 +1,47 @@
 import { isString } from 'underscore'
 import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { getQuerystringParameter } from '#app/lib/querystring_helpers'
+import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
 import type { Group, GroupId, GroupSlug } from '#server/types/group'
 import type { UserAccountUri } from '#server/types/server'
 import type { UserId, User, Username } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
+import { mainUser, type SerializedMainUser } from '#user/lib/main_user'
 import { resolveToGroup } from '../groups/lib/groups.ts'
 import { initRelations } from './lib/relations.ts'
-import { getLocalUserAccount } from './lib/users.ts'
+import { getLocalUserAccount, type SerializedUser } from './lib/users.ts'
 import { getUserByAcct, getUserByUsername, resolveToUser } from './users_data.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'u(sers)(/)': 'showNetworkHome',
-        'u(sers)/network(/)': 'showNetworkHome',
-        'u(sers)/public(/)': 'showPublicHome',
-        'u(sers)/latest(/)': 'showLatestUsers',
-        'u(sers)/:id(/)': 'showUserProfile',
-        'u(sers)/:id/followers(/)': 'showUserFollowers',
-        'u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
-        'u(sers)/:id/inventory(/)': 'showUserInventory',
-        'u(sers)/:id/lists(/)': 'showUserListings',
-        'u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
-      },
-    })
-
-    new Router({ controller })
+    addRoutes({
+      '/u(sers)(/)': 'showNetworkHome',
+      '/u(sers)/network(/)': 'showNetworkHome',
+      '/u(sers)/public(/)': 'showPublicHome',
+      '/u(sers)/latest(/)': 'showLatestUsers',
+      '/u(sers)/:id(/)': 'showUserProfile',
+      '/u(sers)/:id/followers(/)': 'showUserFollowers',
+      '/u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
+      '/u(sers)/:id/inventory(/)': 'showUserInventory',
+      '/u(sers)/:id/lists(/)': 'showUserListings',
+      '/u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
+    }, controller)
 
     initRelations()
 
-    app.commands.setHandlers({
-      'show:user': app.Execute('show:inventory:user'),
+    commands.setHandlers({
+      'show:user': commands.Execute('show:inventory:user'),
       'show:user:contributions': showUserContributions,
     })
   },
 }
 
 export async function showHome () {
-  if (app.request('require:loggedIn', app.user.inventoryPathname)) {
+  if (reqres.request('require:loggedIn', '/')) {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
     ;(document.querySelector('#home') as HTMLElement).focus()
@@ -54,7 +54,7 @@ export async function showUserProfile (user) {
 }
 
 export async function showMainUserProfile () {
-  return showUsersHome({ user: app.user })
+  return showUsersHome({ user: mainUser })
 }
 
 export async function showUserInventory (user) {
@@ -66,9 +66,9 @@ export async function showUserListings (user) {
 }
 
 async function showLatestUsers () {
-  if (!app.request('require:admin:access')) return
+  if (!reqres.request('require:admin:access')) return
   const { default: LatestUsers } = await import('#users/components/latest_users.svelte')
-  app.layout.showChildComponent('main', LatestUsers)
+  appLayout.showChildComponent('main', LatestUsers)
   app.navigate('users/latest', { metadata: { title: i18n('Latest users') } })
 }
 
@@ -77,14 +77,14 @@ const controller = {
   showNetworkHome () {
     const pathname = 'users/network'
     app.navigate('users/network')
-    if (app.request('require:loggedIn', pathname)) {
+    if (reqres.request('require:loggedIn', pathname)) {
       showUsersHome({ section: 'network' })
     }
   },
   showPublicHome () {
     const pathname = 'users/public'
     app.navigate(pathname)
-    if (app.request('require:loggedIn', pathname)) {
+    if (reqres.request('require:loggedIn', pathname)) {
       showUsersHome({ section: 'public' })
     }
   },
@@ -93,7 +93,7 @@ const controller = {
   showUserListings,
   showUserFollowers,
   showUserItemsByEntity (username, uri) {
-    app.execute('show:user:items:by:entity', username, uri)
+    commands.execute('show:user:items:by:entity', username, uri)
   },
   showUserContributionsFromRoute (idOrUsername) {
     const filter = getQuerystringParameter('filter')
@@ -103,7 +103,7 @@ const controller = {
 }
 
 interface ShowUsersHome {
-  user?: User | UserId | Username | UserAccountUri
+  user?: User | UserId | Username | UserAccountUri | SerializedUser | SerializedMainUser
   group?: Group | GroupId | GroupSlug
   section?: 'public' | 'network'
   profileSection?: 'inventory' | 'listings'
@@ -118,9 +118,9 @@ export async function showUsersHome ({ user, group, section, profileSection }: S
       user: user ? await resolveToUser(user) : undefined,
       group: group ? await resolveToGroup(group) : undefined,
     }
-    app.layout.showChildComponent('main', UsersHomeLayout, { props })
+    appLayout.showChildComponent('main', UsersHomeLayout, { props })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -129,7 +129,7 @@ async function showUserContributions (userAcctOrIdOrUsername: string, filter: st
     const userAcct = await resolveToUserAcct(userAcctOrIdOrUsername)
     await showUserContributionsFromAcct(userAcct, filter)
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -142,9 +142,9 @@ export async function showUserContributionsFromAcct (userAcct: UserAccountUri, f
     const title = i18n('contributions_by', { username: username || acct })
     app.navigate(path, { metadata: { title } })
     const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
-    app.layout.showChildComponent('main', Contributions, { props: { contributor, filter } })
+    appLayout.showChildComponent('main', Contributions, { props: { contributor, filter } })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 
@@ -157,7 +157,7 @@ async function showUserFollowers (idOrUsername: UserId | Username) {
       import('#users/components/users_home_layout.svelte'),
       resolveToUser(idOrUsername),
     ])
-    app.layout.showChildComponent('main', UsersHomeLayout, {
+    appLayout.showChildComponent('main', UsersHomeLayout, {
       props: {
         showUserFollowers: true,
         user,
@@ -165,7 +165,7 @@ async function showUserFollowers (idOrUsername: UserId | Username) {
       },
     })
   } catch (err) {
-    app.execute('show:error', err)
+    commands.execute('show:error', err)
   }
 }
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
@@ -11,7 +10,7 @@
   import { unreadNotificationsCount } from '#notifications/lib/notifications'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUserHasDataadminAccess, mainUserStore } from '#user/lib/main_user'
   import { friendshipRequestsCount } from '#users/lib/relations'
 
   $: notificationsUpdates = $unreadNotificationsCount + $friendshipRequestsCount + $userGroupsInvitationsCount
@@ -48,16 +47,16 @@
         {#if $screen.isSmallerThan('$small-screen')}
           {@html icon('bars')}
         {:else}
-          <img src={imgSrc($mainUser.picture, 32)} alt={i18n('profile pic')} />
+          <img src={imgSrc($mainUserStore.picture, 32)} alt={i18n('profile pic')} />
           {@html icon('caret-down')}
         {/if}
       </div>
       <div slot="dropdown-content">
         <ul>
           <li>
-            <a href={$mainUser.pathname} on:click={loadInternalLink}>
-              <img src={imgSrc($mainUser.picture, 32)} alt="" />
-              <span class="label">{$mainUser.username}</span>
+            <a href={$mainUserStore.pathname} on:click={loadInternalLink}>
+              <img src={imgSrc($mainUserStore.picture, 32)} alt="" />
+              <span class="label">{$mainUserStore.username}</span>
             </a>
           </li>
           {#if $screen.isSmallerThan('$small-screen')}
@@ -88,7 +87,7 @@
               stopClickPropagation={false}
             />
           </li>
-          {#if app.user.hasDataadminAccess}
+          {#if mainUserHasDataadminAccess()}
             <Link
               icon="server"
               url="/tasks"

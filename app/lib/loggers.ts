@@ -1,5 +1,4 @@
 import { isString, isArguments } from 'underscore'
-import { API } from '#app/api/api'
 import { reportError } from '#app/lib/reports'
 
 const log = (obj, label?) => {
@@ -69,13 +68,13 @@ export const log_ = {
   error,
   warn,
   logServer: (obj, label) => {
-    // Using jQuery promise instead of preq to be able to report errors
+    // Using native fetch promise instead of preq to be able to report errors
     // happening before preq is initialized
-    $.post({
-      url: API.tests,
-      // jquery defaults to x-www-form-urlencoded
+    // Not import #app/api/api.ts API.tests to avoid depending on the app object in tests env
+    fetch('/api/tests', {
+      method: 'post',
       headers: { 'content-type': 'application/json' },
-      data: JSON.stringify({ obj, label }),
+      body: JSON.stringify({ obj, label }),
     })
     return obj
   },

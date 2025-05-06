@@ -1,19 +1,20 @@
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
-import app from '#app/app'
-import { currentRoute, routeSection, type ProjectRootRelativeUrl } from '#app/lib/location'
+import { currentRoute, routeSection } from '#app/lib/location'
+import { vent } from '#app/radio'
 
-function getLocationData (section?: string, route?: ProjectRootRelativeUrl) {
-  route = route || currentRoute()
+function getLocationData () {
+  const route = currentRoute()
   return {
     route,
+    absoluteRoute: `/${route}`,
     section: routeSection(route),
   }
 }
 
 export const locationStore = readable(getLocationData(), set => {
-  const update = (section, route) => set(getLocationData(section, route))
+  const update = () => set(getLocationData())
   const lazyUpdate = debounce(update, 100)
-  app.vent.on('route:change', lazyUpdate)
-  return () => app.vent.off('route:change', lazyUpdate)
+  vent.on('route:change', lazyUpdate)
+  return () => vent.off('route:change', lazyUpdate)
 })

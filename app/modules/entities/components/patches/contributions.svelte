@@ -9,13 +9,12 @@
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
+  import { mainUserHasAdminAccess } from '#modules/user/lib/main_user'
   import { i18n, I18n } from '#user/lib/i18n'
   import type { SerializedContributor } from '#users/lib/users'
 
   export let contributor: SerializedContributor = null
   export let filter = null
-
-  const { hasAdminAccess: mainUserHasAdminAccess } = app.user
 
   let contributions = []
   const userContributionsContext = contributor != null
@@ -94,7 +93,7 @@
             </div>
           </li>
         {/if}
-        {#if mainUserHasAdminAccess && contributor._id}
+        {#if mainUserHasAdminAccess() && contributor._id}
           <li>
             <span class="stat-label">id</span>
             <span class="stat-value">{contributor._id}</span>

@@ -1,19 +1,17 @@
-import app from '#app/app'
-import { getRefreshedTransactions } from '#transactions/lib/get_transactions'
+import { appLayout } from '#app/init_app_layout'
+import { addRoutes } from '#app/lib/router'
+import { commands, reqres } from '#app/radio'
+import { getRefreshedTransactions } from './lib/get_transactions.ts'
 import initHelpers from './lib/helpers.ts'
 
 export default {
   initialize () {
-    const Router = Marionette.AppRouter.extend({
-      appRoutes: {
-        'transactions(/)': 'showTransactions',
-        'transactions/:id(/)': 'showTransaction',
-      },
-    })
+    addRoutes({
+      '/transactions(/)': 'showTransactions',
+      '/transactions/:id(/)': 'showTransaction',
+    }, controller)
 
-    new Router({ controller })
-
-    app.commands.setHandlers({
+    commands.setHandlers({
       'show:transactions': controller.showTransactions,
       'show:transaction': controller.showTransaction,
     })
@@ -24,17 +22,17 @@ export default {
 
 const controller = {
   async showTransactions () {
-    if (app.request('require:loggedIn', 'transactions')) {
+    if (reqres.request('require:loggedIn', 'transactions')) {
       await showTransactionsLayout()
     }
   },
 
-  async showTransaction (id) {
-    if (app.request('require:loggedIn', `transactions/${id}`)) {
+  async showTransaction (id: string) {
+    if (reqres.request('require:loggedIn', `transactions/${id}`)) {
       await showTransactionsLayout(id)
     }
   },
-}
+} as const
 
 async function showTransactionsLayout (selectedTransactionId?) {
   const transactions = await getRefreshedTransactions()
@@ -43,7 +41,7 @@ async function showTransactionsLayout (selectedTransactionId?) {
   if (selectedTransactionId) {
     selectedTransaction = transactions.find(transaction => transaction._id === selectedTransactionId)
   }
-  app.layout.showChildComponent('main', TransactionsLayout, {
+  appLayout.showChildComponent('main', TransactionsLayout, {
     props: {
       transactions,
       selectedTransaction,

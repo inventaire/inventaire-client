@@ -2,6 +2,7 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash, { type FlashState } from '#app/lib/components/flash.svelte'
+  import { locationStore } from '#app/lib/location_store'
   import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
@@ -20,7 +21,6 @@
   export let element: ListingElementWithEntity
   export let listing: Listing
   export let elements: ListingElement[]
-  export let showInitialElementModal: boolean
   export let isEditable: boolean
   export let isCreatorMainUser: boolean
   export let autocompleteFlash: FlashState
@@ -33,8 +33,6 @@
   const authorsUris = claims['wdt:P50']
 
   let imageUrl, flash
-  let showElementModal = showInitialElementModal
-  showInitialElementModal = false
 
   if (isNonEmptyArray(image)) {
     // This is the case when the entity object is a search result object
@@ -43,18 +41,24 @@
     imageUrl = image.url
   }
 
-  function toggleShowMode (e) {
-    if (e && isOpenedOutside(e)) return
-    showElementModal = !showElementModal
+  function showElement (e) {
     autocompleteFlash = null
-    if (showElementModal) {
-      const options = { metadata: getElementMetadata(listing, element), preventScrollTop: true }
-      app.navigate(getElementPathname(listingId, elementId), options)
-    } else {
-      navigateToListingPathname()
-    }
+    if (isOpenedOutside(e)) return
+    const options = { metadata: getElementMetadata(listing, element), preventScrollTop: true }
+    // The navigation will trigger an update of showElementModal
+    app.navigate(getElementPathname(listingId, elementId), options)
     e.preventDefault()
   }
+
+  function closeElementModal () {
+    autocompleteFlash = null
+    // The navigation will trigger an update of showElementModal
+    navigateToListingPathname()
+  }
+
+  // Determining showElementModal from the current location allows to automatically close the modal
+  // when navigating back (cf history 'popstate' event)
+  $: showElementModal = $locationStore.absoluteRoute === getElementPathname(listingId, elementId)
 
   function navigateToListingPathname () {
     const options = { metadata: getListingMetadata(listing), preventScrollTop: true }
@@ -80,8 +84,9 @@
 
   $: comment = element.comment
 </script>
+
 {#if showElementModal}
-  <Modal on:closeModal={toggleShowMode}>
+  <Modal on:closeModal={closeElementModal}>
     <ListingElementShow
       {entity}
       {creator}
@@ -97,7 +102,7 @@
     <a
       href="/lists/{listingId}/element/{element._id}"
       title={label}
-      on:click={toggleShowMode}
+      on:click={showElement}
     >
       {#if imageUrl}
         <ImageDiv

@@ -1,4 +1,5 @@
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
+import { commands } from '#app/radio'
 
 export interface ConfirmationModalProps {
   action: () => Promise<void> | void
@@ -15,8 +16,8 @@ export interface ConfirmationModalProps {
 
 export async function askConfirmation (options: ConfirmationModalProps) {
   const { default: ConfirmationModal } = await import('#general/components/confirmation_modal.svelte')
-  app.layout.showChildComponent('modal', ConfirmationModal, {
+  appLayout.showChildComponent('modal', ConfirmationModal, {
     props: options,
   })
-  app.execute('modal:open')
+  commands.execute('modal:open')
 }

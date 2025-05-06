@@ -1,6 +1,5 @@
 <script lang="ts">
   import { partition } from 'underscore'
-  import app from '#app/app'
   import { getTextDirection } from '#app/lib/active_languages'
   import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
@@ -8,7 +7,7 @@
   import { categoryLabels } from '#entities/lib/entity_links'
   import DisplayedLinks from '#settings/components/displayed_links.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { mainUser } from '#user/lib/main_user'
+  import { mainUser, mainUserStore } from '#user/lib/main_user'
   import type { CategoryAvailableExternalId } from './entity_claims_links.svelte'
   import type { PropertyCategory } from '../../lib/editor/properties_per_type'
 
@@ -18,11 +17,10 @@
   let showAllAvailableExternalIds = false
   let showCategorySettings = false
   const linksId = `${category}Links`
-  const { loggedIn } = app.user
 
   let categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds, displayedCategoryExternalIds
   $: {
-    const { customProperties = [] } = $mainUser
+    const customProperties = $mainUserStore?.customProperties || []
     ;[ categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds ] = partition(categoryAvailableExternalIds, ({ property }) => customProperties.includes(property))
   }
   $: {
@@ -33,7 +31,7 @@
 </script>
 
 {#if categoryAvailableExternalIds.length > 0}
-  <p class="category" dir={getTextDirection($mainUser?.language)}>
+  <p class="category" dir={getTextDirection($mainUserStore?.language)}>
     <span class="category-label">{I18n(categoryLabels[category])}:</span>
     <span id={linksId}>
       {#each displayedCategoryExternalIds as { property, name, value, linkNum }, i (linkNum)}
@@ -59,7 +57,7 @@
         {/if}
       </button>
     {/if}
-    {#if showAllAvailableExternalIds && loggedIn}
+    {#if showAllAvailableExternalIds && mainUser}
       <button title={i18n('Customize which links should be displayed')} class="customize" on:click={() => showCategorySettings = true}>
         {@html icon('cog')}
       </button>

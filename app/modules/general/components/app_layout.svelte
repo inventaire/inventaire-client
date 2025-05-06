@@ -1,6 +1,6 @@
 <script lang="ts">
-  import app from '#app/app'
-  import type { RegionComponent } from '#app/init_app'
+  import type { RegionComponent } from '#app/init_app_layout'
+  import { commands, vent } from '#app/radio'
   import { preventFormSubmit } from '#general/lib/prevent_form_submit'
   import DocumentHeaders from './document_headers.svelte'
   import FullScreenLoader from './full_screen_loader.svelte'
@@ -14,12 +14,12 @@
 
   // Unfortunately, setting class:hasOverlay on <svelte:body> doesn't work
   // See https://github.com/sveltejs/svelte/issues/3105
-  app.vent.on('overlay:shown', () => document.body.classList.add('hasOverlay'))
-  app.vent.on('overlay:hidden', () => document.body.classList.remove('hasOverlay'))
+  vent.on('overlay:shown', () => document.body.classList.add('hasOverlay'))
+  vent.on('overlay:hidden', () => document.body.classList.remove('hasOverlay'))
 
   let showModal = false
   let modalSize
-  app.commands.setHandlers({
+  commands.setHandlers({
     'modal:open': (size?: 'large' | 'medium') => {
       showModal = true
       modalSize = size
@@ -60,10 +60,7 @@
 
 <GlobalFlashMessage />
 
-<svelte:body
-  on:click={app.vent.Trigger('body:click')}
-  on:submit={preventFormSubmit}
-/>
+<svelte:body on:submit={preventFormSubmit} />
 
 <style lang="scss">
   @import '#general/scss/utils';

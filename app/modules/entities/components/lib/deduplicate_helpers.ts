@@ -1,7 +1,7 @@
 import { flatten } from 'underscore'
-import app from '#app/app'
 import { getAuthorWorks } from '#entities/lib/types/author_alt'
 import { addWorksImagesAndAuthors } from '#entities/lib/types/work_alt'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 
 export const select = (entity, from, to) => {
   if (!from) {
@@ -95,7 +95,7 @@ const getTermPreferredOriginsCount = ({ origins }) => origins.filter(isPreferred
 
 const isPreferredOrigin = origin => {
   const lang = origin.split('.')[1]
-  return (lang === app.user.lang || lang === 'en')
+  return (lang === getCurrentLang() || lang === 'en')
 }
 
 export async function getAuthorWorksWithImagesAndCoauthors (author) {

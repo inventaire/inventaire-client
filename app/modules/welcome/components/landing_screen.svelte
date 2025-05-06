@@ -1,14 +1,13 @@
 <script lang="ts">
-  import app from '#app/app'
   import { config } from '#app/config'
   import { icon } from '#app/lib/icons'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n, I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   const { instanceName, orgName, orgUrl } = config
 
   const isCanonicalName = instanceName === 'inventaire'
-  const needNameExplanation = isCanonicalName && app.user.lang !== 'fr'
-  const { loggedIn } = app.user
+  const needNameExplanation = isCanonicalName && getCurrentLang() !== 'fr'
 </script>
 
 <section id="landingScreen" class="text-center">
@@ -49,7 +48,7 @@
       </li>
     </ul>
     <div id="loginButtons">
-      {#if loggedIn}
+      {#if mainUser}
         <a class="showHome button dark-grey" href="/inventory">{i18n('back to your inventory')}</a>
       {:else}
         <a class="signupRequest button secondary bold" href="/signup">{i18n('sign up')}</a>

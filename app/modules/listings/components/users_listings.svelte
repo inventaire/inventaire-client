@@ -11,6 +11,7 @@
   import { getListingPathname, getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
   import type { Listing } from '#server/types/listing'
   import { i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let usersIds
 
@@ -43,7 +44,7 @@
 
   const waitingForInitialListings = getNextListingsBatch(0, paginationSize)
 
-  const isMainUser = usersIds[0] === app.user._id
+  const isMainUser = usersIds[0] === mainUser?._id
 
   let showListingCreationModal = false
   async function showNewListing (newListing: Listing) {

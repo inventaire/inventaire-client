@@ -1,10 +1,13 @@
-import BindedPartialBuilder from '#app/lib/binded_partial_builder'
-import { routeSection, currentRouteWithQueryString, parseQuery } from '#app/lib/location'
+import { currentRouteWithQueryString, parseQuery, type ProjectRootRelativeUrl } from '#app/lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#app/lib/metadata/update'
 import { scrollToElement } from '#app/lib/screen'
 import { dropLeadingSlash } from '#app/lib/utils'
+import { commands, vent } from '#app/radio'
+import { newError } from './lib/error.ts'
+import log_ from './lib/loggers.ts'
+import { keepQuerystringParameter } from './lib/querystring_helpers.ts'
+import { loadUrl, startRouter } from './lib/router.ts'
 import { updateI18nLang } from './modules/user/lib/i18n.ts'
-import { channel, reqres, request, execute } from './radio.ts'
 import type { UserLang } from './lib/active_languages.ts'
 
 let initialUrlNavigateAlreadyCalled = false
@@ -15,119 +18,113 @@ interface NavigateOptions {
   trigger?: boolean
   pageSectionElement?: HTMLElement
   preventScrollTop?: boolean
-  metadata?: MetadataUpdate
+  metadata?: MetadataUpdate | Promise<MetadataUpdate>
 }
 
-// @ts-expect-error
-const App = Marionette.Application.extend({
-  initialize () {
-    // @ts-expect-error
-    Backbone.history.last = []
+const historyLast = []
 
-    // Mapping backbone.radio concepts on the formerly used backbone-wreqr concepts
-    this.vent = channel
-    // `commands` and `requests` now use the same handler store
-    this.reqres = this.commands = reqres
-    // but keep there specific behaviors when called, namely,
-    // `request` returns something
-    this.request = request
-    // `execute` doesn't
-    this.execute = execute
-
-    this.Execute = BindedPartialBuilder(this, 'execute')
-    this.Request = BindedPartialBuilder(this, 'request')
-    this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')
-
-    this.once('start', onceStart)
-  },
-
-  navigate (route: string, options: NavigateOptions = {}) {
-    // Close the modal if it was open
-    app.execute('modal:close')
-    // Update metadata before testing if the route changed
-    // so that a call from a router action would trigger a metadata update
-    // but not affect the history (due to the early return hereafter)
-    const metadata = 'metadata' in options ? options.metadata : {}
-    updateRouteMetadata(route, metadata)
-    // Easing code mutualization by firing app.navigate, even when the module
-    // simply reacted to the requested URL
-    if (route === currentRouteWithQueryString()) {
-      // Trigger a route event for the first URL, so that event listeners can update accordingly
-      if (!initialUrlNavigateAlreadyCalled) {
-        this.vent.trigger('route:change', routeSection(route), route)
-        initialUrlNavigateAlreadyCalled = true
-      }
-      return
-    }
-
-    // a starting slash would be corrected by the Backbone.Router
-    // but routeSection relies on the route not starting by a slash.
-    // it can't just thrown an error as pathnames commonly require to start
-    // by a slash to avoid being interpreted as relative pathnames
-    route = dropLeadingSlash(route)
-
-    this.vent.trigger('route:change', routeSection(route), route)
-    route = this.request('querystring:keep', route)
-    // @ts-expect-error
-    Backbone.history.last.unshift(route)
-
-    // Replace last route in history when several navigation happen quickly
-    // so that hitting "Previous" correctly brings back to the last page
-    // where a user action triggered a page change
-    const now = Date.now()
-    if (now < lastNavigateTimestamp + 200) options.replace = true
-    lastNavigateTimestamp = now
-
-    Backbone.history.navigate(route, options)
-    const { pageSectionElement, preventScrollTop } = options
-    if (pageSectionElement) {
-      scrollToElement(pageSectionElement)
-    } else if (!preventScrollTop) {
-      scrollToPageTop()
-    }
-  },
-
-  navigateAndLoad (route, options: NavigateOptions = {}) {
-    options.trigger = true
-    this.navigate(route, options)
-  },
-
-  // Used by firefox-headless-prerender
-  async clearMetadataNavigateAndLoad (route, options) {
-    const { lang = 'en' } = parseQuery(route.split('?')[1])
-    await updateI18nLang(lang as UserLang)
-    this.navigateAndLoad(route, options)
-    clearMetadata()
-  },
-
-  navigateReplace (route, options) {
-    if (!options) options = {}
-    options.replace = true
-    this.navigate(route, options)
-  },
-})
-
-const onceStart = function () {
-  Backbone.history.start({ pushState: true })
-
-  // Backbone.history 'route' event seem to be only triggered
-  // when 'previous' is hit. it isn't very clear why,
-  // but it allows to notify functionalities depending on the route
-  Backbone.history.on('route', onPreviousRoute)
-}
-
-const onPreviousRoute = function () {
+function navigate (route: string, options: NavigateOptions = {}) {
   // Close the modal if it was open
-  // If a modal is actually displayed in the previous route, it should
-  // be reopened by the component being reshown
-  app.execute('modal:close')
+  commands.execute('modal:close')
+  // Update metadata before testing if the route changed
+  // so that a call from a router action would trigger a metadata update
+  // but not affect the history (due to the early return hereafter)
+  const metadata = 'metadata' in options ? options.metadata : {}
+  updateRouteMetadata(route, metadata)
+  // Easing code mutualization by firing app.navigate, even when the module
+  // simply reacted to the requested URL
+  if (route === currentRouteWithQueryString()) {
+    // Trigger a route event for the first URL, so that event listeners can update accordingly
+    if (!initialUrlNavigateAlreadyCalled) {
+      vent.trigger('route:change')
+      initialUrlNavigateAlreadyCalled = true
+    }
+    return
+  }
 
-  const route = currentRouteWithQueryString()
-  app.vent.trigger('route:change', routeSection(route), route)
+  // routeSection relies on the route not starting by a slash.
+  // It can't just thrown an error as pathnames commonly require to start
+  // by a slash to avoid being interpreted as relative pathnames
+  route = dropLeadingSlash(route)
+  vent.trigger('route:change')
+  route = keepQuerystringParameter(route)
+
+  const routeWithLeadingSlash = `/${route}`
+  if (historyLast[0] === routeWithLeadingSlash) return
+  historyLast.unshift(routeWithLeadingSlash)
+
+  // Replace last route in history when several navigation happen quickly
+  // so that hitting "Previous" correctly brings back to the last page
+  // where a user action triggered a page change
+  const now = Date.now()
+  if (now < lastNavigateTimestamp + 200) options.replace = true
+  lastNavigateTimestamp = now
+
+  if (options.replace) {
+    history.replaceState(null, null, routeWithLeadingSlash)
+  } else {
+    history.pushState(null, null, routeWithLeadingSlash)
+  }
+  if (options.trigger) loadUrl(routeWithLeadingSlash)
+  const { pageSectionElement, preventScrollTop } = options
+  if (pageSectionElement) {
+    scrollToElement(pageSectionElement)
+  } else if (!preventScrollTop) {
+    scrollToPageTop()
+  }
 }
 
-// @ts-expect-error app is needed a as global by firefox-headless-prerender, to access app.clearMetadataNavigateAndLoad
-const app = window.app = new App()
+function navigateAndLoad (route: ProjectRootRelativeUrl, options: NavigateOptions = {}) {
+  options.trigger = true
+  navigate(route, options)
+}
+
+// Used by firefox-headless-prerender
+async function clearMetadataNavigateAndLoad (route: ProjectRootRelativeUrl, options: NavigateOptions = {}) {
+  const { lang = 'en' } = parseQuery(route.split('?')[1])
+  await updateI18nLang(lang as UserLang)
+  navigateAndLoad(route, options)
+  clearMetadata()
+}
+
+function navigateReplace (route: ProjectRootRelativeUrl, options: NavigateOptions = {}) {
+  options.replace = true
+  navigate(route, options)
+}
+
+const app = {
+  navigate,
+  navigateAndLoad,
+  clearMetadataNavigateAndLoad,
+  navigateReplace,
+
+  start,
+} as const
+
+async function start () {
+  // Import async to let AppLayout dependencies depending on the app object
+  const { initAppLayout } = await import('#app/init_app_layout')
+  initAppLayout()
+  startRouter()
+  window.addEventListener('popstate', navigateBack)
+}
+
+function navigateBack (event: PopStateEvent) {
+  if (event.target && 'location' in event.target) {
+    const { pathname, search } = event.target.location as Location
+    const route = search ? `${pathname}${search}` : pathname
+    loadUrl(route)
+  } else {
+    log_.error(newError('can not navigate back', 500, { event }))
+  }
+}
+
+export function canGoBack () {
+  return historyLast.length > 1
+}
+
+// Required by firefox-headless-prerender
+window.app = app
 
 export default app
 

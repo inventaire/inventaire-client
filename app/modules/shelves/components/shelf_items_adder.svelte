@@ -2,14 +2,16 @@
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
+  import { commands } from '#app/radio'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
+  import { setLastShelves } from '#inventory/lib/add_helpers'
   import { getUserItems } from '#inventory/lib/queries'
   import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
 
   export let shelf
 
@@ -25,7 +27,7 @@
       if (lastItemsParams.hasMore === false) return
     } else {
       lastItemsParams = {
-        userId: app.user._id,
+        userId: mainUser?._id,
         items: [],
         limit: batchLength,
         offset: 0,
@@ -60,7 +62,7 @@
 
     const offset = searchOffset
     const res = await preq.get(API.items.search({
-      user: app.user._id,
+      user: mainUser?._id,
       search: input,
       limit: batchLength,
       offset,
@@ -96,9 +98,9 @@
   }
 
   function addNewItems () {
-    app.execute('last:shelves:set', [ shelfId ])
+    setLastShelves([ shelfId ])
     dispatch('shelfItemsAdderDone')
-    app.execute('show:add:layout')
+    commands.execute('show:add:layout')
   }
 
   function done () {

@@ -1,22 +1,21 @@
 <script lang="ts">
   import autosize from 'autosize'
   import { createEventDispatcher } from 'svelte'
-  import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
-  import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
+  import { getSomeColorHexCodeSuggestion } from '#app/lib/images/images'
   import { wait } from '#app/lib/promises'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import { askConfirmation } from '#general/lib/confirmation_modal'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { updateMainUserShelvesCount } from '#user/lib/main_user'
   import { showShelf } from '../shelves'
 
   export let shelf
-  export let inGlobalModal = true
 
-  if (inGlobalModal) app.execute('modal:open')
   const dispatch = createEventDispatcher()
 
   const isNewShelf = !shelf._id
@@ -34,7 +33,7 @@
       if (isNewShelf) {
         waiting = createShelf({ name, description, visibility, color })
         const newShelf = await waiting
-        app.user.trigger('shelves:change', 'createShelf')
+        updateMainUserShelvesCount(1)
         showShelf(newShelf)
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
@@ -44,7 +43,6 @@
       flash = { type: 'success', message: I18n('saved') }
       await wait(800)
       dispatch('shelfEditorDone')
-      if (inGlobalModal) app.execute('modal:close')
     } catch (err) {
       flash = err
     }
@@ -60,9 +58,8 @@
   async function _deleteShelf () {
     // TODO: catch and display error
     await deleteShelf({ ids: shelf._id })
-    app.user.trigger('shelves:change', 'removeShelf')
-    app.execute('show:inventory:main:user')
-    if (inGlobalModal) app.execute('modal:close')
+    updateMainUserShelvesCount(-1)
+    commands.execute('show:inventory:main:user')
   }
 </script>
 

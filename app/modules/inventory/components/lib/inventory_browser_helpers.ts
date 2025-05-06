@@ -1,6 +1,5 @@
 import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
 import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
@@ -8,9 +7,11 @@ import { objectEntries } from '#app/lib/utils'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import type { SerializedGroup } from '#groups/lib/groups'
 import { getItemsByIds } from '#inventory/lib/queries'
+import { getCurrentLang } from '#modules/user/lib/i18n'
 import type { SerializedUser } from '#modules/users/lib/users'
 import type { EntityUri } from '#server/types/entity'
 import type { Shelf } from '#server/types/shelf'
+import { mainUser } from '#user/lib/main_user'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -44,7 +45,7 @@ async function getEntitiesBasicInfo (uris: EntityUri[]) {
   const res = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
-    lang: app.user.lang,
+    lang: getCurrentLang(),
   })
   const entities = res.entities
   Object.values(entities).forEach(entity => {
@@ -111,7 +112,7 @@ export async function getInventoryView (type: 'without-shelf')
 export async function getInventoryView (type: string, doc?: SerializedUser | SerializedGroup | Shelf) {
   let params
   if (type === 'without-shelf') {
-    params = { user: app.user._id, 'without-shelf': true }
+    params = { user: mainUser?._id, 'without-shelf': true }
   } else {
     params = { [type]: doc._id }
   }

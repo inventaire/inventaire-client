@@ -1,7 +1,6 @@
 <script lang="ts">
   import { indexBy, partition } from 'underscore'
   import { API } from '#app/api/api'
-  import app from '#app/app'
   import { getTextDirection, languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
@@ -9,7 +8,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
-  import { i18n } from '#user/lib/i18n'
+  import { getCurrentLang, i18n } from '#user/lib/i18n'
 
   export let entity
   export let showLabel = false
@@ -19,7 +18,7 @@
   let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
 
-  const { lang: userLang } = app.user
+  const userLang = getCurrentLang()
   const langLabel = languages[userLang].native
 
   function getSummaries () {

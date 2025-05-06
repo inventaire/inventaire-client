@@ -9,6 +9,7 @@
   import { imgSrc } from '#app/lib/image_source'
   import { userContent } from '#app/lib/user_content'
   import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import GroupActions from '#groups/components/group_actions.svelte'
   import { getCachedSerializedGroupMembers, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
@@ -37,7 +38,7 @@
 
   function showMembersMenu (e) {
     if (isOpenedOutside(e)) return
-    app.execute('show:group:board', group, { openedSection: 'groupInvite' })
+    commands.execute('show:group:board', group, { openedSection: 'groupInvite' })
     e.preventDefault()
   }
 

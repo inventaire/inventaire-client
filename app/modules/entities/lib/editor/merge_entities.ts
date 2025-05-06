@@ -1,9 +1,10 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
+import { appLayout } from '#app/init_app_layout'
 import { isWikidataItemUri } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import { commands } from '#app/radio'
 import { getInvEntityImportableData, type InvEntityImportableData } from '#entities/lib/get_entity_wikidata_import_data'
 import type { EntityUri, WdEntityUri } from '#server/types/entity'
 
@@ -42,11 +43,12 @@ async function importEntityDataToWikidata (fromUri: EntityUri, toUri: WdEntityUr
 async function showWikidataDataImporter (importData: InvEntityImportableData) {
   const { default: WikidataDataImporter } = await import('#entities/components/wikidata_data_importer.svelte')
   return new Promise(resolve => {
-    app.layout.showChildComponent('modal', WikidataDataImporter, {
+    appLayout.showChildComponent('modal', WikidataDataImporter, {
       props: {
         resolve,
         importData,
       },
     })
+    commands.execute('modal:open', 'medium')
   })
 }

@@ -1,13 +1,13 @@
 <script lang="ts">
-  import app from '#app/app'
   import { getDevicesInfo } from '#app/lib/has_video_input'
   import { icon } from '#app/lib/icons'
+  import { commands } from '#app/radio'
   import { i18n, I18n } from '#user/lib/i18n'
 
   const { hasVideoInput, doesntSupportEnumerateDevices, tip } = getDevicesInfo()
 
   function startEmbeddedScanner () {
-    app.execute('show:scanner:embedded')
+    commands.execute('show:scanner:embedded')
   }
 </script>
 

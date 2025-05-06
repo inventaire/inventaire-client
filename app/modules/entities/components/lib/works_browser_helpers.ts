@@ -1,5 +1,4 @@
 import { intersection, pluck, uniq } from 'underscore'
-import app from '#app/app'
 import { objectEntries } from '#app/lib/utils'
 import type { Facets, FacetsSelectedValues } from '#app/types/entity'
 import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers'
@@ -9,7 +8,7 @@ import {
 } from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import type { EntityUri } from '#server/types/entity'
-import { I18n } from '#user/lib/i18n'
+import { getCurrentLang, I18n } from '#user/lib/i18n'
 
 export function isSubEntitiesType (type) {
   return [ 'serie', 'collection' ].includes(type)
@@ -98,7 +97,7 @@ async function getBasicInfo (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
-    lang: app.user.lang,
+    lang: getCurrentLang(),
   })
   Object.values(entities).forEach(entity => {
     const { labels } = entity

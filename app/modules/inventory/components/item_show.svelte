@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { imgSrc } from '#app/lib/image_source'
   import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
+  import { commands } from '#app/radio'
   import Spinner from '#components/spinner.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
@@ -14,6 +15,7 @@
   import { getItemEntityData } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'
   import { I18n } from '#user/lib/i18n'
+  import { mainUser } from '#user/lib/main_user'
   import { serializeUser } from '#users/lib/users'
   import { deleteItems } from '../lib/item_actions'
 
@@ -40,7 +42,7 @@
       items: [ item ],
       next: () => {
         // Force a refresh of the inventory, so that the deleted item doesn't appear
-        app.execute('show:inventory:main:user')
+        commands.execute('show:inventory:main:user')
       },
     })
   }
@@ -128,7 +130,7 @@
     <div class="two">
       <ItemShowData bind:item {user} bind:flash />
       <ItemShelves bind:serializedItem={item} bind:flash />
-      {#if app.user.loggedIn}
+      {#if mainUser}
         <ItemActiveTransactions {item} bind:flash />
       {/if}
       <Flash bind:state={flash} />
