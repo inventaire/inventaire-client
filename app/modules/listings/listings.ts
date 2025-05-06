@@ -5,7 +5,6 @@ import { addRoutes } from '#app/lib/router'
 import { commands, reqres } from '#app/radio'
 import { getListingMetadata, getListingPathname, getListingWithElementsById, getElementPathname, getElementMetadata, assignEntitiesToElements } from '#listings/lib/listings'
 import { getElementById } from '#modules/listings/lib/listings'
-import type { ListingElement } from '#server/types/element'
 import type { ListingWithElements } from '#server/types/listing'
 import { mainUser } from '#user/lib/main_user'
 import type { SerializedUser } from '#users/lib/users'
@@ -24,7 +23,6 @@ export default {
 
 interface ListingProps {
   listing: ListingWithElements
-  initialElement?: ListingElement
   creator: SerializedUser
 }
 
@@ -61,7 +59,6 @@ async function showElement (listingId, elementId) {
 
     const props: ListingProps = { listing, creator }
     await assignEntitiesToElements([ element ])
-    props.initialElement = element
 
     appLayout.showChildComponent('main', ListingLayout, { props })
     app.navigate(getElementPathname(listing._id, elementId), {

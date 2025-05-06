@@ -17,7 +17,6 @@
   export let elements: ListingElementT[] = []
   export let listing: Listing
   export let creator: SerializedUser
-  export let initialElement: ListingElementT = null
   export let isEditable: boolean
 
   let flash, inputValue = '', showSuggestions
@@ -123,7 +122,6 @@
               {element}
               {listing}
               {creator}
-              showInitialElementModal={initialElement?._id === element._id}
               bind:elements
               isCreatorMainUser={isEditable}
               bind:autocompleteFlash={flash}

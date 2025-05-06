@@ -7,6 +7,7 @@ function getLocationData () {
   const route = currentRoute()
   return {
     route,
+    absoluteRoute: `/${route}`,
     section: routeSection(route),
   }
 }
