@@ -101,4 +101,9 @@
       margin-block-end: 0.4em;
     }
   }
+  #shelves-list ul{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25em, 1fr));
+    gap: 0.2rem;
+  }
 </style>
