@@ -184,7 +184,6 @@
   >
     <ShelfEditor
       bind:shelf
-      inGlobalModal={false}
       on:shelfEditorDone={() => showShelfEditor = false}
     />
   </Modal>

@@ -52,6 +52,7 @@ const controller = {
   async showCreateGroupLayout () {
     const { default: CreateGroup } = await import('#groups/components/create_group.svelte')
     appLayout.showChildComponent('modal', CreateGroup)
+    commands.execute('modal:open', 'medium')
   },
 
   showNetworkLayout () {

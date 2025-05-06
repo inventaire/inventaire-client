@@ -18,8 +18,6 @@
 
   const wdUrl = getWikidataUrl(wdEntity.uri)
 
-  commands.execute('modal:open', 'medium')
-
   let flash
   let importing = false
   let imported = 0

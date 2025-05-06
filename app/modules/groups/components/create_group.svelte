@@ -11,8 +11,6 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { createGroup as _createGroup } from '../lib/groups_data'
 
-  commands.execute('modal:open', 'medium')
-
   let name, nameFlash, description, descriptionFlash, searchable = true, open = false, position, creationFlash
 
   let creating, created

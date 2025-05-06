@@ -15,9 +15,7 @@
   import { showShelf } from '../shelves'
 
   export let shelf
-  export let inGlobalModal = true
 
-  if (inGlobalModal) commands.execute('modal:open')
   const dispatch = createEventDispatcher()
 
   const isNewShelf = !shelf._id
@@ -45,7 +43,6 @@
       flash = { type: 'success', message: I18n('saved') }
       await wait(800)
       dispatch('shelfEditorDone')
-      if (inGlobalModal) commands.execute('modal:close')
     } catch (err) {
       flash = err
     }
@@ -63,7 +60,6 @@
     await deleteShelf({ ids: shelf._id })
     updateMainUserShelvesCount(-1)
     commands.execute('show:inventory:main:user')
-    if (inGlobalModal) commands.execute('modal:close')
   }
 </script>
 
