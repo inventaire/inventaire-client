@@ -69,8 +69,10 @@ export interface SerializedContributor extends InstanceAgnosticContributor {
 }
 
 export function serializeUser (user: (ServerUser & Partial<SerializedUser>) | SerializedUser) {
-  if ('pathname' in user) return user as SerializedUser
-  user.isMainUser = user._id === mainUser?._id
+  const isMainUser = user._id === mainUser?._id
+  // Resizerialize only if isMainUser changed, such as when reserializing after mainUser was defined
+  if (isMainUser === user.isMainUser) return user as SerializedUser
+  user.isMainUser = isMainUser
   if ('anonymizableId' in user) {
     user.acct = getLocalUserAccount(user.anonymizableId)
   }

@@ -1,8 +1,10 @@
 import { uniq } from 'underscore'
 import { API } from '#app/api/api'
+import { assertObject } from '#app/lib/assert_types'
 import { isUserAcct, isUserId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import preq, { treq } from '#app/lib/preq'
+import { mainUser } from '#modules/user/lib/main_user'
 import type { GetUsersByAcctsResponse } from '#server/controllers/users/by_accts'
 import type { GetUsersByIdsResponse } from '#server/controllers/users/by_ids'
 import type { UserAccountUri } from '#server/types/server'
@@ -66,6 +68,8 @@ export async function resolveToUser (user: User | UserId | Username | Serialized
   } else if (typeof user === 'string') {
     resolvedUser = await getUserByUsername(user)
   }
+  // Make sure the main user was initialized so that flags such as isMainUser can be properly set
+  assertObject(mainUser)
   if (resolvedUser) return serializeUser(resolvedUser)
   else throw newError('can not resolve user', 500, { user })
 }

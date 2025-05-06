@@ -134,8 +134,8 @@ function onLanguageChange () {
 }
 
 function reserialize () {
-  // Coupled to serializeUser implementation, which skips serialization when 'pathname' already exists
-  if ('pathname' in mainUser) delete mainUser.pathname
+  // Coupled to serializeUser implementation, which skips serialization when 'isMainUser' didn't change
+  delete mainUser.isMainUser
   // @ts-expect-error
   mainUser = serializeMainUser(serializeUser(mainUser))
 }
