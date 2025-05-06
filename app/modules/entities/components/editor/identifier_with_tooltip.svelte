@@ -37,7 +37,7 @@
     font-size: 0.7rem;
     font-family: sans-serif;
     color: #888;
-    word-break: break-all;
+    overflow-wrap: anywhere;
   }
 
   /* Small screens */

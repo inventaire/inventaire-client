@@ -125,7 +125,7 @@
     margin: 0.3em 0;
     padding-inline-start: 0.5em;
     color: $dark-grey;
-    word-break: break-all;
+    overflow-wrap: anywhere;
     @include radius;
     > div{
       // Take all the width, so that a parent's "text-align: center" can be applied
