@@ -172,7 +172,7 @@
     try {
       showSuggestions = true
       fetching = true
-      defaultSuggestions = defaultSuggestions || await getDefaultSuggestions({
+      defaultSuggestions ??= await getDefaultSuggestions({
         entity: relationSubjectEntity,
         property: relationProperty,
       })
