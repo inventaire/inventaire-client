@@ -55,5 +55,5 @@ export function loadUrl (pathname: string) {
 export function startRouter () {
   // Reverse to let loadUrl iterate handlers by priority order
   handlers.reverse()
-  loadUrl(location.pathname)
+  loadUrl(location.pathname + location.search)
 }
