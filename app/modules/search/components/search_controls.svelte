@@ -16,6 +16,8 @@
   function letRoomForResults () {
     if (results?.length > 0 && $screen.isSmallerThan('$small-screen')) {
       showSearchControls = false
+    } else {
+      showSearchControls = true
     }
   }
 
