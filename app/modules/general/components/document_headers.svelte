@@ -10,7 +10,7 @@
   import type { AbsoluteUrl } from '#server/types/common'
 
   const { origin } = location
-  const { instanceName } = config
+  const { instanceName, remoteEntitiesOrigin } = config
 
   function updateDocumentLang () {
     if (typeof $localLang === 'string') {
@@ -29,6 +29,8 @@
     }
   }
 
+  $: canonicalUrl = remoteEntitiesOrigin && url?.startsWith(`${origin}/entity/`) ? url.replace(origin, remoteEntitiesOrigin) : url
+
   let statusCode, header
   $: ({ statusCode, header } = $prerenderStatusStore)
 </script>
@@ -36,7 +38,7 @@
 <svelte:head>
   {#if $metadataStore}
     <title>{title}</title>
-    <link rel="canonical" href={url} />
+    <link rel="canonical" href={canonicalUrl} />
 
     <!-- The default lang - en - doesnt need a lang querystring to be set.
   It could have one, but search engines need to know that the default url
