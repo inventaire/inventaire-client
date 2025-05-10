@@ -4,12 +4,13 @@
   import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
   import { findExactMatches, getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { mainUserHasDataadminAccess } from '#modules/user/lib/main_user'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
 
-  export let entity
+  export let entity: SerializedEntity
   export let standalone = false
 
   let homonyms = []
@@ -17,7 +18,7 @@
   let selectedHomonymsUris = []
   let wdExactMatches, invExactMatches
 
-  const getHomonymsPromise = async () => {
+  async function getHomonymsPromise () {
     homonyms = await getHomonymsEntities(entity)
     ;({ wdExactMatches, invExactMatches } = findExactMatches({ entity, homonyms }))
     selectedHomonymsUris = preselectLikelyDuplicates({ entity, wdExactMatches, invExactMatches }) || []
@@ -27,7 +28,7 @@
     invHomonyms = homonyms.filter(homonym => !homonym.isWikidataEntity)
   }
 
-  const isSelectedHomonym = homonym => {
+  function isSelectedHomonym (homonym) {
     return !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
   }
 
@@ -45,9 +46,10 @@
     const homonymsToMerge = homonyms.filter(isSelectedHomonym)
 
     const mergeSequentially = async () => {
-      const nextSelectedView = homonymsToMerge.shift()
-      if (nextSelectedView == null) return
-      await nextSelectedView.merge()
+      const nextSelectedHomonym = homonymsToMerge.shift()
+      if (nextSelectedHomonym == null) return
+      // The merge function is set on the entity by the MergeAction component (via the `bind:merge` below)
+      await nextSelectedHomonym.merge()
       return mergeSequentially()
     }
 
