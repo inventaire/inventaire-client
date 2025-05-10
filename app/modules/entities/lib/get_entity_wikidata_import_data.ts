@@ -41,7 +41,7 @@ export async function getInvEntityImportableData (invEntityUri: EntityUri, wdEnt
   }
 
   for (const [ property, propertyClaims ] of objectEntries(invEntity.claims)) {
-    if (isWikidataPropertyUri(property) && wdEntity.claims[property] == null) {
+    if (isWikidataPropertyUri(property) && !ignoredProperties.includes(property)) {
       const datatype = getPropertyDatatype(property)
       for (const value of propertyClaims) {
         if (datatype === 'entity') {
@@ -58,3 +58,7 @@ export async function getInvEntityImportableData (invEntityUri: EntityUri, wdEnt
 
   return importData
 }
+
+const ignoredProperties = [
+  'wdt:P31',
+]
