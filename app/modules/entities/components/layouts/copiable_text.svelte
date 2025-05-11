@@ -22,7 +22,7 @@
   class={classes}
   title={buttonTitle}
 >
-  {text}
+  <span class="text">{text}</span>
   {#if copiedText}
     <span class="confirmation" transition:fade={{ duration: 200 }} role="status">
       {@html icon('check')}
@@ -33,6 +33,9 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .text{
+    user-select: text;
+  }
   .confirmation{
     color: $success-color;
     text-decoration: none;
