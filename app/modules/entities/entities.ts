@@ -44,7 +44,7 @@ export default {
 const controller = {
   async showEntity (input: string, params?) {
     let uri
-    if (input.includes('-')) {
+    if (input.startsWith('wdt:') && input.includes('-')) {
       const [ property, entity ] = input.split('-')
       uri = `${property}-${normalizeUri(entity)}`
     } else {
