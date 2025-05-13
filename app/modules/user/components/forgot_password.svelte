@@ -7,7 +7,7 @@
   import { mainUserStore } from '#user/lib/main_user'
 
   export let resetPasswordFail = false
-  export let email = $mainUserStore.email
+  export let email = $mainUserStore?.email
 
   let flash, resetPasswordFailFlash
   let sending = false
