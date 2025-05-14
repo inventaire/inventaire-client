@@ -71,8 +71,6 @@
     @include display-flex(row, center, space-between);
     cursor: pointer;
     height: 3em;
-    margin: 0.1em 0;
-    border-block-start: 1px solid $off-white;
     @include bg-hover($light-grey, 5%);
   }
   .without-shelf{
