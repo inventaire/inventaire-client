@@ -97,9 +97,6 @@
   }
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
-    .toggle-button{
-      padding: 1em 0.5em 1em 1em;
-    }
     .subheader{
       @include display-flex(column, center);
       margin-block-end: 0.4em;
