@@ -183,11 +183,14 @@
   @import "#general/scss/utils";
   .profile-buttons{
     @include display-flex(column, stretch, flex-start);
-    a, .tiny-button{
+    .tiny-button{
       line-height: 1;
       padding: 0.5em;
       min-width: 10em;
-      margin: 0 0 1em 1em;
+      margin-inline: 1em 0;
+      &:not(:last-child){
+        margin-block-end: 1em;
+      }
       :global(.fa){
         margin-inline-end: auto;
       }
