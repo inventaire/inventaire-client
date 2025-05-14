@@ -17,7 +17,7 @@ import { solveLang } from './solve_lang'
 
 const apiUser = getEndpointBase('user')
 // the cookie is deleted on logout
-const loggedIn = parseBooleanString(cookie_.get('loggedIn'))
+export const loggedIn = parseBooleanString(cookie_.get('loggedIn'))
 
 interface SerializedMainUserExtras {
   lang: UserLang
