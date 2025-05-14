@@ -21,51 +21,55 @@
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
-{#await waitForShelves}
-  <div class="header">
-    <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
-  </div>
-{:then}
-  {#if shelves.length > 0}
+<div class="shelves-section">
+  {#await waitForShelves}
     <div class="header">
-      <h3 class="subheader">{I18n('shelves')}</h3>
-      <button
-        class="toggle-button tiny-button light-grey"
-        title={showShelves ? I18n('hide shelves') : I18n('show shelves')}
-        aria-controls="shelves-list"
-        on:click={toggleShelves}
-      >
-        {#if showShelves}
-          {@html icon('chevron-up')}
-        {:else}
-          {@html icon('chevron-down')}
-        {/if}
-      </button>
+      <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
     </div>
-  {/if}
-{/await}
-
-<div id="shelves-list">
-  {#if shelves?.length > 0}
-    {#if showShelves}
-      <ul>
-        {#each shelves as shelf (shelf._id)}
-          <ShelfLi {shelf} on:selectShelf={bubbleUpComponentEvent} />
-        {/each}
-        {#if isMainUser}
-          <ShelfLi withoutShelf={true} on:selectShelf={bubbleUpComponentEvent} />
-        {/if}
-      </ul>
+  {:then}
+    {#if shelves.length > 0}
+      <div class="header">
+        <h3 class="subheader">{I18n('shelves')}</h3>
+        <button
+          class="toggle-button tiny-button light-grey"
+          title={showShelves ? I18n('hide shelves') : I18n('show shelves')}
+          aria-controls="shelves-list"
+          on:click={toggleShelves}
+        >
+          {#if showShelves}
+            {@html icon('chevron-up')}
+          {:else}
+            {@html icon('chevron-down')}
+          {/if}
+        </button>
+      </div>
     {/if}
-  {/if}
+  {/await}
+
+  <div id="shelves-list">
+    {#if shelves?.length > 0}
+      {#if showShelves}
+        <ul>
+          {#each shelves as shelf (shelf._id)}
+            <ShelfLi {shelf} on:selectShelf={bubbleUpComponentEvent} />
+          {/each}
+          {#if isMainUser}
+            <ShelfLi withoutShelf={true} on:selectShelf={bubbleUpComponentEvent} />
+          {/if}
+        </ul>
+      {/if}
+    {/if}
+  </div>
 </div>
 
 <Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .header{
+  .shelves-section{
     background-color: $light-grey;
+  }
+  .header{
     @include display-flex(row, center, space-between);
     margin-block-start: 0.5em;
     @include display-flex(row, top, space-between);
@@ -102,8 +106,18 @@
     }
   }
   #shelves-list ul{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25em, 1fr));
-    gap: 0.2rem;
+    /* Large screens */
+    @media screen and (width >= $smaller-screen){
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(25em, 1fr));
+      gap: 0.5rem;
+    }
+    /* Small screens */
+    @media screen and (width < $smaller-screen){
+      :global(li){
+        margin-block-end: 0.5rem;
+      }
+    }
+    padding: 0 0.5rem 0.5rem;
   }
 </style>

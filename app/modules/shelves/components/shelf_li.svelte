@@ -71,7 +71,7 @@
     @include display-flex(row, center, space-between);
     cursor: pointer;
     height: 3em;
-    @include bg-hover($light-grey, 5%);
+    @include bg-hover-from-to(darken($light-grey, 5%), darken($light-grey, 2%));
   }
   .without-shelf{
     @include shy(0.8);
