@@ -219,7 +219,7 @@
   .user-profile{
     background-color: #eee;
     @include display-flex(row);
-    margin: 0.5em 0;
+    margin-block-end: 0.5rem;
     // Also include .unselect-profile in UserProfileButtons
     :global(.unselect-profile){
       width: 2.5rem;
