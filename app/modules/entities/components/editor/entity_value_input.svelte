@@ -12,6 +12,9 @@
   if (property === 'wdt:P1889' && entity.type) {
     entityValueTypes = [ entity.type ]
   }
+  if (property === 'wdt:P127' && entity.type) {
+    entityValueTypes = [ 'human', 'publisher' ]
+  }
   const createdEntityType = entityValueTypes?.[0]
 
   const dispatch = createEventDispatcher()
