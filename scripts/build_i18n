@@ -3,9 +3,9 @@ set -eu
 
 if [ ! -e inventaire-i18n ]; then
   if [ "$DOCKER" != 1 ]; then
-    git clone https://github.com/inventaire/inventaire-i18n.git --depth=1
+    git clone https://codeberg.org/inventaire/inventaire-i18n.git --depth=1
   else
-    git clone https://github.com/inventaire/inventaire-i18n.git
+    git clone https://codeberg.org/inventaire/inventaire-i18n.git
   fi
 fi
 

@@ -7,7 +7,7 @@ const mostlyTextWorksRoles = [
   'wdt:P110', // illustrator
 ]
 
-// See https://github.com/inventaire/inventaire/issues/765
+// See https://git.inventaire.io/inventaire/issues/765
 const manga = [
   'wdt:P50', // author
   'wdt:P110', // illustrator

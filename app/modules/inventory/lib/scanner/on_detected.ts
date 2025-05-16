@@ -54,7 +54,7 @@ export function onDetectedFactory (onDetectedActions: OnDetectedActions) {
     }
 
     // Wait for scanning the same ISBN 2 times in a row to consider it the valid one
-    // Addressing https://github.com/inventaire/inventaire-client/issues/183#issuecomment-536176154
+    // Addressing https://git.inventaire.io/inventaire/inventaire-client/issues/183#issuecomment-536176154
     if (candidate === lastIsbnScanned) {
       lastIsbnAdded = candidate
       addIsbn(candidate)

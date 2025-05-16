@@ -2,7 +2,7 @@
 // - Browsers:
 //   - document title update (which is important for the browser history)
 //   - RSS feed detection
-// - Prerender (https://github.com/inventaire/firefox-headless-prerender), which itself aims to serve:
+// - Prerender (https://git.inventaire.io/firefox-headless-prerender), which itself aims to serve:
 //   - search engines need status codes and redirection locations
 //   - social media need metadata in different formats to show link previews:
 //     - opengraph (https://ogp.me)
@@ -132,7 +132,7 @@ function setPrerenderMeta (statusCode = 500, route: ProjectRootRelativeUrl) {
 
   if (statusCode === 302 && route != null) {
     const fullUrl = transformers.url(route)
-    // See https://github.com/inventaire/firefox-headless-prerender/blob/599894c/server/get_page_metadata.js
+    // See https://git.inventaire.io/firefox-headless-prerender/blob/599894c/server/get_page_metadata.js
     prerenderStatusStore.set({ statusCode, header: `Location: ${fullUrl}` })
   } else {
     prerenderStatusStore.set({ statusCode })
